@@ -37,7 +37,7 @@ services:
     volumes:
       - ./src:/app
     container_name: "${APP_NAME}_APP"
-    image: dedi-service
+    image: app-dedi-service
     env_file:
       - .env
     environment:
