@@ -7,7 +7,7 @@ export async function up (knex: Knex): Promise<void> {
         table.string('id', 5).primary()
         table.string('name', 60).notNullable()
         table.boolean('is_active').notNullable().index()
-        table.string('area_id', 2).index()
+        table.string('area_id', 4).index()
       })
     }
   })

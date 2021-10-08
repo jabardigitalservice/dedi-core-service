@@ -19,6 +19,9 @@ export default async (): Promise<Config.InitialOptions> => {
     testMatch: [
       '**/*_test.ts'
     ],
+    testPathIgnorePatterns: [
+      '/node_modules/'
+    ],
     collectCoverage: true,
     collectCoverageFrom: [
       './modules/**/*.ts',
