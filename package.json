@@ -1,7 +1,7 @@
 {
-  "name": "boilerplate-express-service",
+  "name": "dedi-core-service",
   "version": "1.0.0",
-  "description": "boilerplate express service",
+  "description": "dedi core service",
   "main": "server.ts",
   "dependencies": {
     "@sentry/node": "^6.13.2",
