@@ -1,6 +1,6 @@
 version: '3'
 services:
-  express-mysql:
+  dedi-mysql:
     image: mysql
     container_name: "${APP_NAME}_MYSQL"
     volumes:
@@ -12,45 +12,45 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     command: --default-authentication-plugin=mysql_native_password
     networks:
-      - express-network
+      - dedi-service
 
-  express-adminer:
+  dedi-adminer:
     image: adminer
     container_name: "${APP_NAME}_ADMINER"
     ports:
       - '8081:8080'
     networks:
-      - express-network
+      - dedi-service
 
-  express-redis:
+  dedi-redis:
     image: "redis:alpine"
     container_name: "${APP_NAME}_REDIS"
     networks:
-      - express-network
+      - dedi-service
     volumes:
      - $PWD/redis:/var/lib/redis
 
-  express-app:
+  dedi-app:
     build:
       context: .
       dockerfile: docker/Dockerfile.dev
     volumes:
       - ./src:/app
     container_name: "${APP_NAME}_APP"
-    image: boilerplate-express-service
+    image: dedi-service
     env_file:
       - .env
     environment:
-      DB_HOST: express-mysql
-      REDIS_HOST: express-redis
+      DB_HOST: dedi-mysql
+      REDIS_HOST: dedi-redis
     ports:
       - "${PORT}:${PORT}"
     depends_on:
-      - express-mysql
-      - express-redis
-      - express-mongo
+      - dedi-mysql
+      - dedi-redis
+      - dedi-mongo
     networks:
-      - express-network
+      - dedi-service
 
 networks:
-  express-network:
+  dedi-service:
