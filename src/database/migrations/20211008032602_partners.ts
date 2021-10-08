@@ -6,7 +6,7 @@ export async function up (knex: Knex): Promise<void> {
       return knex.schema.createTable('partners', function (table) {
         table.uuid('id').primary()
         table.string('name', 100).notNullable().unique()
-        table.integer('catogory_id').index()
+        table.integer('category_id').index()
         table.timestamp('deleted_at')
         table.timestamp('verified_at')
         table.string('logo')
