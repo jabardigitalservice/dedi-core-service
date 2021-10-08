@@ -1,7 +1,4 @@
-# Boilerplate Express Service
-
-<a href="https://codeclimate.com/github/ayocodingit/boilerplate-express-service/maintainability"><img src="https://api.codeclimate.com/v1/badges/555ba3756e07a1833b9a/maintainability" /></a>
-<a href="https://codeclimate.com/github/ayocodingit/boilerplate-express-service/test_coverage"><img src="https://api.codeclimate.com/v1/badges/555ba3756e07a1833b9a/test_coverage" /></a>
+# Aplikasi Desa Digital
 
 ## Stack
 - **Node.js** - [http://nodejs.org/](http://nodejs.org/)
@@ -12,9 +9,9 @@
 
 Clone project and install dependencies:
 ```bash
-git clone https://github.com/ayocodingit/boilerplate-express-service
-cd boilerplate-express-service
-(cd ./src && cp .env.example .env)
+git clone https://github.com/jabardigitalservice/dedi-core-service
+cd dedi-core-service
+cp .env.example .env
 ```
 
 * Run manually
