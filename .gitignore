@@ -1,0 +1,9 @@
+mysql
+redis
+.env
+node_modules
+build
+*.sqlite
+coverage
+mongodb
+mongodb_config

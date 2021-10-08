@@ -1,0 +1,14 @@
+FROM node:14-slim
+
+WORKDIR /app
+
+COPY package*.json ./
+
+ENV PORT 3003
+
+RUN npm install
+
+EXPOSE ${PORT}
+
+CMD [ "npm", "run", "dev" ]
+

@@ -1,0 +1,11 @@
+{
+	"validation.required": "this attribute {{ attribute }} is required",
+	"validation.unique": "this attribute {{ attribute }} is already",
+	"validation.unknown": "validation.unknown",
+	"validation.empty": "validation.empty",
+	"validation.base": "validation.base",
+	"validation.email": "validation.email",
+	"auth.user.failed": "user not found!",
+	"auth.password.failed": "password not match out record!",
+	"validation.exists": "validation.exists"
+}
