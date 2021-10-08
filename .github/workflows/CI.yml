@@ -4,15 +4,13 @@ name: CI
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ main, master ]
     paths:
       - 'src/**'
-      - '.github/**'
   push:
-    branches: [ master ]
+    branches: [ main, master ]
     paths:
       - 'src/**'
-      - '.github/**'
 
 jobs:
   test:
