@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./build",
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -12,13 +12,15 @@
     "skipLibCheck": true
   },
   "include": [
-    "*/**/*.ts",
-    "*/lang/locales/*.json",
+    "./src/**/*.ts",
+    "./src/lang/locales/*.json",
   ],
   "exclude": [
-    "*/**/*_test.ts",
-    "../coverage/",
-    "../jest.config.ts",
-    "../build/",
+    "./src/**/*_test.ts",
+    "./coverage/",
+    "./jest.config.ts",
+    "./tsconfig.json",
+    "./build/",
+    "./node_modules/",
   ]
 }
