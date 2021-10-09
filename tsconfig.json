@@ -16,11 +16,6 @@
     "./src/lang/locales/*.json",
   ],
   "exclude": [
-    "./src/**/*_test.ts",
-    "./coverage/",
-    "./jest.config.ts",
-    "./tsconfig.json",
-    "./build/",
-    "./node_modules/",
+    "./src/**/*_test.ts"
   ]
 }

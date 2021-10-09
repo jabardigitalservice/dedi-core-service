@@ -1,3 +1,4 @@
 #!/bin/sh
-cd build
-node server.js
+cd build/src
+
+npm run start
