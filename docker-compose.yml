@@ -3,8 +3,6 @@ services:
   dedi-mysql:
     image: mysql
     container_name: "${APP_NAME}_MYSQL"
-    ports:
-      - "${DB_PORT}:3306"
     volumes:
       - $PWD/mysql:/var/lib/mysql
     restart: 'always'
@@ -29,7 +27,7 @@ services:
   dedi-app:
     build:
       context: .
-      dockerfile: docker-config/Dockerfile
+      dockerfile: docker/Dockerfile
     restart: always
     container_name: "${APP_NAME}_APP"
     image: app-dedi-service

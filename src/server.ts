@@ -8,6 +8,7 @@ import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
 import ping from './handler/ping'
+import partners from './modules/partners/partner_handler'
 
 class App {
   public app: Application
@@ -31,6 +32,7 @@ class App {
 
   protected handlers (): void {
     this.app.use('/', ping)
+    this.app.use('/v1', partners)
   }
 
   protected extends (): void {

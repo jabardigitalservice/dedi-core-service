@@ -1,9 +1,8 @@
-include .env
-
 DOCKER_FILE_PATH := ./docker/Dockerfile.dev
-DOCKER_APP_NAME := express-app
+DOCKER_APP_NAME := dedi-app
 DOCKER_DEV := -f docker-compose-dev.yml
 DOCKER_DEV_EXEC := ${DOCKER_DEV} exec ${DOCKER_APP_NAME}
+DOCKER_IMAGES := app-dedi-service
 
 install:
 	npm install
@@ -39,10 +38,10 @@ docker-stop:
 	docker-compose down
 
 docker-build:
-	docker build -t boilerplate-express-service .
+	docker build -t ${DOCKER_IMAGES} .
 
 docker-run-dev-build:
-	docker build -f ${DOCKER_FILE_PATH} -t boilerplate-express-service .
+	docker build -f ${DOCKER_FILE_PATH} -t ${DOCKER_IMAGES} .
 
 docker-run-dev:
 	docker-compose ${DOCKER_DEV} up -d

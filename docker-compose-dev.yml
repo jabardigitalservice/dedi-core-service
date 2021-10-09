@@ -35,9 +35,9 @@ services:
       context: .
       dockerfile: docker/Dockerfile.dev
     volumes:
-      - ./src:/app
+      - ./:/app
     container_name: "${APP_NAME}_APP"
-    image: app-dedi-service
+    image: app-dedi-service-dev
     env_file:
       - .env
     environment:
@@ -48,7 +48,6 @@ services:
     depends_on:
       - dedi-mysql
       - dedi-redis
-      - dedi-mongo
     networks:
       - dedi-service
 
