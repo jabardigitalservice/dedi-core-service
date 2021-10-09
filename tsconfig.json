@@ -4,15 +4,21 @@
     "module": "commonjs",
     "rootDir": "./src",
     "outDir": "./build",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "strict": false,
     "declaration": true,
-    "resolveJsonModule": true,
     "removeComments": true,
     "skipLibCheck": true
   },
   "include": [
-    "./**/*.ts",
-    "./lang/**/*.json",
+    "*/**/*.ts",
+    "*/lang/locales/*.json",
+  ],
+  "exclude": [
+    "*/**/*_test.ts",
+    "../coverage/",
+    "../jest.config.ts",
+    "../build/",
   ]
 }

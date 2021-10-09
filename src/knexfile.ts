@@ -1,6 +1,16 @@
 import config from './config'
 import path from 'path'
 
+const locationDatabase = {
+  migrations: {
+    tableName: 'migrations',
+    directory: path.join(__dirname, 'database/migrations')
+  },
+  seeds: {
+    directory: path.join(__dirname, 'database/seeds')
+  }
+}
+
 const databaseConfig = {
   client: config.get('db.connection'),
   connection: {
@@ -14,13 +24,7 @@ const databaseConfig = {
     min: Number(config.get('db.pool.min', 10)),
     max: Number(config.get('db.pool.max', 100))
   },
-  migrations: {
-    tableName: 'migrations',
-    directory: path.join(__dirname, 'database/migrations')
-  },
-  seeds: {
-    directory: path.join(__dirname, 'database/seeds')
-  }
+  ...locationDatabase
 }
 
 export default {
@@ -32,12 +36,6 @@ export default {
       filename: path.join(__dirname, 'database/local.sqlite')
     },
     useNullAsDefault: true,
-    migrations: {
-      tableName: 'migrations',
-      directory: path.join(__dirname, 'database/migrations')
-    },
-    seeds: {
-      directory: path.join(__dirname, 'database/seeds')
-    }
+    ...locationDatabase
   }
 }

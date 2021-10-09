@@ -7,7 +7,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
-import database from './config/database'
+import ping from './handler/ping'
 
 class App {
   public app: Application
@@ -30,7 +30,7 @@ class App {
   }
 
   protected handlers (): void {
-    // this.app.use('/api', example)
+    this.app.use('/', ping)
   }
 
   protected extends (): void {
@@ -38,19 +38,12 @@ class App {
   }
 }
 
-async function checkDatabaseConnection () {
-  return database.raw('select 1+1 as result')
-    .catch((err) => {
-      console.log(err.message)
-      process.exit(1)
-    })
-}
-
-(async () => {
-  await checkDatabaseConnection()
-  const app = new App().app
+const app = new App().app
+if (config.get('node.env') !== 'test') {
   const PORT = config.get('port')
   app.listen(PORT, () => {
     console.log(`App listening at http://0.0.0.0:${PORT}`)
   })
-})()
+}
+
+export default app
