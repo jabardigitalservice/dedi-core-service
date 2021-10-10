@@ -22,14 +22,8 @@ lint:
 migrate:
 	npm run migrate
 
-refresh:
-	npm run refresh
-
-up:
-	npm run up
-
-down:
-	npm run down
+rollback:
+	npm run rollback
 
 docker-run:
 	docker-compose up -d
@@ -55,12 +49,7 @@ docker-run-dev-test:
 docker-run-dev-migrate:
 	docker-compose ${DOCKER_DEV_EXEC} npm run migrate
 
-docker-run-dev-refresh:
-	docker-compose ${DOCKER_DEV_EXEC} npm run refresh
+docker-run-dev-rollback:
+	docker-compose ${DOCKER_DEV_EXEC} npm run rollback
 
-docker-run-dev-migrate-up:
-	docker-compose ${DOCKER_DEV_EXEC} npm run up
-
-docker-run-dev-migrate-down:
-	docker-compose ${DOCKER_DEV_EXEC} npm run down
 

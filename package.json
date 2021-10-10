@@ -67,8 +67,8 @@
     "lint": "eslint --ext .ts ./src",
     "lint:fix": "eslint --fix --ext .ts ./src",
     "migrate": "knex migrate:latest --cwd=./src",
-    "fresh": "knex migrate:rollback --cwd=./src",
-    "refresh": "npm run fresh && npm run migrate",
+    "rollback": "knex migrate:rollback --cwd=./src",
+    "refresh": "npm run rollback && npm run migrate",
     "test": "NODE_ENV=test npm run refresh && jest"
   },
   "author": "ayocodingit",
