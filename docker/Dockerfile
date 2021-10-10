@@ -5,13 +5,10 @@ RUN apk add nodejs npm && rm -rf /var/cache/apk/*
 WORKDIR /app
 
 ENV PORT 3003
-ENV NODE_ENV production
-
-COPY package*.json ./
-
-RUN npm install
 
 COPY . .
+
+RUN npm install --only=prod
 
 RUN npm run build
 
