@@ -6,8 +6,7 @@ import sentryTransaction from './middleware/sentry'
 import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
-import morgan from 'morgan'
-import ping from './handler/ping'
+import home from './handler/home'
 import partners from './modules/partners/partner_handler'
 
 class App {
@@ -26,13 +25,12 @@ class App {
     this.app.use(cors())
     this.app.use(helmet())
     this.app.use(compression())
-    this.app.use(morgan('dev'))
     this.app.use(sentryTransaction)
   }
 
   protected handlers (): void {
-    this.app.use('/', ping)
-    this.app.use('/v1', partners)
+    this.app.use(home)
+    this.app.use(partners)
   }
 
   protected extends (): void {

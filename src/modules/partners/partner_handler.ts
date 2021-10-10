@@ -7,7 +7,10 @@ import { Partner as Service } from './partner_service'
 
 const router = express.Router()
 
-router.get('/partners', validate(Rules.findAll, 'query'), async (req: Request<never, never, never, Entity.RequestQuery>, res: Response, next: NextFunction) => {
+router.get(
+  '/v1/partners',
+  validate(Rules.findAll, 'query'),
+  async (req: Request<never, never, never, Entity.RequestQuery>, res: Response, next: NextFunction) => {
   const partners = await Service.findAll({
     name: req.query.name,
     perPage: req.query.perPage,
