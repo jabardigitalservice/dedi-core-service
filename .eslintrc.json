@@ -23,6 +23,7 @@
     "no-param-reassign": 0,
     "no-return-assign": 0,
     "camelcase": "off",
-    "semi": "off"
+    "semi": "off",
+    "eol-last": 2
   }
 }

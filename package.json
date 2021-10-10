@@ -61,16 +61,15 @@
     "ts-jest": "^27.0.5"
   },
   "scripts": {
-    "start": "node build/server.js",
+    "start": "node build/src/server.js",
     "dev": "nodemon src/server.ts",
     "build": "rm -rf build && tsc --project .",
     "lint": "eslint --ext .ts ./src",
     "lint:fix": "eslint --fix --ext .ts ./src",
     "migrate": "knex migrate:latest --cwd=./src",
-    "refresh": "knex migrate:rollback --cwd=./src",
-    "up": "knex migrate:up --cwd=./src",
-    "down": "knex migrate:down --cwd=./src",
-    "test": "NODE_ENV=test npm run refresh && NODE_ENV=test npm run migrate --env test && jest"
+    "fresh": "knex migrate:rollback --cwd=./src",
+    "refresh": "npm run fresh && npm run migrate",
+    "test": "NODE_ENV=test npm run refresh && jest"
   },
   "author": "ayocodingit",
   "license": "MIT"
