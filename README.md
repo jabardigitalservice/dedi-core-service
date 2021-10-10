@@ -22,21 +22,25 @@ cp .env.example .env
 install dependencies
 $ make install
 migrate
-$ make latest
+$ make migrate
 ```
 
-* Run on locally with docker :
+* Run on locally with docker:
 
 ```
 start
 $ make docker-run-dev
-migrate
-$ make docker-run-dev-latest
 stop
 $ make docker-run-dev-stop
+migrate
+$ make docker-run-dev-migrate
+rollback
+$ make docker-run-dev-rollback
+test
+$ make docker-run-dev-test
 ```
 
-* Run on production with docker :
+* Run on production with docker:
 
 ```
 start
