@@ -5,7 +5,7 @@ export async function up (knex: Knex): Promise<void> {
     if (!exists) {
       return knex.schema.createTable('categories', function (table) {
         table.increments('id').unsigned()
-        table.string('name', 20).notNullable()
+        table.string('name', 20).notNullable().unique()
         table.boolean('is_active').notNullable().index()
       })
     }
