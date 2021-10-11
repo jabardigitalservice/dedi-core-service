@@ -11,6 +11,7 @@ export async function up (knex: Knex): Promise<void> {
         table.timestamp('verified_at')
         table.string('logo')
         table.integer('total_village').defaultTo(0)
+        table.string('website')
         table.timestamps()
       })
     }

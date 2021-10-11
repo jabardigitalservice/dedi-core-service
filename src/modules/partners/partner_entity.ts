@@ -9,6 +9,7 @@ export namespace Partner {
     logo?: Url
     verified_at?: Date
     total_village: number
+    website?: Url
     deleted_at?: Date
     updated_at?: Date
     created_at?: Date
