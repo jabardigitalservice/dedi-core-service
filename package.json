@@ -65,8 +65,8 @@
     "build": "rm -rf build && tsc --project .",
     "lint": "eslint --ext .ts ./src",
     "lint:fix": "eslint --fix --ext .ts ./src",
-    "migrate": "knex migrate:latest --cwd=./src",
-    "rollback": "knex migrate:rollback --cwd=./src",
+    "migrate": "knex migrate:latest --cwd=./build/src",
+    "rollback": "knex migrate:rollback --cwd=./build/src",
     "refresh": "npm run rollback && npm run migrate",
     "test": "NODE_ENV=test npm run refresh && jest"
   },
