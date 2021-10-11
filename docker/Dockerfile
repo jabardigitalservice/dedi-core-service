@@ -1,27 +1,15 @@
-FROM registry.digitalservice.id/proxyjds/library/alpine:3.12
-
-RUN apk add nodejs npm && rm -rf /var/cache/apk/*
-
+FROM registry.digitalservice.id/proxyjds/library/node:12-alpine AS builder
 WORKDIR /app
-
-ENV PORT 3003
-ENV NODE_ENV production
-
 COPY package*.json ./
-
 RUN npm install
-
 COPY . .
-
 RUN npm run build
 
-RUN addgroup -S pptruser && adduser -S -g pptruser pptruser \
-    && chown -R pptruser:pptruser /app
-
-USER pptruser
-
+FROM registry.digitalservice.id/proxyjds/library/node:12-alpine AS server
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY --from=builder ./app/build ./build
+ENV PORT 3003
 EXPOSE ${PORT}
-
-RUN chmod +x ./docker/entrypoint.sh
-
-ENTRYPOINT [ "./docker/entrypoint.sh" ]
+CMD ["npm", "run", "start"]

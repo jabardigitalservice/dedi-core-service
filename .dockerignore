@@ -1,6 +1,6 @@
 mysql
 redis
-src/node_modules
-src/build
-src/*.sqlite
-src/coverage
+node_modules
+build
+*.sqlite
+coverage

@@ -1,9 +1,10 @@
-include .env
-
-DOCKER_FILE_PATH := ./docker/Dockerfile.dev
-DOCKER_APP_NAME := express-app
+DOCKER_FILE := ./docker/Dockerfile
+DOCKER_FILE_DEV := ./docker/Dockerfile.dev
+DOCKER_APP_NAME := dedi-app
 DOCKER_DEV := -f docker-compose-dev.yml
 DOCKER_DEV_EXEC := ${DOCKER_DEV} exec ${DOCKER_APP_NAME}
+DOCKER_IMAGES := app-dedi-service:latest
+DOCKER_IMAGES_DEV := app-dedi-service-dev:latest
 
 install:
 	npm install
@@ -23,14 +24,8 @@ lint:
 migrate:
 	npm run migrate
 
-refresh:
-	npm run refresh
-
-up:
-	npm run up
-
-down:
-	npm run down
+rollback:
+	npm run rollback
 
 docker-run:
 	docker-compose up -d
@@ -39,10 +34,10 @@ docker-stop:
 	docker-compose down
 
 docker-build:
-	docker build -t boilerplate-express-service .
+	docker build -f ${DOCKER_FILE} -t ${DOCKER_IMAGES} .
 
 docker-run-dev-build:
-	docker build -f ${DOCKER_FILE_PATH} -t boilerplate-express-service .
+	docker build -f ${DOCKER_FILE_DEV} -t ${DOCKER_IMAGES} .
 
 docker-run-dev:
 	docker-compose ${DOCKER_DEV} up -d
@@ -56,12 +51,7 @@ docker-run-dev-test:
 docker-run-dev-migrate:
 	docker-compose ${DOCKER_DEV_EXEC} npm run migrate
 
-docker-run-dev-refresh:
-	docker-compose ${DOCKER_DEV_EXEC} npm run refresh
+docker-run-dev-rollback:
+	docker-compose ${DOCKER_DEV_EXEC} npm run rollback
 
-docker-run-dev-migrate-up:
-	docker-compose ${DOCKER_DEV_EXEC} npm run up
-
-docker-run-dev-migrate-down:
-	docker-compose ${DOCKER_DEV_EXEC} npm run down
 

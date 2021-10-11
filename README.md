@@ -1,5 +1,8 @@
 # Aplikasi Desa Digital
 
+<a href="https://codeclimate.com/github/jabardigitalservice/dedi-core-service/maintainability"><img src="https://api.codeclimate.com/v1/badges/cf5648a807905bcc3467/maintainability" /></a>
+<a href="https://codeclimate.com/github/jabardigitalservice/dedi-core-service/test_coverage"><img src="https://api.codeclimate.com/v1/badges/cf5648a807905bcc3467/test_coverage" /></a>
+
 ## Stack
 - **Node.js** - [http://nodejs.org/](http://nodejs.org/)
 - **Express Js** - [https://expressjs.com/](https://expressjs.com/)
@@ -19,21 +22,25 @@ cp .env.example .env
 install dependencies
 $ make install
 migrate
-$ make latest
+$ make migrate
 ```
 
-* Run on locally with docker :
+* Run on locally with docker:
 
 ```
 start
 $ make docker-run-dev
-migrate
-$ make docker-run-dev-latest
 stop
 $ make docker-run-dev-stop
+migrate
+$ make docker-run-dev-migrate
+rollback
+$ make docker-run-dev-rollback
+test
+$ make docker-run-dev-test
 ```
 
-* Run on production with docker :
+* Run on production with docker:
 
 ```
 start
