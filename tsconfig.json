@@ -7,7 +7,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "strict": false,
-    "declaration": true,
     "removeComments": true,
     "skipLibCheck": true
   },

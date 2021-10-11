@@ -61,7 +61,8 @@
   },
   "scripts": {
     "start": "node build/src/server.js",
-    "dev": "nodemon src/server.ts",
+    "dev": "nodemon build/src/server.js",
+    "ts": "rm -rf build && tsc -w",
     "build": "rm -rf build && tsc --project .",
     "lint": "eslint --ext .ts ./src",
     "lint:fix": "eslint --fix --ext .ts ./src",
