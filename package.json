@@ -69,6 +69,8 @@
     "migrate": "knex migrate:latest --cwd=./build/src",
     "rollback": "knex migrate:rollback --cwd=./build/src",
     "refresh": "npm run rollback && npm run migrate",
+    "migrate:local": "npm run build && npm run migrate",
+    "rollback:local": "npm run build && npm run rollback",
     "migrate:test": "knex migrate:latest --cwd=./src",
     "rollback:test": "knex migrate:rollback --cwd=./src",
     "refresh:test": "npm run rollback:test && npm run migrate:test",
