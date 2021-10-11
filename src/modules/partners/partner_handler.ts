@@ -11,12 +11,12 @@ router.get(
   '/v1/partners',
   validate(Rules.findAll, 'query'),
   async (req: Request<never, never, never, Entity.RequestQuery>, res: Response, next: NextFunction) => {
-  const partners = await Service.findAll({
-    name: req.query.name,
-    perPage: req.query.perPage,
-    currentPage: req.query.currentPage
+    const partners = await Service.findAll({
+      name: req.query.name,
+      perPage: req.query.perPage,
+      currentPage: req.query.currentPage
+    })
+    res.status(httpStatus.OK).json(partners)
   })
-  res.status(httpStatus.OK).json(partners)
-})
 
 export default router
