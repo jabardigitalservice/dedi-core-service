@@ -18,7 +18,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      run: |
+    - id: setup
+      uses: shogo82148/actions-setup-redis@v1
+    - run: |
         redis-cli -h 127.0.0.1 -p ${{ steps.setup.outputs.redis-port }} ping
 
     - name: Set up Node
