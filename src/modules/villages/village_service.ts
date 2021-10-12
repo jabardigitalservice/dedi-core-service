@@ -23,7 +23,7 @@ export namespace Village {
           lat: item.location.x,
           lng: item.location.y,
         },
-        images: JSON.parse(item.images)
+        images: JSON.parse(item.images) || []
       })
     }
 
