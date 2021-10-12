@@ -12,8 +12,8 @@ export namespace Village {
 
     data = JSON.parse((await redis.get('find_all_with_location')))
 
-    if (requestQuery.name) data = [data.find(i => i.name === requestQuery.name)]
-    if (requestQuery.level) data = [data.find(i => i.level === Number(requestQuery.level))]
+    if (requestQuery.name) data = data.filter(i => i.name.toLowerCase() === requestQuery.name.toLowerCase())
+    if (requestQuery.level) data = data.filter(i => i.level === Number(requestQuery.level))
 
     return data
   }
