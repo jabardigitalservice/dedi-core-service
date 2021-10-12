@@ -11,4 +11,23 @@ export namespace Village {
     images: JSON
     is_active: boolean
   }
+
+  export interface ResponseFindAllWithLocation {
+    id: string
+    name: string
+    level: number
+    city: {
+      id: string
+      name: string
+    },
+    category: {
+      id: number
+      name: string
+    },
+    location: {
+      lat: number
+      lng: number
+    },
+    images: string[]
+  }
 }

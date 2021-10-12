@@ -1,21 +1,26 @@
 import database from '../../config/database';
 import { Village as Entity } from './village_entity';
-import knexPostgis from 'knex-postgis';
-const st = knexPostgis(database);
-
 export namespace Village {
   export const Villages = () => database<Entity.Struct>('villages')
 
   export const findAllWithLocation = () => {
     const query = Villages()
       .select(
-        'id',
-        'name',
-        'level',
-        st.asGeoJSON('location')
+        'villages.id as id',
+        'villages.name as villages_name',
+        'villages.level',
+        'cities.id as cities_id',
+        'cities.name as cities_name',
+        'categories.id as categories_id',
+        'categories.name as categories_name',
+        'villages.location',
+        'images'
       )
-      .where('is_active', true)
-      .orderBy('name', 'asc')
+      .leftJoin('districts', 'districts.id', '=', 'villages.district_id')
+      .leftJoin('categories', 'categories.id', '=', 'villages.category_id')
+      .leftJoin('cities', 'cities.id', '=', 'districts.city_id')
+      .where('villages.is_active', true)
+      .orderBy('villages.name', 'asc')
 
     return query
   }

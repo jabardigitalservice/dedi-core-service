@@ -7,9 +7,8 @@ const router = express.Router()
 router.get(
   '/v1/villages/list-with-location',
   async (req: Request, res: Response, next: NextFunction) => {
-    const partners = await Service.findAllWithLocation()
     res.status(httpStatus.OK).json({
-      data: partners
+      data: await Service.findAllWithLocation()
     })
   })
 
