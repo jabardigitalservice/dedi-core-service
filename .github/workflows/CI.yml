@@ -45,4 +45,5 @@ jobs:
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORT_ID }}
       with:
+        coverageCommand: npm run test
         coverageLocations: coverage/lcov.info:lcov
