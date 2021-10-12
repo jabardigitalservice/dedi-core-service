@@ -2,8 +2,8 @@ import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
 
 export namespace Village {
-  export const findAllWithLocation = async (): Promise<Entity.ResponseFindAllWithLocation[]> => {
-    const items = await Repository.findAllWithLocation()
+  export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation[]> => {
+    const items = await Repository.findAllWithLocation(requestQuery)
 
     const data: Entity.ResponseFindAllWithLocation[] = []
     for (const item of items) {
