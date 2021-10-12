@@ -15,13 +15,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    # Service containers to run with `container-job`
+    container: node:12-alpine
     services:
-      # Label used to access the service container
       redis:
-        # Docker Hub image
         image: redis
-        # Set health checks to wait until redis has started
         options:
           --health-cmd "redis-cli ping"
           --health-interval 10s
@@ -30,11 +27,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
-    - name: Set up Node
-      uses: actions/setup-node@master
-      with:
-        node-version: '14'
 
     - name: Run Npm Install
       run: npm install
