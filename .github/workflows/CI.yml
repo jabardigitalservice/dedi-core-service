@@ -41,16 +41,12 @@ jobs:
 
     - name: Run Testing
       run: npm run test
+      env:
+        REDIS_HOST: redis
+        REDIS_PORT: 6379
 
     - name: Run Lint
       run: npm run lint
-
-    - name: Connect to Redis
-        env:
-          # The hostname used to communicate with the Redis service container
-          REDIS_HOST: redis
-          # The default Redis port
-          REDIS_PORT: 6379
 
     - name: Set Up Codeclimate and Send Report Codeclimate
       uses: paambaati/codeclimate-action@v2.7.5
