@@ -1,10 +1,24 @@
+import redis from '../../config/redis'
 import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
 
 export namespace Village {
   export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation[]> => {
-    const items = await Repository.findAllWithLocation(requestQuery)
+    let data: Entity.ResponseFindAllWithLocation[]
+    if (!await redis.get('find_all_with_location')) {
+      const items = await Repository.findAllWithLocation()
+      await redis.set('find_all_with_location', JSON.stringify(responseFindAllWithLocation(items)))
+    }
 
+    data = JSON.parse((await redis.get('find_all_with_location')))
+
+    if (requestQuery.name) data = [data.find(i => i.name === requestQuery.name)]
+    if (requestQuery.level) data = [data.find(i => i.level === Number(requestQuery.level))]
+
+    return data
+  }
+
+  const responseFindAllWithLocation = (items: any[]): Entity.ResponseFindAllWithLocation[] => {
     const data: Entity.ResponseFindAllWithLocation[] = []
     for (const item of items) {
       data.push({
