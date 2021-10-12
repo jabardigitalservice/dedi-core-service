@@ -15,21 +15,28 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: node:12-alpine
-    services:
-      redis:
-        image: redis
-        options:
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+      - id: setup
+        uses: shogo82148/actions-setup-redis@v1
+
+      # connect to the redis-server via TCP
+      - run: |
+          redis-cli -h 127.0.0.1 -p ${{ steps.setup.outputs.redis-port }} ping
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Set up Node
+      uses: actions/setup-node@master
+      with:
+        node-version: '14'
+
     - name: Run Npm Install
       run: npm install
+
+    - name: Run Testing
+      run: npm run test
 
     - name: Run Lint
       run: npm run lint
@@ -38,8 +45,5 @@ jobs:
       uses: paambaati/codeclimate-action@v2.7.5
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORT_ID }}
-        REDIS_HOST: redis
-        REDIS_PORT: 6379
       with:
-        coverageCommand: npm run test
         coverageLocations: coverage/lcov.info:lcov
