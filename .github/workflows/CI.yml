@@ -31,12 +31,6 @@ jobs:
     - name: Run Npm Install
       run: npm install
 
-    - name: Run Testing
-      run: npm run test
-      env:
-        REDIS_HOST: redis
-        REDIS_PORT: 6379
-
     - name: Run Lint
       run: npm run lint
 
@@ -44,6 +38,8 @@ jobs:
       uses: paambaati/codeclimate-action@v2.7.5
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORT_ID }}
+        REDIS_HOST: redis
+        REDIS_PORT: 6379
       with:
         coverageCommand: npm run test
         coverageLocations: coverage/lcov.info:lcov
