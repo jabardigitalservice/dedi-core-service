@@ -9,7 +9,7 @@ export namespace Partner {
     const query = Partners()
       .select('id', 'name', 'total_village', 'logo', 'created_at', 'website')
       .whereNull('deleted_at')
-      .orderBy('name', 'asc')
+      .orderBy('created_at', 'desc')
 
     if (requestQuery.name) query.where('name', requestQuery.name)
 

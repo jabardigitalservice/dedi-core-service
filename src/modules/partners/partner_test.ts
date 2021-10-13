@@ -9,7 +9,8 @@ describe('tests partners', () => {
     expect(response.statusCode).toEqual(200)
     expect(response.body).toEqual({
       data: [],
-      pagination: {
+      meta: {
+        lastUpdate: null,
         currentPage: 1,
         from: 0,
         lastPage: 0,
@@ -28,7 +29,8 @@ describe('tests partners', () => {
     expect(response.statusCode).toEqual(200)
     expect(response.body).toEqual({
       data: [],
-      pagination: {
+      meta: {
+        lastUpdate: null,
         currentPage: 1,
         from: 0,
         lastPage: 0,

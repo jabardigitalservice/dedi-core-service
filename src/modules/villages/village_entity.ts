@@ -12,7 +12,7 @@ export namespace Village {
     is_active: boolean
   }
 
-  export interface ResponseFindAllWithLocation {
+  export interface FindAllWithLocation {
     id: string
     name: string
     level: number
@@ -34,5 +34,12 @@ export namespace Village {
   export interface RequestQuery {
     name: string,
     level: string
+  }
+
+  export interface ResponseFindAllWithLocation {
+    data: FindAllWithLocation[],
+    meta: {
+      total: number
+    }
   }
 }

@@ -20,4 +20,17 @@ export namespace Partner {
     perPage: string
     currentPage: string
   }
+
+  export interface ResponseFindAll {
+    data: Struct[]
+    meta: {
+      currentPage: number
+      from: number
+      lastPage: number
+      perPage: number
+      to: number
+      total: number
+      lastUpdate?: Date
+    }
+  }
 }
