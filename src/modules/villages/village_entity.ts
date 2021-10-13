@@ -30,4 +30,9 @@ export namespace Village {
     },
     images: string[]
   }
+
+  export interface RequestQuery {
+    name: string,
+    level: string
+  }
 }
