@@ -2,9 +2,7 @@ import request from 'supertest'
 import app from '../../server'
 
 describe('testimonials', () => {
-
   it('/v1/testimonials --> array of testimonials', async () => {
-
     return request(app)
       .get('/v1/testimonials')
       .expect(200)

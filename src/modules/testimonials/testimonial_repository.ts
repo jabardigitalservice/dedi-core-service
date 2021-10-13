@@ -1,6 +1,3 @@
-import database from '../../config/database';
-import { Testimonial as Entity } from './testimonial_entity';
-
 export namespace Testimonial {
   export const Testimonials = () => [
     {
