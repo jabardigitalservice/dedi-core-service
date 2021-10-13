@@ -30,7 +30,7 @@ export namespace Partner {
       perPage: number
       to: number
       total: number
-      last_updated: number
+      last_updated?: Date
     }
   }
 }

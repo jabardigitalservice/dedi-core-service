@@ -7,7 +7,10 @@ describe('tests villages', () => {
 
     expect(response.statusCode).toEqual(200)
     expect(response.body).toEqual({
-      data: []
+      data: [],
+      meta: {
+        total: 0
+      }
     });
   })
 })
