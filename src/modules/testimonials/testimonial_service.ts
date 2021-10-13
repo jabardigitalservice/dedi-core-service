@@ -15,7 +15,8 @@ export namespace Testimonial {
         user: {
           id: item.user_id,
           name: item.user_name,
-          description: item.user_description
+          description: item.user_description,
+          avatar: item.user_avatar
         }
       })
     }

@@ -16,7 +16,8 @@ describe('testimonials', () => {
               user: expect.objectContaining({
                 id: expect.any(String),
                 name: expect.any(String),
-                description: expect.any(String)
+                description: expect.any(String),
+                avatar: expect.any(String),
               })
             })
           ])

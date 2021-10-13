@@ -7,6 +7,7 @@ export namespace Testimonial {
       user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
       user_name: 'Ulices Goyette',
       user_description: 'Product',
+      user_avatar: 'avt_1.svg',
     },
     {
       id: '358ca8b2-5506-4186-98c0-5e87f3323f0f',
@@ -15,6 +16,7 @@ export namespace Testimonial {
       user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
       user_name: 'Ulices Goyette',
       user_description: 'Product',
+      user_avatar: 'avt_1.svg',
     },
     {
       id: '358ca8b2-5506-4186-98c0-5e87f3323f0a',
@@ -23,6 +25,7 @@ export namespace Testimonial {
       user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
       user_name: 'Ulices Goyette',
       user_description: 'Product',
+      user_avatar: 'avt_1.svg',
     },
     {
       id: '358ca8b2-5506-4186-98c0-5e87f3323f0b',
@@ -31,6 +34,7 @@ export namespace Testimonial {
       user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
       user_name: 'Ulices Goyette',
       user_description: 'Product',
+      user_avatar: 'avt_1.svg',
     },
     {
       id: '358ca8b2-5506-4186-98c0-5e87f3323f0c',
@@ -39,6 +43,7 @@ export namespace Testimonial {
       user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
       user_name: 'Ulices Goyette',
       user_description: 'Product',
+      user_avatar: 'avt_1.svg',
     },
     {
       id: '358ca8b2-5506-4186-98c0-5e87f3323f0d',
@@ -47,6 +52,7 @@ export namespace Testimonial {
       user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
       user_name: 'Ulices Goyette',
       user_description: 'Product',
+      user_avatar: 'avt_1.svg',
     },
     {
       id: '358ca8b2-5506-4186-98c0-5e87f3323f1a',
@@ -55,6 +61,7 @@ export namespace Testimonial {
       user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
       user_name: 'Ulices Goyette',
       user_description: 'Product',
+      user_avatar: 'avt_1.svg',
     },
     {
       id: '358ca8b2-5506-4186-98c0-5e87f3323f1b',
@@ -63,6 +70,7 @@ export namespace Testimonial {
       user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
       user_name: 'Ulices Goyette',
       user_description: 'Product',
+      user_avatar: 'avt_1.svg',
     },
     {
       id: '358ca8b2-5506-4186-98c0-5e87f3323f1c',
@@ -71,6 +79,7 @@ export namespace Testimonial {
       user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
       user_name: 'Ulices Goyette',
       user_description: 'Product',
+      user_avatar: 'avt_1.svg',
     },
     {
       id: '358ca8b2-5506-4186-98c0-5e87f3323f1d',
@@ -79,6 +88,7 @@ export namespace Testimonial {
       user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
       user_name: 'Ulices Goyette',
       user_description: 'Product',
+      user_avatar: 'avt_1.svg',
     }
   ]
 

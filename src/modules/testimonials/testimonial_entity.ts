@@ -15,6 +15,7 @@ export namespace Testimonial {
       id: string
       name: string
       description: string
+      avatar: string
     },
   }
 
