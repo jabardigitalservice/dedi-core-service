@@ -7,7 +7,7 @@ export namespace Partner {
 
   export const findAll = (requestQuery: Entity.RequestQuery) => {
     const query = Partners()
-      .select('id', 'name', 'total_village', 'logo', 'created_at')
+      .select('id', 'name', 'total_village', 'logo', 'created_at', 'website')
       .whereNull('deleted_at')
       .orderBy('name', 'asc')
 
