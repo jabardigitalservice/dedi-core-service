@@ -3,8 +3,8 @@ import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
 
 export namespace Village {
-  export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation[]> => {
-    let data: Entity.ResponseFindAllWithLocation[]
+  export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation> => {
+    let data: Entity.FindAllWithLocation[]
     if (!await redis.get('find_all_with_location')) {
       const items = await Repository.findAllWithLocation()
       await redis.set('find_all_with_location', JSON.stringify(responseFindAllWithLocation(items)))
@@ -15,11 +15,18 @@ export namespace Village {
     if (requestQuery.name) data = data.filter(i => i.name.toLowerCase() === requestQuery.name.toLowerCase())
     if (requestQuery.level) data = data.filter(i => i.level === Number(requestQuery.level))
 
-    return data
+    const result: Entity.ResponseFindAllWithLocation = {
+      data: data,
+      meta: {
+        total: data.length
+      }
+    }
+
+    return result
   }
 
-  const responseFindAllWithLocation = (items: any[]): Entity.ResponseFindAllWithLocation[] => {
-    const data: Entity.ResponseFindAllWithLocation[] = []
+  const responseFindAllWithLocation = (items: any[]): Entity.FindAllWithLocation[] => {
+    const data: Entity.FindAllWithLocation[] = []
     for (const item of items) {
       data.push({
         id: item.id,
