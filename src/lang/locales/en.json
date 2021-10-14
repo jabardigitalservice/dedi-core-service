@@ -7,5 +7,6 @@
 	"validation.email": "validation.email",
 	"auth.user.failed": "user not found!",
 	"auth.password.failed": "password not match out record!",
-	"validation.exists": "validation.exists"
+	"validation.exists": "validation.exists",
+	"error.exists": "{{ entity }} with id {{ id }} does not exist"
 }

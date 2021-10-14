@@ -1,6 +1,7 @@
 import httpStatus from 'http-status'
 import redis from '../../config/redis'
 import { HttpError } from '../../handler/exception'
+import lang from '../../lang'
 import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
 
@@ -57,7 +58,7 @@ export namespace Village {
     const item: any = await Repository.findById(id)
 
     if (!item) {
-      throw new HttpError(httpStatus.NOT_FOUND, `village with id ${id} does not exits`)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))
     }
 
     const result: Entity.ResponseFindById = {
