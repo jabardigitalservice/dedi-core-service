@@ -15,9 +15,11 @@ router.get(
   '/v1/villages/:id',
   async (req: Request<Entity.RequestParamFindById, never, never, never>, res: Response, next: NextFunction) => {
     try {
+      const result : Entity.ResponseFindById = await Service.findById(req.params)
+
       res
         .status(httpStatus.OK)
-        .json(await Service.findById(req.params))
+        .json(result)
     } catch (err) {
       next(err)
     }
