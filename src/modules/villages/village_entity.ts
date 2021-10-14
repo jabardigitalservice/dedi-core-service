@@ -56,4 +56,9 @@ export namespace Village {
       total: number
     }
   }
+
+  export interface ResponseFindById {
+    data: FindById,
+    meta: Object,
+  }
 }

@@ -19,10 +19,7 @@ router.get(
     try {
       res
         .status(httpStatus.OK)
-        .json({
-          data: await Service.findById(req.params),
-          meta: {},
-        })
+        .json(await Service.findById(req.params))
     } catch (err) {
       if (err instanceof HttpError) {
         res
