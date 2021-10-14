@@ -9,6 +9,7 @@ router.get(
   '/v1/villages/list-with-location',
   async (req: Request<never, never, never, Entity.RequestQuery>, res: Response, next: NextFunction) => {
     const result: Entity.ResponseFindAllWithLocation = await Service.findAllWithLocation(req.query)
+
     res.status(httpStatus.OK).json(result)
   })
 
