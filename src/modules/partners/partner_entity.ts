@@ -17,20 +17,20 @@ export namespace Partner {
 
   export interface RequestQuery extends Query {
     name: string
-    perPage: string
-    currentPage: string
+    per_page: string
+    current_page: string
   }
 
   export interface ResponseFindAll {
     data: Struct[]
     meta: {
-      currentPage: number
+      current_page: number
       from: number
-      lastPage: number
-      perPage: number
+      last_page: number
+      per_page: number
       to: number
       total: number
-      lastUpdate?: Date
+      last_update?: Date
     }
   }
 }
