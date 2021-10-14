@@ -1,4 +1,6 @@
+import httpStatus from 'http-status'
 import redis from '../../config/redis'
+import { HttpError } from '../../handler/exception'
 import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
 
@@ -49,5 +51,32 @@ export namespace Village {
     }
 
     return data
+  }
+
+  export const findById = async ({ id }: Entity.RequestParamFindById): Promise<Entity.ResponseFindById> => {
+    const item: any = await Repository.findById(id)
+
+    if (!item) {
+      throw new HttpError(httpStatus.NOT_FOUND, `village with id ${id} does not exits`)
+    }
+
+    const result: Entity.ResponseFindById = {
+      data: {
+        id: item.id,
+        name: item.villages_name,
+        level: item.level,
+        city: {
+          id: item.cities_id,
+          name: item.cities_name,
+        },
+        category: {
+          id: item.categories_id,
+          name: item.categories_name,
+        },
+      },
+      meta: {},
+    };
+
+    return result
   }
 }

@@ -13,4 +13,17 @@ router.get(
     res.status(httpStatus.OK).json(result)
   })
 
+router.get(
+  '/v1/villages/:id',
+  async (req: Request<Entity.RequestParamFindById, never, never, never>, res: Response, next: NextFunction) => {
+    try {
+      const result: Entity.ResponseFindById = await Service.findById(req.params)
+
+      res.status(httpStatus.OK).json(result)
+    } catch (err) {
+      next(err)
+    }
+  }
+)
+
 export default router

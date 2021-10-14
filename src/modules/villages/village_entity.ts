@@ -31,9 +31,27 @@ export namespace Village {
     images: string[]
   }
 
+  export interface FindById {
+    id: string
+    name: string
+    level: number
+    city: {
+      id: string
+      name: string
+    },
+    category: {
+      id: number
+      name: string
+    },
+  }
+
   export interface RequestQuery {
     name: string,
     level: string
+  }
+
+  export interface RequestParamFindById {
+    id: string,
   }
 
   export interface ResponseFindAllWithLocation {
@@ -41,5 +59,10 @@ export namespace Village {
     meta: {
       total: number
     }
+  }
+
+  export interface ResponseFindById {
+    data: FindById,
+    meta: Object,
   }
 }

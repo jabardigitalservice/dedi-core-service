@@ -14,3 +14,11 @@ describe('tests villages', () => {
     });
   })
 })
+
+describe('test find by id', () => {
+  it('responds with 404 given unknown id', async () => {
+    const response = await request(app).get('/v1/villages/34543234565435654')
+
+    expect(response.statusCode).toEqual(404)
+  })
+})
