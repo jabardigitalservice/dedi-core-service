@@ -21,8 +21,11 @@ export namespace Testimonial {
       })
     }
 
-    return {
-      data: data, meta: {}
+    const result: Entity.ResponseFindAll = {
+      data: data,
+      meta: {}
     }
+
+    return result
   }
 }
