@@ -10,11 +10,11 @@ describe('tests partners', () => {
     expect(response.body).toEqual({
       data: [],
       meta: {
-        lastUpdate: null,
-        currentPage: 1,
+        last_update: null,
+        current_page: 1,
         from: 0,
-        lastPage: 0,
-        perPage: 20,
+        last_page: 0,
+        per_page: 20,
         to: 0,
         total: 0
       }
@@ -30,11 +30,11 @@ describe('tests partners', () => {
     expect(response.body).toEqual({
       data: [],
       meta: {
-        lastUpdate: null,
-        currentPage: 1,
+        last_update: null,
+        current_page: 1,
         from: 0,
-        lastPage: 0,
-        perPage: 20,
+        last_page: 0,
+        per_page: 20,
         to: 0,
         total: 0
       }

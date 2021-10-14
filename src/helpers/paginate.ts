@@ -1,12 +1,12 @@
 export const perPage = (requestQuery: {
-  perPage: string,
-  currentPage: string
+  per_page: string,
+  current_page: string
 }) => {
-  const perPageNumber = Number(requestQuery.perPage)
-  const currentPageNumber = Number(requestQuery.currentPage)
+  const perPageNumber = Number(requestQuery.per_page)
+  const currentPageNumber = Number(requestQuery.current_page)
 
-  const perPage = requestQuery.perPage && !isNaN(perPageNumber) ? perPageNumber : 20
-  const currentPage = requestQuery.currentPage && !isNaN(currentPageNumber) ? currentPageNumber : 1
+  const perPage = requestQuery.per_page && !isNaN(perPageNumber) ? perPageNumber : 20
+  const currentPage = requestQuery.current_page && !isNaN(currentPageNumber) ? currentPageNumber : 1
 
   return {
     perPage,
