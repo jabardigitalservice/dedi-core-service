@@ -54,13 +54,13 @@ export namespace Village {
   }
 
   export const findById = async ({ id }: { id: string }): Promise<Entity.ResponseFindById> => {
-    const item = await Repository.findById(id)
+    const item: any = await Repository.findById(id)
 
     if (!item) {
       throw new HttpError(httpStatus.NOT_FOUND, `village with id ${id} does not exits`)
     }
 
-    const data = {
+    const data: Entity.FindById = {
       id: item.id,
       name: item.villages_name,
       level: item.level,
@@ -75,9 +75,11 @@ export namespace Village {
     }
     const meta = {}
 
-    return {
+    const result: Entity.ResponseFindById = {
       data,
-      meta,
+      meta
     }
+
+    return result
   }
 }
