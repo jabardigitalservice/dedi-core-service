@@ -9,7 +9,6 @@ const router = express.Router()
 router.get(
   '/v1/villages/list-with-location',
   async (req: Request<never, never, never, Entity.RequestQuery>, res: Response, next: NextFunction) => {
-    console.log('masuk')
     res.status(httpStatus.OK).json(await Service.findAllWithLocation(req.query))
   })
 
