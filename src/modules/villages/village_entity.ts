@@ -50,6 +50,10 @@ export namespace Village {
     level: string
   }
 
+  export interface RequestParamFindById {
+    id: string,
+  }
+
   export interface ResponseFindAllWithLocation {
     data: FindAllWithLocation[],
     meta: {
