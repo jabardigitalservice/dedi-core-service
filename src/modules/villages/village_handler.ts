@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
-import { HttpError } from '../../handler/exception'
+// import { HttpError } from '../../handler/exception'
 import { Village as Entity } from './village_entity'
 import { Village as Service } from './village_service'
 
@@ -20,13 +20,7 @@ router.get(
         .status(httpStatus.OK)
         .json(await Service.findById(req.params))
     } catch (err) {
-      if (err instanceof HttpError) {
-        res
-          .status(err.code)
-          .json({ error: err.message })
-      } else {
-        res.status(httpStatus.INTERNAL_SERVER_ERROR)
-      }
+      next(err)
     }
   }
 )
