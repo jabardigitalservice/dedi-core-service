@@ -7,7 +7,7 @@ export namespace Testimonial {
     created_by: string
   }
 
-  export interface ResponseFindAll {
+  export interface TestimonialList {
     id: string
     caption: string
     type: string
@@ -16,7 +16,11 @@ export namespace Testimonial {
       name: string
       description: string
       avatar: string
-    },
+    }
   }
 
+  export interface ResponseFindAll {
+    data: TestimonialList[]
+    meta: Object
+  }
 }

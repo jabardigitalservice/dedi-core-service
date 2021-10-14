@@ -7,9 +7,7 @@ const router = express.Router()
 router.get(
   '/v1/testimonials',
   (req: Request, res: Response, next: NextFunction) => {
-    res.status(httpStatus.OK).json({
-      data: Service.findAll()
-    })
+    res.status(httpStatus.OK).json(Service.findAll())
   }
 )
 
