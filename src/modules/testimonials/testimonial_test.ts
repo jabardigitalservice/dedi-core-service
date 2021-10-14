@@ -20,7 +20,8 @@ describe('testimonials', () => {
                 avatar: expect.any(String),
               })
             })
-          ])
+          ]),
+          meta: {}
         }))
       })
   })

@@ -2,10 +2,10 @@ import { Testimonial as Entity } from './testimonial_entity'
 import { Testimonial as Repository } from './testimonial_repository'
 
 export namespace Testimonial {
-  export const findAll = (): Entity.ResponseFindAll[] => {
+  export const findAll = (): Entity.ResponseFindAll => {
     const items = Repository.findAll()
 
-    const data: Entity.ResponseFindAll[] = []
+    const data: Entity.TestimonialList[] = []
 
     for (const item of items) {
       data.push({
@@ -21,6 +21,8 @@ export namespace Testimonial {
       })
     }
 
-    return data
+    return {
+      data: data, meta: {}
+    }
   }
 }
