@@ -56,7 +56,7 @@ export namespace Village {
   export const findById = async ({ id }: { id: string }): Promise<Entity.ResponseFindById> => {
     const item = await Repository.findById(id)
 
-    if (item === undefined) {
+    if (!item) {
       throw new HttpError(httpStatus.NOT_FOUND, `village with id ${id} does not exits`)
     }
 
