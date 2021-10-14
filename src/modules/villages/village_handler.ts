@@ -1,6 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
-// import { HttpError } from '../../handler/exception'
 import { Village as Entity } from './village_entity'
 import { Village as Service } from './village_service'
 
