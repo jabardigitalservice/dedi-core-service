@@ -12,7 +12,7 @@ export namespace Partner {
     const result: Entity.ResponseFindAll = {
       data: items.data,
       meta: {
-        last_update: items.data.length > 0 ? items.data[0].created_at : null,
+        last_update: items.data.length ? items.data[0].created_at : null,
         current_page: items.pagination.currentPage,
         from: items.pagination.from,
         last_page: items.pagination.lastPage || 0,
