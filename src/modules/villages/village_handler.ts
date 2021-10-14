@@ -13,7 +13,7 @@ router.get(
 
 router.get(
   '/v1/villages/:id',
-  async (req: Request<Entity.FindById, never, never, never>, res: Response, next: NextFunction) => {
+  async (req: Request<Entity.RequestParamFindById, never, never, never>, res: Response, next: NextFunction) => {
     try {
       res
         .status(httpStatus.OK)
