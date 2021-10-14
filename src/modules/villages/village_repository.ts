@@ -24,4 +24,24 @@ export namespace Village {
 
     return query
   }
+
+  export const findById = (id: string) => {
+    const query = Villages()
+      .select(
+        'villages.id as id',
+        'villages.name as villages_name',
+        'villages.level as level',
+        'cities.id as cities_id',
+        'cities.name as cities_name',
+        'categories.id as categories_id',
+        'categories.name as categories_name'
+      )
+      .leftJoin('categories', 'categories.id', '=', 'villages.category_id')
+      .leftJoin('districts', 'districts.id', '=', 'villages.district_id')
+      .leftJoin('cities', 'cities.id', '=', 'districts.city_id')
+      .where('villages.id', '=', id)
+      .first()
+
+    return query
+  }
 }
