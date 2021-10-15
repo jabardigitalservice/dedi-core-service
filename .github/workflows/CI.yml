@@ -35,7 +35,7 @@ jobs:
     - name: Create env file
       run: |
         touch .env
-        NODE_ENV=test >> .env
+        echo NODE_ENV=test >> .env
         echo DB_HOST_TEST=0.0.0.0 >> .env
         echo DB_PORT_TEST=33306 >> .env
         echo DB_USER_TEST='dedi_test' >> .env
