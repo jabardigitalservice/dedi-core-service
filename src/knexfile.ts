@@ -27,13 +27,16 @@ const databaseConfig = {
   ...locationDatabase
 }
 
+console.log(config.get('db'));
+
+
 export default {
   development: databaseConfig,
   production: databaseConfig,
   test: {
     client: config.get('db.connection.test', 'mysql'),
     connection: {
-      host: config.get('db.host.test', '0.0.0.0'),
+      host: config.get('db.host.test', 'mysql'),
       port: config.get('db.port.test', '33306'),
       user: config.get('db.user.test', 'root'),
       password: config.get('db.password.test', ''),
