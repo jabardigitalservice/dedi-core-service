@@ -43,11 +43,11 @@ jobs:
       run: |
         touch .env
         echo NODE_ENV=test >> .env
-        echo DB_HOST_TEST=0.0.0.0 >> .env
-        echo DB_PORT_TEST=33306 >> .env
-        echo DB_USER_TEST='dedi_test' >> .env
-        echo DB_PASSWORD_TEST='dedi_test' >> .env
-        echo DB_DATABASE_TEST='dedi_test' >> .env
+        echo TEST_DB_HOST=0.0.0.0 >> .env
+        echo TEST_DB_PORT=33306 >> .env
+        echo TEST_DB_USER='dedi_test' >> .env
+        echo TEST_DB_PASSWORD='dedi_test' >> .env
+        echo TEST_DB_DATABASE='dedi_test' >> .env
         cat .env
 
     - name: Run Testing

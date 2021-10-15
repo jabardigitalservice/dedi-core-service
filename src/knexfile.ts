@@ -31,13 +31,13 @@ export default {
   development: databaseConfig,
   production: databaseConfig,
   test: {
-    client: config.get('db.connection.test', 'mysql'),
+    client: config.get('test.db.connection', 'mysql'),
     connection: {
-      host: config.get('db.host.test'),
-      port: config.get('db.port.test'),
-      user: config.get('db.user.test'),
-      password: config.get('db.password.test'),
-      database: config.get('db.database.test')
+      host: config.get('test.db.host'),
+      port: config.get('test.db.port'),
+      user: config.get('test.db.user'),
+      password: config.get('test.db.password'),
+      database: config.get('test.db.database')
     },
     ...locationDatabase
   }
