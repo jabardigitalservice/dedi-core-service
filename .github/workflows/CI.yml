@@ -11,21 +11,23 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: dedi_test
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
     - name: setup Redis
       uses: shogo82148/actions-setup-redis@v1
-
-    - name: Set up MySQL 8.0
-      uses: mirromutth/mysql-action@v1.1
-      with:
-        mysql version: '8.0'
-        mysql database: 'dedi_test'
-        mysql root password: 'root'
-        mysql user: 'root'
-        mysql password: 'root'
 
     - name: Set up Node
       uses: actions/setup-node@master
@@ -36,6 +38,11 @@ jobs:
       run: npm install
 
     - name: Run Testing
+      env:
+        DB_CONNECTION_TEST: mysql
+        DB_DATABASE_TEST: dedi_test
+        DB_PORT_TEST: 3306
+        DB_USERNAME_TEST: root
       run: npm run test
 
     - name: Run Lint
