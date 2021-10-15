@@ -33,7 +33,7 @@ export default {
   test: {
     client: config.get('db.connection.test', 'mysql'),
     connection: {
-      host: config.get('db.host.test', 'mysql'),
+      host: config.get('db.host.test', '127.0.0.1'),
       port: config.get('db.port.test', 3306),
       user: config.get('db.user.test', 'root'),
       password: config.get('db.password.test', ''),
