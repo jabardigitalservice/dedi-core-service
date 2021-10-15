@@ -31,7 +31,7 @@ export default {
   development: databaseConfig,
   production: databaseConfig,
   test: {
-    client: config.get('db.connection.test'),
+    client: config.get('db.connection.test', 'mysql'),
     connection: {
       host: config.get('db.host.test'),
       port: config.get('db.port.test'),
