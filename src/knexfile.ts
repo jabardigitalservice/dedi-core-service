@@ -31,11 +31,14 @@ export default {
   development: databaseConfig,
   production: databaseConfig,
   test: {
-    client: 'sqlite',
+    client: config.get('db.connection.test', 'mysql'),
     connection: {
-      filename: path.join(__dirname, 'database/local.sqlite')
+      host: config.get('db.host.test', '127.0.0.1'),
+      port: config.get('db.port.test', '3306'),
+      user: config.get('db.user.test', 'root'),
+      password: config.get('db.password.test', 'root'),
+      database: config.get('db.database.test', 'dedi_test')
     },
-    useNullAsDefault: true,
     ...locationDatabase
   }
 }

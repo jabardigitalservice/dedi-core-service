@@ -18,6 +18,15 @@ jobs:
     - name: setup Redis
       uses: shogo82148/actions-setup-redis@v1
 
+    - name: Set up MySQL 8.0
+      uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql version: '8.0'
+        mysql database: 'dedi_test'
+        mysql root password: 'root'
+        mysql user: 'root'
+        mysql password: 'root'
+
     - name: Set up Node
       uses: actions/setup-node@master
       with:
