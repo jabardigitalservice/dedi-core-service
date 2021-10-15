@@ -1,8 +1,10 @@
 import request from 'supertest'
+import redis from '../../config/redis'
 import app from '../../server'
 
 describe('tests villages', () => {
   it('test success findAll with location ', async () => {
+    await redis.del('find_all_with_location')
     return request(app)
       .get('/v1/villages/list-with-location')
       .expect(200)
