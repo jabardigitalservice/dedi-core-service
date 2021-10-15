@@ -34,9 +34,9 @@ export default {
     client: config.get('db.connection.test', 'mysql'),
     connection: {
       host: config.get('db.host.test', '0.0.0.0'),
-      port: config.get('db.port.test', '3306'),
-      user: config.get('db.user.test', 'dedi_test'),
-      password: config.get('db.password.test', 'dedi_test'),
+      port: config.get('db.port.test', '33306'),
+      user: config.get('db.user.test', 'root'),
+      password: config.get('db.password.test', ''),
       database: config.get('db.database.test', 'dedi_test')
     },
     ...locationDatabase
