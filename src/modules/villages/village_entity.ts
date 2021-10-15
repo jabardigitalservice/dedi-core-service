@@ -7,8 +7,8 @@ export namespace Village {
     category_id?: number
     level?: number
     status?: string
-    location: object
-    images: JSON
+    location: any
+    images: string
     is_active: boolean
   }
 

@@ -1,4 +1,3 @@
-import { Url } from 'url';
 import { Query } from '../../helpers/types';
 
 export namespace Partner {
@@ -6,10 +5,10 @@ export namespace Partner {
     id?: string
     name: string
     category_id?: number
-    logo?: Url
+    logo?: string
     verified_at?: Date
     total_village: number
-    website?: Url
+    website?: string
     deleted_at?: Date
     updated_at?: Date
     created_at?: Date

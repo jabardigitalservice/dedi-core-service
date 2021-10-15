@@ -7,10 +7,6 @@ const client = createClient({
   port: config.get('redist.port')
 });
 
-client.on('connect', () => {
-  console.log('Redis client connected');
-});
-
 client.on('error', function (error) {
   console.error(error.message);
 });
@@ -18,5 +14,6 @@ client.on('error', function (error) {
 export default {
   get: promisify(client.get).bind(client),
   set: promisify(client.set).bind(client),
+  del: promisify(client.del).bind(client),
   default: client
 }
