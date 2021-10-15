@@ -32,6 +32,9 @@ jobs:
     - name: Run Npm Install
       run: npm install
 
+    - name: Copy env
+      run: cp .env.example .env
+
     - name: Run Testing
       env:
         DB_HOST_TEST: 0.0.0.0
