@@ -32,16 +32,17 @@ jobs:
     - name: Run Npm Install
       run: npm install
 
-    - name: Copy env
-      run: cp .env.example .env
+    - name: Create env file
+      run: |
+        touch .env
+        echo DB_HOST_TEST=0.0.0.0 >> .env
+        echo DB_PORT_TEST=33306 >> .env
+        echo DB_USER_TEST='dedi_test' >> .env
+        echo DB_PASSWORD_TEST='dedi_test' >> .env
+        echo DB_DATABASE_TEST='dedi_test' >> .env
+        cat .env
 
     - name: Run Testing
-      env:
-        DB_HOST_TEST: 0.0.0.0
-        DB_PORT_TEST: 33306
-        DB_USER_TEST: 'dedi_test'
-        DB_PASSWORD_TEST: 'dedi_test'
-        DB_DATABASE_TEST: 'dedi_test'
       run: npm run test
 
     - name: Run Lint
