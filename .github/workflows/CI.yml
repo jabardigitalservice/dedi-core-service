@@ -40,11 +40,6 @@ jobs:
       run: npm install
 
     - name: Run Testing
-      env:
-        DB_CONNECTION_TEST: mysql
-        DB_DATABASE_TEST: dedi_test
-        DB_PORT_TEST: 33306
-        DB_USERNAME_TEST: root
       run: npm run test
 
     - name: Run Lint
