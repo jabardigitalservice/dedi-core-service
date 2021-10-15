@@ -1,43 +1,101 @@
 import request from 'supertest'
 import app from '../../server'
+import { Partner as Repository } from './partner_repository'
+import { v4 as uuidv4 } from 'uuid'
+const timestamp = new Date()
+
+describe('seed data', () => {
+  it('insert partners', async () => {
+    await Repository.Partners().insert({
+      id: uuidv4(),
+      name: 'test',
+      total_village: 1,
+      logo: 'https://test.com',
+      website: 'https://test.com',
+      created_at: timestamp,
+      updated_at: timestamp,
+    })
+  })
+})
 
 describe('tests partners', () => {
   it('test success findAll', async () => {
-    const response = await request(app)
+    return request(app)
       .get('/v1/partners')
-
-    expect(response.statusCode).toEqual(200)
-    expect(response.body).toEqual({
-      data: [],
-      meta: {
-        last_update: null,
-        current_page: 1,
-        from: 0,
-        last_page: 0,
-        per_page: 20,
-        to: 0,
-        total: 0
-      }
-    });
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(expect.objectContaining({
+          data: expect.arrayContaining([
+            expect.objectContaining({
+              id: expect.any(String),
+              name: expect.any(String),
+              total_village: expect.any(Number),
+              logo: expect.any(String),
+              created_at: expect.any(String),
+              website: expect.any(String)
+            })
+          ]),
+          meta: expect.objectContaining({
+            last_update: expect.any(String),
+            current_page: expect.any(Number),
+            from: expect.any(Number),
+            last_page: expect.any(Number),
+            per_page: expect.any(Number),
+            to: expect.any(Number),
+            total: expect.any(Number)
+          })
+        }))
+      })
   })
 
   it('test success findAll with requestQuery', async () => {
-    const response = await request(app)
+    return request(app)
       .get('/v1/partners')
       .query({ name: 'test' })
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(expect.objectContaining({
+          data: expect.arrayContaining([
+            expect.objectContaining({
+              id: expect.any(String),
+              name: expect.any(String),
+              total_village: expect.any(Number),
+              logo: expect.any(String),
+              created_at: expect.any(String),
+              website: expect.any(String)
+            })
+          ]),
+          meta: expect.objectContaining({
+            last_update: expect.any(String),
+            current_page: expect.any(Number),
+            from: expect.any(Number),
+            last_page: expect.any(Number),
+            per_page: expect.any(Number),
+            to: expect.any(Number),
+            total: expect.any(Number)
+          })
+        }))
+      })
+  })
 
-    expect(response.statusCode).toEqual(200)
-    expect(response.body).toEqual({
-      data: [],
-      meta: {
-        last_update: null,
-        current_page: 1,
-        from: 0,
-        last_page: 0,
-        per_page: 20,
-        to: 0,
-        total: 0
-      }
-    });
+  it('test success findAll return data empty', async () => {
+    return request(app)
+      .get('/v1/partners')
+      .query({ name: 'test', current_page: 2 })
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(expect.objectContaining({
+          data: [],
+          meta: expect.objectContaining({
+            last_update: null,
+            current_page: expect.any(Number),
+            from: expect.any(Number),
+            last_page: expect.any(Number),
+            per_page: expect.any(Number),
+            to: expect.any(Number),
+            total: expect.any(Number)
+          })
+        }))
+      })
   })
 })
