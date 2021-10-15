@@ -40,6 +40,8 @@ jobs:
       run: npm install
 
     - name: Run Testing
+      env:
+        DB_HOST_TEST: mysql
       run: npm run test
 
     - name: Run Lint
