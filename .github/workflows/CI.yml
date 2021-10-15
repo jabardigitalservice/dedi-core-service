@@ -17,6 +17,8 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_DATABASE: dedi_test
+        ports:
+          - 33306:3306
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
@@ -41,7 +43,7 @@ jobs:
       env:
         DB_CONNECTION_TEST: mysql
         DB_DATABASE_TEST: dedi_test
-        DB_PORT_TEST: 3306
+        DB_PORT_TEST: 33306
         DB_USERNAME_TEST: root
       run: npm run test
 
