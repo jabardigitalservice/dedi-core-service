@@ -17,11 +17,6 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5 -e MYSQL_ROOT_PASSWORD=dedi_test -e MYSQL_USER=dedi_test -e MYSQL_PASSWORD=dedi_test -e MYSQL_DATABASE=dedi_test --entrypoint sh mysql:8 -c "exec docker-entrypoint.sh mysqld --default-authentication-plugin=mysql_native_password"
         ports:
           - 33306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
     steps:
     - name: Checkout
       uses: actions/checkout@v2
