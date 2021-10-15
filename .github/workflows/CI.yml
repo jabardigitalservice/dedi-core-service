@@ -15,8 +15,10 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: dedi_test
           MYSQL_DATABASE: dedi_test
+          MYSQL_USER: dedi_test
+          MYSQL_PASSWORD: dedi_test
         ports:
           - 33306:3306
         options: >-
@@ -43,6 +45,9 @@ jobs:
       env:
         DB_HOST_TEST: 0.0.0.0
         DB_PORT_TEST: 33306
+        DB_USER_TEST: 'dedi_test'
+        DB_PASSWORD_TEST: 'dedi_test'
+        DB_DATABASE_TEST: 'dedi_test'
       run: npm run test
 
     - name: Run Lint
