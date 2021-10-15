@@ -34,6 +34,7 @@ jobs:
 
     - name: Run Testing
       env:
+        DB_CONNECTION_TEST: 'mysql'
         DB_HOST_TEST: 0.0.0.0
         DB_PORT_TEST: 33306
         DB_USER_TEST: 'dedi_test'
