@@ -4,6 +4,6 @@ global.beforeEach(async () => {
   await redis.flushall();
 });
 
-global.afterAll(() => {
-  redis.flushall();
+global.afterAll(async () => {
+  await redis.flushall();
 })
