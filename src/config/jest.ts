@@ -1,7 +1,7 @@
 import redis from '../config/redis';
 
-global.beforeEach(() => {
-  redis.flushall();
+global.beforeEach(async () => {
+  await redis.flushall();
 });
 
 global.afterAll(() => {
