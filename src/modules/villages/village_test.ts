@@ -1,5 +1,4 @@
 import request from 'supertest'
-import redis from '../../config/redis'
 import app from '../../server'
 import { Village as Repository } from './village_repository'
 import KnexPostgis from 'knex-postgis'
@@ -22,7 +21,6 @@ describe('seed data', () => {
 
 describe('tests villages', () => {
   it('test success findAll with location ', async () => {
-    await redis.del('find_all_with_location')
     return request(app)
       .get('/v1/villages/list-with-location')
       .expect(200)
@@ -52,7 +50,6 @@ describe('tests villages', () => {
 
 describe('tests villages', () => {
   it('test success findAll with location filter', async () => {
-    await redis.del('find_all_with_location')
     return request(app)
       .get('/v1/villages/list-with-location')
       .query({ name: 'test', level: 1 })
