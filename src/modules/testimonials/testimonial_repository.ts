@@ -1,100 +1,23 @@
+import database from '../../config/database'
+import { perPage } from '../../helpers/paginate'
+import { Testimonial as Entity } from '../testimonials/testimonial_entity'
+
 export namespace Testimonial {
-  export const Testimonials = () => [
-    {
-      id: '358ca8b2-5506-4186-98c0-5e87f3323f0e',
-      caption: 'Id eius veniam. Libero vitae nemo quo eos asperiores iure magni est consequatur. Et adipisci consequuntur nobis rem consequatur soluta explicabo qui. Accusamus veniam voluptatibus corporis.',
-      type: 'partner',
-      user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
-      user_name: 'Ulices Goyette',
-      user_description: 'Product',
-      user_avatar: 'avt_1.svg',
-    },
-    {
-      id: '358ca8b2-5506-4186-98c0-5e87f3323f0f',
-      caption: 'Id eius veniam. Libero vitae nemo quo eos asperiores iure magni est consequatur. Et adipisci consequuntur nobis rem consequatur soluta explicabo qui. Accusamus veniam voluptatibus corporis.',
-      type: 'partner',
-      user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
-      user_name: 'Ulices Goyette',
-      user_description: 'Product',
-      user_avatar: 'avt_1.svg',
-    },
-    {
-      id: '358ca8b2-5506-4186-98c0-5e87f3323f0a',
-      caption: 'Id eius veniam. Libero vitae nemo quo eos asperiores iure magni est consequatur. Et adipisci consequuntur nobis rem consequatur soluta explicabo qui. Accusamus veniam voluptatibus corporis.',
-      type: 'partner',
-      user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
-      user_name: 'Ulices Goyette',
-      user_description: 'Product',
-      user_avatar: 'avt_1.svg',
-    },
-    {
-      id: '358ca8b2-5506-4186-98c0-5e87f3323f0b',
-      caption: 'Id eius veniam. Libero vitae nemo quo eos asperiores iure magni est consequatur. Et adipisci consequuntur nobis rem consequatur soluta explicabo qui. Accusamus veniam voluptatibus corporis.',
-      type: 'partner',
-      user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
-      user_name: 'Ulices Goyette',
-      user_description: 'Product',
-      user_avatar: 'avt_1.svg',
-    },
-    {
-      id: '358ca8b2-5506-4186-98c0-5e87f3323f0c',
-      caption: 'Id eius veniam. Libero vitae nemo quo eos asperiores iure magni est consequatur. Et adipisci consequuntur nobis rem consequatur soluta explicabo qui. Accusamus veniam voluptatibus corporis.',
-      type: 'partner',
-      user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
-      user_name: 'Ulices Goyette',
-      user_description: 'Product',
-      user_avatar: 'avt_1.svg',
-    },
-    {
-      id: '358ca8b2-5506-4186-98c0-5e87f3323f0d',
-      caption: 'Id eius veniam. Libero vitae nemo quo eos asperiores iure magni est consequatur. Et adipisci consequuntur nobis rem consequatur soluta explicabo qui. Accusamus veniam voluptatibus corporis.',
-      type: 'partner',
-      user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
-      user_name: 'Ulices Goyette',
-      user_description: 'Product',
-      user_avatar: 'avt_1.svg',
-    },
-    {
-      id: '358ca8b2-5506-4186-98c0-5e87f3323f1a',
-      caption: 'Id eius veniam. Libero vitae nemo quo eos asperiores iure magni est consequatur. Et adipisci consequuntur nobis rem consequatur soluta explicabo qui. Accusamus veniam voluptatibus corporis.',
-      type: 'partner',
-      user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
-      user_name: 'Ulices Goyette',
-      user_description: 'Product',
-      user_avatar: 'avt_1.svg',
-    },
-    {
-      id: '358ca8b2-5506-4186-98c0-5e87f3323f1b',
-      caption: 'Id eius veniam. Libero vitae nemo quo eos asperiores iure magni est consequatur. Et adipisci consequuntur nobis rem consequatur soluta explicabo qui. Accusamus veniam voluptatibus corporis.',
-      type: 'partner',
-      user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
-      user_name: 'Ulices Goyette',
-      user_description: 'Product',
-      user_avatar: 'avt_1.svg',
-    },
-    {
-      id: '358ca8b2-5506-4186-98c0-5e87f3323f1c',
-      caption: 'Id eius veniam. Libero vitae nemo quo eos asperiores iure magni est consequatur. Et adipisci consequuntur nobis rem consequatur soluta explicabo qui. Accusamus veniam voluptatibus corporis.',
-      type: 'partner',
-      user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
-      user_name: 'Ulices Goyette',
-      user_description: 'Product',
-      user_avatar: 'avt_1.svg',
-    },
-    {
-      id: '358ca8b2-5506-4186-98c0-5e87f3323f1d',
-      caption: 'Id eius veniam. Libero vitae nemo quo eos asperiores iure magni est consequatur. Et adipisci consequuntur nobis rem consequatur soluta explicabo qui. Accusamus veniam voluptatibus corporis.',
-      type: 'partner',
-      user_id: '5af84d68-5388-4a89-9c9b-9ad310ba134e',
-      user_name: 'Ulices Goyette',
-      user_description: 'Product',
-      user_avatar: 'avt_1.svg',
-    }
-  ]
+  export const Testimonials = () => database<Entity.Struct>('testimonials')
 
-  export const findAll = () => {
+  export const findAll = (requestQuery: Entity.RequestQuery) => {
     const query = Testimonials()
+      .select(
+        'testimonials.id as id',
+        'caption',
+        'users.id as user_id',
+        'users.name as user_name',
+        'users.type as user_type',
+        'users.description as user_description',
+        'users.avatar as user_avatar'
+      )
+      .leftJoin('users', 'users.id', '=', 'testimonials.created_by')
 
-    return query
+    return query.paginate(perPage(requestQuery))
   }
 }

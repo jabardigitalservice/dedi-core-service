@@ -1,3 +1,4 @@
+import { metaPaginate } from '../../helpers/paginate';
 import { Query } from '../../helpers/types';
 
 export namespace Partner {
@@ -20,16 +21,12 @@ export namespace Partner {
     current_page: string
   }
 
+  interface Meta extends metaPaginate {
+    last_update?: Date
+  }
+
   export interface ResponseFindAll {
     data: Struct[]
-    meta: {
-      current_page: number
-      from: number
-      last_page: number
-      per_page: number
-      to: number
-      total: number
-      last_update?: Date
-    }
+    meta: Meta
   }
 }
