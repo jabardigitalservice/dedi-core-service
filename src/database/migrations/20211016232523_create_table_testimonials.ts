@@ -6,8 +6,8 @@ export async function up(knex: Knex): Promise<void> {
       return knex.schema.createTable('testimonials', function (table) {
         table.uuid('id').primary()
         table.text('caption').notNullable()
-        table.timestamp('created_at').notNullable()
-        table.string('created_by', 36).index().notNullable()
+        table.timestamp('created_at')
+        table.uuid('created_by').index().notNullable()
       })
     }
   })
