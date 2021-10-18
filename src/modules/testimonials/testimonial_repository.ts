@@ -1,6 +1,6 @@
-import database from "../../config/database"
+import database from '../../config/database'
 import { perPage } from '../../helpers/paginate'
-import { Testimonial as Entity } from "../testimonials/testimonial_entity"
+import { Testimonial as Entity } from '../testimonials/testimonial_entity'
 
 export namespace Testimonial {
   export const Testimonials = () => database<Entity.Struct>('testimonials')
