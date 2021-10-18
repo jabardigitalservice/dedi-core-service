@@ -15,5 +15,6 @@ export default {
   get: promisify(client.get).bind(client),
   set: promisify(client.set).bind(client),
   del: promisify(client.del).bind(client),
-  default: client
+  flushall: promisify(client.flushall).bind(client),
+  default: client,
 }

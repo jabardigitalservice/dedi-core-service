@@ -2,29 +2,30 @@ import type { Config } from '@jest/types'
 
 export default async (): Promise<Config.InitialOptions> => {
   return {
-    forceExit: true,
     bail: 1,
-    verbose: true,
     clearMocks: true,
-    testEnvironment: 'node',
-    transform: {
-      '^.+\\.ts?$': 'ts-jest'
-    },
-    setupFilesAfterEnv: ['jest-extended'],
-    globals: {
-      'ts-jest': {
-        diagnostics: false
-      }
-    },
-    testMatch: [
-      '**/*_test.ts'
-    ],
     collectCoverage: true,
     collectCoverageFrom: [
+      './src/helpers/test/*.ts',
       './src/modules/**/*.ts',
-      './src/helpers/test/*.ts'
     ],
     coverageReporters: ['lcov'],
-    detectOpenHandles: true
-  }
+    detectOpenHandles: true,
+    forceExit: true,
+    globals: {
+      'ts-jest': {
+        diagnostics: false,
+      },
+    },
+    testEnvironment: 'node',
+    testMatch: ['**/*_test.ts'],
+    transform: {
+      '^.+\\.ts?$': 'ts-jest',
+    },
+    setupFilesAfterEnv: [
+      'jest-extended',
+      './src/config/jest.ts'
+    ],
+    verbose: true,
+  };
 }
