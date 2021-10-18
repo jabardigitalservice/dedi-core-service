@@ -57,9 +57,7 @@ export namespace Village {
   export const findById = async ({ id }: Entity.RequestParamFindById): Promise<Entity.ResponseFindById> => {
     const item: any = await Repository.findById(id)
 
-    if (!item) {
-      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))
-    }
+    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))
 
     const result: Entity.ResponseFindById = {
       data: {

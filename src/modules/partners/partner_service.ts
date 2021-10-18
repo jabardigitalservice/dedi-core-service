@@ -1,3 +1,4 @@
+import { metaPagination } from '../../helpers/paginate'
 import { Partner as Entity } from './partner_entity'
 import { Partner as Repository } from './partner_repository'
 
@@ -8,17 +9,11 @@ export namespace Partner {
       per_page: requestQuery.per_page,
       current_page: requestQuery.current_page
     })
-
     const result: Entity.ResponseFindAll = {
       data: items.data,
       meta: {
+        ...metaPagination(items.pagination),
         last_update: items.data.length ? items.data[0].created_at : null,
-        current_page: items.pagination.currentPage,
-        from: items.pagination.from,
-        last_page: items.pagination.lastPage || 0,
-        per_page: items.pagination.perPage,
-        to: items.pagination.to,
-        total: items.pagination.total || 0,
       }
     }
 

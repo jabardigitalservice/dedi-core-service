@@ -24,6 +24,9 @@
     "no-return-assign": 0,
     "camelcase": "off",
     "semi": "off",
-    "eol-last": 2
+    "eol-last": 2,
+    "max-lines-per-function": [
+      "warn", { "max": 25 }
+    ]
   }
 }

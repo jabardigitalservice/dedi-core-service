@@ -1,3 +1,4 @@
+import { metaPagination } from '../../helpers/paginate'
 import { Testimonial as Entity } from './testimonial_entity'
 import { Testimonial as Repository } from './testimonial_repository'
 
@@ -9,9 +10,17 @@ export namespace Testimonial {
       current_page: requestQuery.current_page
     })
 
-    const data: Entity.TestimonialList[] = []
+    const result: Entity.ResponseFindAll = {
+      data: responseFindAll(items.data),
+      meta: metaPagination(items.pagination)
+    }
 
-    for (const item of items.data) {
+    return result
+  }
+
+  const responseFindAll = (items: any[]): Entity.TestimonialList[] => {
+    const data: Entity.TestimonialList[] = []
+    for (const item of items) {
       data.push({
         id: item.id,
         caption: item.caption,
@@ -25,18 +34,6 @@ export namespace Testimonial {
       })
     }
 
-    const result: Entity.ResponseFindAll = {
-      data: data,
-      meta: {
-        current_page: items.pagination.currentPage,
-        from: items.pagination.from,
-        last_page: items.pagination.lastPage || 0,
-        per_page: items.pagination.perPage,
-        to: items.pagination.to,
-        total: items.pagination.total || 0,
-      }
-    }
-
-    return result
+    return data
   }
 }
