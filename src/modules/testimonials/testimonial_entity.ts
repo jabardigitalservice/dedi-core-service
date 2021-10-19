@@ -3,11 +3,19 @@ import { Query } from '../../helpers/types';
 
 export namespace Testimonial {
 
-  export interface Struct {
+  export interface TestimonialStruct {
     id?: string
     caption: string
     created_at?: Date
     created_by: string
+  }
+
+  export interface UserStruct {
+    id?: string
+    name: string,
+    description: string,
+    avatar: string,
+    type: string
   }
 
   export interface TestimonialList {
@@ -23,11 +31,12 @@ export namespace Testimonial {
   }
 
   export interface RequestQuery extends Query {
+    type: string
     per_page: string,
     current_page: string
   }
 
-  interface Meta extends metaPaginate {}
+  interface Meta extends metaPaginate { }
 
   export interface ResponseFindAll {
     data: TestimonialList[]

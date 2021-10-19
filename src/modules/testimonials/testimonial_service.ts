@@ -5,7 +5,7 @@ import { Testimonial as Repository } from './testimonial_repository'
 export namespace Testimonial {
   export const findAll = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAll> => {
     const items: any = await Repository.findAll({
-      name: requestQuery.name,
+      type: requestQuery.type,
       per_page: requestQuery.per_page,
       current_page: requestQuery.current_page
     })

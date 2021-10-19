@@ -3,7 +3,8 @@ import { perPage } from '../../helpers/paginate'
 import { Testimonial as Entity } from '../testimonials/testimonial_entity'
 
 export namespace Testimonial {
-  export const Testimonials = () => database<Entity.Struct>('testimonials')
+  export const Testimonials = () => database<Entity.TestimonialStruct>('testimonials')
+  export const Users = () => database<Entity.UserStruct>('users')
 
   export const findAll = (requestQuery: Entity.RequestQuery) => {
     const query = Testimonials()
@@ -16,7 +17,9 @@ export namespace Testimonial {
         'users.description as user_description',
         'users.avatar as user_avatar'
       )
-      .leftJoin('users', 'users.id', '=', 'testimonials.created_by')
+      .join('users', 'users.id', '=', 'testimonials.created_by')
+
+    if (requestQuery.type) query.where('users.type', requestQuery.type)
 
     return query.paginate(perPage(requestQuery))
   }
