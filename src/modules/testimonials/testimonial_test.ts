@@ -34,7 +34,7 @@ const expectMeta = expect.objectContaining({
   total: expect.any(Number)
 })
 
-const expectResponseBody = expect.objectContaining({
+const expectBody = expect.objectContaining({
   data: expect.arrayContaining([
     expect.objectContaining({
       id: expect.any(String),
@@ -57,7 +57,7 @@ describe('testimonials', () => {
       .get('/v1/testimonials')
       .expect(200)
       .then((response) => {
-        expect(response.body).toEqual(expectResponseBody)
+        expect(response.body).toEqual(expectBody)
       })
   })
 })
@@ -82,7 +82,7 @@ describe('filter testimonials', () => {
       .query({ type: 'mitra' })
       .expect(200)
       .then((response) => {
-        expect(response.body).toEqual(expectResponseBody)
+        expect(response.body).toEqual(expectBody)
       })
   })
 })
