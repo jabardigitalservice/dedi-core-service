@@ -18,66 +18,53 @@ describe('seed data', () => {
   })
 })
 
+const expectMeta = expect.objectContaining({
+  current_page: expect.any(Number),
+  from: expect.any(Number),
+  last_page: expect.any(Number),
+  per_page: expect.any(Number),
+  to: expect.any(Number),
+  total: expect.any(Number)
+})
+
+const expectBody = expect.objectContaining({
+  data: expect.arrayContaining([
+    expect.objectContaining({
+      id: expect.any(String),
+      name: expect.any(String),
+      total_village: expect.any(Number),
+      logo: expect.any(String),
+      created_at: expect.any(String),
+      website: expect.any(String)
+    })
+  ]),
+  meta: expectMeta
+})
+
 describe('tests partners', () => {
   it('test success findAll', async () => {
     return request(app)
       .get('/v1/partners')
       .expect(200)
       .then((response) => {
-        expect(response.body).toEqual(expect.objectContaining({
-          data: expect.arrayContaining([
-            expect.objectContaining({
-              id: expect.any(String),
-              name: expect.any(String),
-              total_village: expect.any(Number),
-              logo: expect.any(String),
-              created_at: expect.any(String),
-              website: expect.any(String)
-            })
-          ]),
-          meta: expect.objectContaining({
-            last_update: expect.any(String),
-            current_page: expect.any(Number),
-            from: expect.any(Number),
-            last_page: expect.any(Number),
-            per_page: expect.any(Number),
-            to: expect.any(Number),
-            total: expect.any(Number)
-          })
-        }))
+        expect(response.body).toEqual(expectBody)
       })
   })
+})
 
+describe('tests partners', () => {
   it('test success findAll with requestQuery', async () => {
     return request(app)
       .get('/v1/partners')
       .query({ name: 'test' })
       .expect(200)
       .then((response) => {
-        expect(response.body).toEqual(expect.objectContaining({
-          data: expect.arrayContaining([
-            expect.objectContaining({
-              id: expect.any(String),
-              name: expect.any(String),
-              total_village: expect.any(Number),
-              logo: expect.any(String),
-              created_at: expect.any(String),
-              website: expect.any(String)
-            })
-          ]),
-          meta: expect.objectContaining({
-            last_update: expect.any(String),
-            current_page: expect.any(Number),
-            from: expect.any(Number),
-            last_page: expect.any(Number),
-            per_page: expect.any(Number),
-            to: expect.any(Number),
-            total: expect.any(Number)
-          })
-        }))
+        expect(response.body).toEqual(expectBody)
       })
   })
+})
 
+describe('tests partners', () => {
   it('test success findAll return data empty', async () => {
     return request(app)
       .get('/v1/partners')
@@ -86,15 +73,7 @@ describe('tests partners', () => {
       .then((response) => {
         expect(response.body).toEqual(expect.objectContaining({
           data: [],
-          meta: expect.objectContaining({
-            last_update: null,
-            current_page: expect.any(Number),
-            from: expect.any(Number),
-            last_page: expect.any(Number),
-            per_page: expect.any(Number),
-            to: expect.any(Number),
-            total: expect.any(Number)
-          })
+          meta: expectMeta
         }))
       })
   })
