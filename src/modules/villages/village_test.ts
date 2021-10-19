@@ -19,6 +19,21 @@ describe('seed data', () => {
   })
 })
 
+const expectBodyFindAll = expect.arrayContaining([
+  expect.objectContaining({
+    id: expect.any(String),
+    name: expect.any(String),
+    level: expect.any(Number),
+    city: expect.any(Object),
+    category: expect.any(Object),
+    location: expect.objectContaining({
+      lat: expect.any(Number),
+      lng: expect.any(Number),
+    }),
+    images: expect.any(Array)
+  })
+])
+
 describe('tests villages', () => {
   it('test success findAll with location ', async () => {
     return request(app)
@@ -26,20 +41,7 @@ describe('tests villages', () => {
       .expect(200)
       .then((response) => {
         expect(response.body).toEqual(expect.objectContaining({
-          data: expect.arrayContaining([
-            expect.objectContaining({
-              id: expect.any(String),
-              name: expect.any(String),
-              level: expect.any(Number),
-              city: expect.any(Object),
-              category: expect.any(Object),
-              location: expect.objectContaining({
-                lat: expect.any(Number),
-                lng: expect.any(Number),
-              }),
-              images: expect.any(Array)
-            })
-          ]),
+          data: expectBodyFindAll,
           meta: expect.objectContaining({
             total: expect.any(Number)
           })
@@ -56,20 +58,7 @@ describe('tests villages', () => {
       .expect(200)
       .then((response) => {
         expect(response.body).toEqual(expect.objectContaining({
-          data: expect.arrayContaining([
-            expect.objectContaining({
-              id: expect.any(String),
-              name: expect.any(String),
-              level: expect.any(Number),
-              city: expect.any(Object),
-              category: expect.any(Object),
-              location: expect.objectContaining({
-                lat: expect.any(Number),
-                lng: expect.any(Number),
-              }),
-              images: expect.any(Array)
-            })
-          ]),
+          data: expectBodyFindAll,
           meta: expect.objectContaining({
             total: expect.any(Number)
           })
