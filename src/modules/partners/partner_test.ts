@@ -41,8 +41,6 @@ const expectBody = expect.objectContaining({
   meta: expectMeta
 })
 
-
-
 describe('tests partners', () => {
   it('test success findAll', async () => {
     return request(app)
@@ -52,7 +50,9 @@ describe('tests partners', () => {
         expect(response.body).toEqual(expectBody)
       })
   })
+})
 
+describe('tests partners', () => {
   it('test success findAll with requestQuery', async () => {
     return request(app)
       .get('/v1/partners')
@@ -62,7 +62,9 @@ describe('tests partners', () => {
         expect(response.body).toEqual(expectBody)
       })
   })
+})
 
+describe('tests partners', () => {
   it('test success findAll return data empty', async () => {
     return request(app)
       .get('/v1/partners')
