@@ -25,7 +25,7 @@ describe('seed data', () => {
   })
 })
 
-const ResponseMeta = expect.objectContaining({
+const expectMeta = expect.objectContaining({
   current_page: expect.any(Number),
   from: expect.any(Number),
   last_page: expect.any(Number),
@@ -34,15 +34,21 @@ const ResponseMeta = expect.objectContaining({
   total: expect.any(Number)
 })
 
-const FullResponseBody = expect.objectContaining({
+const expectResponseBody = expect.objectContaining({
   data: expect.arrayContaining([
     expect.objectContaining({
       id: expect.any(String),
       caption: expect.any(String),
-      user: expect.any(Object)
+      user: expect.objectContaining({
+        id: expect.any(String),
+        name: expect.any(String),
+        description: expect.any(String),
+        avatar: expect.any(String),
+        type: expect.any(String)
+      })
     })
   ]),
-  meta: ResponseMeta
+  meta: expectMeta
 })
 
 describe('testimonials', () => {
@@ -51,7 +57,7 @@ describe('testimonials', () => {
       .get('/v1/testimonials')
       .expect(200)
       .then((response) => {
-        expect(response.body).toEqual(FullResponseBody)
+        expect(response.body).toEqual(expectResponseBody)
       })
   })
 })
@@ -60,12 +66,12 @@ describe('filter testimonials', () => {
   it('/v1/testimonials?query --> empty data testimonial if user type not found', async () => {
     return request(app)
       .get('/v1/testimonials')
-      .query({ type: 'mitra' })
+      .query({ type: 'test' })
       .expect(200)
       .then((response) => {
         expect(response.body).toEqual(expect.objectContaining({
           data: expect.any(Array),
-          meta: ResponseMeta
+          meta: expectMeta
         }))
       })
   })
@@ -76,7 +82,7 @@ describe('filter testimonials', () => {
       .query({ type: 'mitra' })
       .expect(200)
       .then((response) => {
-        expect(response.body).toEqual(FullResponseBody)
+        expect(response.body).toEqual(expectResponseBody)
       })
   })
 })

@@ -17,7 +17,7 @@ export namespace Testimonial {
         'users.description as user_description',
         'users.avatar as user_avatar'
       )
-      .leftJoin('users', 'users.id', '=', 'testimonials.created_by')
+      .join('users', 'users.id', '=', 'testimonials.created_by')
 
     if (requestQuery.type) query.where('users.type', requestQuery.type)
 
