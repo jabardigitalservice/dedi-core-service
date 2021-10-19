@@ -19,7 +19,6 @@ describe('seed data', () => {
 })
 
 const expectMeta = expect.objectContaining({
-  last_update: expect.any(String),
   current_page: expect.any(Number),
   from: expect.any(Number),
   last_page: expect.any(Number),
