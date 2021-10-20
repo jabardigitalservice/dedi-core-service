@@ -3,8 +3,8 @@ import 'winston-mongodb'
 import config from '../config';
 
 const mongo = {
-  db: config.get('mongo.connection'),
-  collection: config.get('mongo.collection'),
+  db: config.get('log.mongo.connection'),
+  collection: config.get('log.mongo.collection'),
   capped: true,
   options: {
     useUnifiedTopology: true
