@@ -15,6 +15,18 @@ services:
     networks:
       - dedi-network
 
+  dedi-mongo:
+    image: mongo
+    container_name: "${APP_NAME}_MONGO"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${LOG_MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${LOG_MONGO_PASSWORD}
+    volumes:
+      - $PWD/mongodb:/data/db
+    restart: 'always'
+    networks:
+      - dedi-network
+
   dedi-redis:
     image: "redis:alpine"
     container_name: "${APP_NAME}_REDIS"
@@ -36,11 +48,15 @@ services:
     environment:
       DB_HOST: dedi-mysql
       REDIS_HOST: dedi-redis
+      LOG_MONGO_CONNECTION: ${MONGO_DB_URI}
+    links:
+      - mongo
     ports:
       - "${PORT}:${PORT}"
     depends_on:
       - dedi-mysql
       - dedi-redis
+      - dedi-mongo
     networks:
       - dedi-network
 

@@ -14,16 +14,13 @@ const mongo = {
 
 const logger = winston.createLogger()
 
-if (config.get('node.env') !== 'production') {
+if (config.get('node.env') !== 'test') {
+  logger.add(new winston.transports.MongoDB(mongo))
   logger.add(new winston.transports.Console({
     format: winston.format.prettyPrint({
       colorize: true,
     })
   }));
-}
-
-if (config.get('node.env') !== 'test') {
-  logger.add(new winston.transports.MongoDB(mongo))
 }
 
 export default logger

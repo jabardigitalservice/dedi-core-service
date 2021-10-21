@@ -6,4 +6,3 @@ build
 *.sqlite
 coverage
 mongodb
-mongodb_config
