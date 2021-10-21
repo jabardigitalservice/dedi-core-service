@@ -24,6 +24,7 @@ const databaseConfig = {
     min: Number(config.get('db.pool.min', 10)),
     max: Number(config.get('db.pool.max', 100))
   },
+  acquireConnectionTimeout: 10000,
   ...locationDatabase
 }
 
