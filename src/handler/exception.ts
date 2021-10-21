@@ -8,7 +8,6 @@ export const onError = (error: any, req: Request, res: Response, next: NextFunct
   error.code = typeof error.code === 'string' ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
 
   if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
-
     const logger = JSON.stringify({
       level: 'error',
       message: error.message,
