@@ -48,7 +48,6 @@ services:
     environment:
       DB_HOST: dedi-mysql
       REDIS_HOST: dedi-redis
-      LOG_MONGO_CONNECTION: ${MONGO_DB_URI}
     links:
       - mongo
     ports:
