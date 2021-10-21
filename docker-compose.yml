@@ -19,8 +19,8 @@ services:
     image: mongo
     container_name: "${APP_NAME}_MONGO"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${LOG_MONGO_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${LOG_MONGO_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     volumes:
       - $PWD/mongodb:/data/db
     restart: 'always'

@@ -3,7 +3,7 @@ import 'winston-mongodb'
 import config from '../config';
 
 const mongo = {
-  db: config.get('log.mongo.connection'),
+  db: config.get('mongo.connection'),
   collection: config.get('log.mongo.collection'),
   capped: true,
   options: {
