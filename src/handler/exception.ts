@@ -3,22 +3,22 @@ import { CustomError } from 'ts-custom-error'
 import httpStatus from 'http-status'
 import config from '../config'
 import { Request, Response, NextFunction } from 'express'
-import logger from '../helpers/logger'
 
 export const onError = (error: any, req: Request, res: Response, next: NextFunction) => {
   error.code = typeof error.code === 'string' ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
 
   if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
-    logger({
+
+    const logger = JSON.stringify({
       level: 'error',
       message: error.message,
-      data: {
-        method: req.method,
-        userAgent: req.headers['user-agent'],
-      },
-      service: req.path,
-      activity: (httpStatus[Number(error.code)]).toString()
+      method: req.method,
+      userAgent: req.headers['user-agent'],
+      path: req.path,
+      code: error.code
     })
+
+    console.log(logger);
 
     Sentry.captureException(error)
   }

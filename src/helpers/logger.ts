@@ -14,16 +14,8 @@ const mongo = {
 
 const logger = winston.createLogger()
 
-if (config.get('node.env') !== 'test') {
+if (config.get('mongo.connection')) {
   logger.add(new winston.transports.MongoDB(mongo))
-}
-
-if (config.get('node.env') !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.prettyPrint({
-      colorize: true,
-    })
-  }));
 }
 
 interface log {
