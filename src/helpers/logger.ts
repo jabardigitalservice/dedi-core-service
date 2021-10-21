@@ -16,6 +16,9 @@ const logger = winston.createLogger()
 
 if (config.get('node.env') !== 'test') {
   logger.add(new winston.transports.MongoDB(mongo))
+}
+
+if (config.get('node.env') !== 'production') {
   logger.add(new winston.transports.Console({
     format: winston.format.prettyPrint({
       colorize: true,
@@ -23,4 +26,21 @@ if (config.get('node.env') !== 'test') {
   }));
 }
 
-export default logger
+interface log {
+  level: string
+  message: string
+  data: object
+  service: string
+  activity: string
+}
+
+export default (log: log) => {
+  logger[log.level]({
+    message: log.message,
+    meta: {
+      data: log.data,
+      service: log.service,
+      activity: log.activity
+    }
+  })
+}
