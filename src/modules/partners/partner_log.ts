@@ -7,7 +7,7 @@ export namespace Partner{
       if (req.query.name) {
         logger({
           level: 'info',
-          message: 'search with name',
+          message: 'search by name',
           data: {
             name: req.query.name
           },
