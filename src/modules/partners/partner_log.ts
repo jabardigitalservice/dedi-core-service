@@ -4,15 +4,15 @@ import logger from '../../helpers/logger'
 export namespace Partner{
   export const findAll = () => {
     return (req: Request, res: Response, next: NextFunction) => {
-      if (Object.keys(req.query).length) {
+      if (req.query.name) {
         logger({
           level: 'info',
-          message: 'find all with request query',
+          message: 'search by name',
           data: {
-            ...req.query
+            name: req.query.name
           },
-          service: 'partner',
-          activity: 'findAll'
+          service: 'partners',
+          activity: 'search'
         })
       }
 
