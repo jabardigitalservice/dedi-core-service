@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import logger from '../../helpers/logger'
 
-export namespace Partner{
+export namespace Partner {
   export const findAll = () => {
     return (req: Request, res: Response, next: NextFunction) => {
       if (req.query.name) {
