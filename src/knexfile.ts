@@ -24,13 +24,9 @@ const databaseConfig = {
     min: Number(config.get('db.pool.min', 10)),
     max: Number(config.get('db.pool.max', 100)),
     afterCreate: function (conn: any, done: any) {
-      conn.query('SET timezone="UTC";', function (err: any) {
+      conn.query('select 1+1 as result', function (err: any) {
         if (err) {
           done(err, conn);
-        } else {
-          conn.query('SELECT set_limit(0.01);', function (err: any) {
-            done(err, conn);
-          });
         }
       });
     }
