@@ -29,7 +29,9 @@ class App {
     this.app.use(helmet())
     this.app.use(compression())
     this.app.use(sentryTransaction)
-    this.app.use(cache())
+    if (config.get('node.env') !== 'test') {
+      this.app.use(cache())
+    }
   }
 
   protected handlers (): void {

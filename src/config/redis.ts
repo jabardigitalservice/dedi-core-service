@@ -1,6 +1,5 @@
 import { createClient } from 'redis';
 import config from '.';
-import { promisify } from 'util';
 
 const client = createClient({
   host: config.get('redis.host'),
@@ -11,10 +10,4 @@ client.on('error', function (error) {
   console.error(error.message);
 });
 
-export default {
-  get: promisify(client.get).bind(client),
-  set: promisify(client.set).bind(client),
-  del: promisify(client.del).bind(client),
-  flushall: promisify(client.flushall).bind(client),
-  default: client,
-}
+export default client
