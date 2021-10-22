@@ -1,5 +1,4 @@
 import httpStatus from 'http-status'
-import redis from '../../config/redis'
 import { HttpError } from '../../handler/exception'
 import lang from '../../lang'
 import { Village as Entity } from './village_entity'
@@ -7,21 +6,12 @@ import { Village as Repository } from './village_repository'
 
 export namespace Village {
   export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation> => {
-    let data: Entity.FindAllWithLocation[]
-    if (!await redis.get('find_all_with_location')) {
-      const items = await Repository.findAllWithLocation()
-      await redis.set('find_all_with_location', JSON.stringify(responseFindAllWithLocation(items)))
-    }
-
-    data = JSON.parse((await redis.get('find_all_with_location')))
-
-    if (requestQuery.name) data = data.filter(i => i.name.toLowerCase() === requestQuery.name.toLowerCase())
-    if (requestQuery.level) data = data.filter(i => i.level === Number(requestQuery.level))
+    const items = await Repository.findAllWithLocation(requestQuery)
 
     const result: Entity.ResponseFindAllWithLocation = {
-      data: data,
+      data: responseFindAllWithLocation(items),
       meta: {
-        total: data.length
+        total: items.length
       }
     }
 
