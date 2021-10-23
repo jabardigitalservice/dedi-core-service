@@ -22,7 +22,10 @@ export default async (): Promise<Config.InitialOptions> => {
     transform: {
       '^.+\\.ts?$': 'ts-jest',
     },
-    setupFilesAfterEnv: ['jest-extended'],
+    setupFilesAfterEnv: [
+      'jest-extended',
+      './src/config/jest.ts'
+    ],
     verbose: true,
   };
 }

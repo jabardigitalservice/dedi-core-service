@@ -10,7 +10,6 @@ import home from './handler/home'
 import partners from './modules/partners/partner_handler'
 import villages from './modules/villages/village_handler'
 import testimonials from './modules/testimonials/testimonial_handler'
-import cache from './config/cache'
 
 class App {
   public app: Application
@@ -29,9 +28,6 @@ class App {
     this.app.use(helmet())
     this.app.use(compression())
     this.app.use(sentryTransaction)
-    if (config.get('node.env') !== 'test') {
-      this.app.use(cache())
-    }
   }
 
   protected handlers (): void {
