@@ -1,17 +1,17 @@
 import { Request, Response, NextFunction } from 'express'
 import logger from '../../helpers/logger'
 
-export namespace Partner {
+export namespace Testimonial {
   export const findAll = () => {
     return (req: Request, res: Response, next: NextFunction) => {
-      if (req.query.name) {
+      if (req.query.type) {
         logger({
           level: 'info',
-          message: 'search by name',
+          message: 'search by type',
           data: {
-            name: req.query.name
+            type: req.query.type
           },
-          service: 'partners',
+          service: 'testimonials',
           activity: 'search'
         })
       }
