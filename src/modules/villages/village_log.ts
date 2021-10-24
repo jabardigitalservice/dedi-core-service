@@ -1,27 +1,30 @@
 import { Request, Response, NextFunction } from 'express'
+import { Village as Entity } from './village_entity'
 import logger from '../../helpers/logger'
-require('polyfill-object.fromentries');
 
 export namespace Village {
-  export const findAll = () => {
-    return (req: Request<any, any, any, any>, res: Response, next: NextFunction) => {
-      const nonEmptyRequestQuery = Object.fromEntries(
-        Object.entries(req.query).filter(
-          ([key, val]) => val !== null && val !== ''
-        )
-      );
+  const searchBy = (req: Request<any, any, any, Entity.RequestQuery>): string => {
+    const result = []
 
-      if (Object.keys(nonEmptyRequestQuery).length > 0) {
-        const obj = logger({
+    if (req.query.name) result.push('name')
+    if (req.query.level) result.push('level')
+
+    return result.join(', ')
+  }
+
+  export const findAll = () => {
+    return (req: Request<any, any, any, Entity.RequestQuery>, res: Response, next: NextFunction) => {
+      if (req.query.name || req.query.level) {
+        logger({
           level: 'info',
-          message: 'find all with request query',
+          message: `search by ${searchBy(req)}`,
           data: {
-            ...nonEmptyRequestQuery
+            name: req.query.name,
+            level: req.query.level,
           },
           service: 'village',
-          activity: 'findAll',
+          activity: 'search',
         })
-        console.log('obj :>> ', obj);
       }
 
       next()

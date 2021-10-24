@@ -22,7 +22,7 @@ export const onError = (error: any, req: Request, res: Response, next: NextFunct
     Sentry.captureException(error)
   }
 
-  return res.status(error.code || httpStatus.INTERNAL_SERVER_ERROR).json(messageError(error))
+  return res.status(error.code).json(messageError(error))
 }
 
 export class HttpError extends CustomError {
