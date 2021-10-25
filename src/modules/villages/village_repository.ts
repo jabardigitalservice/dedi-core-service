@@ -3,7 +3,7 @@ import { Village as Entity } from './village_entity';
 export namespace Village {
   export const Villages = () => database<Entity.Struct>('villages')
 
-  export const findAllWithLocation = () => {
+  export const findAllWithLocation = (requestQuery: Entity.RequestQuery) => {
     const query = Villages()
       .select(
         'villages.id as id',
@@ -21,6 +21,9 @@ export namespace Village {
       .leftJoin('cities', 'cities.id', '=', 'districts.city_id')
       .where('villages.is_active', true)
       .orderBy('villages.name', 'asc')
+
+    if (requestQuery.name) query.where('villages.name', requestQuery.name)
+    if (requestQuery.level) query.where('villages.level', requestQuery.level)
 
     return query
   }
