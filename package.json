@@ -7,6 +7,7 @@
     "@sentry/node": "^6.13.2",
     "@sentry/tracing": "^6.13.2",
     "aws-sdk": "^2.1013.0",
+    "apicache": "^1.6.2",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
@@ -30,12 +31,12 @@
     "path": "^0.12.7",
     "redis": "^3.1.2",
     "ts-custom-error": "^3.2.0",
-    "util": "^0.12.4",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
     "winston-mongodb": "^5.0.7"
   },
   "devDependencies": {
+    "@types/apicache": "^1.6.0",
     "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.12",

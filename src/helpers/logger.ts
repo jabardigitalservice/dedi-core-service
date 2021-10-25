@@ -14,7 +14,10 @@ const mongo = {
 
 const logger = winston.createLogger()
 
-if (config.get('mongo.connection')) {
+if (
+  config.get('mongo.connection') &&
+  config.get('node.env') !== 'test'
+) {
   logger.add(new winston.transports.MongoDB(mongo))
 }
 
