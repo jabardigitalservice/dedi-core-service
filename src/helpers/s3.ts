@@ -4,7 +4,13 @@ import { s3 } from '../config/aws'
 import { Express } from 'express'
 import { ManagedUpload } from 'aws-sdk/clients/s3'
 
-export const upload = (file: Express.Multer.File, customDir = '/') => {
+interface Upload {
+  name: string
+  mimetype: string
+  path: string
+}
+
+export const upload = (file: Express.Multer.File, customDir = '/'): Upload => {
   const dir = `${config.get('node.env')}${customDir}`
   const uploadParams = {
     Bucket: config.get('aws.bucket'),
