@@ -1,3 +1,5 @@
+import { Query } from '../../helpers/types';
+
 export namespace Village {
   export interface Struct {
     id: string
@@ -45,7 +47,7 @@ export namespace Village {
     },
   }
 
-  export interface RequestQuery {
+  export interface RequestQuery extends Query {
     name: string,
     level: string
   }
