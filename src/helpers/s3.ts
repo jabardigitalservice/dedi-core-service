@@ -19,7 +19,7 @@ export const upload = (file: Express.Multer.File, customDir = '/'): Upload => {
   }
 
   s3.upload(uploadParams, (err: Error, res: ManagedUpload.SendData) => {
-    console.log(err.message || 'success upload file');
+    if (err) console.log(err.message);
   })
 
   unlinkSync(file.path)
