@@ -2,8 +2,9 @@ import fs, { unlinkSync } from 'fs'
 import config from '../config'
 import { s3 } from '../config/aws'
 import { Express } from 'express'
+import { ManagedUpload } from 'aws-sdk/clients/s3'
 
-export const upload = async (file: Express.Multer.File, customDir = '/') => {
+export const upload = (file: Express.Multer.File, customDir = '/') => {
   const dir = `${config.get('node.env')}${customDir}`
   const uploadParams = {
     Bucket: config.get('aws.bucket'),
@@ -11,20 +12,29 @@ export const upload = async (file: Express.Multer.File, customDir = '/') => {
     Key: `${dir}${file.filename}`
   }
 
-  try {
-    const response = await s3.upload(uploadParams).promise()
-    unlinkSync(file.path)
-    return {
-      name: file.filename,
-      mimetype: file.mimetype,
-      path: response.Key
-    }
-  } catch (error) {
-    console.log(error.message);
-    throw error
+  s3.upload(uploadParams, (err: Error, res: ManagedUpload.SendData) => {
+    // must be set callback for success upload file
+  })
+
+  unlinkSync(file.path)
+
+  return {
+    name: file.filename,
+    mimetype: file.mimetype,
+    path: uploadParams.Key
   }
 }
 
-export const getUrl = (path: string) => {
-  return `${config.get('aws.s3.cloudfront')}/${path}`
+export const getFileUrl = async (path: string): Promise<string> => {
+  const params = {
+    Bucket: config.get('aws.bucket'),
+    Key: path
+  }
+
+  try {
+    await s3.headObject(params).promise()
+    return `${config.get('aws.s3.cloudfront')}/${path}`
+  } catch (err) {
+    return null
+  }
 }
