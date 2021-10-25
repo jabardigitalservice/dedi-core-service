@@ -21,7 +21,7 @@ export namespace Village {
             name: req.query.name,
             level: req.query.level,
           },
-          service: 'village',
+          service: 'villages',
           activity: 'search',
         })
       }
