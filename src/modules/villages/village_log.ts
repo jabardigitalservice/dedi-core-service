@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
-import { Village as Entity } from './village_entity'
 import logger from '../../helpers/logger'
 
 export namespace Village {
-  const searchBy = (req: Request<any, any, any, Entity.RequestQuery>): string => {
+  const searchBy = (req: Request): string => {
     const result = []
 
     if (req.query.name) result.push('name')
@@ -13,7 +12,7 @@ export namespace Village {
   }
 
   export const findAll = () => {
-    return (req: Request<any, any, any, Entity.RequestQuery>, res: Response, next: NextFunction) => {
+    return (req: Request, res: Response, next: NextFunction) => {
       if (req.query.name || req.query.level) {
         logger({
           level: 'info',
