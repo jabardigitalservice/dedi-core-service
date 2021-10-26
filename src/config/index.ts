@@ -17,5 +17,6 @@ config.set('jwt.public', decodeBase64(config.get('jwt.public', 'test')))
 config.set('jwt.algorithm', config.get('jwt.algorithm', 'HS256'))
 config.set('jwt.ttl', config.get('jwt.ttl', 36000))
 config.set('db.connection', config.get('db.connection', 'mysql'))
+config.set('tmp', 'tmp')
 
 export default config
