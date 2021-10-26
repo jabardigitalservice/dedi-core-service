@@ -9,6 +9,6 @@
 	"auth.password.failed": "password not match out record!",
 	"validation.exists": "validation.exists",
 	"error.exists": "{{ entity }} with id {{ id }} does not exist",
-  "error.file.mimetypes": "The {{ attribute }} must be a file of type: {{ values }}.",
-  "error.file.doesntExist": "The {{ attribute }} no selected"
+	"error.file.mimetypes": "The {{ attribute }} must be a file of type: {{ values }}.",
+	"error.file.doesntExist": "The {{ attribute }} no selected",
 }
