@@ -10,7 +10,7 @@ interface Upload {
   path: string
 }
 
-export const upload = (file: Express.Multer.File, customDir = '/'): Upload => {
+export const uploadS3 = (file: Express.Multer.File, customDir = '/'): Upload => {
   const dir = `${config.get('node.env')}${customDir}`
   const uploadParams = {
     Bucket: config.get('aws.bucket'),
@@ -31,7 +31,7 @@ export const upload = (file: Express.Multer.File, customDir = '/'): Upload => {
   }
 }
 
-export const getFileUrl = async (path: string): Promise<string> => {
+export const getFileUrlS3 = async (path: string): Promise<string> => {
   const params = {
     Bucket: config.get('aws.bucket'),
     Key: path
