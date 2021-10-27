@@ -16,6 +16,7 @@ router.get(
 
     res.status(httpStatus.OK).json(result)
   })
+
 router.get(
   '/v1/villages/suggestion',
   async (req: Request<never, never, never, Entity.RequestQuerySearch>, res: Response, next: NextFunction) => {
