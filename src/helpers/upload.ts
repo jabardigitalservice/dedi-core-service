@@ -33,7 +33,7 @@ const formatError = (fieldName: string, message: string): HttpError => {
   return new HttpError(httpStatus.UNPROCESSABLE_ENTITY, JSON.stringify(errors), true)
 }
 
-const checkFileType = (file: Express.Multer.File, cb: FileFilterCallback, type = 'png|jpg|jpeg') => {
+const checkFileType = (file: Express.Multer.File, cb: FileFilterCallback, type: string = 'png|jpg|jpeg') => {
   const fileTypes = new RegExp(type)
   const extname = fileTypes.test(path.extname(file.originalname).toLowerCase())
   const mimetype = fileTypes.test(file.mimetype)
@@ -48,22 +48,25 @@ const checkFileType = (file: Express.Multer.File, cb: FileFilterCallback, type =
   cb(formatError(file.fieldname, lang.__('error.file.mimetypes', customMessage)))
 }
 
-const getError = (err: any, requestFile: RequestFile) => {
-  let error: any = null
+const getError = (err: any, requestFile: RequestFile): HttpError => {
+  const error: HttpError = formatError(requestFile.fieldName, null)
 
   const customMessage = {
     attribute: requestFile.fieldName,
   }
 
   if (err && err.code === 'LIMIT_FILE_SIZE') {
-    error = formatError(requestFile.fieldName, lang.__('error.file.size', customMessage))
+    error.message = lang.__('error.file.size', customMessage)
   }
-  if (err) {
-    error = err
+  if (err && typeof err.code !== 'string') {
+    error.message = err.message
   }
   if (!err && requestFile.isRequired && requestFile.req.file === undefined) {
-    error = formatError(requestFile.fieldName, lang.__('error.file.doesntExist', customMessage))
+    error.message = lang.__('error.file.doesntExist', customMessage)
   }
+
+  console.log(error);
+
 
   return error
 }
@@ -72,7 +75,8 @@ const uploadPromise = (file: UploadPromise): Promise<Express.Multer.File | null>
   return new Promise((resolve, reject) => {
     file.upload(file.requestFile.req, file.requestFile.res, (err: any) => {
       const error = getError(err, file.requestFile)
-      if (error) reject(error)
+      const isError = JSON.parse(error.message)
+      if (isError[file.requestFile.fieldName][0]) reject(error)
       resolve(file.requestFile.req.file || null)
     })
   })
