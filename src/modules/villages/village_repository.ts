@@ -34,6 +34,7 @@ export namespace Village {
       .where('is_active', true)
       .orderBy('name', 'asc')
       .distinct('name')
+
     if (requestQuery.q) query.where('name', 'LIKE', `%${requestQuery.q}%`)
 
     return query
