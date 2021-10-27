@@ -57,11 +57,9 @@ const getError = (err: any, requestFile: RequestFile): HttpError => {
 
   if (err && err.code === 'LIMIT_FILE_SIZE') {
     error.message = lang.__('error.file.size', customMessage)
-  }
-  if (err && typeof err.code !== 'string') {
+  } else if (err && typeof err.code !== 'string') {
     error.message = err.message
-  }
-  if (!err && requestFile.isRequired && requestFile.req.file === undefined) {
+  } else if (!err && requestFile.isRequired && requestFile.req.file === undefined) {
     error.message = lang.__('error.file.doesntExist', customMessage)
   }
 
