@@ -18,6 +18,14 @@ router.get(
   })
 
 router.get(
+  '/v1/villages/suggestion',
+  async (req: Request<never, never, never, Entity.RequestQuerySearch>, res: Response, next: NextFunction) => {
+    const result: Entity.ResponseSearch = await Service.search(req.query)
+
+    res.status(httpStatus.OK).json(result)
+  })
+
+router.get(
   '/v1/villages/:id',
   async (req: Request<Entity.RequestParamFindById, never, never, never>, res: Response, next: NextFunction) => {
     try {

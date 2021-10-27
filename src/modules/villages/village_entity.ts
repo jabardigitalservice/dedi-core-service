@@ -48,23 +48,38 @@ export namespace Village {
   }
 
   export interface RequestQuery extends Query {
-    name: string,
+    name: string
     level: string
   }
 
+  export interface RequestQuerySearch extends Query {
+    q: string
+  }
+
   export interface RequestParamFindById {
-    id: string,
+    id: string
   }
 
   export interface ResponseFindAllWithLocation {
-    data: FindAllWithLocation[],
+    data: FindAllWithLocation[]
     meta: {
       total: number
     }
   }
 
   export interface ResponseFindById {
-    data: FindById,
-    meta: Object,
+    data: FindById
+    meta: Object
+  }
+
+  export interface Search {
+    name: string
+  }
+
+  export interface ResponseSearch {
+    data: Search[]
+    meta: {
+      total: number
+    }
   }
 }
