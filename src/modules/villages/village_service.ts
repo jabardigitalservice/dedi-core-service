@@ -19,7 +19,7 @@ export namespace Village {
   }
 
   export const search = async (requestQuery: Entity.RequestQuerySearch): Promise<Entity.ResponseSearch> => {
-    const items = requestQuery.q.length >= 3 ? await Repository.search(requestQuery) : []
+    const items = requestQuery.q && requestQuery.q.length >= 3 ? await Repository.search(requestQuery) : []
 
     const data: Entity.Search[] = []
     for (const item of items) {
