@@ -65,9 +65,6 @@ const getError = (err: any, requestFile: RequestFile): HttpError => {
     error.message = lang.__('error.file.doesntExist', customMessage)
   }
 
-  console.log(error);
-
-
   return error
 }
 
