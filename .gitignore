@@ -6,3 +6,4 @@ build
 *.sqlite
 coverage
 mongodb
+tmp
