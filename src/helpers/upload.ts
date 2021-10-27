@@ -5,6 +5,7 @@ import multer, { FileFilterCallback } from 'multer'
 import { HttpError } from '../handler/exception'
 import httpStatus from 'http-status'
 import storage from '../config/storage'
+import { ParamsDictionary } from 'express-serve-static-core'
 
 interface StructErrors {
   [key: string]: string[]
@@ -13,13 +14,18 @@ interface StructErrors {
 interface RequestFile {
   req: Request
   res: Response
-  allowFileType: string
   fieldName: string
+  allowFileType?: string
   fileSize?: number
   isRequired?: boolean
 }
 
-const formatError = (fieldName: string, message: string) => {
+interface UploadPromise {
+  upload: RequestHandler<ParamsDictionary, any, any, any, Record<string, any>>
+  requestFile: RequestFile
+}
+
+const formatError = (fieldName: string, message: string): HttpError => {
   const errors: StructErrors = {
     [fieldName]: [message]
   }
@@ -27,7 +33,7 @@ const formatError = (fieldName: string, message: string) => {
   return new HttpError(httpStatus.UNPROCESSABLE_ENTITY, JSON.stringify(errors), true)
 }
 
-const checkFileType = (file: Express.Multer.File, cb: FileFilterCallback, type: string) => {
+const checkFileType = (file: Express.Multer.File, cb: FileFilterCallback, type = 'png|jpg|jpeg') => {
   const fileTypes = new RegExp(type)
   const extname = fileTypes.test(path.extname(file.originalname).toLowerCase())
   const mimetype = fileTypes.test(file.mimetype)
@@ -55,19 +61,19 @@ const getError = (err: any, requestFile: RequestFile) => {
   if (err) {
     error = err
   }
-  if (requestFile.isRequired && requestFile.req.file === undefined) {
+  if (!err && requestFile.isRequired && requestFile.req.file === undefined) {
     error = formatError(requestFile.fieldName, lang.__('error.file.doesntExist', customMessage))
   }
 
   return error
 }
 
-const uploadPromise = (upload: RequestHandler, requestFile: RequestFile): Promise<Express.Multer.File | null> => {
+const uploadPromise = (file: UploadPromise): Promise<Express.Multer.File | null> => {
   return new Promise((resolve, reject) => {
-    upload(requestFile.req, requestFile.res, (err: any) => {
-      const error = getError(err, requestFile)
+    file.upload(file.requestFile.req, file.requestFile.res, (err: any) => {
+      const error = getError(err, file.requestFile)
       if (error) reject(error)
-      resolve(requestFile.req.file || null)
+      resolve(file.requestFile.req.file || null)
     })
   })
 }
@@ -84,5 +90,8 @@ export const uploadLocalSingle = (requestFile: RequestFile): Promise<Express.Mul
   })
     .single(requestFile.fieldName)
 
-  return uploadPromise(upload, requestFile)
+  return uploadPromise({
+    upload,
+    requestFile
+  })
 }
