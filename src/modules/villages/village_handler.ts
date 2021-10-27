@@ -16,6 +16,14 @@ router.get(
 
     res.status(httpStatus.OK).json(result)
   })
+  router.get(
+
+  '/v1/villages/search',
+  async (req: Request<never, never, never, Entity.RequestQuerySearch>, res: Response, next: NextFunction) => {
+    const result: Entity.ResponseSearch = await Service.search(req.query)
+
+    res.status(httpStatus.OK).json(result)
+  })
 
 router.get(
   '/v1/villages/:id',

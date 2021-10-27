@@ -28,6 +28,17 @@ export namespace Village {
     return query
   }
 
+  export const search = (requestQuery: Entity.RequestQuerySearch) => {
+    const query = Villages()
+      .select('name')
+      .where('is_active', true)
+      .orderBy('name', 'asc')
+      .distinct('name')
+    if (requestQuery.q) query.where('name', 'LIKE' , `%${requestQuery.q}%`)
+
+    return query
+  }
+
   export const findById = (id: string) => {
     const query = Villages()
       .select(

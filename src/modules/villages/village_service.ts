@@ -18,6 +18,26 @@ export namespace Village {
     return result
   }
 
+  export const search = async (requestQuery: Entity.RequestQuerySearch): Promise<Entity.ResponseSearch> => {
+    const items = requestQuery.q.length >= 3 ? await Repository.search(requestQuery): []
+
+    const data: Entity.Search[] = []
+    for (const item of items) {
+      data.push({
+        name: item.name,
+      })
+    }
+
+    const result: Entity.ResponseSearch = {
+      data: data,
+      meta: {
+        total: items.length
+      }
+    }
+
+    return result
+  }
+
   const responseFindAllWithLocation = (items: any[]): Entity.FindAllWithLocation[] => {
     const data: Entity.FindAllWithLocation[] = []
     for (const item of items) {
