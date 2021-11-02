@@ -34,12 +34,6 @@ const expectBodyFindAll = expect.arrayContaining([
   })
 ])
 
-const expectBodySearchSuggestion = expect.arrayContaining([
-  expect.objectContaining({
-    name: expect.any(String)
-  })
-])
-
 describe('tests villages', () => {
   it('test success findAll with location ', async () => {
     return request(app)
@@ -48,40 +42,6 @@ describe('tests villages', () => {
       .then((response) => {
         expect(response.body).toEqual(expect.objectContaining({
           data: expectBodyFindAll,
-          meta: expect.objectContaining({
-            total: expect.any(Number)
-          })
-        }))
-      })
-  })
-})
-
-describe('tests villages', () => {
-  it('test success search suggestion ', async () => {
-    return request(app)
-      .get('/v1/villages/suggestion')
-      .query({ q: 'test' })
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(expect.objectContaining({
-          data: expectBodySearchSuggestion,
-          meta: expect.objectContaining({
-            total: expect.any(Number)
-          })
-        }))
-      })
-  })
-})
-
-describe('tests villages', () => {
-  it('test success data empty q length less than 3 character search suggestion', async () => {
-    return request(app)
-      .get('/v1/villages/suggestion')
-      .query({ q: 'te' })
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(expect.objectContaining({
-          data: expect.any(Array),
           meta: expect.objectContaining({
             total: expect.any(Number)
           })

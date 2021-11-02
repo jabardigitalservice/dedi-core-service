@@ -71,15 +71,4 @@ export namespace Village {
     data: FindById
     meta: Object
   }
-
-  export interface Search {
-    name: string
-  }
-
-  export interface ResponseSearch {
-    data: Search[]
-    meta: {
-      total: number
-    }
-  }
 }
