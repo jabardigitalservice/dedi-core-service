@@ -15,4 +15,16 @@ export namespace Partner {
 
     return query.paginate(perPage(requestQuery))
   }
+
+  export const search = (requestQuery: Entity.SuggestionRequestQuery) => {
+    const query = Partners()
+      .select('id', 'name')
+      .whereNull('deleted_at')
+      .orderBy('name', 'asc')
+      .distinct('name')
+
+    if (requestQuery.name) query.whereRaw(`LOWER(name) LIKE '%${requestQuery.name.toLowerCase()}%'`)
+
+    return query
+  }
 }

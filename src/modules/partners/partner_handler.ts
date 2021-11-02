@@ -18,4 +18,17 @@ router.get(
     res.status(httpStatus.OK).json(result)
   })
 
+router.get(
+  '/v1/partners/suggestion',
+  async (
+    req: Request<never, never, never, Entity.SuggestionRequestQuery>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    const result: Entity.SuggestionResponse = await Service.search(req.query)
+
+    res.status(httpStatus.OK).json(result)
+  }
+)
+
 export default router
