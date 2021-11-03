@@ -78,3 +78,92 @@ describe('tests partners', () => {
       })
   })
 })
+
+// eslint-disable-next-line max-lines-per-function
+describe('test partner suggestion', () => {
+  // eslint-disable-next-line max-lines-per-function
+  it('returns partners that contain given substring', async () => {
+    await Repository.Partners().insert({
+      id: uuidv4(),
+      name: 'TokoPedia',
+      total_village: 1,
+    })
+    await Repository.Partners().insert({
+      id: uuidv4(),
+      name: 'TokoCrypto',
+      total_village: 1,
+    })
+    await Repository.Partners().insert({
+      id: uuidv4(),
+      name: 'Bukalapak',
+      total_village: 1,
+    })
+
+    return request(app)
+      .get('/v1/partners/suggestion')
+      .query({ name: 'oko' })
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            data: expect.arrayContaining([
+              {
+                id: expect.any(String),
+                name: 'TokoCrypto'
+              },
+              {
+                id: expect.any(String),
+                name: 'TokoPedia'
+              },
+            ]),
+            meta: expect.objectContaining({
+              total: 2
+            })
+          }))
+      })
+  })
+
+  it('returns empty list given query name length < 3', async () => {
+    await Repository.Partners().insert({
+      id: uuidv4(),
+      name: 'TokoKita',
+      total_village: 1,
+    })
+
+    return request(app)
+      .get('/v1/partners/suggestion')
+      .query({ name: 'to' })
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            data: [],
+            meta: expect.objectContaining({
+              total: 0,
+            })
+          }))
+      })
+  })
+
+  it('returns empty list given no partner contain the requested name', async () => {
+    await Repository.Partners().insert({
+      id: uuidv4(),
+      name: 'e-fishery',
+      total_village: 1,
+    })
+
+    return request(app)
+      .get('/v1/partners/suggestion')
+      .query({ name: 'efishery' })
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            data: [],
+            meta: expect.objectContaining({
+              total: 0,
+            })
+          }))
+      })
+  })
+})
