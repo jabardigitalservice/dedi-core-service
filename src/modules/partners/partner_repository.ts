@@ -21,7 +21,6 @@ export namespace Partner {
       .select('id', 'name')
       .whereNull('deleted_at')
       .orderBy('name', 'asc')
-      .distinct('name')
 
     if (requestQuery.name) query.whereRaw(`LOWER(name) LIKE '%${requestQuery.name.toLowerCase()}%'`)
 
