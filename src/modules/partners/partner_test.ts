@@ -68,7 +68,7 @@ describe('tests partners', () => {
   it('test success findAll return data empty', async () => {
     return request(app)
       .get('/v1/partners')
-      .query({ name: 'test', current_page: 2 })
+      .query({ name: 'test2', current_page: 2 })
       .expect(200)
       .then((response) => {
         expect(response.body).toEqual(expect.objectContaining({
