@@ -28,5 +28,13 @@
     "max-lines-per-function": [
       "error", { "max": 25 }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["./src/modules/**/*_test.ts"],
+      "rules": {
+        "max-lines-per-function": ["off"]
+      }
+    }
+  ]
 }
