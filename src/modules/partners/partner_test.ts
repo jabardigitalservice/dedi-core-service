@@ -79,9 +79,7 @@ describe('tests partners', () => {
   })
 })
 
-// eslint-disable-next-line max-lines-per-function
 describe('test partner suggestion', () => {
-  // eslint-disable-next-line max-lines-per-function
   it('returns partners that contain given substring', async () => {
     await Repository.Partners().insert({
       id: uuidv4(),
@@ -122,7 +120,9 @@ describe('test partner suggestion', () => {
           }))
       })
   })
+})
 
+describe('test partner suggestion', () => {
   it('returns empty list given query name length < 3', async () => {
     await Repository.Partners().insert({
       id: uuidv4(),
@@ -144,7 +144,9 @@ describe('test partner suggestion', () => {
           }))
       })
   })
+})
 
+describe('test partner suggestion', () => {
   it('returns empty list given no partner contain the requested name', async () => {
     await Repository.Partners().insert({
       id: uuidv4(),
@@ -162,8 +164,9 @@ describe('test partner suggestion', () => {
             data: [],
             meta: expect.objectContaining({
               total: 0,
-            })
-          }))
+            }),
+          })
+        )
       })
   })
 })
