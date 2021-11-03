@@ -22,7 +22,7 @@ export namespace Village {
       .where('villages.is_active', true)
       .orderBy('villages.name', 'asc')
 
-    if (requestQuery.name) query.where('villages.name', requestQuery.name)
+    if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
     if (requestQuery.level) query.where('villages.level', requestQuery.level)
 
     return query
