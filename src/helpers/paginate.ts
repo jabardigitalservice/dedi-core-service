@@ -14,7 +14,11 @@ export const perPage = (requestQuery: {
   const perPage = Number(requestQuery.per_page) || 20
   const currentPage = Number(requestQuery.current_page) || 1
 
-  return { perPage, currentPage }
+  return {
+    perPage,
+    currentPage,
+    isFromStart: true
+  }
 }
 
 export const metaPagination = (pagination: any): metaPaginate => {
