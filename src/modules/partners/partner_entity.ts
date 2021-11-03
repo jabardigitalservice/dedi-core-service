@@ -34,13 +34,13 @@ export namespace Partner {
     name: string
   }
 
-  export interface SuggestionResponsePartner {
+  export interface SuggestionPartner {
     id?: string
     name: string
   }
 
   export interface SuggestionResponse {
-    data: SuggestionResponsePartner[]
+    data: SuggestionPartner[]
     meta: {
       total: number
     }

@@ -21,7 +21,7 @@ export namespace Partner {
   }
 
   export const search = async (requestQuery: Entity.SuggestionRequestQuery): Promise<Entity.SuggestionResponse> => {
-    const partners: Entity.SuggestionResponsePartner[] = requestQuery?.name?.length >= 3 ? await Repository.search(requestQuery) : []
+    const partners: Entity.SuggestionPartner[] = requestQuery?.name?.length >= 3 ? await Repository.search(requestQuery) : []
 
     const result: Entity.SuggestionResponse = {
       data: partners,
