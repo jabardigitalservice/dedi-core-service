@@ -9,7 +9,7 @@ export async function up (knex: Knex): Promise<void> {
         table.text('description').notNullable()
         table.string('avatar').notNullable()
         table.string('type', 15).index().notNullable()
-        table.boolean('is_active').notNullable()
+        table.boolean('is_active').notNullable().defaultTo(true)
         table.timestamp('created_at')
         table.uuid('created_by').index().notNullable()
       })
