@@ -30,7 +30,7 @@ export namespace Village {
   }
 
   const pointRegexRule = (point: string) => {
-    const pointRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/
+    const pointRegex = /^(-?\d+(\.\d+)?), \s*(-?\d+(\.\d+)?)$/
     return pointRegex.test(point)
   }
 
@@ -46,12 +46,17 @@ export namespace Village {
   }
 
   const getPolygon = (requestQuery: Entity.RequestQuery) => {
+    const { ne, sw } = requestQuery.bounds
+
+    const boundsNE = ne.trimStart().trimEnd().split(/[, ]+/)
+    const boundsSW = sw.trimStart().trimEnd().split(/[, ]+/)
+
     return `POLYGON((
-      107.546500 -6.870697,
-      107.546500 -6.948369,
-      107.674708 -6.948369,
-      107.674708 -6.870697,
-      107.546500 -6.870697
+      ${boundsNE[0]} ${boundsNE[1]},
+      ${boundsNE[0]} ${boundsSW[1]},
+      ${boundsSW[0]} ${boundsSW[1]},
+      ${boundsSW[0]} ${boundsNE[1]},
+      ${boundsNE[0]} ${boundsNE[1]}
     ))`
   }
 
