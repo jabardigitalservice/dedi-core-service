@@ -5,7 +5,11 @@ export async function up (knex: Knex): Promise<void> {
     if (!exists) {
       return knex.schema.createTable('testimonials', function (table) {
         table.uuid('id').primary()
-        table.text('caption').notNullable()
+        table.string('name', 100).notNullable()
+        table.text('description').notNullable()
+        table.string('avatar').notNullable()
+        table.string('type', 15).index().notNullable()
+        table.boolean('is_active').notNullable()
         table.timestamp('created_at')
         table.uuid('created_by').index().notNullable()
       })
