@@ -8,3 +8,5 @@ checks:
     enabled: false
     config:
       threshold: #language-specific defaults. overrides affect all languages.
+exclude_patterns:
+- "src/modules/**/*_test.ts"

@@ -29,4 +29,20 @@ export namespace Partner {
     data: Struct[]
     meta: Meta
   }
+
+  export interface SuggestionRequestQuery extends Query {
+    name: string
+  }
+
+  export interface SuggestionPartner {
+    id?: string
+    name: string
+  }
+
+  export interface SuggestionResponse {
+    data: SuggestionPartner[]
+    meta: {
+      total: number
+    }
+  }
 }
