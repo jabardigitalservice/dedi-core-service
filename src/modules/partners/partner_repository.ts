@@ -22,7 +22,7 @@ export namespace Partner {
       .whereNull('deleted_at')
       .orderBy('name', 'asc')
 
-    if (requestQuery.name) query.whereRaw(`LOWER(name) LIKE '%${requestQuery.name.toLowerCase()}%'`)
+    if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
 
     return query
   }
