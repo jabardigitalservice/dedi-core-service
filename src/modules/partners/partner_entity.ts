@@ -34,8 +34,8 @@ export namespace Partner {
     name: string
   }
 
-  interface SuggestionResponsePartner {
-    id: string
+  export interface SuggestionResponsePartner {
+    id?: string
     name: string
   }
 
