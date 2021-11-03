@@ -6,19 +6,13 @@ export async function seed (): Promise<void> {
   for (let index = 0; index < 10; index++) {
     const user_id = uuidv4()
 
-    // Inserts seed users
-    await database('users').insert({
-      id: user_id,
+    await database('testimonials').insert({
+      id: uuidv4(),
       name: faker.name.findName(),
       description: faker.lorem.text(),
       avatar: faker.image.avatar(),
-      type: faker.random.arrayElement(['mitra', 'masyarakat'])
-    })
-
-    // Inserts seed testimonials
-    await database('testimonials').insert({
-      id: uuidv4(),
-      caption: faker.lorem.slug(),
+      type: faker.random.arrayElement(['mitra', 'masyarakat']),
+      is_active: faker.datatype.boolean(),
       created_by: user_id,
       created_at: new Date()
     });

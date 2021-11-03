@@ -9,18 +9,12 @@ describe('seed data', () => {
   it('insert a row of testimonial', async () => {
     await Repository.Testimonials().insert({
       id: uuidv4(),
-      caption: 'test',
-      created_by: user_id
-    })
-  })
-
-  it('insert a row of user', async () => {
-    await Repository.Users().insert({
-      id: user_id,
       name: 'test',
       description: 'test',
       avatar: 'test.svg',
-      type: 'mitra'
+      type: 'mitra',
+      is_active: true,
+      created_by: user_id
     })
   })
 })
@@ -38,14 +32,10 @@ const expectBody = expect.objectContaining({
   data: expect.arrayContaining([
     expect.objectContaining({
       id: expect.any(String),
-      caption: expect.any(String),
-      user: expect.objectContaining({
-        id: expect.any(String),
-        name: expect.any(String),
-        description: expect.any(String),
-        avatar: expect.any(String),
-        type: expect.any(String)
-      })
+      name: expect.any(String),
+      description: expect.any(String),
+      avatar: expect.any(String),
+      type: expect.any(String)
     })
   ]),
   meta: expectMeta
@@ -76,7 +66,7 @@ describe('filter testimonials', () => {
       })
   })
 
-  it('/v1/testimonials?query --> data testimonials with spesific user type', async () => {
+  it('/v1/testimonials?query --> data testimonials with spesific type', async () => {
     return request(app)
       .get('/v1/testimonials')
       .query({ type: 'mitra' })
