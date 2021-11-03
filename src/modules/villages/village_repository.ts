@@ -24,8 +24,35 @@ export namespace Village {
 
     if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
     if (requestQuery.level) query.where('villages.level', requestQuery.level)
+    if (isRequestBounds(requestQuery)) query.whereRaw(getWherePolygon(requestQuery))
 
     return query
+  }
+
+  const pointRegexRule = (point: string) => {
+    const pointRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/
+    return pointRegex.test(point)
+  }
+
+  const getWherePolygon = (requestQuery: Entity.RequestQuery) => {
+    return `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(requestQuery)}'), villages.location)`
+  }
+
+  const isRequestBounds = (requestQuery: Entity.RequestQuery) => {
+    return requestQuery?.bounds?.ne &&
+    requestQuery?.bounds?.sw &&
+    pointRegexRule(requestQuery.bounds.ne) &&
+    pointRegexRule(requestQuery.bounds.sw)
+  }
+
+  const getPolygon = (requestQuery: Entity.RequestQuery) => {
+    return `POLYGON((
+      107.546500 -6.870697,
+      107.546500 -6.948369,
+      107.674708 -6.948369,
+      107.674708 -6.870697,
+      107.546500 -6.870697
+    ))`
   }
 
   export const findById = (id: string) => {

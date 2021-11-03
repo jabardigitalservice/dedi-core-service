@@ -49,3 +49,5 @@ export const existsRule = async (table: string, key: string, value: string): Pro
 export const checkError = (rule: rulesInterface) => {
   if (rule.isError) throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, JSON.stringify(rule.errors), true)
 }
+
+
