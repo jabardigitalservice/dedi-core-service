@@ -4,8 +4,10 @@ import httpStatus from 'http-status'
 import config from '../config'
 import { Request, Response, NextFunction } from 'express'
 
+const isErrorCode = (error: any) => typeof error.code === 'string' || typeof error.code === 'undefined'
+
 export const onError = (error: any, req: Request, res: Response, next: NextFunction) => {
-  error.code = typeof error.code === 'string' ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
+  error.code = isErrorCode(error) ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
 
   if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
     const logger = JSON.stringify({
