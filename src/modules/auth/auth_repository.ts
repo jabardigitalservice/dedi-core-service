@@ -15,7 +15,7 @@ export namespace Auth {
     })
   }
 
-  export const getPartnerId = async (requestBody: Entity.RequestBodySignUp) => {
+  const isPartnerIdNotExist = async (requestBody: Entity.RequestBodySignUp) => {
     const partner = Partners()
       .select('id')
       .where('id', requestBody.partner_id)
@@ -23,22 +23,21 @@ export namespace Auth {
       .whereNull('deleted_at')
       .first()
 
+    return !requestBody.partner_id || (requestBody.partner_id && !await partner)
+  }
+
+  export const getPartnerId = async (requestBody: Entity.RequestBodySignUp) => {
     const Partner: Entity.PartnerCreate = {
       id: uuidv4(),
       name: requestBody.company
     }
 
-    if (!requestBody.partner_id) {
-      await createPartner(Partner)
-      return Partner.id
-    } else if (requestBody.partner_id && !(await partner)) {
-      await createPartner(Partner)
+    if (await isPartnerIdNotExist(requestBody)){
+      createPartner(Partner)
       return Partner.id
     }
 
-    const result = await partner
-
-    return result.id
+    return requestBody.partner_id
   }
 
   export const passwordHash = (password: string): string => {

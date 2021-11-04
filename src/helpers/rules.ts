@@ -10,36 +10,46 @@ interface rulesInterface {
   }
 }
 
+interface propertyData {
+  table: string
+  key: string
+  value: string
+  primaryKey?: string,
+  primaryKeyValue?: string | number,
+  isWhereNullDeletedAt?: boolean
+}
+
 const rules: rulesInterface = {
   isError: false
 }
 
-const data = (table: string, key: string, value: string, primaryKey?: string, primaryKeyValue?: string | number) => {
-  const query = database(table).where(key, value)
-  if (primaryKey && primaryKeyValue) query.whereNot(primaryKey, primaryKeyValue)
+const Data = (data: propertyData) => {
+  const query = database(data.table).where(data.key, data.value)
+  if (data.primaryKey && data.primaryKeyValue) query.whereNot(data.primaryKey, data.primaryKeyValue)
+  if (data.isWhereNullDeletedAt) query.whereNull('deleted_at')
   return query.first()
 }
 
-export const uniqueRule = async (table: string, key: string, value: string, primaryKey?: string, primaryKeyValue?: string | number): Promise<rulesInterface> => {
-  const item: any = await data(table, key, value, primaryKey, primaryKeyValue)
+export const uniqueRule = async (data: propertyData): Promise<rulesInterface> => {
+  const item: any = await Data(data)
 
   if (item) {
     rules.isError = true
     rules.errors = {
-      [key]: [message('.unique', key)]
+      [data.key]: [message('.unique', data.key)]
     }
   } else rules.isError = false
 
   return rules
 }
 
-export const existsRule = async (table: string, key: string, value: string): Promise<rulesInterface> => {
-  const item: any = await data(table, key, value)
+export const existsRule = async (data: propertyData): Promise<rulesInterface> => {
+  const item: any = await Data(data)
 
   if (!item) {
     rules.isError = true
     rules.errors = {
-      [key]: [message('.exists', key)]
+      [data.key]: [message('.exists', data.key)]
     }
   } else rules.isError = false
 

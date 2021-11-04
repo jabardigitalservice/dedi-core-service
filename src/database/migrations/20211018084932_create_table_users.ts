@@ -10,6 +10,7 @@ export async function up (knex: Knex): Promise<void> {
         table.string('avatar')
         table.string('email', 150).notNullable().index()
         table.string('password', 72)
+        table.boolean('is_admin').defaultTo(false)
         table.string('google_id').index()
         table.timestamp('created_at').notNullable()
         table.timestamp('verified_at')
