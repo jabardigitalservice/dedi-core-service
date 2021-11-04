@@ -16,8 +16,8 @@ router.post(
     next: NextFunction
   ) => {
     try {
-      const result: string = await Service.signUp(req.body)
-      res.status(httpStatus.OK).json(result)
+      await Service.signUp(req.body)
+      res.status(httpStatus.CREATED).json({ message: 'CREATED' })
     } catch (error) {
       next(error)
     }

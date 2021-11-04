@@ -14,7 +14,5 @@ export namespace Auth {
       google_id: requestBody.google_id
     }
     await Repository.signUp(user)
-
-    return 'success sign up'
   }
 }
