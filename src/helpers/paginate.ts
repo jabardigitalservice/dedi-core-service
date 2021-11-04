@@ -1,5 +1,6 @@
 export interface metaPaginate {
   current_page: number
+  from: number
   last_page: number
   per_page: number
   to: number
@@ -23,6 +24,7 @@ export const perPage = (requestQuery: {
 export const metaPagination = (pagination: any): metaPaginate => {
   return {
     current_page: pagination.currentPage,
+    from: (pagination.currentPage - 1) * pagination.perPage + 1,
     last_page: pagination.lastPage,
     per_page: pagination.perPage,
     to: pagination.to,
