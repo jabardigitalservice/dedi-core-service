@@ -21,11 +21,11 @@ router.get(
 router.get(
   '/v1/partners/suggestion',
   async (
-    req: Request<never, never, never, Entity.SuggestionRequestQuery>,
+    req: Request<never, never, never, Entity.RequestQuerySuggestion>,
     res: Response,
     next: NextFunction,
   ) => {
-    const result: Entity.SuggestionResponse = await Service.search(req.query)
+    const result: Entity.ResponseSuggestion = await Service.search(req.query)
 
     res.status(httpStatus.OK).json(result)
   }

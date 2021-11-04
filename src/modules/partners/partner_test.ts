@@ -86,16 +86,19 @@ describe('test partner suggestion', () => {
         id: uuidv4(),
         name: 'TokoPedia',
         total_village: 1,
+        created_at: timestamp
       },
       {
         id: uuidv4(),
         name: 'TokoCrypto',
         total_village: 1,
+        created_at: timestamp
       },
       {
         id: uuidv4(),
         name: 'Bukalapak',
         total_village: 1,
+        created_at: timestamp
       }
     ])
     return request(app)
@@ -129,6 +132,7 @@ describe('test partner suggestion', () => {
       id: uuidv4(),
       name: 'TokoKita',
       total_village: 1,
+      created_at: timestamp
     })
 
     return request(app)
@@ -153,6 +157,7 @@ describe('test partner suggestion', () => {
       id: uuidv4(),
       name: 'e-fishery',
       total_village: 1,
+      created_at: timestamp
     })
 
     return request(app)

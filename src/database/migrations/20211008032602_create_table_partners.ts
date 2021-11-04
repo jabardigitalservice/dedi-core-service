@@ -5,14 +5,14 @@ export async function up (knex: Knex): Promise<void> {
     if (!exists) {
       return knex.schema.createTable('partners', function (table) {
         table.uuid('id').primary()
-        table.string('name', 100).notNullable()
+        table.string('name', 100).notNullable().index()
         table.integer('category_id').index().unsigned()
         table.timestamp('deleted_at')
         table.timestamp('verified_at')
         table.string('logo')
         table.integer('total_village')
         table.string('website')
-        table.timestamp('created_at')
+        table.timestamp('created_at').notNullable()
         table.timestamp('updated_at')
       })
     }

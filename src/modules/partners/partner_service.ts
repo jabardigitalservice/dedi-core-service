@@ -20,10 +20,10 @@ export namespace Partner {
     return result
   }
 
-  export const search = async (requestQuery: Entity.SuggestionRequestQuery): Promise<Entity.SuggestionResponse> => {
-    const partners: Entity.SuggestionPartner[] = requestQuery?.name?.length >= 3 ? await Repository.search(requestQuery) : []
+  export const search = async (requestQuery: Entity.RequestQuerySuggestion): Promise<Entity.ResponseSuggestion> => {
+    const partners: Entity.PartnerSuggestion[] = requestQuery?.name?.length >= 3 ? await Repository.search(requestQuery) : []
 
-    const result: Entity.SuggestionResponse = {
+    const result: Entity.ResponseSuggestion = {
       data: partners,
       meta: {
         total: partners.length

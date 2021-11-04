@@ -30,17 +30,17 @@ export namespace Partner {
     meta: Meta
   }
 
-  export interface SuggestionRequestQuery extends Query {
+  export interface RequestQuerySuggestion extends Query {
     name: string
   }
 
-  export interface SuggestionPartner {
+  export interface PartnerSuggestion {
     id?: string
     name: string
   }
 
-  export interface SuggestionResponse {
-    data: SuggestionPartner[]
+  export interface ResponseSuggestion {
+    data: PartnerSuggestion[]
     meta: {
       total: number
     }
