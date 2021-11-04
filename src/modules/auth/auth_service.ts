@@ -12,11 +12,12 @@ export namespace Auth {
 
     const user: Entity.RequestBodySignUp = {
       name: requestBody.name,
-      partner_id: await Repository.getPartnerId(requestBody),
       email: requestBody.email,
       password: Repository.passwordHash(requestBody.password),
       google_id: requestBody.google_id
     }
+
+    user.partner_id = requestBody.partner_id ? await Repository.getPartnerId(requestBody) : null
 
     return Repository.signUp(user)
   }
