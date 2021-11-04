@@ -21,6 +21,10 @@ if (
   logger.add(new winston.transports.MongoDB(mongo))
 }
 
+if (config.get('node.env') === 'test') {
+  logger.add(new winston.transports.Console())
+}
+
 interface log {
   level: string
   message: string

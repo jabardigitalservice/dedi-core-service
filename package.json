@@ -26,7 +26,6 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.11",
     "knex-paginate": "^3.0.0",
-    "knex-postgis": "^0.14.1",
     "multer": "^1.4.3",
     "mysql": "^2.18.1",
     "nodemailer": "^6.7.0",
