@@ -23,4 +23,20 @@ router.post(
     }
   })
 
+router.post(
+  '/v1/auth/users/sign-in',
+  validate(Rules.signIn, 'body'),
+  async (
+    req: Request<never, Entity.RequestBodySignIn, never, never>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const result: Entity.ResponseJWT = await Service.signIn(req.body)
+      res.status(httpStatus.OK).json(result)
+    } catch (error) {
+      next(error)
+    }
+  })
+
 export default router

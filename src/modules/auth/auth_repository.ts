@@ -52,4 +52,8 @@ export namespace Auth {
       ...requestBody
     })
   }
+
+  export const findByEmail = async (requestBody: Entity.RequestBodySignIn) => {
+    return Users().where('email', requestBody.email).first()
+  }
 }

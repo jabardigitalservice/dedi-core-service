@@ -30,4 +30,15 @@ export namespace Auth {
     id: string
     name: string
   }
+
+  export interface RequestBodySignIn {
+    email: string
+    password: string
+  }
+
+  export interface ResponseJWT {
+    type: string
+    token: string
+    user: StructUser
+  }
 }

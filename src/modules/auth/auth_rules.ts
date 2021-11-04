@@ -9,4 +9,9 @@ export namespace Auth {
     password: Joi.string().required(),
     password_confirm: Joi.string().valid(Joi.ref('password')).required()
   })
+
+  export const signIn = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  })
 }
