@@ -9,8 +9,8 @@ const router = express.Router()
 
 router.get(
   '/v1/testimonials',
-  Log.findAll(),
   cache(),
+  Log.findAll(),
   async (req: Request<never, never, never, Entity.RequestQuery>, res: Response, next: NextFunction) => {
     const result: Entity.ResponseFindAll = await Service.findAll(req.query)
 

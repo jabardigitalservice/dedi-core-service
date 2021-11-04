@@ -81,22 +81,23 @@ describe('tests partners', () => {
 
 describe('test partner suggestion', () => {
   it('returns partners that contain given substring', async () => {
-    await Repository.Partners().insert({
-      id: uuidv4(),
-      name: 'TokoPedia',
-      total_village: 1,
-    })
-    await Repository.Partners().insert({
-      id: uuidv4(),
-      name: 'TokoCrypto',
-      total_village: 1,
-    })
-    await Repository.Partners().insert({
-      id: uuidv4(),
-      name: 'Bukalapak',
-      total_village: 1,
-    })
-
+    await Repository.Partners().insert([
+      {
+        id: uuidv4(),
+        name: 'TokoPedia',
+        total_village: 1,
+      },
+      {
+        id: uuidv4(),
+        name: 'TokoCrypto',
+        total_village: 1,
+      },
+      {
+        id: uuidv4(),
+        name: 'Bukalapak',
+        total_village: 1,
+      }
+    ])
     return request(app)
       .get('/v1/partners/suggestion')
       .query({ name: 'oko' })

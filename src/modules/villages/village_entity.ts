@@ -50,6 +50,10 @@ export namespace Village {
   export interface RequestQuery extends Query {
     name: string
     level: string
+    bounds: {
+      ne: string
+      sw: string
+    }
   }
 
   export interface RequestQuerySearch extends Query {

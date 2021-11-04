@@ -24,10 +24,10 @@ export const perPage = (requestQuery: {
 export const metaPagination = (pagination: any): metaPaginate => {
   return {
     current_page: pagination.currentPage,
-    from: pagination.from,
-    last_page: pagination.lastPage || 0,
+    from: (pagination.currentPage - 1) * pagination.perPage + 1,
+    last_page: pagination.lastPage,
     per_page: pagination.perPage,
     to: pagination.to,
-    total: pagination.total || 0,
+    total: pagination.total
   }
 }

@@ -1,9 +1,7 @@
 import request from 'supertest'
 import app from '../../server'
 import { Village as Repository } from './village_repository'
-import KnexPostgis from 'knex-postgis'
 import database from '../../config/database'
-const st = KnexPostgis(database);
 
 describe('seed data', () => {
   it('insert villages', async () => {
@@ -12,7 +10,7 @@ describe('seed data', () => {
       name: 'test',
       district_id: '1',
       level: 1,
-      location: st.geomFromText('Point(0 0)'),
+      location: database.raw('ST_GeomFromText(\'POINT(106.8207875 -6.4605558)\')'),
       images: null,
       is_active: true,
     })
@@ -59,6 +57,28 @@ describe('tests villages', () => {
       .then((response) => {
         expect(response.body).toEqual(expect.objectContaining({
           data: expectBodyFindAll,
+          meta: expect.objectContaining({
+            total: expect.any(Number)
+          })
+        }))
+      })
+  })
+})
+
+describe('tests villages', () => {
+  it('test success findAll with location filter bounds', async () => {
+    return request(app)
+      .get('/v1/villages/list-with-location')
+      .query({
+        bounds: {
+          ne: '106.8207875, -6.4605558',
+          sw: '106.8207875, -6.4605558',
+        }
+      })
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(expect.objectContaining({
+          data: [],
           meta: expect.objectContaining({
             total: expect.any(Number)
           })

@@ -24,8 +24,40 @@ export namespace Village {
 
     if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
     if (requestQuery.level) query.where('villages.level', requestQuery.level)
+    if (isRequestBounds(requestQuery)) query.whereRaw(getWherePolygon(requestQuery))
 
     return query
+  }
+
+  const pointRegexRule = (point: string) => {
+    const pointRegex = /^(-?\d+(\.\d+)?), \s*(-?\d+(\.\d+)?)$/
+    return pointRegex.test(point)
+  }
+
+  const getWherePolygon = (requestQuery: Entity.RequestQuery) => {
+    return `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(requestQuery)}'), villages.location)`
+  }
+
+  const isRequestBounds = (requestQuery: Entity.RequestQuery) => {
+    return requestQuery?.bounds?.ne &&
+    requestQuery?.bounds?.sw &&
+    pointRegexRule(requestQuery.bounds.ne) &&
+    pointRegexRule(requestQuery.bounds.sw)
+  }
+
+  const getPolygon = (requestQuery: Entity.RequestQuery) => {
+    const { ne, sw } = requestQuery.bounds
+
+    const boundsNE = ne.trimStart().trimEnd().split(/[, ]+/)
+    const boundsSW = sw.trimStart().trimEnd().split(/[, ]+/)
+
+    return `POLYGON((
+      ${boundsNE[0]} ${boundsNE[1]},
+      ${boundsNE[0]} ${boundsSW[1]},
+      ${boundsSW[0]} ${boundsSW[1]},
+      ${boundsSW[0]} ${boundsNE[1]},
+      ${boundsNE[0]} ${boundsNE[1]}
+    ))`
   }
 
   export const findById = (id: string) => {
