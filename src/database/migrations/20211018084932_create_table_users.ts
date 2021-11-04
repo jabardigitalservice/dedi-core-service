@@ -6,7 +6,7 @@ export async function up (knex: Knex): Promise<void> {
       return knex.schema.createTable('users', function (table) {
         table.uuid('id').primary()
         table.string('name', 100).notNullable()
-        table.uuid('partner_id').notNullable().index()
+        table.uuid('partner_id').index()
         table.string('avatar')
         table.string('email', 150).notNullable().index()
         table.string('password', 72)

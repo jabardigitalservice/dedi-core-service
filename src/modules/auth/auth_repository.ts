@@ -23,7 +23,7 @@ export namespace Auth {
       .whereNull('deleted_at')
       .first()
 
-    return !requestBody.partner_id || (requestBody.partner_id && !await partner)
+    return requestBody.partner_id && !await partner
   }
 
   export const getPartnerId = async (requestBody: Entity.RequestBodySignUp) => {
