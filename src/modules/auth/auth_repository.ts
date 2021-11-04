@@ -1,0 +1,56 @@
+import database from '../../config/database';
+import { Auth as Entity } from './auth_entity';
+import { v4 as uuidv4 } from 'uuid'
+import bcryptRounds from '../../config/bcryptRounds';
+import bcrypt from 'bcrypt'
+
+export namespace Auth {
+  export const Users = () => database<Entity.StructUser>('users')
+  export const Partners = () => database<Entity.StructPartner>('partners')
+
+  export const createPartner = (partner: Entity.PartnerCreate) => {
+    return Partners().insert({
+      ...partner,
+      created_at: new Date()
+    })
+  }
+
+  export const getPartnerId = async (requestBody: Entity.RequestBodySignUp) => {
+    const partner = Partners()
+      .select('id')
+      .where('id', requestBody.partner_id)
+      .orWhere('name', requestBody.company.toLowerCase())
+      .whereNull('deleted_at')
+      .first()
+
+    const Partner: Entity.PartnerCreate = {
+      id: uuidv4(),
+      name: requestBody.company
+    }
+
+    if (!requestBody.partner_id) {
+      await createPartner(Partner)
+      return Partner.id
+    } else if (requestBody.partner_id && !(await partner)) {
+      await createPartner(Partner)
+      return Partner.id
+    }
+
+    const result = await partner
+
+    return result.id
+  }
+
+  export const passwordHash = (password: string): string => {
+    const salt = bcrypt.genSaltSync(bcryptRounds)
+    return bcrypt.hashSync(password, salt)
+  }
+
+  export const signUp = async (requestBody: Entity.RequestBodySignUp) => {
+    return Users().insert({
+      id: uuidv4(),
+      created_at: new Date(),
+      ...requestBody
+    })
+  }
+}

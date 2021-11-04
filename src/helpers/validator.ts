@@ -12,23 +12,19 @@ export const validate = (schema: Schema, property: string) => {
     const { details } = error
     const errors = validateError(details)
 
-    errors.isError ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors: errors.rules }) : next()
+    Object.keys(errors).length >= 0 ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
   }
 }
 
 export const validateError = (details: Joi.ValidationErrorItem[]) => {
-  const isError = false
   const rules: any = {}
 
-  for (const i of details) {
-    if (i.type === 'object.unknown') continue
-    rules[i.context.key] = [message(i.type, i.context.label)]
+  for (const item of details) {
+    if (item.type === 'object.unknown') continue
+    rules[item.context.key] = [message(item.type, item.context.label)]
   }
 
-  return {
-    isError,
-    rules
-  }
+  return rules
 }
 
 export const message = (type: string, label: string) => {

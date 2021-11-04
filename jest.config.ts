@@ -8,6 +8,7 @@ export default async (): Promise<Config.InitialOptions> => {
     collectCoverageFrom: [
       './src/helpers/test/*.ts',
       './src/modules/**/*.ts',
+      '!./src/modules/auth/*.ts',
     ],
     coverageReporters: ['lcov'],
     detectOpenHandles: true,

@@ -10,6 +10,7 @@ import home from './handler/home'
 import partners from './modules/partners/partner_handler'
 import villages from './modules/villages/village_handler'
 import testimonials from './modules/testimonials/testimonial_handler'
+import auth from './modules/auth/auth_handler'
 
 class App {
   public app: Application
@@ -35,6 +36,7 @@ class App {
     this.app.use(partners)
     this.app.use(villages)
     this.app.use(testimonials)
+    this.app.use(auth)
   }
 
   protected extends (): void {

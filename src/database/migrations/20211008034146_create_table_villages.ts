@@ -11,7 +11,7 @@ export async function up (knex: Knex): Promise<void> {
         table.integer('category_id').index().unsigned()
         table.integer('level', 2).index()
         table.string('status', 10).index()
-        table.specificType('location', 'POINT').notNullable()
+        table.specificType('location', 'POINT').notNullable().index()
         table.json('images')
         table.boolean('is_active').notNullable().index()
       })

@@ -16,7 +16,7 @@ export namespace Partner {
     return query.paginate(perPage(requestQuery))
   }
 
-  export const search = (requestQuery: Entity.SuggestionRequestQuery) => {
+  export const search = (requestQuery: Entity.RequestQuerySuggestion) => {
     const query = Partners()
       .select('id', 'name')
       .whereNull('deleted_at')

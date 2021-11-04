@@ -1,0 +1,12 @@
+import Joi from 'joi';
+
+export namespace Auth {
+  export const signUp = Joi.object({
+    name: Joi.string().required(),
+    company: Joi.string().required(),
+    partner_id: Joi.string().allow(null),
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+    password_confirm: Joi.string().valid(Joi.ref('password')).required()
+  })
+}
