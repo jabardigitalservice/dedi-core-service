@@ -8,7 +8,7 @@ import { Auth as Service } from './auth_service'
 import config from '../../config'
 import { isNodeEnvProduction } from '../../helpers/constant'
 import { Auth as Log } from './auth_log'
-import jwt from '../../middleware/jwt'
+import { verifyAccessToken } from '../../middleware/jwt'
 
 const apiLimiterSignIn = rateLimit({
   windowMs: Number(config.get('api.limiter.time.signin', 300000)),
@@ -62,7 +62,7 @@ router.post(
 
 router.post(
   '/v1/auth/users/refresh-token',
-  jwt,
+  verifyAccessToken,
   validate(Rules.refreshToken, 'body'),
   async (
     req: Request,

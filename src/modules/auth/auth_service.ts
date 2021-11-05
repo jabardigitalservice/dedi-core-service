@@ -5,8 +5,7 @@ import { checkError, uniqueRule } from '../../helpers/rules'
 import lang from '../../lang'
 import { Auth as Entity } from './auth_entity'
 import { Auth as Repository } from './auth_repository'
-import jwt from 'jsonwebtoken'
-import config from '../../config'
+import { createAccessToken, createRefreshToken, decodeToken } from '../../middleware/jwt'
 
 export namespace Auth {
   export const signUp = async (requestBody: Entity.RequestBodySignUp) => {
@@ -69,43 +68,33 @@ export namespace Auth {
   const generateJwtToken = (user: Entity.StructUser): Entity.ResponseJWT => {
     const access_token = generateAccessToken(user)
     const refresh_token = generateRefreshToken(user)
-    const decodeJwt: any = jwt.decode(access_token)
-    const exp: number = decodeJwt.exp
+    const decodeJwt = decodeToken(access_token)
 
     const data = {
       type: 'bearer',
       access_token,
       refresh_token,
-      expired_in: exp,
+      expired_in: decodeJwt.exp,
     }
 
     return { data }
   }
 
   const generateAccessToken = (user: Entity.StructUser): string => {
-    const jwtUser = {
-      prtnr: !!user.partner_id,
-      adm: !!user.is_admin
-    }
-
-    return jwt.sign(
-      { identifier: user.id, ...jwtUser },
-      config.get('jwt.secret'),
-      {
-        expiresIn: Number(config.get('jwt.ttl')),
-        algorithm: config.get('jwt.algorithm')
+    return createAccessToken({
+      data: {
+        identifier: user.id,
+        prtnr: !!user.partner_id,
+        adm: !!user.is_admin
       }
-    )
+    })
   }
 
   const generateRefreshToken = (user: Entity.StructUser): string => {
-    return jwt.sign(
-      { identifier: user.id },
-      config.get('jwt.refresh.secret'),
-      {
-        expiresIn: Number(config.get('jwt.refresh.ttl')),
-        algorithm: config.get('jwt.refresh.algorithm')
+    return createRefreshToken({
+      data: {
+        identifier: user.id
       }
-    )
+    })
   }
 }
