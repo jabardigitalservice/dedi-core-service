@@ -4,7 +4,7 @@ import { Request } from 'express'
 
 export default Jwt({
   secret: config.get('jwt.public'),
-  algorithms: ['RS256'],
+  algorithms: [config.get('jwt.algorithm')],
   credentialsRequired: true,
   getToken: function fromHeaderOrQuerystring (req: Request) {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
