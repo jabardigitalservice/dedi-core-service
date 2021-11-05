@@ -34,8 +34,8 @@ export namespace Village {
           name: item.categories_name,
         },
         location: {
-          lat: item.location.x,
-          lng: item.location.y,
+          lat: item.location.y,
+          lng: item.location.x,
         },
         images: JSON.parse(item.images) || []
       })
