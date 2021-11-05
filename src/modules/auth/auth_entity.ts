@@ -47,6 +47,7 @@ export namespace Auth {
   export interface RequestBodySignIn {
     email: string
     password: string
+    remember?: boolean
   }
 
   export interface ResponseJWT {

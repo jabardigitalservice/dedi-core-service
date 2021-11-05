@@ -13,5 +13,6 @@ export namespace Auth {
   export const signIn = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
+    remember: Joi.bool().allow(null)
   })
 }

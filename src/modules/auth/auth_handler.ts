@@ -20,7 +20,7 @@ router.post(
   '/v1/auth/users/sign-up',
   validate(Rules.signUp, 'body'),
   async (
-    req: Request<never, Entity.RequestBodySignUp, never, never>,
+    req: Request,
     res: Response,
     next: NextFunction
   ) => {
@@ -37,17 +37,22 @@ router.post(
   apiLimiterSignIn,
   validate(Rules.signIn, 'body'),
   async (
-    req: Request<never, Entity.RequestBodySignIn, never, never>,
+    req: Request,
     res: Response,
     next: NextFunction
   ) => {
     try {
-      const result: Entity.ResponseJWT = await Service.signIn(req.body)
-      Log.signIn(req.body)
-      res.cookie('access_token', result.access_token, {
-        httpOnly: true,
-        secure: isNodeEnvProduction()
-      }).status(httpStatus.OK).json(result)
+      const body: Entity.RequestBodySignIn = req.body
+      const result: Entity.ResponseJWT = await Service.signIn(body)
+      Log.signIn(body)
+      if (body.remember) {
+        res.cookie('access_token', result.access_token, {
+          httpOnly: true,
+          secure: isNodeEnvProduction(),
+          expires: new Date(Date.now() + Number(config.get('jwt.ttl')))
+        })
+      }
+      res.status(httpStatus.OK).json(result)
     } catch (error) {
       next(error)
     }
