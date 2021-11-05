@@ -25,7 +25,8 @@ router.post(
     next: NextFunction
   ) => {
     try {
-      await Service.signUp(req.body)
+      const body: Entity.RequestBodySignUp = req.body
+      await Service.signUp(body)
       res.status(httpStatus.CREATED).json({ message: 'CREATED' })
     } catch (error) {
       next(error)
