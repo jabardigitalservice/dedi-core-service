@@ -23,7 +23,7 @@ export namespace Auth {
       google_id: requestBody.google_id
     }
 
-    user.partner_id = requestBody.partner_id ? await Repository.getPartnerId(requestBody) : null
+    user.partner_id = requestBody.company ? await Repository.getPartnerId(requestBody) : null
 
     return Repository.signUp(user)
   }
