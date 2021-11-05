@@ -9,7 +9,7 @@ export namespace Auth {
   export const Partners = () => database<Entity.StructPartner>('partners')
   export const OauthTokens = () => database<Entity.StructOauthToken>('oauth_tokens')
 
-  export const createPartner = (partner: Entity.PartnerCreate) => {
+  export const createPartner = async (partner: Entity.PartnerCreate) => {
     return Partners().insert({
       ...partner,
       created_at: new Date()
