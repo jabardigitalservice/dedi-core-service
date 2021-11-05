@@ -37,28 +37,49 @@ export namespace Auth {
 
     if (!user.verified_at) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.verified.failed'))
 
-    return responseJwt(user)
+    const responseJwt = generateJwtToken(user)
+
+    Repository.createOauthToken({
+      user_id: user.id,
+      access_token: responseJwt.data.access_token,
+      refresh_token: responseJwt.data.refresh_token,
+      expired_in: responseJwt.data.expired_in,
+    })
+
+    return responseJwt
   }
 
-  const responseJwt = (user: Entity.StructUser): Entity.ResponseJWT => {
+  export const refreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => {
+    const user: Entity.StructUser = await Repository.findByRefreshToken(requestBody)
+    if (!user) throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, lang.__('auth.refreshToken.failed'))
+
+    const responseJwt = generateJwtToken(user)
+
+    Repository.updateRefreshToken(requestBody.refresh_token,
+      {
+        user_id: user.id,
+        access_token: responseJwt.data.access_token,
+        refresh_token: responseJwt.data.refresh_token,
+        expired_in: responseJwt.data.expired_in,
+      })
+
+    return responseJwt
+  }
+
+  const generateJwtToken = (user: Entity.StructUser): Entity.ResponseJWT => {
     const access_token = generateAccessToken(user)
     const refresh_token = generateRefreshToken(user)
     const decodeJwt: any = jwt.decode(access_token)
     const exp: number = decodeJwt.exp
 
-    Repository.createOauthToken({
-      user_id: user.id,
-      access_token,
-      refresh_token,
-      expired_in: exp,
-    })
-
-    return {
+    const data = {
       type: 'bearer',
       access_token,
       refresh_token,
       expired_in: exp,
     }
+
+    return { data }
   }
 
   const generateAccessToken = (user: Entity.StructUser): string => {

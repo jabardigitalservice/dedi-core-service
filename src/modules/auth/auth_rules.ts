@@ -15,4 +15,8 @@ export namespace Auth {
     password: Joi.string().required(),
     remember: Joi.bool().allow(null)
   })
+
+  export const refreshToken = Joi.object({
+    refresh_token: Joi.string().required()
+  })
 }

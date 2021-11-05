@@ -8,6 +8,7 @@ import { Auth as Service } from './auth_service'
 import config from '../../config'
 import { isNodeEnvProduction } from '../../helpers/constant'
 import { Auth as Log } from './auth_log'
+import jwt from '../../middleware/jwt'
 
 const apiLimiterSignIn = rateLimit({
   windowMs: Number(config.get('api.limiter.time.signin', 300000)),
@@ -47,12 +48,30 @@ router.post(
       const result: Entity.ResponseJWT = await Service.signIn(body)
       Log.signIn(body)
       if (body.remember) {
-        res.cookie('access_token', result.access_token, {
+        res.cookie('access_token', result.data.access_token, {
           httpOnly: true,
           secure: isNodeEnvProduction(),
           expires: new Date(Date.now() + Number(config.get('jwt.ttl')))
         })
       }
+      res.status(httpStatus.OK).json(result)
+    } catch (error) {
+      next(error)
+    }
+  })
+
+router.post(
+  '/v1/auth/users/refresh-token',
+  jwt,
+  validate(Rules.refreshToken, 'body'),
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const body: Entity.RequestBodyRefreshToken = req.body
+      const result: Entity.ResponseJWT = await Service.refreshToken(body)
       res.status(httpStatus.OK).json(result)
     } catch (error) {
       next(error)

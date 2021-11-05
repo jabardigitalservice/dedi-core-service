@@ -58,6 +58,14 @@ export namespace Auth {
     return Users().where('email', requestBody.email).first()
   }
 
+  export const findByRefreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => {
+    return OauthTokens()
+      .select('users.*')
+      .join('users', 'users.id', 'oauth_tokens.user_id')
+      .where('refresh_token', requestBody.refresh_token)
+      .first()
+  }
+
   export const createOauthToken = async (oauthToken: Entity.StructOauthToken) => {
     const timestamp = new Date()
     return OauthTokens().insert({
@@ -65,5 +73,15 @@ export namespace Auth {
       created_at: timestamp,
       ...oauthToken
     })
+  }
+
+  export const updateRefreshToken = async (refreshToken: string, oauthToken: Entity.StructOauthToken) => {
+    const timestamp = new Date()
+    return OauthTokens()
+      .where('refresh_token', '=', refreshToken)
+      .update({
+        ...oauthToken,
+        updated_at: timestamp
+      })
   }
 }

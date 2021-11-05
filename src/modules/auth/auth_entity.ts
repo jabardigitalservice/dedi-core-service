@@ -50,10 +50,16 @@ export namespace Auth {
     remember?: boolean
   }
 
-  export interface ResponseJWT {
-    type: string
-    access_token: string
+  export interface RequestBodyRefreshToken {
     refresh_token: string
-    expired_in: number
+  }
+
+  export interface ResponseJWT {
+    data: {
+      type: string
+      access_token: string
+      refresh_token: string
+      expired_in: number
+    }
   }
 }
