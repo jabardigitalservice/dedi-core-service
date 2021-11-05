@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt'
 export namespace Auth {
   export const Users = () => database<Entity.StructUser>('users')
   export const Partners = () => database<Entity.StructPartner>('partners')
+  export const OauthTokens = () => database<Entity.StructOauthToken>('oauth_tokens')
 
   export const createPartner = (partner: Entity.PartnerCreate) => {
     return Partners().insert({
@@ -55,5 +56,14 @@ export namespace Auth {
 
   export const findByEmail = async (requestBody: Entity.RequestBodySignIn) => {
     return Users().where('email', requestBody.email).first()
+  }
+
+  export const createOauthToken = async (oauthToken: Entity.StructOauthToken) => {
+    const timestamp = new Date()
+    return OauthTokens().insert({
+      id: uuidv4(),
+      created_at: timestamp,
+      ...oauthToken
+    })
   }
 }

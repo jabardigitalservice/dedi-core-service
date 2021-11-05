@@ -40,24 +40,50 @@ export namespace Auth {
     return responseJwt(user)
   }
 
-  const responseJwt = async (user: Entity.StructUser) => {
-    delete user.password
-    const jwt = generateToken(user)
+  const responseJwt = (user: Entity.StructUser): Entity.ResponseJWT => {
+    const access_token = generateAccessToken(user)
+    const refresh_token = generateRefreshToken(user)
+    const decodeJwt: any = jwt.decode(access_token)
+    const exp: number = decodeJwt.exp
+
+    Repository.createOauthToken({
+      user_id: user.id,
+      access_token,
+      refresh_token,
+      expired_in: exp,
+    })
 
     return {
       type: 'bearer',
-      token: jwt,
-      user: user
+      access_token,
+      refresh_token,
+      expired_in: exp,
     }
   }
 
-  const generateToken = (user: Entity.StructUser): string => {
+  const generateAccessToken = (user: Entity.StructUser): string => {
+    const jwtUser = {
+      prtnr: !!user.partner_id,
+      adm: !!user.is_admin
+    }
+
     return jwt.sign(
-      { uid: user.id, user },
+      { identifier: user.id, ...jwtUser },
       config.get('jwt.secret'),
       {
         expiresIn: Number(config.get('jwt.ttl')),
         algorithm: config.get('jwt.algorithm')
+      }
+    )
+  }
+
+  const generateRefreshToken = (user: Entity.StructUser): string => {
+    return jwt.sign(
+      { identifier: user.id },
+      config.get('jwt.refresh.secret'),
+      {
+        expiresIn: Number(config.get('jwt.refresh.ttl')),
+        algorithm: config.get('jwt.refresh.algorithm')
       }
     )
   }

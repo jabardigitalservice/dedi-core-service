@@ -4,10 +4,12 @@ export namespace Auth {
     name: string
     avatar?: string
     email: string
+    partner_id?: string
     password?: string
     google_id?: string
     created_at: Date
     verified_at?: Date
+    is_admin?: boolean
   }
 
   export interface StructPartner {
@@ -15,6 +17,17 @@ export namespace Auth {
     name: string
     deleted_at?: Date
     created_at: Date
+  }
+
+  export interface StructOauthToken {
+    id?: string
+    user_id: string
+    access_token: string
+    refresh_token: string
+    expired_in: number
+    is_active?: boolean
+    created_at?: Date
+    updated_at?: Date
   }
 
   export interface RequestBodySignUp {
@@ -38,7 +51,8 @@ export namespace Auth {
 
   export interface ResponseJWT {
     type: string
-    token: string
-    user: StructUser
+    access_token: string
+    refresh_token: string
+    expired_in: number
   }
 }
