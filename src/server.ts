@@ -6,6 +6,7 @@ import sentryTransaction from './middleware/sentry'
 import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
+import cookieParser from 'cookie-parser'
 import home from './handler/home'
 import partners from './modules/partners/partner_handler'
 import villages from './modules/villages/village_handler'
@@ -28,6 +29,7 @@ class App {
     this.app.use(cors())
     this.app.use(helmet())
     this.app.use(compression())
+    this.app.use(cookieParser())
     this.app.use(sentryTransaction)
   }
 

@@ -1,8 +1,8 @@
 import Sentry from '../config/sentry'
 import { CustomError } from 'ts-custom-error'
 import httpStatus from 'http-status'
-import config from '../config'
 import { Request, Response, NextFunction } from 'express'
+import { isNodeEnvProduction } from '../helpers/constant'
 
 const isErrorCode = (error: any) => typeof error.code === 'string' || typeof error.code === 'undefined'
 
@@ -40,7 +40,7 @@ export class HttpError extends CustomError {
 const messageError = (error: any) => {
   if (error.isObject) return { errors: JSON.parse(error.message) }
 
-  const isEnvProduction: boolean = config.get('node.env') === 'production' && error.code >= httpStatus.INTERNAL_SERVER_ERROR
+  const isEnvProduction: boolean = isNodeEnvProduction() && error.code >= httpStatus.INTERNAL_SERVER_ERROR
   const message: string = isEnvProduction ? httpStatus[Number(error.code)] : error.message
 
   return { error: message }
