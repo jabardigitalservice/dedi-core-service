@@ -18,10 +18,11 @@ export const validate = (schema: Schema, property: string) => {
 
 export const validateError = (details: Joi.ValidationErrorItem[]) => {
   const rules: any = {}
+  console.log(details);
 
   for (const item of details) {
     if (item.type === 'object.unknown') continue
-    rules[item.context.key] = [message(item.type, item.context.label)]
+    rules[item.context.key] = [item.message]
   }
 
   return rules
