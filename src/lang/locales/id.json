@@ -13,6 +13,5 @@
 	"error.file.size": "File too large.",
 	"error.file.doesntExist": "The {{ attribute }} no selected",
   "subject.forgot.password": "Password Reset",
-  "jwt.unauthorized": "UNAUTHORIZED",
-  "auth.forgot.not.found": "user not found"
+  "jwt.unauthorized": "UNAUTHORIZED"
 }
