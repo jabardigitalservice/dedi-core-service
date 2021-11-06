@@ -90,7 +90,7 @@ export namespace Auth {
   export const forgotPasswordVerify = async (requestQuery: Request): Promise<Entity.ResponseForgotPasswordVerify> => {
     const decodeJwt: any = requestQuery.user
 
-    if (decodeJwt.target !== 'password-verify') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('jwt.unauthorized'))
+    if (decodeJwt?.target !== 'password-verify') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('jwt.unauthorized'))
 
     const user = await Repository.findById(decodeJwt.identifier)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
@@ -111,7 +111,7 @@ export namespace Auth {
   export const resetPassword = async (requestQuery: Request, requestBody: Entity.RequestBodyResetPassword) => {
     const decodeJwt: any = requestQuery.user
 
-    if (decodeJwt.target !== 'reset-password') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('jwt.unauthorized'))
+    if (decodeJwt?.target !== 'reset-password') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('jwt.unauthorized'))
 
     const passwordHash = Repository.passwordHash(requestBody.password)
 

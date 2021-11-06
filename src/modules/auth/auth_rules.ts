@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 export namespace Auth {
 
-  const regexPassword = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9&*]+)$/
+  const regexPassword = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9&*_]+)$/
 
   const password = {
     password: Joi.string().regex(regexPassword).required(),
