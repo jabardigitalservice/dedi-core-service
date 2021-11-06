@@ -66,35 +66,22 @@ export namespace Auth {
   }
 
   const generateJwtToken = (user: Entity.StructUser): Entity.ResponseJWT => {
-    const access_token = generateAccessToken(user)
-    const refresh_token = generateRefreshToken(user)
+    const identifier = user.id
+    const access_token = createAccessToken({
+      identifier,
+      prtnr: !!user.partner_id,
+      adm: !!user.is_admin
+    })
+    const refresh_token = createRefreshToken({ identifier })
     const decodeJwt = decodeToken(access_token)
 
-    const data = {
-      type: 'bearer',
-      access_token,
-      refresh_token,
-      expired_in: decodeJwt.exp,
+    return {
+      data: {
+        type: 'bearer',
+        access_token,
+        refresh_token,
+        expired_in: decodeJwt.exp,
+      }
     }
-
-    return { data }
-  }
-
-  const generateAccessToken = (user: Entity.StructUser): string => {
-    return createAccessToken({
-      data: {
-        identifier: user.id,
-        prtnr: !!user.partner_id,
-        adm: !!user.is_admin
-      }
-    })
-  }
-
-  const generateRefreshToken = (user: Entity.StructUser): string => {
-    return createRefreshToken({
-      data: {
-        identifier: user.id
-      }
-    })
   }
 }
