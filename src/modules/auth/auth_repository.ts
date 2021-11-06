@@ -54,21 +54,15 @@ export namespace Auth {
     })
   }
 
-  export const findByEmail = async (requestBody: Entity.RequestBodySignIn) => {
-    return Users().where('email', requestBody.email).first()
-  }
-
-  export const findByEmailVerify = async (requestBody: Entity.FindByEmailVerify) => {
+  export const findByEmail = async (requestBody: Entity.FindByEmail) => {
     return Users()
       .where('email', requestBody.email)
-      .whereNotNull('verified_at')
       .first()
   }
 
-  export const findById = async (id: string) => {
+  export const findByUserId = async (id: string) => {
     return Users()
       .where('id', id)
-      .whereNotNull('verified_at')
       .first()
   }
 

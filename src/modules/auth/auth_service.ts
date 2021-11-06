@@ -69,8 +69,8 @@ export namespace Auth {
   }
 
   export const forgotPassword = async (requestBody: Entity.RequestBodyForgotPassword): Promise<Entity.ResponseForgotPassword> => {
-    const user = await Repository.findByEmailVerify(requestBody)
-    if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.forgot.not.found'))
+    const user = await Repository.findByEmail(requestBody)
+    if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.email.failed'))
 
     const token = createRefreshToken({
       identifier: user.id,
@@ -84,7 +84,7 @@ export namespace Auth {
       html: templateHtmlForgotEmail(linkRedirect)
     })
 
-    return { message: lang.__('send.email.forgot.password') }
+    return { message: lang.__('auth.email.forgot.password.success', { email: user.email }) }
   }
 
   export const forgotPasswordVerify = async (requestQuery: Request): Promise<Entity.ResponseForgotPasswordVerify> => {
@@ -92,7 +92,7 @@ export namespace Auth {
 
     if (decodeJwt?.target !== 'password-verify') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.rejected'))
 
-    const user = await Repository.findById(decodeJwt.identifier)
+    const user = await Repository.findByUserId(decodeJwt.identifier)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
 
     const access_token = createRefreshToken({

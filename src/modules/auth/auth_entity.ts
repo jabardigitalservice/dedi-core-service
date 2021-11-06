@@ -62,7 +62,7 @@ export namespace Auth {
     password: string
   }
 
-  export interface FindByEmailVerify {
+  export interface FindByEmail {
     email: string
   }
 

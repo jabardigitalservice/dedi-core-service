@@ -18,6 +18,7 @@
   "auth.verified.failed": "Akun user belum aktif.",
   "auth.refreshToken.failed": "Refresh token tidak aktif.",
   "auth.rejected": "UNAUTHORIZED",
+  "auth.email.forgot.password.success": "Berhasil mengirimkan tautan verifikasi ke {{ email }}",
 
   "subject.forgot.password": "Password Reset",
   "template.paragraph.forgot.password": "Klik link di bawah ini untuk melakukan reset kata sandi"
