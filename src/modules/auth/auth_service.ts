@@ -6,6 +6,9 @@ import lang from '../../lang'
 import { Auth as Entity } from './auth_entity'
 import { Auth as Repository } from './auth_repository'
 import { createAccessToken, createRefreshToken, decodeToken } from '../../middleware/jwt'
+import { sendMail } from '../../helpers/mail'
+import config from '../../config'
+import { Request } from 'express'
 
 export namespace Auth {
   export const signUp = async (requestBody: Entity.RequestBodySignUp) => {
@@ -63,6 +66,53 @@ export namespace Auth {
       })
 
     return responseJwt
+  }
+
+  export const forgotPassword = async (requestBody: Entity.RequestBodyForgotPassword): Promise<Entity.ResponseForgotPassword> => {
+    const user = await Repository.findByEmailVerify(requestBody)
+    if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
+
+    const token = createRefreshToken({
+      identifier: user.id
+    })
+
+    const linkRedirect = `${config.get('url.redirect.forgot.password')}?token=${token}`
+    sendMail({
+      to: user.email,
+      subject: lang.__('subject.forgot.password'),
+      html: templateHtmlForgotEmail(linkRedirect)
+    })
+
+    return { message: lang.__('send.email.forgot.password') }
+  }
+
+  export const forgotPasswordVerify = async (requestQuery: Request): Promise<Entity.ResponseForgotPasswordVerify> => {
+    const decodeJwt: any = requestQuery.user
+    const user = await Repository.findById(decodeJwt.identifier)
+    if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
+
+    const access_token = createRefreshToken({ identifier: user.id })
+
+    return {
+      data: {
+        access_token,
+        email: user.email
+      }
+    }
+  }
+
+  export const resetPassword = async (requestQuery: Request, requestBody: Entity.RequestBodyResetPassword) => {
+    const decodeJwt: any = requestQuery.user
+    const passwordHash = Repository.passwordHash(requestBody.password)
+
+    return Repository.updatePassword(decodeJwt.identifier, passwordHash)
+  }
+
+  const templateHtmlForgotEmail = (linkRedirect: string) => {
+    return `
+    <p>Klik link di bawah ini untuk melakukan reset kata sandi</p>
+    <a href="${linkRedirect}">${linkRedirect}</a>
+    `
   }
 
   const generateJwtToken = (user: Entity.StructUser): Entity.ResponseJWT => {

@@ -11,5 +11,6 @@
 	"error.exists": "{{ entity }} with id {{ id }} does not exist",
 	"error.file.mimetypes": "The {{ attribute }} must be a file of type: {{ values }}.",
 	"error.file.size": "File too large.",
-	"error.file.doesntExist": "The {{ attribute }} no selected"
+	"error.file.doesntExist": "The {{ attribute }} no selected",
+  "subject.forgot.password": "Password Reset"
 }

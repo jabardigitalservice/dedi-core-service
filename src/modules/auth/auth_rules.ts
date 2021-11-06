@@ -19,4 +19,13 @@ export namespace Auth {
   export const refreshToken = Joi.object({
     refresh_token: Joi.string().required()
   })
+
+  export const forgotPassword = Joi.object({
+    email: Joi.string().email().required()
+  })
+
+  export const resetPassword = Joi.object({
+    password: Joi.string().required(),
+    password_confirm: Joi.string().valid(Joi.ref('password')).required()
+  })
 }

@@ -61,18 +61,51 @@ router.post(
   })
 
 router.post(
-  '/v1/auth/users/refresh-token',
-  verifyAccessToken,
-  validate(Rules.refreshToken, 'body'),
+  '/v1/auth/users/forgot-password',
+  validate(Rules.forgotPassword, 'body'),
   async (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
     try {
-      const body: Entity.RequestBodyRefreshToken = req.body
-      const result: Entity.ResponseJWT = await Service.refreshToken(body)
+      const body: Entity.RequestBodyForgotPassword = req.body
+      const result: Entity.ResponseForgotPassword = await Service.forgotPassword(body)
       res.status(httpStatus.OK).json(result)
+    } catch (error) {
+      next(error)
+    }
+  })
+
+router.post(
+  '/v1/auth/users/forgot-password/verify',
+  verifyAccessToken,
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const result: Entity.ResponseForgotPasswordVerify = await Service.forgotPasswordVerify(req)
+      res.status(httpStatus.OK).json(result)
+    } catch (error) {
+      next(error)
+    }
+  })
+
+router.post(
+  '/v1/auth/users/reset-password',
+  verifyAccessToken,
+  validate(Rules.resetPassword, 'body'),
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const body: Entity.RequestBodyResetPassword = req.body
+      await Service.resetPassword(req, body)
+      res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
       next(error)
     }

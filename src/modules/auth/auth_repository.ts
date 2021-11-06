@@ -58,6 +58,20 @@ export namespace Auth {
     return Users().where('email', requestBody.email).first()
   }
 
+  export const findByEmailVerify = async (requestBody: Entity.FindByEmailVerify) => {
+    return Users()
+      .where('email', requestBody.email)
+      .whereNotNull('verified_at')
+      .first()
+  }
+
+  export const findById = async (id: string) => {
+    return Users()
+      .where('id', id)
+      .whereNotNull('verified_at')
+      .first()
+  }
+
   export const findByRefreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => {
     return OauthTokens()
       .select('users.*')
@@ -83,5 +97,11 @@ export namespace Auth {
         ...oauthToken,
         updated_at: timestamp
       })
+  }
+
+  export const updatePassword = async (id: string, password: string) => {
+    return Users()
+      .where('id', id)
+      .update({ password })
   }
 }

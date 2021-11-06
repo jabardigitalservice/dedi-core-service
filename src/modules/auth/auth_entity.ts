@@ -54,6 +54,29 @@ export namespace Auth {
     refresh_token: string
   }
 
+  export interface RequestBodyForgotPassword {
+    email: string
+  }
+
+  export interface RequestBodyResetPassword {
+    password: string
+  }
+
+  export interface FindByEmailVerify {
+    email: string
+  }
+
+  export interface ResponseForgotPassword {
+    message: string
+  }
+
+  export interface ResponseForgotPasswordVerify {
+    data: {
+      access_token: string
+      email: string
+    }
+  }
+
   export interface ResponseJWT {
     data: {
       type: string
