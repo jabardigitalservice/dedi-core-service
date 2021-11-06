@@ -70,7 +70,7 @@ export namespace Auth {
 
   export const forgotPassword = async (requestBody: Entity.RequestBodyForgotPassword): Promise<Entity.ResponseForgotPassword> => {
     const user = await Repository.findByEmailVerify(requestBody)
-    if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
+    if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.forgot.not.found'))
 
     const token = createRefreshToken({
       identifier: user.id,
