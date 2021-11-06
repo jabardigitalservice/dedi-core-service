@@ -35,7 +35,7 @@ export namespace Auth {
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
 
     const match = await bcrypt.compare(requestBody.password, user.password)
-    if (!match) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.password.failed'))
+    if (!match) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.password.failed', { field: 'email' }))
 
     if (!user.verified_at) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.verified.failed'))
 
@@ -90,7 +90,7 @@ export namespace Auth {
   export const forgotPasswordVerify = async (requestQuery: Request): Promise<Entity.ResponseForgotPasswordVerify> => {
     const decodeJwt: any = requestQuery.user
 
-    if (decodeJwt?.target !== 'password-verify') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('jwt.unauthorized'))
+    if (decodeJwt?.target !== 'password-verify') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.rejected'))
 
     const user = await Repository.findById(decodeJwt.identifier)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
@@ -111,7 +111,7 @@ export namespace Auth {
   export const resetPassword = async (requestQuery: Request, requestBody: Entity.RequestBodyResetPassword) => {
     const decodeJwt: any = requestQuery.user
 
-    if (decodeJwt?.target !== 'reset-password') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('jwt.unauthorized'))
+    if (decodeJwt?.target !== 'reset-password') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.rejected'))
 
     const passwordHash = Repository.passwordHash(requestBody.password)
 
@@ -120,7 +120,7 @@ export namespace Auth {
 
   const templateHtmlForgotEmail = (linkRedirect: string) => {
     return `
-    <p>Klik link di bawah ini untuk melakukan reset kata sandi</p>
+    <p>${lang.__('template.paragraph.forgot.password')}</p>
     <a href="${linkRedirect}">${linkRedirect}</a>
     `
   }

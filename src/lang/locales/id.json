@@ -1,17 +1,22 @@
 {
-	"validation.required": "this attribute {{ attribute }} is required",
-	"validation.unique": "this attribute {{ attribute }} is already",
-	"validation.unknown": "validation.unknown",
-	"validation.empty": "validation.empty",
-	"validation.base": "validation.base",
-	"validation.email": "validation.email",
-	"auth.user.failed": "user not found!",
-	"auth.password.failed": "password not match out record!",
-	"validation.exists": "validation.exists",
-	"error.exists": "{{ entity }} with id {{ id }} does not exist",
-	"error.file.mimetypes": "The {{ attribute }} must be a file of type: {{ values }}.",
-	"error.file.size": "File too large.",
-	"error.file.doesntExist": "The {{ attribute }} no selected",
+	"validation.any.required": "Isian {{ attribute }} wajib diisi.",
+	"validation.string.email": "Isian {{ attribute }} harus berupa alamat surel yang valid.",
+  "validation.any.only": "Konfirmasi {{ attribute }} tidak cocok.",
+  "validation.string.pattern.base": "Format isian {{ attribute }} tidak valid.",
+  "validation.string.base": "Isian {{ attribute }} harus berupa string.",
+  "validation.unique": "Isian {{ attribute }} sudah terdaftar.",
+	"validation.exists": "Isian {{ attribute }} yang dipilih tidak terdaftar.",
+	"validation.boolean.base": "Isian {{ attribute }} harus berupa true atau false",
+	"validation.file.mimetypes": "Isian {{ attribute }} harus berjenis : {{ values }}.",
+	"validation.file.size": "Isian {{ attribute }} seharusnya tidak lebih dari {{ max }} kilobytes.",
+
+	"error.exists": "{{ entity }} dengan id {{ id }} tidak ada",
+
+	"auth.user.failed": "user tidak terdaftar.",
+	"auth.password.failed": "kata sandi tidak cocok dengan {{ field }}",
+	"auth.verified.failed": "akun user belum aktif",
+  "auth.rejected": "UNAUTHORIZED",
+
   "subject.forgot.password": "Password Reset",
-  "jwt.unauthorized": "UNAUTHORIZED"
+  "template.paragraph.forgot.password": "Klik link di bawah ini untuk melakukan reset kata sandi"
 }
