@@ -61,6 +61,24 @@ router.post(
   })
 
 router.post(
+  '/v1/auth/users/refresh-token',
+  verifyAccessToken,
+  validate(Rules.refreshToken, 'body'),
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const body: Entity.RequestBodyRefreshToken = req.body
+      const result: Entity.ResponseJWT = await Service.refreshToken(body)
+      res.status(httpStatus.OK).json(result)
+    } catch (error) {
+      next(error)
+    }
+  })
+
+router.post(
   '/v1/auth/users/forgot-password',
   validate(Rules.forgotPassword, 'body'),
   async (
