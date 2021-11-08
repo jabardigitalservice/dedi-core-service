@@ -50,10 +50,39 @@ export namespace Auth {
     remember?: boolean
   }
 
-  export interface ResponseJWT {
-    type: string
-    access_token: string
+  export interface RequestBodyRefreshToken {
     refresh_token: string
-    expired_in: number
+  }
+
+  export interface RequestBodyForgotPassword {
+    email: string
+  }
+
+  export interface RequestBodyResetPassword {
+    password: string
+  }
+
+  export interface FindByEmail {
+    email: string
+  }
+
+  export interface ResponseForgotPassword {
+    message: string
+  }
+
+  export interface ResponseForgotPasswordVerify {
+    data: {
+      access_token: string
+      email: string
+    }
+  }
+
+  export interface ResponseJWT {
+    data: {
+      type: string
+      access_token: string
+      refresh_token: string
+      expired_in: number
+    }
   }
 }

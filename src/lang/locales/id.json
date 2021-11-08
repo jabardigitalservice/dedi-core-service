@@ -1,0 +1,25 @@
+{
+  "validation.any.required": "Isian {{ attribute }} wajib diisi.",
+  "validation.string.email": "Isian {{ attribute }} harus berupa alamat surel yang valid.",
+  "validation.any.only": "Konfirmasi {{ attribute }} tidak cocok.",
+  "validation.string.pattern.base": "Format isian {{ attribute }} tidak valid.",
+  "validation.string.base": "Isian {{ attribute }} harus berupa string.",
+  "validation.unique": "Isian {{ attribute }} sudah terdaftar.",
+  "validation.exists": "Isian {{ attribute }} yang dipilih tidak terdaftar.",
+  "validation.boolean.base": "Isian {{ attribute }} harus berupa true atau false.",
+  "validation.file.mimetypes": "Isian {{ attribute }} harus berjenis : {{ values }}.",
+  "validation.file.size": "Isian {{ attribute }} seharusnya tidak lebih dari {{ max }} kilobytes.",
+
+  "error.exists": "{{ entity }} dengan id {{ id }} tidak ada.",
+
+  "auth.user.failed": "User tidak terdaftar.",
+  "auth.password.failed": "Kata sandi tidak cocok dengan {{ field }}.",
+  "auth.email.failed": "Email yang dimasukkan tidak terdaftar.",
+  "auth.verified.failed": "Akun user belum aktif.",
+  "auth.refreshToken.failed": "Refresh token tidak aktif.",
+  "auth.rejected": "UNAUTHORIZED",
+  "auth.email.forgot.password.success": "Berhasil mengirimkan tautan verifikasi ke {{ email }}",
+
+  "subject.forgot.password": "Password Reset",
+  "template.paragraph.forgot.password": "Klik link di bawah ini untuk melakukan reset kata sandi"
+}

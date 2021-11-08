@@ -54,8 +54,25 @@ export namespace Auth {
     })
   }
 
-  export const findByEmail = async (requestBody: Entity.RequestBodySignIn) => {
-    return Users().where('email', requestBody.email).first()
+  export const findByEmail = async (requestBody: Entity.FindByEmail) => {
+    return Users()
+      .where('email', requestBody.email)
+      .first()
+  }
+
+  export const findByUserId = async (id: string) => {
+    return Users()
+      .where('id', id)
+      .first()
+  }
+
+  export const findByRefreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => {
+    return OauthTokens()
+      .select('users.id', 'partner_id', 'is_admin')
+      .join('users', 'users.id', 'oauth_tokens.user_id')
+      .where('is_active', true)
+      .where('refresh_token', requestBody.refresh_token)
+      .first()
   }
 
   export const createOauthToken = async (oauthToken: Entity.StructOauthToken) => {
@@ -65,5 +82,21 @@ export namespace Auth {
       created_at: timestamp,
       ...oauthToken
     })
+  }
+
+  export const updateRefreshToken = async (refreshToken: string, oauthToken: Entity.StructOauthToken) => {
+    const timestamp = new Date()
+    return OauthTokens()
+      .where('refresh_token', '=', refreshToken)
+      .update({
+        ...oauthToken,
+        updated_at: timestamp
+      })
+  }
+
+  export const updatePassword = async (id: string, password: string) => {
+    return Users()
+      .where('id', id)
+      .update({ password })
   }
 }

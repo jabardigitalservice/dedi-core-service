@@ -1,14 +1,15 @@
 import config from '../config'
 import mail from '../config/mailer'
+import Sentry from '../config/sentry'
 
 export interface Payload {
   to: string
   subject: string
-  text: string
+  text?: string
   html?: string
 }
 
-export const sendMail = (payload: Payload): void => {
+export const sendMail = async (payload: Payload) => {
   const mailOptions = {
     from: {
       name: config.get('mail.from.name'),
@@ -18,6 +19,9 @@ export const sendMail = (payload: Payload): void => {
   }
 
   mail.sendMail(mailOptions, (err) => {
-    if (err) throw err
+    if (err) {
+      console.log(err.message);
+      Sentry.captureException(err)
+    }
   })
 }

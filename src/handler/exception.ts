@@ -4,10 +4,13 @@ import httpStatus from 'http-status'
 import { Request, Response, NextFunction } from 'express'
 import { isNodeEnvProduction } from '../helpers/constant'
 
-const isErrorCode = (error: any) => typeof error.code === 'string' || typeof error.code === 'undefined'
+const isErrorCodeNotNumber = (error: any) => typeof error.code === 'string' || typeof error.code === 'undefined'
+const isErrorJwt = (error: any) => error.message === 'jwt malformed'
+const isErrorServer = (error: any) => error.code >= httpStatus.INTERNAL_SERVER_ERROR
+const isErrorProduction = (error: any) => isNodeEnvProduction() && isErrorServer(error)
 
 export const onError = (error: any, req: Request, res: Response, next: NextFunction) => {
-  error.code = isErrorCode(error) ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
+  error.code = isErrorCodeNotNumber(error) ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
 
   if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
     const logger = JSON.stringify({
@@ -40,8 +43,7 @@ export class HttpError extends CustomError {
 const messageError = (error: any) => {
   if (error.isObject) return { errors: JSON.parse(error.message) }
 
-  const isEnvProduction: boolean = isNodeEnvProduction() && error.code >= httpStatus.INTERNAL_SERVER_ERROR
-  const message: string = isEnvProduction ? httpStatus[Number(error.code)] : error.message
+  const message: string = isErrorProduction(error) || isErrorJwt(error) ? httpStatus[Number(error.code)] : error.message
 
   return { error: message }
 }
