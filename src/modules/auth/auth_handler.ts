@@ -11,7 +11,7 @@ import { Auth as Log } from './auth_log'
 import { verifyAccessToken } from '../../middleware/jwt'
 
 const apiLimiterSignIn = rateLimit({
-  windowMs: Number(config.get('api.limiter.time.signin', 300000)),
+  windowMs: Number(config.get('api.limiter.time.signin', 300000)), // Default time signin 5 minutes
   max: Number(config.get('api.limiter.max.signin', 3))
 });
 
