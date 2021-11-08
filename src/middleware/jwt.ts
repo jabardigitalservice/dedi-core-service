@@ -14,21 +14,21 @@ interface CreateToken extends SignOptions {
   secret: Secret
 }
 
+const getToken = (req: Request) => {
+  if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+    return req.headers.authorization.split(' ')[1]
+  } else if (req.cookies && req.cookies.access_token) {
+    return req.cookies.access_token
+  }
+  return null
+}
+
 const verifyToken = (payload: VerifyToken) => {
   return Jwt({
     secret: payload.secretOrPublic,
     algorithms: [payload.algorithms],
     credentialsRequired: payload.isRequired ?? false,
-    getToken: function fromHeaderOrQuerystring (req: Request) {
-      if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-        return req.headers.authorization.split(' ')[1]
-      } else if (req.query && req.query.token) {
-        return req.query.token
-      } else if (req.cookies && req.cookies.access_token) {
-        return req.cookies.access_token
-      }
-      return null
-    }
+    getToken: getToken
   })
 }
 
