@@ -30,7 +30,7 @@ export namespace Village {
   }
 
   const pointRegexRule = (point: string) => {
-    const pointRegex = /^(-?\d+(\.\d+)?), \s*(-?\d+(\.\d+)?)$/
+    const pointRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/
     return pointRegex.test(point)
   }
 
