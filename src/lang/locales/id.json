@@ -21,6 +21,6 @@
   "auth.rejected": "UNAUTHORIZED",
   "auth.email.forgot.password.success": "Berhasil mengirimkan tautan verifikasi ke {{ email }}",
 
-  "subject.forgot.password": "Password Reset",
+  "subject.forgot.password": "Reset Kata Sandi",
   "template.paragraph.forgot.password": "Klik link di bawah ini untuk melakukan reset kata sandi"
 }
