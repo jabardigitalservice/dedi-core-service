@@ -137,7 +137,7 @@ export namespace Auth {
 
     return {
       data: {
-        type: 'bearer',
+        type: config.get('jwt.type'),
         access_token,
         refresh_token,
         expired_in: decodeJwt.exp,
