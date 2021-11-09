@@ -53,7 +53,7 @@ describe('testimonials', () => {
 })
 
 describe('filter testimonials', () => {
-  it('/v1/testimonials?query --> empty data testimonial if user type not found', async () => {
+  it('/v1/testimonials?query --> empty data testimonial if type not found', async () => {
     return request(app)
       .get('/v1/testimonials')
       .query({ type: 'test' })

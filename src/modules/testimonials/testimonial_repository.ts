@@ -8,6 +8,7 @@ export namespace Testimonial {
   export const findAll = (requestQuery: Entity.RequestQuery) => {
     const query = Testimonials()
       .select('id', 'name', 'description', 'avatar', 'type')
+      .where('is_active', true)
 
     if (requestQuery.type) query.where('type', requestQuery.type)
 
