@@ -1,6 +1,8 @@
 import winston from 'winston'
 import 'winston-mongodb'
 import config from '../config';
+import { ElasticsearchTransport } from 'winston-elasticsearch'
+import moment from 'moment';
 
 const mongo = {
   db: config.get('mongo.connection'),
@@ -10,6 +12,20 @@ const mongo = {
     useUnifiedTopology: true
   },
   metaKey: 'meta'
+}
+
+const elastic = {
+  clientOpts: {
+    cloud: {
+      id: config.get('elastic.cloud.id')
+    },
+    auth: {
+      apiKey: config.get('elastic.api.key')
+    },
+    node: config.get('elastic.url'),
+    nodes: config.get('elastic.url')
+  },
+  index: `${config.get('log.elastic.index')}-${moment().format('YYYY.MM.DD')}`
 }
 
 const logger = winston.createLogger()
@@ -23,6 +39,10 @@ if (
 
 if (config.get('node.env') === 'test') {
   logger.add(new winston.transports.Console())
+}
+
+if (config.get('elastic.cloud.id')) {
+  logger.add(new ElasticsearchTransport(elastic))
 }
 
 interface log {
