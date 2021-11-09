@@ -7,6 +7,7 @@
   "validation.unique": "Isian {{ attribute }} sudah terdaftar.",
   "validation.exists": "Isian {{ attribute }} yang dipilih tidak terdaftar.",
   "validation.boolean.base": "Isian {{ attribute }} harus berupa true atau false.",
+  "validation.string.empty": "Isian {{ attribute }} tidak boleh string kosong.",
   "validation.file.mimetypes": "Isian {{ attribute }} harus berjenis : {{ values }}.",
   "validation.file.size": "Isian {{ attribute }} seharusnya tidak lebih dari {{ max }} kilobytes.",
 
@@ -20,6 +21,6 @@
   "auth.rejected": "UNAUTHORIZED",
   "auth.email.forgot.password.success": "Berhasil mengirimkan tautan verifikasi ke {{ email }}",
 
-  "subject.forgot.password": "Password Reset",
+  "subject.forgot.password": "Reset Kata Sandi",
   "template.paragraph.forgot.password": "Klik link di bawah ini untuk melakukan reset kata sandi"
 }

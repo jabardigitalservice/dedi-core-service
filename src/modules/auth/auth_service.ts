@@ -77,11 +77,13 @@ export namespace Auth {
       target: 'password-verify'
     })
 
+    const aliasRedirect = config.get('url.redirect.forgot.password')
     const linkRedirect = `${config.get('url.redirect.forgot.password')}?token=${token}`
+
     sendMail({
       to: user.email,
       subject: lang.__('subject.forgot.password'),
-      html: templateHtmlForgotEmail(linkRedirect)
+      html: templateHtmlForgotEmail(linkRedirect, aliasRedirect)
     })
 
     return { message: lang.__('auth.email.forgot.password.success', { email: user.email }) }
@@ -118,10 +120,10 @@ export namespace Auth {
     return Repository.updatePassword(decodeJwt.identifier, passwordHash)
   }
 
-  const templateHtmlForgotEmail = (linkRedirect: string) => {
+  const templateHtmlForgotEmail = (linkRedirect: string, aliasRedirect: string) => {
     return `
     <p>${lang.__('template.paragraph.forgot.password')}</p>
-    <a href="${linkRedirect}">${linkRedirect}</a>
+    <a href="${linkRedirect}">${aliasRedirect}</a>
     `
   }
 
