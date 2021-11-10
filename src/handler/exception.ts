@@ -28,7 +28,6 @@ export const onError = (error: any, req: Request, res: Response, next: NextFunct
       tags: logger,
       user: req.user
     });
-
   }
 
   return res.status(error.code).json(messageError(error))
