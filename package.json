@@ -79,7 +79,7 @@
   },
   "scripts": {
     "start": "node build/src/server.js",
-    "dev": "concurrently \"npm run ts\" \"nodemon build/src/server.js\"",
+    "dev": "concurrently --kill-others \"npm run ts\" \"nodemon build/src/server.js\"",
     "ts": "rm -rf build && tsc -w",
     "build": "rm -rf build && tsc --project .",
     "lint": "eslint --ext .ts ./src",

@@ -13,18 +13,22 @@ export const onError = (error: any, req: Request, res: Response, next: NextFunct
   error.code = isErrorCodeNotNumber(error) ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
 
   if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
-    const logger = JSON.stringify({
+    const logger = {
       level: 'error',
       message: error.message,
       method: req.method,
       userAgent: req.headers['user-agent'],
       path: req.path,
       code: error.code
-    })
+    }
 
-    console.log(logger);
+    console.log(JSON.stringify(logger));
 
-    Sentry.captureException(error)
+    Sentry.captureException(error, {
+      tags: logger,
+      user: req.user
+    });
+
   }
 
   return res.status(error.code).json(messageError(error))
