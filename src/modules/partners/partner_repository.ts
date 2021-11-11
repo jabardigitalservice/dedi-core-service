@@ -26,6 +26,17 @@ export namespace Partner {
     return query
   }
 
+  export const findAllUsingCursor = (dateBefore: Date, count: number) => {
+    const query = Partners()
+      .select('id', 'name', 'total_village', 'logo', 'created_at', 'website')
+      .whereNull('deleted_at')
+      .andWhere('created_at', '<', dateBefore)
+      .orderBy('created_at', 'desc')
+      .limit(count)
+
+    return query
+  }
+
   export const search = (requestQuery: Entity.RequestQuerySuggestion) => {
     const query = Partners()
       .select('id', 'name')

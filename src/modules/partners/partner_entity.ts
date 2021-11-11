@@ -21,6 +21,11 @@ export namespace Partner {
     current_page: string
   }
 
+  export interface RequestQueryUsingCursor extends Query {
+    date_before?: string
+    count?: string
+  }
+
   interface Meta extends metaPaginate {
     last_update?: Date
   }
