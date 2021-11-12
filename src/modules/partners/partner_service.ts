@@ -24,10 +24,12 @@ export namespace Partner {
   }
 
   export const findAllUsingCursor = async (requestQuery: Entity.RequestQueryUsingCursor): Promise<Entity.ResponseFindAllUsingCursor> => {
+    const name = requestQuery.name
     const dateBefore = requestQuery?.next_page ? new Date(requestQuery.next_page) : new Date()
     const perPage = Number(requestQuery?.per_page) || 6
 
     const items: any = await Repository.findAllUsingCursor({
+      name,
       dateBefore,
       perPage,
     })

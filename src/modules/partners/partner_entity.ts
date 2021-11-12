@@ -22,11 +22,13 @@ export namespace Partner {
   }
 
   export interface RequestQueryUsingCursor extends Query {
+    name?: string
     next_page?: string
     per_page?: string
   }
 
   export interface QueryUsingCursorRepositoryParameters {
+    name: string
     dateBefore: Date
     perPage: number
   }
