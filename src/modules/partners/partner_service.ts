@@ -41,7 +41,7 @@ export namespace Partner {
       meta: {
         next_page: items.length ? items[items.length - 1].created_at : null,
         per_page: items.length || 0,
-        last_update: lastUpdate?.created_at || null,
+        last_update: items.length ? (lastUpdate?.created_at || null) : null
       }
     }
 
