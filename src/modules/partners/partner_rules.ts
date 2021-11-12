@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from 'joi'
 
 export namespace Partner {
   export const findAll = Joi.object({

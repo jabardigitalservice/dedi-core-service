@@ -1,5 +1,5 @@
-import { metaPaginate } from '../../helpers/paginate';
-import { Query } from '../../helpers/types';
+import { metaPaginate } from '../../helpers/paginate'
+import { Query } from '../../helpers/types'
 
 export namespace Partner {
   export interface Struct {
@@ -21,6 +21,18 @@ export namespace Partner {
     current_page: string
   }
 
+  export interface RequestQueryUsingCursor extends Query {
+    name?: string
+    next_page?: string
+    per_page?: string
+  }
+
+  export interface QueryUsingCursor {
+    name: string
+    dateBefore: Date
+    perPage: number
+  }
+
   interface Meta extends metaPaginate {
     last_update?: Date
   }
@@ -28,6 +40,15 @@ export namespace Partner {
   export interface ResponseFindAll {
     data: Struct[]
     meta: Meta
+  }
+
+  export interface ResponseFindAllUsingCursor {
+    data: Struct[]
+    meta: {
+      next_page: string
+      per_page: number
+      last_update?: Date
+    }
   }
 
   export interface RequestQuerySuggestion extends Query {
