@@ -1,5 +1,5 @@
-import { metaPaginate } from '../../helpers/paginate';
-import { Query } from '../../helpers/types';
+import { metaPaginate } from '../../helpers/paginate'
+import { Query } from '../../helpers/types'
 
 export namespace Partner {
   export interface Struct {

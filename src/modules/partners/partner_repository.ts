@@ -1,6 +1,6 @@
-import database from '../../config/database';
+import database from '../../config/database'
 import { perPage } from '../../helpers/paginate'
-import { Partner as Entity } from './partner_entity';
+import { Partner as Entity } from './partner_entity'
 
 export namespace Partner {
   export const Partners = () => database<Entity.Struct>('partners')
@@ -34,7 +34,7 @@ export namespace Partner {
       .orderBy('created_at', 'desc')
       .limit(requestQuery.perPage)
 
-    if (requestQuery.name) query.where('name', requestQuery.name);
+    if (requestQuery.name) query.where('name', requestQuery.name)
 
     return query
   }
