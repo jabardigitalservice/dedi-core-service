@@ -16,7 +16,7 @@ export namespace Partner {
       data: items.data,
       meta: {
         ...metaPagination(items.pagination),
-        last_update: lastUpdate ? lastUpdate.created_at : null,
+        last_update: lastUpdate?.created_at || null,
       }
     }
 
