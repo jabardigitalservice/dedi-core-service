@@ -28,6 +28,8 @@ export namespace Partner {
     const dateBefore = requestQuery?.next_page ? new Date(requestQuery.next_page) : new Date()
     const perPage = Number(requestQuery?.per_page) || 6
 
+    const lastUpdate = await Repository.getLastUpdate()
+
     const items: any = await Repository.findAllUsingCursor({
       name,
       dateBefore,
@@ -39,6 +41,7 @@ export namespace Partner {
       meta: {
         next_page: items.length ? items[items.length - 1].created_at : null,
         per_page: items.length || 0,
+        last_update: lastUpdate?.created_at || null,
       }
     }
 
