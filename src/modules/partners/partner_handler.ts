@@ -21,7 +21,7 @@ router.get(
 router.get(
   '/v1/partnersUsingCursor',
   async (req: Request<never, never, never, Entity.RequestQueryUsingCursor>, res: Response, next: NextFunction) => {
-    const result: any = await Service.findAllUsingCursor(req.query)
+    const result: Entity.ResponseFindAllUsingCursor = await Service.findAllUsingCursor(req.query)
 
     res.status(httpStatus.OK).json(result)
   }
