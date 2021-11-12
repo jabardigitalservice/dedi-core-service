@@ -36,6 +36,7 @@ export namespace Partner {
       data: items,
       meta: {
         next_page: items.length ? items[items.length - 1].created_at : null,
+        per_page: items.length || 0,
       }
     }
 

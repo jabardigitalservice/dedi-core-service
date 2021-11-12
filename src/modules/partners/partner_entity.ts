@@ -44,6 +44,7 @@ export namespace Partner {
     data: Struct[]
     meta: {
       next_page: string
+      per_page: number
     }
   }
 
