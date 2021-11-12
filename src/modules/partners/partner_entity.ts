@@ -27,7 +27,7 @@ export namespace Partner {
     per_page?: string
   }
 
-  export interface QueryUsingCursorRepositoryParameters {
+  export interface QueryUsingCursor {
     name: string
     dateBefore: Date
     perPage: number

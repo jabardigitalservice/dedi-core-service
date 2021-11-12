@@ -26,13 +26,13 @@ export namespace Partner {
     return query
   }
 
-  export const findAllUsingCursor = (requestQuery: Entity.QueryUsingCursorRepositoryParameters) => {
+  export const findAllUsingCursor = (requestQuery: Entity.QueryUsingCursor) => {
     const query = Partners()
       .select('id', 'name', 'total_village', 'logo', 'created_at', 'website')
       .whereNull('deleted_at')
       .where('created_at', '<', requestQuery.dateBefore)
       .orderBy('created_at', 'desc')
-      .limit(requestQuery.perPage);
+      .limit(requestQuery.perPage)
 
     if (requestQuery.name) query.where('name', requestQuery.name);
 
