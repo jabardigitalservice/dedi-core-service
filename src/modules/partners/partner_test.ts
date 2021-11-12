@@ -3,6 +3,11 @@ import app from '../../server'
 import { Partner as Repository } from './partner_repository'
 import { v4 as uuidv4 } from 'uuid'
 const timestamp = new Date()
+timestamp.setMilliseconds(0)
+
+const ONE_MILISECOND = 1
+const ONE_SECOND = 1000 * ONE_MILISECOND
+const ONE_MINUTE = 60 * ONE_SECOND
 
 describe('seed data', () => {
   it('insert partners', async () => {
@@ -173,6 +178,47 @@ describe('test partner suggestion', () => {
             }),
           })
         )
+      })
+  })
+})
+
+describe('test partners using cursor', () => {
+  it('returns partners with cursor', async () => {
+    const minuteBeforeTimestamp = (minute, timestamp) => new Date(timestamp - minute * ONE_MINUTE)
+
+    await Repository.Partners().insert([
+      {
+        id: uuidv4(),
+        name: 'TokoPedia',
+        total_village: 1,
+        created_at: minuteBeforeTimestamp(1, timestamp)
+      },
+      {
+        id: uuidv4(),
+        name: 'TokoCrypto',
+        total_village: 1,
+        created_at: minuteBeforeTimestamp(2, timestamp)
+      },
+    ])
+
+    return request(app)
+      .get('/v1/partnersUsingCursor')
+      .query({ next_page: timestamp, per_page: 1 })
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            data: expect.arrayContaining([
+              expect.objectContaining({
+                id: expect.any(String),
+                name: 'TokoPedia'
+              }),
+            ]),
+            meta: expect.objectContaining({
+              per_page: 1,
+              next_page: minuteBeforeTimestamp(1, timestamp).toISOString(),
+            })
+          }))
       })
   })
 })
