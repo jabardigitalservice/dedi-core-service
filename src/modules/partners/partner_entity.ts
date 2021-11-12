@@ -22,8 +22,13 @@ export namespace Partner {
   }
 
   export interface RequestQueryUsingCursor extends Query {
-    date_before?: string
-    count?: string
+    next_page?: string
+    per_page?: string
+  }
+
+  export interface QueryUsingCursorRepositoryParameters {
+    dateBefore: Date
+    perPage: number
   }
 
   interface Meta extends metaPaginate {
@@ -33,6 +38,13 @@ export namespace Partner {
   export interface ResponseFindAll {
     data: Struct[]
     meta: Meta
+  }
+
+  export interface ResponseFindAllUsingCursor {
+    data: Struct[]
+    meta: {
+      next_page: string
+    }
   }
 
   export interface RequestQuerySuggestion extends Query {
