@@ -9,11 +9,14 @@ export namespace Partner {
       per_page: requestQuery.per_page,
       current_page: requestQuery.current_page
     })
+
+    const lastUpdate = await Repository.getLastUpdate()
+
     const result: Entity.ResponseFindAll = {
       data: items.data,
       meta: {
         ...metaPagination(items.pagination),
-        last_update: items.data.length ? items.data[0].created_at : null,
+        last_update: lastUpdate ? lastUpdate.created_at : null,
       }
     }
 

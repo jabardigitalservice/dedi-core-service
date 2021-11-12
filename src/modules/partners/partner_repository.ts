@@ -16,6 +16,16 @@ export namespace Partner {
     return query.paginate(perPage(requestQuery))
   }
 
+  export const getLastUpdate = () => {
+    const query = Partners()
+      .select('created_at')
+      .whereNull('deleted_at')
+      .orderBy('created_at', 'desc')
+      .first()
+
+    return query
+  }
+
   export const search = (requestQuery: Entity.RequestQuerySuggestion) => {
     const query = Partners()
       .select('id', 'name')
