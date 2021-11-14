@@ -1,8 +1,8 @@
 import fs, { unlinkSync } from 'fs'
-import config from '../config'
-import { s3 } from '../config/aws'
 import { Express } from 'express'
 import { ManagedUpload } from 'aws-sdk/clients/s3'
+import config from '../config'
+import { s3 } from '../config/aws'
 
 interface Upload {
   name: string
@@ -15,7 +15,7 @@ export const uploadS3 = (file: Express.Multer.File, customDir = '/'): Upload => 
   const uploadParams = {
     Bucket: config.get('aws.bucket'),
     Body: fs.createReadStream(file.path),
-    Key: `${dir}${file.filename}`
+    Key: `${dir}${file.filename}`,
   }
 
   s3.upload(uploadParams, (err: Error, res: ManagedUpload.SendData) => {
@@ -27,14 +27,14 @@ export const uploadS3 = (file: Express.Multer.File, customDir = '/'): Upload => 
   return {
     name: file.filename,
     mimetype: file.mimetype,
-    path: uploadParams.Key
+    path: uploadParams.Key,
   }
 }
 
 export const getFileUrlS3 = async (path: string): Promise<string> => {
   const params = {
     Bucket: config.get('aws.bucket'),
-    Key: path
+    Key: path,
   }
 
   try {

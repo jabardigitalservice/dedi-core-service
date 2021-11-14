@@ -7,7 +7,7 @@ export namespace Partner {
     const items: any = await Repository.findAll({
       name: requestQuery.name,
       per_page: requestQuery.per_page,
-      current_page: requestQuery.current_page
+      current_page: requestQuery.current_page,
     })
 
     const lastUpdate = await Repository.getLastUpdate()
@@ -17,14 +17,14 @@ export namespace Partner {
       meta: {
         ...metaPagination(items.pagination),
         last_update: lastUpdate?.created_at || null,
-      }
+      },
     }
 
     return result
   }
 
   export const findAllUsingCursor = async (requestQuery: Entity.RequestQueryUsingCursor): Promise<Entity.ResponseFindAllUsingCursor> => {
-    const name = requestQuery.name
+    const { name } = requestQuery
     const dateBefore = requestQuery?.next_page ? new Date(requestQuery.next_page) : new Date()
     const perPage = Number(requestQuery?.per_page) || 6
 
@@ -54,8 +54,8 @@ export namespace Partner {
     const result: Entity.ResponseSuggestion = {
       data: partners,
       meta: {
-        total: partners.length
-      }
+        total: partners.length,
+      },
     }
 
     return result

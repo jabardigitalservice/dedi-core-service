@@ -12,7 +12,7 @@ import { verifyAccessToken } from '../../middleware/jwt'
 
 const apiLimiterSignIn = rateLimit({
   windowMs: Number(config.get('api.limiter.time.signin', 300000)), // Default time signin 5 minutes
-  max: Number(config.get('api.limiter.max.signin', 3))
+  max: Number(config.get('api.limiter.max.signin', 3)),
 });
 
 const router = express.Router()
@@ -23,16 +23,17 @@ router.post(
   async (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     try {
-      const body: Entity.RequestBodySignUp = req.body
+      const { body } = req
       await Service.signUp(body)
       res.status(httpStatus.CREATED).json({ message: 'CREATED' })
     } catch (error) {
       next(error)
     }
-  })
+  },
+)
 
 router.post(
   '/v1/auth/users/sign-in',
@@ -41,24 +42,25 @@ router.post(
   async (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     try {
-      const body: Entity.RequestBodySignIn = req.body
+      const { body } = req
       const result: Entity.ResponseJWT = await Service.signIn(body)
       Log.signIn(body)
       if (body.remember) {
         res.cookie('access_token', result.data.access_token, {
           httpOnly: true,
           secure: isNodeEnvProduction(),
-          expires: new Date(Date.now() + Number(config.get('jwt.ttl')))
+          expires: new Date(Date.now() + Number(config.get('jwt.ttl'))),
         })
       }
       res.status(httpStatus.OK).json(result)
     } catch (error) {
       next(error)
     }
-  })
+  },
+)
 
 router.post(
   '/v1/auth/users/refresh-token',
@@ -67,16 +69,17 @@ router.post(
   async (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     try {
-      const body: Entity.RequestBodyRefreshToken = req.body
+      const { body } = req
       const result: Entity.ResponseJWT = await Service.refreshToken(body)
       res.status(httpStatus.OK).json(result)
     } catch (error) {
       next(error)
     }
-  })
+  },
+)
 
 router.post(
   '/v1/auth/users/forgot-password',
@@ -84,16 +87,17 @@ router.post(
   async (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     try {
-      const body: Entity.RequestBodyForgotPassword = req.body
+      const { body } = req
       const result: Entity.ResponseForgotPassword = await Service.forgotPassword(body)
       res.status(httpStatus.OK).json(result)
     } catch (error) {
       next(error)
     }
-  })
+  },
+)
 
 router.post(
   '/v1/auth/users/forgot-password/verify',
@@ -101,7 +105,7 @@ router.post(
   async (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     try {
       const result: Entity.ResponseForgotPasswordVerify = await Service.forgotPasswordVerify(req)
@@ -109,7 +113,8 @@ router.post(
     } catch (error) {
       next(error)
     }
-  })
+  },
+)
 
 router.post(
   '/v1/auth/users/reset-password',
@@ -118,15 +123,16 @@ router.post(
   async (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     try {
-      const body: Entity.RequestBodyResetPassword = req.body
+      const { body } = req
       await Service.resetPassword(req, body)
       res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
       next(error)
     }
-  })
+  },
+)
 
 export default router

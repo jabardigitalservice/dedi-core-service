@@ -7,7 +7,7 @@ const options = {
   redisClient: redis,
   defaultDuration: config.get('redis.cache.duration', '15 minutes'),
   statusCodes: {
-    include: [httpStatus.OK]
+    include: [httpStatus.OK],
   },
 }
 

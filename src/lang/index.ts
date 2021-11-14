@@ -5,7 +5,7 @@ import config from '../config'
 lang.configure({
   locales: ['en', 'id'],
   directory: path.join(__dirname, 'locales'),
-  defaultLocale: config.get('default.locale', 'id')
+  defaultLocale: config.get('default.locale', 'id'),
 })
 
 export default lang

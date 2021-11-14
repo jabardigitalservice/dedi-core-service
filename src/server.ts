@@ -1,12 +1,12 @@
 import bodyParser from 'body-parser'
 import express, { Application } from 'express'
-import config from './config'
-import { onError } from './handler/exception'
-import sentryTransaction from './middleware/sentry'
 import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
+import sentryTransaction from './middleware/sentry'
+import { onError } from './handler/exception'
+import config from './config'
 import home from './handler/home'
 import partners from './modules/partners/partner_handler'
 import villages from './modules/villages/village_handler'
@@ -16,14 +16,14 @@ import auth from './modules/auth/auth_handler'
 class App {
   public app: Application
 
-  constructor () {
+  constructor() {
     this.app = express()
     this.plugins()
     this.handlers()
     this.extends()
   }
 
-  protected plugins (): void {
+  protected plugins(): void {
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json())
     this.app.use(cors())
@@ -33,7 +33,7 @@ class App {
     this.app.use(sentryTransaction)
   }
 
-  protected handlers (): void {
+  protected handlers(): void {
     this.app.use(home)
     this.app.use(partners)
     this.app.use(villages)
@@ -41,12 +41,12 @@ class App {
     this.app.use(auth)
   }
 
-  protected extends (): void {
+  protected extends(): void {
     this.app.use(onError)
   }
 }
 
-const app = new App().app
+const { app } = new App()
 if (config.get('node.env') !== 'test') {
   const PORT = config.get('port')
   app.listen(PORT, () => {

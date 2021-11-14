@@ -1,7 +1,8 @@
 import request from 'supertest'
+import { v4 as uuidv4 } from 'uuid'
 import app from '../../server'
 import { Partner as Repository } from './partner_repository'
-import { v4 as uuidv4 } from 'uuid'
+
 const timestamp = new Date()
 timestamp.setMilliseconds(0)
 
@@ -29,7 +30,7 @@ const expectMeta = expect.objectContaining({
   last_page: expect.any(Number),
   per_page: expect.any(Number),
   to: expect.any(Number),
-  total: expect.any(Number)
+  total: expect.any(Number),
 })
 
 const expectBody = expect.objectContaining({
@@ -40,48 +41,42 @@ const expectBody = expect.objectContaining({
       total_village: expect.any(Number),
       logo: expect.any(String),
       created_at: expect.any(String),
-      website: expect.any(String)
-    })
+      website: expect.any(String),
+    }),
   ]),
-  meta: expectMeta
+  meta: expectMeta,
 })
 
 describe('tests partners', () => {
-  it('test success findAll', async () => {
-    return request(app)
-      .get('/v1/partners')
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(expectBody)
-      })
-  })
+  it('test success findAll', async () => request(app)
+    .get('/v1/partners')
+    .expect(200)
+    .then((response) => {
+      expect(response.body).toEqual(expectBody)
+    }))
 })
 
 describe('tests partners', () => {
-  it('test success findAll with requestQuery', async () => {
-    return request(app)
-      .get('/v1/partners')
-      .query({ name: 'test' })
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(expectBody)
-      })
-  })
+  it('test success findAll with requestQuery', async () => request(app)
+    .get('/v1/partners')
+    .query({ name: 'test' })
+    .expect(200)
+    .then((response) => {
+      expect(response.body).toEqual(expectBody)
+    }))
 })
 
 describe('tests partners', () => {
-  it('test success findAll return data empty', async () => {
-    return request(app)
-      .get('/v1/partners')
-      .query({ name: 'test2', current_page: 2 })
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(expect.objectContaining({
-          data: [],
-          meta: expectMeta
-        }))
-      })
-  })
+  it('test success findAll return data empty', async () => request(app)
+    .get('/v1/partners')
+    .query({ name: 'test2', current_page: 2 })
+    .expect(200)
+    .then((response) => {
+      expect(response.body).toEqual(expect.objectContaining({
+        data: [],
+        meta: expectMeta,
+      }))
+    }))
 })
 
 describe('test partner suggestion', () => {
@@ -91,20 +86,20 @@ describe('test partner suggestion', () => {
         id: uuidv4(),
         name: 'TokoPedia',
         total_village: 1,
-        created_at: timestamp
+        created_at: timestamp,
       },
       {
         id: uuidv4(),
         name: 'TokoCrypto',
         total_village: 1,
-        created_at: timestamp
+        created_at: timestamp,
       },
       {
         id: uuidv4(),
         name: 'Bukalapak',
         total_village: 1,
-        created_at: timestamp
-      }
+        created_at: timestamp,
+      },
     ])
     return request(app)
       .get('/v1/partners/suggestion')
@@ -116,17 +111,18 @@ describe('test partner suggestion', () => {
             data: expect.arrayContaining([
               {
                 id: expect.any(String),
-                name: 'TokoCrypto'
+                name: 'TokoCrypto',
               },
               {
                 id: expect.any(String),
-                name: 'TokoPedia'
+                name: 'TokoPedia',
               },
             ]),
             meta: expect.objectContaining({
-              total: 2
-            })
-          }))
+              total: 2,
+            }),
+          }),
+        )
       })
   })
 })
@@ -137,7 +133,7 @@ describe('test partner suggestion', () => {
       id: uuidv4(),
       name: 'TokoKita',
       total_village: 1,
-      created_at: timestamp
+      created_at: timestamp,
     })
 
     return request(app)
@@ -150,8 +146,9 @@ describe('test partner suggestion', () => {
             data: [],
             meta: expect.objectContaining({
               total: 0,
-            })
-          }))
+            }),
+          }),
+        )
       })
   })
 })
@@ -162,7 +159,7 @@ describe('test partner suggestion', () => {
       id: uuidv4(),
       name: 'e-fishery',
       total_village: 1,
-      created_at: timestamp
+      created_at: timestamp,
     })
 
     return request(app)
@@ -176,7 +173,7 @@ describe('test partner suggestion', () => {
             meta: expect.objectContaining({
               total: 0,
             }),
-          })
+          }),
         )
       })
   })
@@ -191,13 +188,13 @@ describe('test partners using cursor', () => {
         id: uuidv4(),
         name: 'TokoPedia',
         total_village: 1,
-        created_at: minuteBeforeTimestamp(1, timestamp)
+        created_at: minuteBeforeTimestamp(1, timestamp),
       },
       {
         id: uuidv4(),
         name: 'TokoCrypto',
         total_village: 1,
-        created_at: minuteBeforeTimestamp(2, timestamp)
+        created_at: minuteBeforeTimestamp(2, timestamp),
       },
     ])
 
@@ -211,14 +208,15 @@ describe('test partners using cursor', () => {
             data: expect.arrayContaining([
               expect.objectContaining({
                 id: expect.any(String),
-                name: 'TokoPedia'
+                name: 'TokoPedia',
               }),
             ]),
             meta: expect.objectContaining({
               per_page: 1,
               next_page: minuteBeforeTimestamp(1, timestamp).toISOString(),
-            })
-          }))
+            }),
+          }),
+        )
       })
   })
 })

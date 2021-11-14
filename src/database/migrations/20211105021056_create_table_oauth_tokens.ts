@@ -1,9 +1,9 @@
 import { Knex } from 'knex';
 
-export async function up (knex: Knex): Promise<void> {
-  return knex.schema.hasTable('oauth_tokens').then(function (exists) {
+export async function up(knex: Knex): Promise<void> {
+  return knex.schema.hasTable('oauth_tokens').then((exists) => {
     if (!exists) {
-      return knex.schema.createTable('oauth_tokens', function (table) {
+      return knex.schema.createTable('oauth_tokens', (table) => {
         table.uuid('id').primary()
         table.uuid('user_id').index()
         table.string('access_token', 767).index()
@@ -17,6 +17,6 @@ export async function up (knex: Knex): Promise<void> {
   })
 }
 
-export async function down (knex: Knex): Promise<void> {
+export async function down(knex: Knex): Promise<void> {
   return knex.schema.dropTableIfExists('oauth_tokens')
 }

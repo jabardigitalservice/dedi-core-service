@@ -13,8 +13,5 @@
   "include": [
     "./src/**/*.ts",
     "./src/lang/locales/*.json",
-  ],
-  "exclude": [
-    "./src/**/*_test.ts"
   ]
 }

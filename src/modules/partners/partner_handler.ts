@@ -16,7 +16,8 @@ router.get(
     const result: Entity.ResponseFindAll = await Service.findAll(req.query)
 
     res.status(httpStatus.OK).json(result)
-  })
+  },
+)
 
 router.get(
   '/v1/partnersUsingCursor',
@@ -24,7 +25,7 @@ router.get(
     const result: Entity.ResponseFindAllUsingCursor = await Service.findAllUsingCursor(req.query)
 
     res.status(httpStatus.OK).json(result)
-  }
+  },
 )
 
 router.get(
@@ -37,7 +38,7 @@ router.get(
     const result: Entity.ResponseSuggestion = await Service.search(req.query)
 
     res.status(httpStatus.OK).json(result)
-  }
+  },
 )
 
 export default router

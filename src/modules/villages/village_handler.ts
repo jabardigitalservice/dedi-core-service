@@ -15,7 +15,8 @@ router.get(
     const result: Entity.ResponseFindAllWithLocation = await Service.findAllWithLocation(req.query)
 
     res.status(httpStatus.OK).json(result)
-  })
+  },
+)
 
 router.get(
   '/v1/villages/:id',
@@ -27,7 +28,7 @@ router.get(
     } catch (err) {
       next(err)
     }
-  }
+  },
 )
 
 export default router

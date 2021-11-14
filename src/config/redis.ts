@@ -3,10 +3,10 @@ import config from '.';
 
 const client = createClient({
   host: config.get('redis.host'),
-  port: config.get('redist.port')
+  port: config.get('redist.port'),
 });
 
-client.on('error', function (error) {
+client.on('error', (error) => {
   console.error(error.message);
 });
 
