@@ -7,15 +7,15 @@ export interface metaPaginate {
   total: number
 }
 
-export const perPage = (requestQuery: {
+export const pagination = (requestQuery: {
   per_page: string,
   current_page: string
 }) => {
-  const perpage = Number(requestQuery.per_page) || 20
+  const perPage = Number(requestQuery.per_page) || 20
   const currentPage = Number(requestQuery.current_page) || 1
 
   return {
-    perPage: perpage,
+    perPage,
     currentPage,
     isFromStart: true,
   }
