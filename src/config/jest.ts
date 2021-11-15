@@ -1,4 +1,4 @@
-import redis from '../config/redis';
+import redis from './redis';
 
 global.beforeEach(() => {
   redis.flushall()
@@ -7,7 +7,7 @@ global.beforeEach(() => {
 global.afterAll(async () => {
   redis.flushall()
 
-  await new Promise<void>(resolve => {
+  await new Promise<void>((resolve) => {
     redis.quit(() => resolve())
   })
 })

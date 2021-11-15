@@ -1,6 +1,6 @@
 import database from '../../config/database'
-import { perPage } from '../../helpers/paginate'
-import { Testimonial as Entity } from '../testimonials/testimonial_entity'
+import { pagination } from '../../helpers/paginate'
+import { Testimonial as Entity } from './testimonial_entity'
 
 export namespace Testimonial {
   export const Testimonials = () => database<Entity.Struct>('testimonials')
@@ -12,6 +12,6 @@ export namespace Testimonial {
 
     if (requestQuery.type) query.where('type', requestQuery.type)
 
-    return query.paginate(perPage(requestQuery))
+    return query.paginate(pagination(requestQuery))
   }
 }

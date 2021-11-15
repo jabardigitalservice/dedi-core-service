@@ -13,9 +13,9 @@ export const sendMail = async (payload: Payload) => {
   const mailOptions = {
     from: {
       name: config.get('mail.from.name'),
-      address: config.get('mail.from.address')
+      address: config.get('mail.from.address'),
     },
-    ...payload
+    ...payload,
   }
 
   mail.sendMail(mailOptions, (err) => {

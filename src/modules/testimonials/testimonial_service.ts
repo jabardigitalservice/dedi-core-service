@@ -7,12 +7,12 @@ export namespace Testimonial {
     const items: any = await Repository.findAll({
       type: requestQuery.type,
       per_page: requestQuery.per_page,
-      current_page: requestQuery.current_page
+      current_page: requestQuery.current_page,
     })
 
     const result: Entity.ResponseFindAll = {
       data: items.data,
-      meta: metaPagination(items.pagination)
+      meta: metaPagination(items.pagination),
     }
 
     return result

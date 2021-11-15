@@ -7,7 +7,7 @@ export interface metaPaginate {
   total: number
 }
 
-export const perPage = (requestQuery: {
+export const pagination = (requestQuery: {
   per_page: string,
   current_page: string
 }) => {
@@ -17,17 +17,15 @@ export const perPage = (requestQuery: {
   return {
     perPage,
     currentPage,
-    isFromStart: true
+    isFromStart: true,
   }
 }
 
-export const metaPagination = (pagination: any): metaPaginate => {
-  return {
-    current_page: pagination.currentPage,
-    from: (pagination.currentPage - 1) * pagination.perPage + 1,
-    last_page: pagination.lastPage,
-    per_page: pagination.perPage,
-    to: pagination.to,
-    total: pagination.total
-  }
-}
+export const metaPagination = (pagination: any): metaPaginate => ({
+  current_page: pagination.currentPage,
+  from: (pagination.currentPage - 1) * pagination.perPage + 1,
+  last_page: pagination.lastPage,
+  per_page: pagination.perPage,
+  to: pagination.to,
+  total: pagination.total,
+})

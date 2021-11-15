@@ -1,5 +1,5 @@
-import config from '.';
 import nodemailer from 'nodemailer'
+import config from '.';
 
 const mail = nodemailer.createTransport({
   host: config.get('smtp.host'),
@@ -7,10 +7,10 @@ const mail = nodemailer.createTransport({
   secure: false,
   auth: {
     user: config.get('mail.username'),
-    pass: config.get('mail.password')
+    pass: config.get('mail.password'),
   },
   sender: config.get('mail.from.name'),
-  from: config.get('mail.from.address')
+  from: config.get('mail.from.address'),
 })
 
 export default mail

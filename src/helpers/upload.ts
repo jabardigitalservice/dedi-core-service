@@ -1,11 +1,13 @@
 import path from 'path'
-import lang from '../lang'
-import { Express, Request, RequestHandler, Response } from 'express'
+import {
+  Express, Request, RequestHandler, Response,
+} from 'express'
 import multer, { FileFilterCallback } from 'multer'
-import { HttpError } from '../handler/exception'
 import httpStatus from 'http-status'
-import storage from '../config/storage'
 import { ParamsDictionary } from 'express-serve-static-core'
+import { HttpError } from '../handler/exception'
+import storage from '../config/storage'
+import lang from '../lang'
 
 interface StructErrors {
   [key: string]: string[]
@@ -25,9 +27,11 @@ interface UploadPromise {
   requestFile: RequestFile
 }
 
+type MulterFile = Express.Multer.File | null
+
 const formatError = (fieldName: string, message: string): HttpError => {
   const errors: StructErrors = {
-    [fieldName]: [message]
+    [fieldName]: [message],
   }
 
   return new HttpError(httpStatus.UNPROCESSABLE_ENTITY, JSON.stringify(errors), true)
@@ -42,7 +46,7 @@ const checkFileType = (file: Express.Multer.File, cb: FileFilterCallback, type: 
 
   const customMessage = {
     attribute: file.fieldname,
-    values: type.split('|').join(', ')
+    values: type.split('|').join(', '),
   }
 
   cb(formatError(file.fieldname, lang.__('validation.file.mimetypes', customMessage)))
@@ -53,7 +57,7 @@ const getError = (err: any, requestFile: RequestFile): HttpError => {
 
   const customMessage = {
     attribute: requestFile.fieldName,
-    max: requestFile.fileSize.toString()
+    max: requestFile.fileSize.toString(),
   }
 
   if (err && err.code === 'LIMIT_FILE_SIZE') {
@@ -67,31 +71,29 @@ const getError = (err: any, requestFile: RequestFile): HttpError => {
   return error
 }
 
-const uploadPromise = (file: UploadPromise): Promise<Express.Multer.File | null> => {
-  return new Promise((resolve, reject) => {
-    file.upload(file.requestFile.req, file.requestFile.res, (err: any) => {
-      const error = getError(err, file.requestFile)
-      const isError = JSON.parse(error.message)
-      if (isError[file.requestFile.fieldName][0]) reject(error)
-      resolve(file.requestFile.req.file || null)
-    })
+const uploadFile = (file: UploadPromise): Promise<MulterFile> => new Promise((resolve, reject) => {
+  file.upload(file.requestFile.req, file.requestFile.res, (err: any) => {
+    const error = getError(err, file.requestFile)
+    const isError = JSON.parse(error.message)
+    if (isError[file.requestFile.fieldName][0]) reject(error)
+    resolve(file.requestFile.req.file || null)
   })
-}
+})
 
-export const uploadLocalSingle = (requestFile: RequestFile): Promise<Express.Multer.File | null> => {
+export const uploadLocalSingle = (requestFile: RequestFile): Promise<MulterFile> => {
   const upload = multer({
-    storage: storage,
+    storage,
     limits: {
-      fileSize: requestFile.fileSize
+      fileSize: requestFile.fileSize,
     },
     fileFilter: (req: Request, file, cb: FileFilterCallback) => {
       checkFileType(file, cb, requestFile.allowFileType)
-    }
+    },
   })
     .single(requestFile.fieldName)
 
-  return uploadPromise({
+  return uploadFile({
     upload,
-    requestFile
+    requestFile,
   })
 }

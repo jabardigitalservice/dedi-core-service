@@ -5,18 +5,6 @@ import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
 
 export namespace Village {
-  export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation> => {
-    const items = await Repository.findAllWithLocation(requestQuery)
-
-    const result: Entity.ResponseFindAllWithLocation = {
-      data: responseFindAllWithLocation(items),
-      meta: {
-        total: items.length
-      }
-    }
-
-    return result
-  }
 
   const responseFindAllWithLocation = (items: any[]): Entity.FindAllWithLocation[] => {
     const data: Entity.FindAllWithLocation[] = []
@@ -37,11 +25,24 @@ export namespace Village {
           lat: item.location.y,
           lng: item.location.x,
         },
-        images: JSON.parse(item.images) || []
+        images: JSON.parse(item.images) || [],
       })
     }
 
     return data
+  }
+
+  export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation> => {
+    const items = await Repository.findAllWithLocation(requestQuery)
+
+    const result: Entity.ResponseFindAllWithLocation = {
+      data: responseFindAllWithLocation(items),
+      meta: {
+        total: items.length,
+      },
+    }
+
+    return result
   }
 
   export const findById = async ({ id }: Entity.RequestParamFindById): Promise<Entity.ResponseFindById> => {

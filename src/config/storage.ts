@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
   destination: path.join(__dirname, config.get('tmp')),
   filename: (req, file, cb) => {
     cb(null, uuidv4() + path.extname(file.originalname));
-  }
+  },
 })
 
 export default storage

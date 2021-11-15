@@ -1,20 +1,9 @@
 import httpStatus from 'http-status'
 import Joi, { Schema } from 'joi'
-import lang from '../lang'
 import { Request, Response, NextFunction } from 'express'
+import lang from '../lang'
 
-export const validate = (schema: Schema, property: string) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const { error } = schema.validate(req[property], { abortEarly: false })
-
-    if (!error) return next()
-
-    const { details } = error
-    const errors = validateError(details)
-
-    Object.keys(errors).length > 0 ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
-  }
-}
+export const message = (type: string, label: string) => lang.__(`validation.${type}`, { attribute: label })
 
 export const validateError = (details: Joi.ValidationErrorItem[]) => {
   const rules: any = {}
@@ -27,6 +16,13 @@ export const validateError = (details: Joi.ValidationErrorItem[]) => {
   return rules
 }
 
-export const message = (type: string, label: string) => {
-  return lang.__(`validation.${type}`, { attribute: label })
+export const validate = (schema: Schema, property: string) => (req: Request, res: Response, next: NextFunction) => {
+  const { error } = schema.validate(req[property], { abortEarly: false })
+
+  if (!error) return next()
+
+  const { details } = error
+  const errors = validateError(details)
+
+  Object.keys(errors).length > 0 ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
 }

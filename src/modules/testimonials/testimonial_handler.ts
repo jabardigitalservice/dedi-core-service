@@ -15,7 +15,7 @@ router.get(
     const result: Entity.ResponseFindAll = await Service.findAll(req.query)
 
     res.status(httpStatus.OK).json(result)
-  }
+  },
 )
 
 export default router

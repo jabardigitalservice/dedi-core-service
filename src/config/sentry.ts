@@ -7,9 +7,9 @@ Sentry.init({
   environment: config.get('node.env'),
   integrations: [
     new Sentry.Integrations.Http({ tracing: true }),
-    new Tracing.Integrations.Mysql()
+    new Tracing.Integrations.Mysql(),
   ],
-  tracesSampleRate: Number(config.get('sentry.sample.rate', 0.0))
+  tracesSampleRate: Number(config.get('sentry.sample.rate', 0.0)),
 })
 
 export default Sentry

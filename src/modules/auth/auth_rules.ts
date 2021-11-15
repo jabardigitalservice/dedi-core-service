@@ -6,7 +6,7 @@ export namespace Auth {
 
   const password = {
     password: Joi.string().regex(regexPassword).required(),
-    password_confirm: Joi.string().regex(regexPassword).valid(Joi.ref('password')).required()
+    password_confirm: Joi.string().regex(regexPassword).valid(Joi.ref('password')).required(),
   }
 
   const email = Joi.string().email().required()
@@ -16,24 +16,24 @@ export namespace Auth {
     company: Joi.string().allow(null),
     partner_id: Joi.string().allow(null),
     email,
-    ...password
+    ...password,
   })
 
   export const signIn = Joi.object({
     email,
     password: Joi.string().required(),
-    remember: Joi.bool().allow(null)
+    remember: Joi.bool().allow(null),
   })
 
   export const refreshToken = Joi.object({
-    refresh_token: Joi.string().required()
+    refresh_token: Joi.string().required(),
   })
 
   export const forgotPassword = Joi.object({
-    email
+    email,
   })
 
   export const resetPassword = Joi.object({
-    ...password
+    ...password,
   })
 }

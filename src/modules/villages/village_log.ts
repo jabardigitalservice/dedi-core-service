@@ -11,22 +11,20 @@ export namespace Village {
     return result.join(', ')
   }
 
-  export const findAll = () => {
-    return (req: Request, res: Response, next: NextFunction) => {
-      if (req.query.name || req.query.level) {
-        logger({
-          level: 'info',
-          message: `search by ${searchBy(req)}`,
-          data: {
-            name: req.query.name,
-            level: req.query.level,
-          },
-          service: 'villages',
-          activity: 'search',
-        })
-      }
-
-      next()
+  export const findAll = () => (req: Request, res: Response, next: NextFunction) => {
+    if (req.query.name || req.query.level) {
+      logger({
+        level: 'info',
+        message: `search by ${searchBy(req)}`,
+        data: {
+          name: req.query.name,
+          level: req.query.level,
+        },
+        service: 'villages',
+        activity: 'search',
+      })
     }
+
+    next()
   }
 }

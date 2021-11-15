@@ -1,9 +1,9 @@
 import { Knex } from 'knex'
 
-export async function up (knex: Knex): Promise<void> {
-  return knex.schema.hasTable('villages').then(function (exists) {
+export async function up(knex: Knex): Promise<void> {
+  return knex.schema.hasTable('villages').then((exists) => {
     if (!exists) {
-      return knex.schema.createTable('villages', function (table) {
+      return knex.schema.createTable('villages', (table) => {
         table.string('id', 11).primary()
         table.string('name', 60).notNullable()
         table.string('district_id', 8).notNullable().index()
@@ -19,6 +19,6 @@ export async function up (knex: Knex): Promise<void> {
   })
 }
 
-export async function down (knex: Knex): Promise<void> {
+export async function down(knex: Knex): Promise<void> {
   return knex.schema.dropTableIfExists('villages')
 }

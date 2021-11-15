@@ -1,5 +1,5 @@
 import database from '../../config/database'
-import { perPage } from '../../helpers/paginate'
+import { pagination } from '../../helpers/paginate'
 import { Partner as Entity } from './partner_entity'
 
 export namespace Partner {
@@ -13,7 +13,7 @@ export namespace Partner {
 
     if (requestQuery.name) query.where('name', requestQuery.name)
 
-    return query.paginate(perPage(requestQuery))
+    return query.paginate(pagination(requestQuery))
   }
 
   export const getLastUpdate = () => {

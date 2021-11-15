@@ -7,10 +7,10 @@ export namespace Auth {
       level: 'info',
       message: 'user sign in',
       data: {
-        email: requestBody.email
+        email: requestBody.email,
       },
       service: 'auth',
-      activity: 'user_sign_in'
+      activity: 'user_sign_in',
     })
   }
 }

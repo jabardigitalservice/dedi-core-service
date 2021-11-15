@@ -7,16 +7,16 @@ const mongo = {
   collection: config.get('log.mongo.collection'),
   capped: true,
   options: {
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   },
-  metaKey: 'meta'
+  metaKey: 'meta',
 }
 
 const logger = winston.createLogger()
 
 if (
-  config.get('mongo.connection') &&
-  config.get('node.env') !== 'test'
+  config.get('mongo.connection')
+  && config.get('node.env') !== 'test'
 ) {
   logger.add(new winston.transports.MongoDB(mongo))
 }
@@ -39,7 +39,7 @@ export default (log: log) => {
     meta: {
       data: log.data,
       service: log.service,
-      activity: log.activity
-    }
+      activity: log.activity,
+    },
   })
 }
