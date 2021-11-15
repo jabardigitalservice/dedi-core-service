@@ -26,4 +26,24 @@ export namespace Testimonial {
     data: Struct[]
     meta: Meta
   }
+
+  export interface RequestQueryUsingCursor extends Query {
+    type?: string
+    next_page?: string
+    per_page?: string
+  }
+
+  export interface QueryUsingCursor {
+    type: string
+    dateBefore: Date
+    perPage: number
+  }
+
+  export interface ResponseFindAllUsingCursor {
+    data: Struct[],
+    meta: {
+      next_page: string,
+      per_page: number
+    }
+  }
 }
