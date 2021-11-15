@@ -3,10 +3,11 @@ import faker from 'faker'
 import database from '../../config/database';
 
 export async function seed(): Promise<void> {
+  const data = []
+
   for (let index = 0; index < 10; index++) {
     const user_id = uuidv4()
-
-    database('testimonials').insert({
+    data.push({
       id: uuidv4(),
       name: faker.name.findName(),
       description: faker.lorem.text(),
@@ -17,4 +18,6 @@ export async function seed(): Promise<void> {
       created_at: new Date(),
     });
   }
+
+  return database('testimonials').insert(data)
 }
