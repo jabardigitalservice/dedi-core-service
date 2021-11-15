@@ -12,6 +12,7 @@ export namespace Village {
     location: any
     images: string
     is_active: boolean
+    updated_at: Date
   }
 
   export interface FindAllWithLocation {
@@ -68,6 +69,7 @@ export namespace Village {
     data: FindAllWithLocation[]
     meta: {
       total: number
+      last_update?: Date
     }
   }
 

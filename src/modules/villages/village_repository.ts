@@ -76,4 +76,15 @@ export namespace Village {
 
     return query
   }
+
+  export const getLastUpdate = () => {
+    const query = Villages()
+      .select('updated_at')
+      .whereNotNull('updated_at')
+      .orderBy('updated_at', 'desc')
+      .where('is_active', true)
+      .first()
+
+    return query
+  }
 }

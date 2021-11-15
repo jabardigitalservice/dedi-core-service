@@ -14,6 +14,7 @@ export async function up(knex: Knex): Promise<void> {
         table.specificType('location', 'POINT').notNullable().index()
         table.json('images')
         table.boolean('is_active').notNullable().index()
+        table.timestamp('updated_at').index()
       })
     }
   })
