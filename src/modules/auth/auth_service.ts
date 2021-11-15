@@ -82,13 +82,15 @@ export namespace Auth {
 
     const responseJwt = generateJwtToken(user)
 
-    Repository.updateRefreshToken(requestBody.refresh_token,
+    Repository.updateRefreshToken(
+      requestBody.refresh_token,
       {
         user_id: user.id,
         access_token: responseJwt.data.access_token,
         refresh_token: responseJwt.data.refresh_token,
         expired_in: responseJwt.data.expired_in,
-      })
+      },
+    )
 
     return responseJwt
   }
