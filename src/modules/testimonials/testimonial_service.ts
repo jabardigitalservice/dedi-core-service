@@ -25,11 +25,13 @@ export namespace Testimonial {
       perPage: Number(requestQuery?.per_page) || 3,
     })
 
+    const itemsLength = items.length
+
     const result: Entity.ResponseFindAllUsingCursor = {
       data: items,
       meta: {
-        next_page: items.length ? items[items.length - 1].created_at : null,
-        per_page: items.length || 0,
+        next_page: itemsLength ? items[itemsLength - 1].created_at : null,
+        per_page: itemsLength || 0,
       },
     }
 
