@@ -19,10 +19,14 @@ export namespace Testimonial {
   }
 
   export const findAllUsingCursor = async (requestQuery: Entity.RequestQueryUsingCursor): Promise<Entity.ResponseFindAllUsingCursor> => {
+    const { type } = requestQuery
+    const dateBefore = requestQuery?.next_page ? new Date(requestQuery.next_page) : new Date()
+    const perPage = Number(requestQuery?.per_page) || 3
+
     const items: any = await Repository.findAllUsingCursor({
-      type: requestQuery.type,
-      dateBefore: requestQuery?.next_page ? new Date(requestQuery.next_page) : new Date(),
-      perPage: Number(requestQuery?.per_page) || 3,
+      type,
+      dateBefore,
+      perPage,
     })
 
     const itemsLength = items.length
@@ -31,7 +35,7 @@ export namespace Testimonial {
       data: items,
       meta: {
         next_page: itemsLength ? items[itemsLength - 1].created_at : null,
-        per_page: itemsLength || 0,
+        per_page: perPage,
       },
     }
 
