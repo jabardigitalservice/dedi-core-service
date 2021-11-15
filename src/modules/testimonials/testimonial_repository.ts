@@ -14,4 +14,17 @@ export namespace Testimonial {
 
     return query.paginate(pagination(requestQuery))
   }
+
+  export const findAllUsingCursor = (requestQuery: Entity.QueryUsingCursor) => {
+    const query = Testimonials()
+      .select('id', 'name', 'description', 'avatar', 'type', 'created_at')
+      .where('is_active', true)
+      .where('created_at', '<', requestQuery.dateBefore)
+      .orderBy('created_at', 'desc')
+      .limit(requestQuery.perPage)
+
+    if (requestQuery.type) query.where('type', requestQuery.type)
+
+    return query
+  }
 }

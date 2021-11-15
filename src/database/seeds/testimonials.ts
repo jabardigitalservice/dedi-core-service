@@ -2,6 +2,15 @@ import { v4 as uuidv4 } from 'uuid'
 import faker from 'faker'
 import database from '../../config/database';
 
+const timestamp = new Date()
+timestamp.setMilliseconds(0)
+
+const ONE_MILISECOND = 1
+const ONE_SECOND = 1000 * ONE_MILISECOND
+const ONE_MINUTE = 60 * ONE_SECOND
+
+const minuteBeforeTimestamp = (minute, timestamp) => new Date(timestamp - minute * ONE_MINUTE)
+
 export async function seed(): Promise<void> {
   const data = []
 
@@ -15,7 +24,7 @@ export async function seed(): Promise<void> {
       type: faker.random.arrayElement(['mitra', 'masyarakat']),
       is_active: faker.datatype.boolean(),
       created_by: user_id,
-      created_at: new Date(),
+      created_at: minuteBeforeTimestamp((index + 1), timestamp),
     });
   }
 

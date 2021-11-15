@@ -17,4 +17,24 @@ export namespace Testimonial {
 
     return result
   }
+
+  export const findAllUsingCursor = async (requestQuery: Entity.RequestQueryUsingCursor): Promise<Entity.ResponseFindAllUsingCursor> => {
+    const items: any = await Repository.findAllUsingCursor({
+      type: requestQuery.type,
+      dateBefore: requestQuery?.next_page ? new Date(requestQuery.next_page) : new Date(),
+      perPage: Number(requestQuery?.per_page) || 3,
+    })
+
+    const itemsLength = items.length
+
+    const result: Entity.ResponseFindAllUsingCursor = {
+      data: items,
+      meta: {
+        next_page: itemsLength ? items[itemsLength - 1].created_at : null,
+        per_page: itemsLength || 0,
+      },
+    }
+
+    return result
+  }
 }
