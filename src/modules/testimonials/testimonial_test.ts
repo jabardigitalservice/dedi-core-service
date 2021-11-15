@@ -14,6 +14,7 @@ describe('seed data', () => {
       avatar: 'test.svg',
       type: 'mitra',
       is_active: true,
+      created_at: new Date(),
       created_by: user_id,
     })
   })
@@ -28,25 +29,25 @@ const expectMeta = expect.objectContaining({
   total: expect.any(Number),
 })
 
-const expectBody = expect.objectContaining({
-  data: expect.arrayContaining([
-    expect.objectContaining({
-      id: expect.any(String),
-      name: expect.any(String),
-      description: expect.any(String),
-      avatar: expect.any(String),
-      type: expect.any(String),
-    }),
-  ]),
-  meta: expectMeta,
-})
+const expectData = expect.arrayContaining([
+  expect.objectContaining({
+    id: expect.any(String),
+    name: expect.any(String),
+    description: expect.any(String),
+    avatar: expect.any(String),
+    type: expect.any(String),
+  }),
+])
 
 describe('testimonials', () => {
   it('/v1/testimonials --> data testimonials', async () => request(app)
     .get('/v1/testimonials')
     .expect(200)
     .then((response) => {
-      expect(response.body).toEqual(expectBody)
+      expect(response.body).toEqual(expect.objectContaining({
+        data: expectData,
+        meta: expectMeta,
+      }))
     }))
 })
 
@@ -67,6 +68,39 @@ describe('filter testimonials', () => {
     .query({ type: 'mitra' })
     .expect(200)
     .then((response) => {
-      expect(response.body).toEqual(expectBody)
+      expect(response.body).toEqual(expect.objectContaining({
+        data: expectData,
+        meta: expectMeta,
+      }))
+    }))
+})
+
+describe('filter testimonials using cursor', () => {
+  it('/v1/testimonialsUsingCursor?query --> empty data testimonial if type not found', async () => request(app)
+    .get('/v1/testimonialsUsingCursor')
+    .query({ type: 'test' })
+    .expect(200)
+    .then((response) => {
+      expect(response.body).toEqual(expect.objectContaining({
+        data: expect.any(Array),
+        meta: {
+          next_page: null,
+          per_page: expect.any(Number),
+        },
+      }))
+    }))
+
+  it('/v1/testimonialsUsingCursor?query --> data testimonials with spesific type', async () => request(app)
+    .get('/v1/testimonialsUsingCursor')
+    .query({ type: 'mitra', per_page: 3 })
+    .expect(200)
+    .then((response) => {
+      expect(response.body).toEqual(expect.objectContaining({
+        data: expectData,
+        meta: {
+          next_page: expect.any(String),
+          per_page: expect.any(Number),
+        },
+      }))
     }))
 })
