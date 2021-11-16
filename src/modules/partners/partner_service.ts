@@ -37,12 +37,12 @@ export namespace Partner {
     const result: Entity.ResponseFindAllUsingCursor = {
       data: items,
       meta: {
-        next_page: itemsLength ? items[itemsLength - 1].created_at.toISOString() : null,
+        next_page: itemsLength ? items[itemsLength - 1].created_at : null,
         per_page: perPage,
         last_update: meta?.created_at || null,
         total: meta?.total,
       },
-    };
+    }
 
     return result
   }
