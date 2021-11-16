@@ -16,10 +16,14 @@ export namespace Partner {
     return query.paginate(pagination(requestQuery))
   }
 
-  export const getLastUpdate = () => {
-    const query = Partners()
-      .select('created_at')
-      .whereNull('deleted_at')
+  export const getMeta = () => {
+    const query = database
+      .select('created_at', 'total')
+      .from(
+        database.raw(
+          'partners, (SELECT count(*) AS total FROM partners) AS tmp'
+        )
+      ).whereNull('deleted_at')
       .orderBy('created_at', 'desc')
       .first()
 
