@@ -21,8 +21,8 @@ export namespace Partner {
       .select('created_at', 'total')
       .from(
         database.raw(
-          'partners, (SELECT count(*) AS total FROM partners) AS tmp'
-        )
+          'partners, (SELECT count(*) AS total FROM partners) AS tmp',
+        ),
       ).whereNull('deleted_at')
       .orderBy('created_at', 'desc')
       .first()
