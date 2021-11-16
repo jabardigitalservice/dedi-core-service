@@ -19,7 +19,6 @@ interface RequestFile {
   fieldName: string
   allowFileType?: string
   fileSize?: number
-  isRequired?: boolean
 }
 
 interface UploadPromise {
@@ -64,7 +63,7 @@ const getError = (err: any, requestFile: RequestFile): HttpError => {
     error.message = lang.__('validation.file.size', customMessage)
   } else if (err && typeof err.code !== 'string') {
     error.message = err.message
-  } else if (!err && requestFile.isRequired && requestFile.req.file === undefined) {
+  } else if (!err && requestFile.req.file === undefined) {
     error.message = lang.__('validation.any.required', customMessage)
   }
 
