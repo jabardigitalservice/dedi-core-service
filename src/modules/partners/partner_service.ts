@@ -38,9 +38,9 @@ export namespace Partner {
       data: items,
       meta: {
         next_page: itemsLength ? items[itemsLength - 1].created_at.toISOString() : null,
-        per_page: itemsLength || 0,
+        per_page: perPage,
         last_update: meta?.created_at || null,
-        total: meta?.total || 0,
+        total: meta?.total,
       },
     };
 
