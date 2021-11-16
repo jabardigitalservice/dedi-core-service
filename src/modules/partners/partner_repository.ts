@@ -16,14 +16,10 @@ export namespace Partner {
     return query.paginate(pagination(requestQuery))
   }
 
-  export const getMeta = () => {
-    const query = database
-      .select('created_at', 'total')
-      .from(
-        database.raw(
-          'partners, (SELECT count(*) AS total FROM partners) AS tmp',
-        ),
-      ).whereNull('deleted_at')
+  export const getLastUpdate = () => {
+    const query = Partners()
+      .select('created_at')
+      .whereNull('deleted_at')
       .orderBy('created_at', 'desc')
       .first()
 
@@ -32,15 +28,23 @@ export namespace Partner {
 
   export const findAllUsingCursor = (requestQuery: Entity.QueryUsingCursor) => {
     const query = Partners()
-      .select('id', 'name', 'total_village', 'logo', 'created_at', 'website')
       .whereNull('deleted_at')
-      .where('created_at', '<', requestQuery.dateBefore)
       .orderBy('created_at', 'desc')
-      .limit(requestQuery.perPage)
 
     if (requestQuery.name) query.where('name', requestQuery.name)
 
-    return query
+    const meta = query.clone()
+      .select(database.raw('COUNT(id) AS total'))
+      .first()
+
+    query.limit(requestQuery.perPage)
+      .select('id', 'name', 'total_village', 'logo', 'created_at', 'website')
+      .where('created_at', '<', requestQuery.dateBefore)
+
+    return {
+      items: query,
+      meta,
+    }
   }
 
   export const search = (requestQuery: Entity.RequestQuerySuggestion) => {

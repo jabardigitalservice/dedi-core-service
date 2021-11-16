@@ -10,7 +10,7 @@ export namespace Partner {
       current_page: requestQuery.current_page,
     })
 
-    const lastUpdate = await Repository.getMeta()
+    const lastUpdate = await Repository.getLastUpdate()
 
     const result: Entity.ResponseFindAll = {
       data: items.data,
@@ -28,21 +28,19 @@ export namespace Partner {
     const dateBefore = requestQuery?.next_page ? new Date(requestQuery.next_page) : new Date()
     const perPage = Number(requestQuery?.per_page) || 6
 
-    const lastUpdate = await Repository.getMeta()
-    const items: any = await Repository.findAllUsingCursor({
-      name,
-      dateBefore,
-      perPage,
-    })
+    const query = Repository.findAllUsingCursor({ name, dateBefore, perPage })
+    const items: any = await query.items
+    const meta: any = await query.meta
+
     const itemsLength = items.length
 
     const result: Entity.ResponseFindAllUsingCursor = {
       data: items,
       meta: {
-        next_page: itemsLength ? items[itemsLength - 1].created_at : null,
+        next_page: itemsLength ? items[itemsLength - 1].created_at.toISOString() : null,
         per_page: itemsLength || 0,
-        last_update: (itemsLength && lastUpdate.created_at) ? lastUpdate.created_at : null,
-        total: lastUpdate?.total || 0,
+        last_update: meta?.created_at || null,
+        total: meta?.total || 0,
       },
     };
 
