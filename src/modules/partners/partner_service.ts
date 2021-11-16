@@ -28,19 +28,20 @@ export namespace Partner {
     const dateBefore = requestQuery?.next_page ? new Date(requestQuery.next_page) : new Date()
     const perPage = Number(requestQuery?.per_page) || 6
 
-    const query = Repository.findAllUsingCursor({ name, dateBefore, perPage })
-    const items: any = await query.items
-    const meta: any = await query.meta
+    const meta: any = Repository.metaUsingCursor({ name })
+    const items: any = await Repository.findAllUsingCursor({ name, dateBefore, perPage })
+    const total: any = await meta.total
+    const lastUpdate: any = await meta.lastUpdate
 
     const itemsLength = items.length
 
     const result: Entity.ResponseFindAllUsingCursor = {
       data: items,
       meta: {
-        next_page: itemsLength ? items[itemsLength - 1].created_at : null,
+        next_page: itemsLength ? items[itemsLength - 1].created_at.toISOString() : null,
         per_page: perPage,
-        last_update: meta?.created_at || null,
-        total: meta?.total,
+        last_update: lastUpdate.created_at || null,
+        total: total.total,
       },
     }
 

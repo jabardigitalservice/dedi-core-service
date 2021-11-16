@@ -33,6 +33,10 @@ export namespace Partner {
     perPage: number
   }
 
+  export interface MetaQueryUsingCursor {
+    name: string
+  }
+
   interface Meta extends metaPaginate {
     last_update?: Date
   }
