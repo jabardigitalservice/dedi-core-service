@@ -3,12 +3,6 @@
 name: DeDi Service Release Staging
 
 on:
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'src/**'
-      - '.github/**'
-
   push:
     branches: [ main ]
     paths:
