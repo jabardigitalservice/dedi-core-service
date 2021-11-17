@@ -3,6 +3,15 @@ import { v4 as uuidv4 } from 'uuid'
 import app from '../../server'
 import { Testimonial as Repository } from './testimonial_repository'
 
+const timestamp = new Date()
+timestamp.setMilliseconds(0)
+
+const ONE_MILISECOND = 1
+const ONE_SECOND = 1000 * ONE_MILISECOND
+const ONE_MINUTE = 60 * ONE_SECOND
+
+const minuteBeforeTimestamp = (minute, timestamp) => new Date(timestamp - minute * ONE_MINUTE)
+
 describe('seed data', () => {
   const user_id = uuidv4()
 
@@ -14,7 +23,7 @@ describe('seed data', () => {
       avatar: 'test.svg',
       type: 'mitra',
       is_active: true,
-      created_at: new Date(),
+      created_at: minuteBeforeTimestamp(1, timestamp),
       created_by: user_id,
     })
   })
