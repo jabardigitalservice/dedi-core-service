@@ -1,0 +1,59 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+name: DeDi Service Release Staging
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - '.github/**'
+
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - '.github/**'
+
+jobs:
+  deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    # Configure Docker with Credentials
+    - name: Configure Docker
+      run: |
+        docker login ${{ secrets.REGISTRY_URL }} -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
+
+     # Build the Docker image
+    - name: Set version tag
+      id: vars
+      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+    - name: Build and push
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: docker/Dockerfile
+        push: true
+        tags: ${{ secrets.SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}
+
+    # Deploy the Docker image
+    - name: Deploy
+      uses: floms/action-caprover@v1
+      with:
+        host: ${{ secrets.CAPROVER_SERVER }}
+        password: ${{ secrets.CAPROVER_PASSWORD }}
+        app: ${{ secrets.SERVICE_CAPROVER_APPNAME }}
+        image: ${{ secrets.SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}
+
