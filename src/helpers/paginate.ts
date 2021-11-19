@@ -17,7 +17,7 @@ export const pagination = (requestQuery: {
   return {
     perPage,
     currentPage,
-    isFromStart: true,
+    isLengthAware: true,
   }
 }
 
