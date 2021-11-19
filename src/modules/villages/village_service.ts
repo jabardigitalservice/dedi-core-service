@@ -34,12 +34,15 @@ export namespace Village {
 
   export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation> => {
     const items = await Repository.findAllWithLocation(requestQuery)
-    const lastUpdate = await Repository.getLastUpdate()
+
+    const meta: any = Repository.metaFindAllWithLocation()
+    const total: any = await meta.total
+    const lastUpdate: any = await meta.lastUpdate
 
     const result: Entity.ResponseFindAllWithLocation = {
       data: responseFindAllWithLocation(items),
       meta: {
-        total: items.length,
+        total: total.total,
         last_update: lastUpdate?.updated_at || null,
       },
     }
