@@ -77,14 +77,19 @@ export namespace Village {
     return query
   }
 
-  export const getLastUpdate = () => {
-    const query = Villages()
+  export const metaFindAllWithLocation = () => {
+    const total = Villages()
+      .count('id', { as: 'total' })
+      .where('is_active', true)
+      .first()
+
+    const lastUpdate = Villages()
       .select('updated_at')
       .whereNotNull('updated_at')
       .orderBy('updated_at', 'desc')
       .where('is_active', true)
       .first()
 
-    return query
+    return { total, lastUpdate }
   }
 }
