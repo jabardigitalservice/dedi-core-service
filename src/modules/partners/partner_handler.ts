@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
+import cache from '../../config/cache'
 import { validate } from '../../helpers/validator'
 import { Partner as Entity } from './partner_entity'
 import { Partner as Log } from './partner_log'
@@ -10,6 +11,7 @@ const router = express.Router()
 
 router.get(
   '/v1/partners',
+  cache(),
   Log.findAll(),
   validate(Rules.findAll, 'query'),
   async (req: Request<never, never, never, Entity.RequestQuery>, res: Response, next: NextFunction) => {
