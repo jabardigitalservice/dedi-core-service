@@ -5,8 +5,9 @@ export namespace Auth {
   const regexPassword = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9&*_]+)$/
 
   const password = {
-    password: Joi.string().regex(regexPassword).required(),
-    password_confirm: Joi.string().regex(regexPassword).valid(Joi.ref('password')).required(),
+    password: Joi.string().min(6).regex(regexPassword).required(),
+    password_confirm: Joi.string().min(6).regex(regexPassword).valid(Joi.ref('password'))
+      .required(),
   }
 
   const email = Joi.string().email().required()
