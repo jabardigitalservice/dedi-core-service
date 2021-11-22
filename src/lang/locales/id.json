@@ -13,9 +13,7 @@
 
   "error.exists": "{{ entity }} dengan id {{ id }} tidak ada.",
 
-  "auth.user.failed": "User tidak terdaftar.",
-  "auth.password.failed": "Kata sandi tidak cocok dengan {{ field }}.",
-  "auth.email.failed": "Email yang dimasukkan tidak terdaftar.",
+  "auth.signin.failed": "Email dan Kata Sandi tidak ditemukan .",
   "auth.verified.failed": "Akun user belum aktif.",
   "auth.refreshToken.failed": "Refresh token tidak aktif.",
   "auth.rejected": "UNAUTHORIZED",
