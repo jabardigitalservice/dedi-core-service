@@ -2,7 +2,7 @@
   "validation.any.required": "Isian {{ attribute }} wajib diisi.",
   "validation.string.email": "Isian {{ attribute }} harus berupa alamat surel yang valid.",
   "validation.string.min": "Isian {{ attribute }} harus minimal {{ limit }} karakter.",
-  "validation.string.max": "Isian {{ attribute }} seharusnya tidak lebih dari {{ limit }} karakter.",
+  "validation.string.max": "Isian {{ attribute }} sudah melebihi {{ limit }} karakter.",
   "validation.any.only": "Konfirmasi {{ attribute }} tidak cocok.",
   "validation.string.pattern.base": "Format isian {{ attribute }} tidak valid.",
   "validation.string.base": "Isian {{ attribute }} harus berupa string.",
