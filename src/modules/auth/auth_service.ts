@@ -57,10 +57,10 @@ export namespace Auth {
 
   export const signIn = async (requestBody: Entity.RequestBodySignIn) => {
     const user = await Repository.findByEmail(requestBody)
-    if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
+    if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.sigin.failed'))
 
     const match = await bcrypt.compare(requestBody.password, user.password)
-    if (!match) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.password.failed', { field: 'email' }))
+    if (!match) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.sigin.failed'))
 
     if (!user.verified_at) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.verified.failed'))
 
