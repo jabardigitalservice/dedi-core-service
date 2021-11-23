@@ -6,7 +6,6 @@ import { Auth as Entity } from './auth_entity'
 import { Auth as Rules } from './auth_rules'
 import { Auth as Service } from './auth_service'
 import config from '../../config'
-import { isNodeEnvProduction } from '../../helpers/constant'
 import { Auth as Log } from './auth_log'
 import { verifyAccessToken } from '../../middleware/jwt'
 
@@ -48,13 +47,6 @@ router.post(
       const { body } = req
       const result: Entity.ResponseJWT = await Service.signIn(body)
       Log.signIn(body)
-      if (body.remember) {
-        res.cookie('access_token', result.data.access_token, {
-          httpOnly: true,
-          secure: isNodeEnvProduction(),
-          expires: new Date(Date.now() + Number(config.get('jwt.ttl'))),
-        })
-      }
       res.status(httpStatus.OK).json(result)
     } catch (error) {
       next(error)

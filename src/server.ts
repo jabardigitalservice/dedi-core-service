@@ -3,7 +3,6 @@ import express, { Application } from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
-import cookieParser from 'cookie-parser'
 import sentryTransaction from './middleware/sentry'
 import { onError } from './handler/exception'
 import config from './config'
@@ -30,7 +29,6 @@ class App {
     this.app.use(cors())
     this.app.use(helmet())
     this.app.use(compression())
-    this.app.use(cookieParser())
     this.app.use(sentryTransaction)
     this.app.use(httpTimeout)
   }
