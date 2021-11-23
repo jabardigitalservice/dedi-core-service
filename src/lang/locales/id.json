@@ -16,7 +16,7 @@
 
   "error.exists": "{{ entity }} dengan id {{ id }} tidak ada.",
 
-  "auth.signin.failed": "Email dan Kata Sandi tidak ditemukan .",
+  "auth.signin.failed": "Email dan Kata Sandi tidak ditemukan.",
   "auth.verified.failed": "Email tidak dikenali",
   "auth.refreshToken.failed": "Refresh token tidak aktif.",
   "auth.rejected": "UNAUTHORIZED",
