@@ -19,10 +19,8 @@ export namespace City {
   }
 
   export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation> => {
-    const items = await Repository.findAllWithLocation(requestQuery)
-
-    const meta: any = Repository.metaFindAllWithLocation()
-    const total: any = await meta.total
+    const items: any = await Repository.findAllWithLocation(requestQuery)
+    const total: any = await Repository.getTotalFindAllWithLocation()
 
     const result: Entity.ResponseFindAllWithLocation = {
       data: responseFindAllWithLocation(items),
