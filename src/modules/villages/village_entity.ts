@@ -16,7 +16,7 @@ export namespace Village {
     updated_at: Date
   }
 
-  export interface FindAllWithLocation {
+  export interface FindAll {
     id: string
     name: string
     level: number
@@ -68,12 +68,18 @@ export namespace Village {
     id: string
   }
 
-  interface Meta extends metaPaginate {
-    last_update?: Date
-  }
+  interface Meta extends metaPaginate {}
 
   export interface ResponseFindAllWithLocation {
-    data: FindAllWithLocation[]
+    data: FindAll[]
+    meta: {
+      total: number
+      last_update?: Date
+    }
+  }
+
+  export interface ResponseFindAll {
+    data: FindAll[]
     meta: Meta
   }
 

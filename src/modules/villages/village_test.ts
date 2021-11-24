@@ -33,8 +33,8 @@ const expectBodyFindAll = expect.arrayContaining([
 ])
 
 describe('tests villages', () => {
-  it('test success findAll with location ', async () => request(app)
-    .get('/v1/villages/list-with-location')
+  it('test success findAll', async () => request(app)
+    .get('/v1/villages/list')
     .expect(200)
     .then((response) => {
       expect(response.body).toEqual(expect.objectContaining({
@@ -47,8 +47,8 @@ describe('tests villages', () => {
 })
 
 describe('tests villages', () => {
-  it('test success findAll with location filter', async () => request(app)
-    .get('/v1/villages/list-with-location')
+  it('test success findAll filter', async () => request(app)
+    .get('/v1/villages/list')
     .query({ name: 'test', level: 1 })
     .expect(200)
     .then((response) => {
@@ -62,7 +62,7 @@ describe('tests villages', () => {
 })
 
 describe('tests villages', () => {
-  it('test success findAll with location filter bounds', async () => request(app)
+  it('test success findAll with location', async () => request(app)
     .get('/v1/villages/list-with-location')
     .query({
       bounds: {

@@ -9,10 +9,19 @@ const router = express.Router()
 
 router.get(
   '/v1/villages/list-with-location',
+  async (req: Request<never, never, never, Entity.RequestQuery>, res: Response, next: NextFunction) => {
+    const result: Entity.ResponseFindAllWithLocation = await Service.findAllWithLocation(req.query)
+
+    res.status(httpStatus.OK).json(result)
+  },
+)
+
+router.get(
+  '/v1/villages/list',
   cache(),
   Log.findAll(),
   async (req: Request<never, never, never, Entity.RequestQuery>, res: Response, next: NextFunction) => {
-    const result: Entity.ResponseFindAllWithLocation = await Service.findAllWithLocation(req.query)
+    const result: Entity.ResponseFindAll = await Service.findAll(req.query)
 
     res.status(httpStatus.OK).json(result)
   },

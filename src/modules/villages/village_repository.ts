@@ -18,21 +18,15 @@ export namespace Village {
     ))`
   }
 
-  const getWherePolygon = (requestQuery: Entity.RequestQuery) => `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(requestQuery)}'), villages.location)`
+  const getWherePolygon = (requestQuery: Entity.RequestQuery) => {
+    const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(requestQuery)}'), villages.location)`
 
-  const pointRegexRule = (point: string) => {
-    const pointRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/
-    return pointRegex.test(point)
+    return wherePolygon
   }
-
-  const isRequestBounds = (requestQuery: Entity.RequestQuery) => requestQuery?.bounds?.ne
-    && requestQuery?.bounds?.sw
-    && pointRegexRule(requestQuery.bounds.ne)
-    && pointRegexRule(requestQuery.bounds.sw)
 
   export const Villages = () => database<Entity.Struct>('villages')
 
-  export const findAllWithLocation = (requestQuery: Entity.RequestQuery) => {
+  const getVillage = () => {
     const query = Villages()
       .select(
         'villages.id as id',
@@ -51,11 +45,24 @@ export namespace Village {
       .where('villages.is_active', true)
       .orderBy('villages.name', 'asc')
 
+    return query
+  }
+
+  export const findAllWithLocation = (requestQuery: Entity.RequestQuery) => {
+    const query = getVillage()
+
+    query.whereRaw(getWherePolygon(requestQuery))
+
+    return query
+  }
+
+  export const findAll = (requestQuery: Entity.RequestQuery) => {
+    const query = getVillage()
+
     if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
     if (requestQuery.level) query.where('villages.level', requestQuery.level)
-    if (isRequestBounds(requestQuery)) query.whereRaw(getWherePolygon(requestQuery))
 
-    return !isRequestBounds(requestQuery) ? query.paginate(pagination(requestQuery)) : query
+    return query.paginate(pagination(requestQuery))
   }
 
   export const findById = (id: string) => {
