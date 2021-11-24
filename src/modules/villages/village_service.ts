@@ -39,7 +39,7 @@ export namespace Village {
     const total: any = await meta.total
     const lastUpdate: any = await meta.lastUpdate
 
-    const data = items.data ? items.data : items
+    const data = items.data || items
     const { pagination } = items
 
     const result: Entity.ResponseFindAllWithLocation = {
