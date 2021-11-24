@@ -47,8 +47,12 @@ export namespace City {
     return query
   }
 
-  export const getTotalFindAllWithLocation = () => Cities()
-    .count('id', { as: 'total' })
-    .where('is_active', true)
-    .first()
+  export const getTotalFindAllWithLocation = () => {
+    const query = Cities()
+      .count('id', { as: 'total' })
+      .where('is_active', true)
+      .first()
+
+    return query
+  }
 }
