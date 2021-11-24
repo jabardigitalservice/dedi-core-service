@@ -1,3 +1,4 @@
+import { metaPaginate } from '../../helpers/paginate';
 import { Query } from '../../helpers/types';
 
 export namespace Village {
@@ -51,6 +52,8 @@ export namespace Village {
   export interface RequestQuery extends Query {
     name: string
     level: string
+    per_page: string
+    current_page: string
     bounds: {
       ne: string
       sw: string
@@ -65,12 +68,13 @@ export namespace Village {
     id: string
   }
 
+  interface Meta extends metaPaginate {
+    last_update?: Date
+  }
+
   export interface ResponseFindAllWithLocation {
     data: FindAllWithLocation[]
-    meta: {
-      total: number
-      last_update?: Date
-    }
+    meta: Meta
   }
 
   export interface ResponseFindById {

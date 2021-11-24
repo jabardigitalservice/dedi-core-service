@@ -1,4 +1,5 @@
 import database from '../../config/database';
+import { pagination } from '../../helpers/paginate';
 import { Village as Entity } from './village_entity';
 
 export namespace Village {
@@ -54,7 +55,7 @@ export namespace Village {
     if (requestQuery.level) query.where('villages.level', requestQuery.level)
     if (isRequestBounds(requestQuery)) query.whereRaw(getWherePolygon(requestQuery))
 
-    return query
+    return !isRequestBounds(requestQuery) ? query.paginate(pagination(requestQuery)) : query
   }
 
   export const findById = (id: string) => {
