@@ -33,15 +33,23 @@ export namespace Village {
   }
 
   export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation> => {
-    const items = await Repository.findAllWithLocation(requestQuery)
+    const items: any = await Repository.findAllWithLocation(requestQuery)
 
     const meta: any = Repository.metaFindAllWithLocation()
     const total: any = await meta.total
     const lastUpdate: any = await meta.lastUpdate
 
+    const data = items.data ? items.data : items
+    const { pagination } = items
+
     const result: Entity.ResponseFindAllWithLocation = {
-      data: responseFindAllWithLocation(items),
+      data: responseFindAllWithLocation(data),
       meta: {
+        current_page: pagination?.currentPage || 1,
+        from: (Number(pagination?.currentPage) - 1) * Number(pagination?.perPage) + 1 || 0,
+        last_page: pagination?.lastPage || 0,
+        per_page: pagination?.perPage || 0,
+        to: pagination?.to || 0,
         total: total.total,
         last_update: lastUpdate?.updated_at || null,
       },
