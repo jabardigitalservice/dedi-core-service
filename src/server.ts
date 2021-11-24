@@ -9,6 +9,7 @@ import config from './config'
 import home from './handler/home'
 import partners from './modules/partners/partner_handler'
 import villages from './modules/villages/village_handler'
+import cities from './modules/cities/city_handler'
 import testimonials from './modules/testimonials/testimonial_handler'
 import auth from './modules/auth/auth_handler'
 import httpTimeout from './middleware/httpTimeout'
@@ -37,6 +38,7 @@ class App {
     this.app.use(home)
     this.app.use(partners)
     this.app.use(villages)
+    this.app.use(cities)
     this.app.use(testimonials)
     this.app.use(auth)
   }
