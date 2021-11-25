@@ -11,7 +11,7 @@ export namespace Village {
     return result.join(', ')
   }
 
-  export const findAll = () => (req: Request, res: Response, next: NextFunction) => {
+  export const listLocation = () => (req: Request, res: Response, next: NextFunction) => {
     if (req.query.name || req.query.level) {
       logger({
         level: 'info',

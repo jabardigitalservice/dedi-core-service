@@ -6,9 +6,8 @@ import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
 
 export namespace Village {
-
-  const responseFindAll = (items: any[]): Entity.FindAll[] => {
-    const data: Entity.FindAll[] = []
+  const responseLocation = (items: any[]): Entity.Location[] => {
+    const data: Entity.Location[] = []
     for (const item of items) {
       data.push({
         id: item.id,
@@ -37,21 +36,20 @@ export namespace Village {
     return pointRegex.test(point)
   }
 
-  const isRequestBounds = (requestQuery: Entity.RequestQuery) => requestQuery?.bounds?.ne
+  const isRequestBounds = (requestQuery: Entity.RequestQueryWithLocation) => requestQuery?.bounds?.ne
     && requestQuery?.bounds?.sw
     && pointRegexRule(requestQuery.bounds.ne)
     && pointRegexRule(requestQuery.bounds.sw)
 
-  export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation> => {
+  export const withLocation = async (requestQuery: Entity.RequestQueryWithLocation): Promise<Entity.ResponseWithLocation> => {
     const items: any = isRequestBounds(requestQuery) ? await Repository.findAllWithLocation(requestQuery) : []
 
     const meta: any = Repository.metaFindAllWithLocation()
-
     const total: any = await meta.total
     const lastUpdate: any = await meta.lastUpdate
 
-    const result: Entity.ResponseFindAllWithLocation = {
-      data: responseFindAll(items),
+    const result: Entity.ResponseWithLocation = {
+      data: responseLocation(items),
       meta: {
         total: total?.total,
         last_update: lastUpdate?.updated_at || null,
@@ -61,11 +59,11 @@ export namespace Village {
     return result
   }
 
-  export const findAll = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAll> => {
+  export const listLocation = async (requestQuery: Entity.RequestQueryListLocation): Promise<Entity.ResponseListLocation> => {
     const items: any = await Repository.findAll(requestQuery)
 
-    const result: Entity.ResponseFindAll = {
-      data: responseFindAll(items.data),
+    const result: Entity.ResponseListLocation = {
+      data: responseLocation(items.data),
       meta: metaPagination(items.pagination),
     }
 

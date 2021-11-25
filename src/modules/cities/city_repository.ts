@@ -2,7 +2,7 @@ import database from '../../config/database';
 import { City as Entity } from './city_entity';
 
 export namespace City {
-  const getPolygon = (requestQuery: Entity.RequestQuery) => {
+  const getPolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
     const { ne, sw } = requestQuery.bounds
 
     const boundsNE = ne.trimStart().trimEnd().split(/[, ]+/)
@@ -17,7 +17,7 @@ export namespace City {
     ))`
   }
 
-  const getWherePolygon = (requestQuery: Entity.RequestQuery) => {
+  const getWherePolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
     const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(requestQuery)}'), location)`
 
     return wherePolygon
@@ -25,7 +25,7 @@ export namespace City {
 
   export const Cities = () => database<Entity.Struct>('cities')
 
-  export const findAllWithLocation = (requestQuery: Entity.RequestQuery) => {
+  export const findAllWithLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
     const query = Cities()
       .select(
         'id',
