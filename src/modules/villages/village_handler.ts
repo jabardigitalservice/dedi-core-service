@@ -17,7 +17,7 @@ router.get(
 )
 
 router.get(
-  '/v1/villages/list',
+  '/v1/villages/with-locations',
   cache(),
   Log.findAll(),
   async (req: Request<never, never, never, Entity.RequestQuery>, res: Response, next: NextFunction) => {
