@@ -1,13 +1,14 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
+import { metaPagination } from '../../helpers/paginate'
 import lang from '../../lang'
 import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
 
 export namespace Village {
 
-  const responseFindAllWithLocation = (items: any[]): Entity.FindAllWithLocation[] => {
-    const data: Entity.FindAllWithLocation[] = []
+  const responseFindAll = (items: any[]): Entity.FindAll[] => {
+    const data: Entity.FindAll[] = []
     for (const item of items) {
       data.push({
         id: item.id,
@@ -31,28 +32,41 @@ export namespace Village {
 
     return data
   }
+  const pointRegexRule = (point: string) => {
+    const pointRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/
+    return pointRegex.test(point)
+  }
+
+  const isRequestBounds = (requestQuery: Entity.RequestQuery) => requestQuery?.bounds?.ne
+    && requestQuery?.bounds?.sw
+    && pointRegexRule(requestQuery.bounds.ne)
+    && pointRegexRule(requestQuery.bounds.sw)
 
   export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation> => {
-    const items: any = await Repository.findAllWithLocation(requestQuery)
+    const items: any = isRequestBounds(requestQuery) ? await Repository.findAllWithLocation(requestQuery) : []
 
     const meta: any = Repository.metaFindAllWithLocation()
+
     const total: any = await meta.total
     const lastUpdate: any = await meta.lastUpdate
 
-    const data = items.data || items
-    const { pagination } = items
-
     const result: Entity.ResponseFindAllWithLocation = {
-      data: responseFindAllWithLocation(data),
+      data: responseFindAll(items),
       meta: {
-        current_page: pagination?.currentPage || 1,
-        from: (Number(pagination?.currentPage) - 1) * Number(pagination?.perPage) + 1 || 0,
-        last_page: pagination?.lastPage || 0,
-        per_page: pagination?.perPage || 0,
-        to: pagination?.to || 0,
-        total: total.total,
+        total: total?.total,
         last_update: lastUpdate?.updated_at || null,
       },
+    }
+
+    return result
+  }
+
+  export const findAll = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAll> => {
+    const items: any = await Repository.findAll(requestQuery)
+
+    const result: Entity.ResponseFindAll = {
+      data: responseFindAll(items.data),
+      meta: metaPagination(items.pagination),
     }
 
     return result
