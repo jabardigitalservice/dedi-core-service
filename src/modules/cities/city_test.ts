@@ -27,22 +27,7 @@ const expectBodyFindAll = expect.arrayContaining([
 
 describe('tests cities', () => {
   it('test success findAll with location ', async () => request(app)
-    .get('/v1/cities/list-with-location')
-    .expect(200)
-    .then((response) => {
-      expect(response.body).toEqual(expect.objectContaining({
-        data: expectBodyFindAll,
-        meta: expect.objectContaining({
-          total: expect.any(Number),
-        }),
-      }))
-    }))
-})
-
-describe('tests cities', () => {
-  it('test success findAll with location filter', async () => request(app)
-    .get('/v1/cities/list-with-location')
-    .query({ name: 'test123' })
+    .get('/v1/cities/with-location')
     .expect(200)
     .then((response) => {
       expect(response.body).toEqual(expect.objectContaining({
@@ -56,7 +41,7 @@ describe('tests cities', () => {
 
 describe('tests cities', () => {
   it('test success findAll with location filter bounds', async () => request(app)
-    .get('/v1/cities/list-with-location')
+    .get('/v1/cities/with-location')
     .query({
       bounds: {
         ne: '106.8207875, -6.4605558',
