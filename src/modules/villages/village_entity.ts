@@ -68,8 +68,6 @@ export namespace Village {
     id: string
   }
 
-  interface Meta extends metaPaginate {}
-
   export interface ResponseFindAllWithLocation {
     data: FindAll[]
     meta: {
@@ -80,7 +78,7 @@ export namespace Village {
 
   export interface ResponseFindAll {
     data: FindAll[]
-    meta: Meta
+    meta: metaPaginate
   }
 
   export interface ResponseFindById {
