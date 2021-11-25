@@ -11,7 +11,7 @@ export namespace Village {
     return result.join(', ')
   }
 
-  export const listLocation = () => (req: Request, res: Response, next: NextFunction) => {
+  export const listWithLocation = () => (req: Request, res: Response, next: NextFunction) => {
     if (req.query.name || req.query.level) {
       logger({
         level: 'info',
@@ -20,7 +20,7 @@ export namespace Village {
           name: req.query.name,
           level: req.query.level,
         },
-        service: 'villages',
+        service: 'list with location',
         activity: 'search',
       })
     }
