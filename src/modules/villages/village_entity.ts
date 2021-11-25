@@ -16,7 +16,7 @@ export namespace Village {
     updated_at: Date
   }
 
-  export interface Location {
+  export interface WithLocation {
     id: string
     name: string
     level: number
@@ -49,7 +49,7 @@ export namespace Village {
     },
   }
 
-  export interface RequestQueryListLocation extends Query {
+  export interface RequestQueryListWithLocation extends Query {
     name: string
     level: string
     per_page: string
@@ -68,15 +68,15 @@ export namespace Village {
   }
 
   export interface ResponseWithLocation {
-    data: Location[]
+    data: WithLocation[]
     meta: {
       total: number
       last_update?: Date
     }
   }
 
-  export interface ResponseListLocation {
-    data: Location[]
+  export interface ResponseListWithLocation {
+    data: WithLocation[]
     meta: metaPaginate
   }
 

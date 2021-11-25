@@ -6,8 +6,8 @@ import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
 
 export namespace Village {
-  const responseLocation = (items: any[]): Entity.Location[] => {
-    const data: Entity.Location[] = []
+  const responseWithLocation = (items: any[]): Entity.WithLocation[] => {
+    const data: Entity.WithLocation[] = []
     for (const item of items) {
       data.push({
         id: item.id,
@@ -42,14 +42,14 @@ export namespace Village {
     && pointRegexRule(requestQuery.bounds.sw)
 
   export const withLocation = async (requestQuery: Entity.RequestQueryWithLocation): Promise<Entity.ResponseWithLocation> => {
-    const items: any = isRequestBounds(requestQuery) ? await Repository.findAllWithLocation(requestQuery) : []
+    const items: any = isRequestBounds(requestQuery) ? await Repository.withLocation(requestQuery) : []
 
-    const meta: any = Repository.metaFindAllWithLocation()
+    const meta: any = Repository.metaWithLocation()
     const total: any = await meta.total
     const lastUpdate: any = await meta.lastUpdate
 
     const result: Entity.ResponseWithLocation = {
-      data: responseLocation(items),
+      data: responseWithLocation(items),
       meta: {
         total: total?.total,
         last_update: lastUpdate?.updated_at || null,
@@ -59,11 +59,11 @@ export namespace Village {
     return result
   }
 
-  export const listLocation = async (requestQuery: Entity.RequestQueryListLocation): Promise<Entity.ResponseListLocation> => {
-    const items: any = await Repository.findAll(requestQuery)
+  export const listWithLocation = async (requestQuery: Entity.RequestQueryListWithLocation): Promise<Entity.ResponseListWithLocation> => {
+    const items: any = await Repository.listWithLocation(requestQuery)
 
-    const result: Entity.ResponseListLocation = {
-      data: responseLocation(items.data),
+    const result: Entity.ResponseListWithLocation = {
+      data: responseWithLocation(items.data),
       meta: metaPagination(items.pagination),
     }
 

@@ -25,7 +25,7 @@ export namespace City {
 
   export const Cities = () => database<Entity.Struct>('cities')
 
-  export const findAllWithLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
+  export const withLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
     const query = Cities()
       .select(
         'id',
@@ -40,7 +40,7 @@ export namespace City {
     return query
   }
 
-  export const getTotalFindAllWithLocation = () => {
+  export const getTotalWithLocation = () => {
     const query = Cities()
       .count('id', { as: 'total' })
       .where('is_active', true)

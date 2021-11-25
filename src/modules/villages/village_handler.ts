@@ -20,8 +20,8 @@ router.get(
   '/v1/villages/list-with-location',
   cache(),
   Log.listLocation(),
-  async (req: Request<never, never, never, Entity.RequestQueryListLocation>, res: Response, next: NextFunction) => {
-    const result: Entity.ResponseListLocation = await Service.listLocation(req.query)
+  async (req: Request<never, never, never, Entity.RequestQueryListWithLocation>, res: Response, next: NextFunction) => {
+    const result: Entity.ResponseListWithLocation = await Service.listWithLocation(req.query)
 
     res.status(httpStatus.OK).json(result)
   },
