@@ -119,7 +119,7 @@ Make sure there is already a MySQL database created and the credetials are fille
 
 ## How to Test
 
-Make sure there is already a MySQL test database (should differ with the dev database) created and the credetials are filled in the `.env` file
+Make sure there is already a MySQL test database (should differ with the dev database) created and the credentials are filled in the `.env` file
 
 - Locally
 
@@ -155,6 +155,7 @@ Make sure there is already a MySQL test database (should differ with the dev dat
       └── <module_name>_repository    * database queries
       └── <module_name>_rules         * model rules and restrictions
       └── <module_name>_service       * all business logic
+      └── <module_name>_test          * remember to keep our code coverage high
 └── ...
 ```
 
