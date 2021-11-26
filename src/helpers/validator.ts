@@ -6,7 +6,7 @@ import lang from '../lang'
 export const message = (type: string, label: string, limit?: string, valids?: string[]) => {
   const valid = valids?.join(', ')
 
-  if (label === 'password_confirm') type = `${type}.confirmed`
+  if (label === 'password_confirm' && type !== 'string.pattern.base') type = `${type}.confirmed`
 
   return lang.__(`validation.${type}`, { attribute: label, limit, valid })
 }
