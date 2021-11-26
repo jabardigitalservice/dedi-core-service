@@ -9,6 +9,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('city_id', 5).notNullable().index()
         table.boolean('is_active').notNullable().index()
         table.string('area_id', 4).index()
+        table.specificType('location', 'POINT').notNullable().index()
       })
     }
   })
