@@ -16,7 +16,7 @@ export namespace Village {
     updated_at: Date
   }
 
-  export interface FindAll {
+  export interface WithLocation {
     id: string
     name: string
     level: number
@@ -49,35 +49,34 @@ export namespace Village {
     },
   }
 
-  export interface RequestQuery extends Query {
+  export interface RequestQueryListWithLocation extends Query {
     name: string
     level: string
     per_page: string
     current_page: string
+  }
+
+  export interface RequestQueryWithLocation extends Query {
     bounds: {
       ne: string
       sw: string
     }
   }
 
-  export interface RequestQuerySearch extends Query {
-    q: string
-  }
-
   export interface RequestParamFindById {
     id: string
   }
 
-  export interface ResponseFindAllWithLocation {
-    data: FindAll[]
+  export interface ResponseWithLocation {
+    data: WithLocation[]
     meta: {
       total: number
       last_update?: Date
     }
   }
 
-  export interface ResponseFindAll {
-    data: FindAll[]
+  export interface ResponseListWithLocation {
+    data: WithLocation[]
     meta: metaPaginate
   }
 

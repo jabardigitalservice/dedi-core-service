@@ -9,7 +9,7 @@ export namespace City {
     location: any
   }
 
-  export interface FindAllWithLocation {
+  export interface WithLocation {
     id: string
     name: string
     location: {
@@ -18,16 +18,15 @@ export namespace City {
     },
   }
 
-  export interface RequestQuery extends Query {
-    name: string
+  export interface RequestQueryWithLocation extends Query {
     bounds: {
       ne: string
       sw: string
     }
   }
 
-  export interface ResponseFindAllWithLocation {
-    data: FindAllWithLocation[]
+  export interface ResponseWithLocation {
+    data: WithLocation[]
     meta: {
       total: number
     }

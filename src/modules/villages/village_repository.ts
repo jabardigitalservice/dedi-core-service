@@ -3,7 +3,7 @@ import { pagination } from '../../helpers/paginate';
 import { Village as Entity } from './village_entity';
 
 export namespace Village {
-  const getPolygon = (requestQuery: Entity.RequestQuery) => {
+  const getPolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
     const { ne, sw } = requestQuery.bounds
 
     const boundsNE = ne.trimStart().trimEnd().split(/[, ]+/)
@@ -18,7 +18,7 @@ export namespace Village {
     ))`
   }
 
-  const getWherePolygon = (requestQuery: Entity.RequestQuery) => {
+  const getWherePolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
     const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(requestQuery)}'), villages.location)`
 
     return wherePolygon
@@ -26,7 +26,7 @@ export namespace Village {
 
   export const Villages = () => database<Entity.Struct>('villages')
 
-  const getVillage = () => {
+  const getWithLocation = () => {
     const query = Villages()
       .select(
         'villages.id as id',
@@ -48,16 +48,16 @@ export namespace Village {
     return query
   }
 
-  export const findAllWithLocation = (requestQuery: Entity.RequestQuery) => {
-    const query = getVillage()
+  export const withLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
+    const query = getWithLocation()
 
     query.whereRaw(getWherePolygon(requestQuery))
 
     return query
   }
 
-  export const findAll = (requestQuery: Entity.RequestQuery) => {
-    const query = getVillage()
+  export const listWithLocation = (requestQuery: Entity.RequestQueryListWithLocation) => {
+    const query = getWithLocation()
 
     if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
     if (requestQuery.level) query.where('villages.level', requestQuery.level)
@@ -85,7 +85,7 @@ export namespace Village {
     return query
   }
 
-  export const metaFindAllWithLocation = () => {
+  export const metaWithLocation = () => {
     const total = Villages()
       .count('id', { as: 'total' })
       .where('is_active', true)

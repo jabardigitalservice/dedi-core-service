@@ -7,13 +7,13 @@ export namespace City {
     return pointRegex.test(point)
   }
 
-  const isRequestBounds = (requestQuery: Entity.RequestQuery) => requestQuery?.bounds?.ne
+  const isRequestBounds = (requestQuery: Entity.RequestQueryWithLocation) => requestQuery?.bounds?.ne
     && requestQuery?.bounds?.sw
     && pointRegexRule(requestQuery.bounds.ne)
     && pointRegexRule(requestQuery.bounds.sw)
 
-  const responseFindAllWithLocation = (items: any[]): Entity.FindAllWithLocation[] => {
-    const data: Entity.FindAllWithLocation[] = []
+  const responseWithLocation = (items: any[]): Entity.WithLocation[] => {
+    const data: Entity.WithLocation[] = []
     for (const item of items) {
       data.push({
         id: item.id,
@@ -28,12 +28,12 @@ export namespace City {
     return data
   }
 
-  export const findAllWithLocation = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAllWithLocation> => {
-    const items: any = isRequestBounds(requestQuery) ? await Repository.findAllWithLocation(requestQuery) : []
-    const total: any = await Repository.getTotalFindAllWithLocation()
+  export const withLocation = async (requestQuery: Entity.RequestQueryWithLocation): Promise<Entity.ResponseWithLocation> => {
+    const items: any = isRequestBounds(requestQuery) ? await Repository.withLocation(requestQuery) : []
+    const total: any = await Repository.getTotalWithLocation()
 
-    const result: Entity.ResponseFindAllWithLocation = {
-      data: responseFindAllWithLocation(items),
+    const result: Entity.ResponseWithLocation = {
+      data: responseWithLocation(items),
       meta: {
         total: total.total,
       },
