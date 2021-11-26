@@ -22,9 +22,9 @@ An integrated one-stop platform for collaborating with startups, SMEs, and other
 Clone the project:
 
 ```bash
-git clone https://github.com/jabardigitalservice/dedi-core-service
-cd dedi-core-service
-cp .env.example .env
+$ git clone https://github.com/jabardigitalservice/dedi-core-service
+$ cd dedi-core-service
+$ cp .env.example .env
 ```
 
 
@@ -87,13 +87,13 @@ Make sure there is already a MySQL database created and the credetials are fille
   - With npm
 
     ```bash
-    npm run dev
+    $ npm run dev
     ```
 
   - with make
 
     ```bash
-    make dev
+    $ make dev
     ```
 
 - Run locally with docker:
@@ -124,13 +124,13 @@ Make sure there is already a MySQL test database (should differ with the dev dat
 - Locally
 
   ```bash
-  npm run test
+  $ npm run test
   ```
 
 - Locally with docker
 
   ```bash
-  make docker-run-dev-test
+  $ make docker-run-dev-test
   ```
 
 
