@@ -9,6 +9,7 @@ An integrated one-stop platform for collaborating with startups, SMEs, and other
 
 ## Tech Stacks
 
+- **TypeScript** - <https://www.typescriptlang.org/>
 - **Node.js** - <http://nodejs.org/>
 - **Express Js** - <https://expressjs.com/>
 - **Knex Js** - <https://knexjs.org/>
