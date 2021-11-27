@@ -24,6 +24,10 @@ config.set('jwt.refresh.ttl', config.get('jwt.refresh.ttl', 36000))
 
 config.set('db.connection', config.get('db.connection', 'mysql'))
 
+config.set('roles.0', config.get('roles.0', 'roles.0'))
+config.set('roles.1', config.get('roles.1', 'roles.1'))
+config.set('roles.2', config.get('roles.2', 'roles.2'))
+
 config.set('tmp', 'tmp')
 
 export default config
