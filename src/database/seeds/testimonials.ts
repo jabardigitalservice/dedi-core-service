@@ -13,7 +13,7 @@ export async function seed(): Promise<void> {
       name: faker.name.findName(),
       description: faker.lorem.text(),
       avatar: faker.image.avatar(),
-      type: faker.random.arrayElement([config.get('roles.1'), config.get('roles.2')]),
+      type: faker.random.arrayElement([config.get('role.1'), config.get('role.2')]),
       is_active: faker.datatype.boolean(),
       created_by: uuidv4(),
       created_at: moment().subtract({ seconds: (index + 1) }).toDate(),
