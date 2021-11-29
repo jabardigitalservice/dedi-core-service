@@ -13,7 +13,7 @@ export async function seed(): Promise<void> {
       category_id: null,
       verified_at: moment().subtract({ seconds: (index + 1) }).toDate(),
       logo: faker.image.avatar(),
-      total_village: faker.datatype.number({ min: 1, max: 10 }),
+      total_village: faker.datatype.number({ min: 200, max: 2000 }),
       website: faker.internet.url(),
       created_at: moment().subtract({ seconds: (index + 1) }).toDate(),
     });
