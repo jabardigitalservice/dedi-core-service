@@ -11,13 +11,11 @@ export async function seed(): Promise<void> {
       id: uuidv4(),
       name: faker.name.findName(),
       category_id: null,
-      deleted_at: moment().subtract({ seconds: (index + 1) }).toDate(),
       verified_at: moment().subtract({ seconds: (index + 1) }).toDate(),
       logo: faker.image.avatar(),
       total_village: faker.datatype.number({ min: 1, max: 10 }),
       website: faker.internet.url(),
       created_at: moment().subtract({ seconds: (index + 1) }).toDate(),
-      updated_at: moment().subtract({ seconds: (index + 1) }).toDate(),
     });
   }
 
