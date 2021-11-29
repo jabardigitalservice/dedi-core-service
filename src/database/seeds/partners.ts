@@ -10,7 +10,7 @@ export async function seed(): Promise<void> {
     data.push({
       id: uuidv4(),
       name: faker.name.findName(),
-      category_id: faker.datatype.number({ min: 1, max: 2 }),
+      category_id: null,
       deleted_at: moment().subtract({ seconds: (index + 1) }).toDate(),
       verified_at: moment().subtract({ seconds: (index + 1) }).toDate(),
       logo: faker.image.avatar(),
