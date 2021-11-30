@@ -18,14 +18,4 @@ router.get(
   },
 )
 
-router.get(
-  '/v1/testimonialsUsingCursor',
-  cache(),
-  async (req: Request<never, never, never, Entity.RequestQuery>, res: Response, next: NextFunction) => {
-    const result: Entity.ResponseFindAllUsingCursor = await Service.findAllUsingCursor(req.query)
-
-    res.status(httpStatus.OK).json(result)
-  },
-)
-
 export default router

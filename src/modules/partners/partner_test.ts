@@ -1,4 +1,3 @@
-import moment from 'moment'
 import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
 import app from '../../server'
@@ -168,47 +167,6 @@ describe('test partner suggestion', () => {
             data: [],
             meta: expect.objectContaining({
               total: 0,
-            }),
-          }),
-        )
-      })
-  })
-})
-
-describe('test partners using cursor', () => {
-  it('returns partners with cursor', async () => {
-    await Repository.Partners().insert([
-      {
-        id: uuidv4(),
-        name: 'TokoPedia',
-        total_village: 1,
-        created_at: moment().subtract({ seconds: 1 }).toDate(),
-      },
-      {
-        id: uuidv4(),
-        name: 'TokoCrypto',
-        total_village: 1,
-        created_at: moment().subtract({ seconds: 2 }).toDate(),
-      },
-    ])
-
-    return request(app)
-      .get('/v1/partnersUsingCursor')
-      .query({ next_page: timestamp, per_page: 1 })
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(
-          expect.objectContaining({
-            data: expect.arrayContaining([
-              expect.objectContaining({
-                id: expect.any(String),
-                name: expect.any(String),
-              }),
-            ]),
-            meta: expect.objectContaining({
-              per_page: expect.any(Number),
-              total: expect.any(Number),
-              next_page: expect.any(String),
             }),
           }),
         )

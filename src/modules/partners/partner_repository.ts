@@ -26,33 +26,6 @@ export namespace Partner {
     return query
   }
 
-  export const metaUsingCursor = (requestQuery: Entity.MetaQueryUsingCursor) => {
-    const total = Partners()
-      .count('id', { as: 'total' })
-      .first()
-    if (requestQuery.name) total.where('name', requestQuery.name);
-
-    const lastUpdate = Partners()
-      .select('created_at')
-      .orderBy('created_at', 'desc')
-      .first()
-
-    return { total, lastUpdate }
-  }
-
-  export const findAllUsingCursor = (requestQuery: Entity.QueryUsingCursor) => {
-    const query = Partners()
-      .select('id', 'name', 'total_village', 'logo', 'created_at', 'website')
-      .whereNull('deleted_at')
-      .where('created_at', '<', requestQuery.dateBefore)
-      .orderBy('created_at', 'desc')
-      .limit(requestQuery.perPage)
-
-    if (requestQuery.name) query.where('name', requestQuery.name)
-
-    return query
-  }
-
   export const search = (requestQuery: Entity.RequestQuerySuggestion) => {
     const query = Partners()
       .select('id', 'name')
