@@ -12,7 +12,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('logo')
         table.integer('total_village')
         table.string('website')
-        table.timestamp('created_at').notNullable().index()
+        table.timestamp('created_at').notNullable()
         table.timestamp('updated_at')
       })
     }

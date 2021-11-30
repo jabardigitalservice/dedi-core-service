@@ -23,31 +23,6 @@ export namespace Partner {
     return result
   }
 
-  export const findAllUsingCursor = async (requestQuery: Entity.RequestQueryUsingCursor): Promise<Entity.ResponseFindAllUsingCursor> => {
-    const { name } = requestQuery
-    const dateBefore = requestQuery?.next_page ? new Date(requestQuery.next_page) : new Date()
-    const perPage = Number(requestQuery?.per_page) || 6
-
-    const meta: any = Repository.metaUsingCursor({ name })
-    const items: any = await Repository.findAllUsingCursor({ name, dateBefore, perPage })
-    const total: any = await meta.total
-    const lastUpdate: any = await meta.lastUpdate
-
-    const itemsLength = items.length
-
-    const result: Entity.ResponseFindAllUsingCursor = {
-      data: items,
-      meta: {
-        next_page: itemsLength ? items[itemsLength - 1].created_at : null,
-        per_page: perPage,
-        last_update: lastUpdate.created_at || null,
-        total: total.total,
-      },
-    }
-
-    return result
-  }
-
   export const search = async (requestQuery: Entity.RequestQuerySuggestion): Promise<Entity.ResponseSuggestion> => {
     const partners: Entity.PartnerSuggestion[] = requestQuery?.name?.length >= 3 ? await Repository.search(requestQuery) : []
 
