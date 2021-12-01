@@ -59,11 +59,14 @@ export namespace Auth {
     .first()
 
   export const findByRefreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => OauthTokens()
-    .select('users.id', 'partner_id', 'is_admin')
+    .select('users.id', 'partner_id', 'is_admin', 'is_active')
     .join('users', 'users.id', 'oauth_tokens.user_id')
-    .where('is_active', true)
     .where('refresh_token', requestBody.refresh_token)
     .first()
+
+  export const deleteByRefreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => OauthTokens()
+    .where('refresh_token', requestBody.refresh_token)
+    .delete()
 
   export const createOauthToken = async (oauthToken: Entity.StructOauthToken) => {
     const timestamp = new Date()
