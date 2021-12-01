@@ -64,7 +64,7 @@ export namespace Auth {
     .where('refresh_token', requestBody.refresh_token)
     .first()
 
-  export const deleteByRefreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => OauthTokens()
+  export const deleteRefreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => OauthTokens()
     .where('refresh_token', requestBody.refresh_token)
     .delete()
 

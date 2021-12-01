@@ -78,7 +78,7 @@ export namespace Auth {
   }
 
   const throwRefreshTokenFailed = async (requestBody: Entity.RequestBodyRefreshToken) => {
-    Repository.deleteByRefreshToken(requestBody)
+    Repository.deleteRefreshToken(requestBody)
     throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, lang.__('auth.refreshToken.failed'))
   }
 
