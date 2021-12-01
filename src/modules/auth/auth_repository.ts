@@ -18,7 +18,7 @@ export namespace Auth {
     const partner = Partners()
       .select('id')
       .where('id', requestBody.partner_id)
-      .orWhere('name', requestBody.company.toLowerCase())
+      .orWhere('name', requestBody.company)
       .whereNull('deleted_at')
       .first()
 
