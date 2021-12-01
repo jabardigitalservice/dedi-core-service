@@ -1,6 +1,7 @@
 import httpStatus from 'http-status'
 import bcrypt from 'bcrypt'
 import { Request } from 'express'
+import { verify } from 'jsonwebtoken'
 import { HttpError } from '../../handler/exception'
 import { checkError, uniqueRule } from '../../helpers/rules'
 import lang from '../../lang'
@@ -76,9 +77,28 @@ export namespace Auth {
     return responseJwt
   }
 
+  const throwRefreshTokenFailed = async (requestBody: Entity.RequestBodyRefreshToken) => {
+    Repository.deleteOauthbyRefreshToken(requestBody)
+    throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, lang.__('auth.refreshToken.failed'))
+  }
+
+  const verifyRefreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => {
+    try {
+      verify(requestBody.refresh_token, config.get('jwt.refresh.public'), {
+        algorithms: config.get('jwt.refresh.algorithm'),
+      });
+    } catch (err) {
+      await throwRefreshTokenFailed(requestBody)
+    }
+  }
+
   export const refreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => {
-    const user: Entity.StructUser = await Repository.findByRefreshToken(requestBody)
+    const user: any = await Repository.findByRefreshToken(requestBody)
     if (!user) throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, lang.__('auth.refreshToken.failed'))
+
+    if (!user.is_active) await throwRefreshTokenFailed(requestBody)
+
+    await verifyRefreshToken(requestBody)
 
     const responseJwt = generateJwtToken(user)
 
