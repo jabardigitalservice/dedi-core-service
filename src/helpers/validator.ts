@@ -15,11 +15,13 @@ export const validateError = (details: Joi.ValidationErrorItem[]) => {
   const rules: any = {}
 
   for (const item of details) {
-    const { context, type } = item
+    const { context, type, path } = item
+    const key = path.join('.')
+    const label = path.join(' ')
 
     if (type === 'object.unknown') continue
 
-    rules[context.key] = [message(type, context?.label, context?.limit, context?.valids)]
+    rules[key] = [message(type, label, context?.limit, context?.valids)]
   }
 
   return rules

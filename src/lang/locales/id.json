@@ -7,6 +7,7 @@
   "validation.any.only.confirmed": "Isian {{ attribute }} tidak cocok dengan password.",
   "validation.string.pattern.base": "Format isian {{ attribute }} tidak valid.",
   "validation.string.base": "Isian {{ attribute }} harus berupa string.",
+  "validation.number.base": "Isian {{ attribute }} harus berupa number.",
   "validation.unique": "Isian {{ attribute }} sudah terdaftar.",
   "validation.exists": "Isian {{ attribute }} yang dipilih tidak terdaftar.",
   "validation.boolean.base": "Isian {{ attribute }} harus berupa true atau false.",
