@@ -12,7 +12,7 @@ export async function seed(): Promise<void> {
       id: uuidv4(),
       name: faker.name.findName(),
       description: faker.lorem.text(),
-      avatar: faker.image.avatar(),
+      avatar: `https://avatars.dicebear.com/api/micah/${faker.name.findName()}.svg`,
       type: faker.random.arrayElement([config.get('role.1'), config.get('role.2')]),
       is_active: faker.datatype.boolean(),
       created_by: uuidv4(),

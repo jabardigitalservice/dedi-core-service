@@ -11,7 +11,7 @@ export async function seed(): Promise<void> {
       id: uuidv4(),
       name: faker.name.findName(),
       verified_at: moment().subtract({ seconds: (index + 1) }).toDate(),
-      logo: faker.image.avatar(),
+      logo: `https://avatars.dicebear.com/api/gridy/${faker.name.findName()}.svg`,
       total_village: faker.datatype.number({ min: 200, max: 2000 }),
       website: faker.internet.url(),
       created_at: moment().subtract({ seconds: (index + 1) }).toDate(),
