@@ -11,7 +11,7 @@ export namespace Partner {
       .whereNull('deleted_at')
       .orderBy('created_at', 'desc')
 
-    if (requestQuery.name) query.where('name', requestQuery.name)
+    if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
 
     return query.paginate(pagination(requestQuery))
   }
