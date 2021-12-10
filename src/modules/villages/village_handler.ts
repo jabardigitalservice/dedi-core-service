@@ -1,35 +1,34 @@
-import express, { Request, Response, NextFunction } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
-import cache from '../../config/cache'
 import { Village as Entity } from './village_entity'
-import { Village as Log } from './village_log';
 import { Village as Service } from './village_service';
 
-const router = express.Router()
-
-router.get(
-  '/v1/villages/with-location',
-  async (req: Request<never, never, never, Entity.RequestQueryWithLocation>, res: Response, next: NextFunction) => {
+export namespace Village {
+  export const withLocation = async (
+    req: Request<never, never, never, Entity.RequestQueryWithLocation>,
+    res: Response,
+    next: NextFunction,
+  ) => {
     const result: Entity.ResponseWithLocation = await Service.withLocation(req.query)
 
     res.status(httpStatus.OK).json(result)
-  },
-)
+  }
 
-router.get(
-  '/v1/villages/list-with-location',
-  cache(),
-  Log.listWithLocation(),
-  async (req: Request<never, never, never, Entity.RequestQueryListWithLocation>, res: Response, next: NextFunction) => {
-    const result: Entity.ResponseListWithLocation = await Service.listWithLocation(req.query)
+  export const listWithLocation = async (
+    req: Request<never, never, never, Entity.RequestQueryWithLocation>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    const result: Entity.ResponseWithLocation = await Service.withLocation(req.query)
 
     res.status(httpStatus.OK).json(result)
-  },
-)
+  }
 
-router.get(
-  '/v1/villages/:id',
-  async (req: Request<Entity.RequestParamFindById, never, never, never>, res: Response, next: NextFunction) => {
+  export const findById = async (
+    req: Request<Entity.RequestParamFindById, never, never, never>,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
       const result: Entity.ResponseFindById = await Service.findById(req.params)
 
@@ -37,7 +36,5 @@ router.get(
     } catch (err) {
       next(err)
     }
-  },
-)
-
-export default router
+  }
+}
