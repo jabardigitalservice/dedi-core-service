@@ -4,7 +4,7 @@ import { Testimonial as Entity } from './testimonial_entity'
 import { Testimonial as Service } from './testimonial_service'
 
 export namespace Testimonial {
-  export const testimonials = async (
+  export const findAll = async (
     req: Request<never, never, never, Entity.RequestQuery>,
     res: Response,
     next: NextFunction,
