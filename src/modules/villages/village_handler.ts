@@ -17,7 +17,7 @@ export namespace Village {
   export const listWithLocation = async (
     req: Request<never, never, never, Entity.RequestQueryListWithLocation>,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     const result: Entity.ResponseListWithLocation = await Service.listWithLocation(req.query)
 
