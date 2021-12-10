@@ -101,7 +101,7 @@ Make sure there is already a MySQL database created and the credetials are fille
   ```bash
   # start
   $ make docker-run-dev
-  
+
   # stop
   $ make docker-run-dev-stop
   ```
@@ -111,7 +111,7 @@ Make sure there is already a MySQL database created and the credetials are fille
   ```bash
   # to start
   $ make docker-run
-  
+
   # to stop
   $ make docker-stop
   ```
@@ -150,7 +150,8 @@ Make sure there is already a MySQL test database (should differ with the dev dat
   └── modules/        * where all the magics happen
     └── <module_name>
       └── <module_name>_entity        * struct, type, interfaces, etc
-      └── <module_name>_handler       * routes, request handler list
+      └── <module_name>_handler       * request handler list
+      └── <module_name>_http          * routes
       └── <module_name>_log           * logging business
       └── <module_name>_repository    * database queries
       └── <module_name>_rules         * model rules and restrictions
