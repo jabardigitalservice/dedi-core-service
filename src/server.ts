@@ -12,7 +12,7 @@ import villages from './modules/villages/village_handler'
 import districts from './modules/districts/district_handler'
 import cities from './modules/cities/city_handler'
 import testimonials from './modules/testimonials/testimonial_handler'
-import auth from './modules/auth/auth_handler'
+import auth from './modules/auth/auth_http'
 import httpTimeout from './middleware/httpTimeout'
 
 class App {
