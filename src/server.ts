@@ -12,7 +12,7 @@ import auth from './modules/auth/auth_http'
 import cities from './modules/cities/city_http'
 import districts from './modules/districts/district_http'
 import partners from './modules/partners/partner_http'
-import testimonials from './modules/testimonials/testimonial_handler'
+import testimonials from './modules/testimonials/testimonial_http'
 import villages from './modules/villages/village_http'
 
 class App {
