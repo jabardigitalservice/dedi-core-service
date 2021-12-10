@@ -5,6 +5,6 @@ import { Testimonial as Handler } from './testimonial_handler'
 
 const router = Router()
 
-router.get('/v1/testimonials', Handler.testimonials)
+router.get('/v1/testimonials', cache(), Log.findAll, Handler.testimonials)
 
 export default router
