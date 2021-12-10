@@ -15,11 +15,11 @@ export namespace Village {
   }
 
   export const listWithLocation = async (
-    req: Request<never, never, never, Entity.RequestQueryWithLocation>,
+    req: Request<never, never, never, Entity.RequestQueryListWithLocation>,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => {
-    const result: Entity.ResponseWithLocation = await Service.withLocation(req.query)
+    const result: Entity.ResponseListWithLocation = await Service.listWithLocation(req.query)
 
     res.status(httpStatus.OK).json(result)
   }
