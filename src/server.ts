@@ -1,19 +1,19 @@
 import bodyParser from 'body-parser'
-import express, { Application } from 'express'
-import cors from 'cors'
-import helmet from 'helmet'
 import compression from 'compression'
-import sentryTransaction from './middleware/sentry'
-import { onError } from './handler/exception'
+import cors from 'cors'
+import express, { Application } from 'express'
+import helmet from 'helmet'
 import config from './config'
+import { onError } from './handler/exception'
 import home from './handler/home'
-import partners from './modules/partners/partner_handler'
-import villages from './modules/villages/village_http'
-import districts from './modules/districts/district_http'
-import cities from './modules/cities/city_http'
-import testimonials from './modules/testimonials/testimonial_handler'
-import auth from './modules/auth/auth_http'
 import httpTimeout from './middleware/httpTimeout'
+import sentryTransaction from './middleware/sentry'
+import auth from './modules/auth/auth_http'
+import cities from './modules/cities/city_http'
+import districts from './modules/districts/district_http'
+import partners from './modules/partners/partner_http'
+import testimonials from './modules/testimonials/testimonial_handler'
+import villages from './modules/villages/village_http'
 
 class App {
   public app: Application
@@ -36,13 +36,13 @@ class App {
   }
 
   protected handlers(): void {
-    this.app.use(home)
-    this.app.use(partners)
-    this.app.use(villages)
+    this.app.use(auth)
     this.app.use(cities)
     this.app.use(districts)
+    this.app.use(home)
+    this.app.use(partners)
     this.app.use(testimonials)
-    this.app.use(auth)
+    this.app.use(villages)
   }
 
   protected extends(): void {
