@@ -16,7 +16,7 @@
   "validation.file.mimetypes": "Isian {{ attribute }} harus berjenis : {{ values }}.",
   "validation.file.size": "Isian {{ attribute }} seharusnya tidak lebih dari {{ max }} kilobytes.",
 
-  "error.exists": "{{ entity }} dengan id {{ id }} tidak ada.",
+  "error.exists": "{{ entity }} dengan id {{ id }} tidak ditemukan.",
 
   "auth.signin.failed": "Email dan Kata Sandi tidak ditemukan.",
   "auth.verified.failed": "Email tidak dikenali",
@@ -25,5 +25,7 @@
   "auth.email.forgot.password.success": "Berhasil mengirimkan tautan verifikasi ke {{ email }}",
 
   "subject.forgot.password": "Reset Kata Sandi",
-  "template.paragraph.forgot.password": "Klik link di bawah ini untuk melakukan reset kata sandi"
+  "template.paragraph.forgot.password": "Klik link di bawah ini untuk melakukan reset kata sandi",
+
+  "route.not.found": "Route tidak ditemukan"
 }
