@@ -13,7 +13,7 @@ export const grantAccess = (
   const role = getRole(req.user)
   const permission = roles.can(role)[action](resource);
 
-  if (!permission.granted) next(new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.grant.access')));
+  if (permission.granted) return next();
 
-  next()
+  next(new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.grant.access')))
 }
