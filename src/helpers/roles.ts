@@ -1,24 +1,27 @@
 import { AccessControl } from 'accesscontrol'
 import config from '../config';
 
-const ac = new AccessControl();
+const accessControl = new AccessControl();
 
-const roles = () => {
-  ac.grant('basic')
-    .readOwn('profile')
-    .updateOwn('profile')
+accessControl.grant('basic')
+  .readOwn('profile')
+  .updateOwn('profile')
 
-  ac.grant(config.get('role.0'))
-    .extend('basic')
-    .readAny('profile')
+accessControl.grant(config.get('role.0'))
+  .extend('basic')
+  .readAny('profile')
 
-  ac.grant(config.get('role.1'))
-    .extend('basic')
+accessControl.grant(config.get('role.1'))
+  .extend('basic')
 
-  ac.grant(config.get('role.2'))
-    .extend('basic')
+accessControl.grant(config.get('role.2'))
+  .extend('basic')
 
-  return ac;
+export const roles = accessControl;
+
+export const getRole = (user: any) => {
+  const partner = user.prtnr ? config.get('role.1') : config.get('role.2')
+  const role = user.adm ? config.get('role.0') : partner
+
+  return role;
 }
-
-export default roles()
