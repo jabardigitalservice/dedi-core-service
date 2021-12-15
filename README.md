@@ -149,6 +149,7 @@ Make sure there is already a MySQL test database (should differ with the dev dat
   └── middleware/     * request's middlewares
   └── modules/        * where all the magics happen
     └── <module_name>
+      └── <module_name>_access        * role base access control list
       └── <module_name>_entity        * struct, type, interfaces, etc
       └── <module_name>_handler       * request handler list
       └── <module_name>_http          * routes
