@@ -6,6 +6,7 @@
   "dependencies": {
     "@sentry/node": "^6.13.2",
     "@sentry/tracing": "^6.13.2",
+    "accesscontrol": "^2.2.1",
     "apicache": "^1.6.2",
     "aws-sdk": "^2.1013.0",
     "bcrypt": "^5.0.1",
