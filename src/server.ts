@@ -39,13 +39,13 @@ class App {
     this.app.use(auth)
     this.app.use(cities)
     this.app.use(districts)
-    this.app.use(home)
     this.app.use(partners)
     this.app.use(testimonials)
     this.app.use(villages)
   }
 
   protected extends(): void {
+    this.app.use(home)
     this.app.use(onError)
   }
 }
