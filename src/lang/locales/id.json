@@ -21,8 +21,9 @@
   "auth.signin.failed": "Email dan Kata Sandi tidak ditemukan.",
   "auth.verified.failed": "Email tidak dikenali",
   "auth.refreshToken.failed": "Refresh token tidak aktif.",
-  "auth.rejected": "UNAUTHORIZED",
+  "auth.rejected": "Access token tidak aktif.",
   "auth.email.forgot.password.success": "Berhasil mengirimkan tautan verifikasi ke {{ email }}",
+  "auth.grant.access": "Tidak memiliki izin untuk melakukan tindakan ini.",
 
   "subject.forgot.password": "Reset Kata Sandi",
   "template.paragraph.forgot.password": "Klik link di bawah ini untuk melakukan reset kata sandi",
