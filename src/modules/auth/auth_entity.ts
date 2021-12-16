@@ -36,7 +36,9 @@ export namespace Auth {
     partner_id?: string
     email: string
     password: string
+    is_admin?: boolean
     google_id?: string
+    verified_at?: Date
   }
 
   export interface PartnerCreate {
