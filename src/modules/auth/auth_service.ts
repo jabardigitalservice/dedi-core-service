@@ -27,6 +27,7 @@ export namespace Auth {
     }
 
     user.partner_id = requestBody.company ? await Repository.getPartnerId(requestBody) : null
+    user.is_admin = !user.partner_id
 
     return Repository.signUp(user)
   }
