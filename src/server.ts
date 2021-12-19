@@ -6,6 +6,7 @@ import helmet from 'helmet'
 import config from './config'
 import { onError } from './handler/exception'
 import home from './handler/home'
+import { isNodeEnvTest } from './helpers/constant'
 import httpTimeout from './middleware/httpTimeout'
 import sentryTransaction from './middleware/sentry'
 import auth from './modules/auth/auth_http'
@@ -51,7 +52,7 @@ class App {
 }
 
 const { app } = new App()
-if (config.get('node.env') !== 'test') {
+if (!isNodeEnvTest()) {
   const PORT = config.get('port')
   app.listen(PORT, () => {
     console.log(`App listening at http://0.0.0.0:${PORT}`)
