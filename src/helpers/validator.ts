@@ -27,7 +27,10 @@ export const validateError = (details: Joi.ValidationErrorItem[]) => {
   return rules
 }
 
-export const validate = (schema: Schema, property: string = 'body') => (req: Request, res: Response, next: NextFunction) => {
+export const validate = (
+  schema: Schema,
+  property: string = 'body',
+) => (req: Request, res: Response, next: NextFunction) => {
   const { error } = schema.validate(req[property], { abortEarly: false })
 
   if (!error) return next()
