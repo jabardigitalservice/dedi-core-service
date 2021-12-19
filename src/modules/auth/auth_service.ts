@@ -127,7 +127,7 @@ export namespace Auth {
     })
 
     const aliasRedirect = config.get('url.redirect.forgot.password')
-    const linkRedirect = `${config.get('url.redirect.forgot.password')}?token=${token}`
+    const linkRedirect = `${aliasRedirect}?token=${token}`
 
     sendMail({
       to: user.email,
