@@ -19,8 +19,6 @@ interface CreateToken extends SignOptions {
 const getToken = (req: Request) => {
   if (req.headers?.authorization?.split(' ')?.[0] === config.get('jwt.type')) {
     return req.headers.authorization.split(' ')[1]
-  } if (req.cookies?.access_token) {
-    return req.cookies.access_token
   }
   return null
 }
