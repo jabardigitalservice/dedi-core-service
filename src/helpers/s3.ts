@@ -4,13 +4,7 @@ import { ManagedUpload } from 'aws-sdk/clients/s3'
 import config from '../config'
 import { s3 } from '../config/aws'
 
-interface Upload {
-  name: string
-  mimetype: string
-  path: string
-}
-
-export const uploadS3 = (file: Express.Multer.File, customDir = '/'): Upload => {
+export const uploadS3 = (file: Express.Multer.File, customDir = '/'): string => {
   const dir = `${config.get('node.env')}${customDir}`
   const uploadParams = {
     Bucket: config.get('aws.bucket'),
@@ -24,23 +18,5 @@ export const uploadS3 = (file: Express.Multer.File, customDir = '/'): Upload => 
 
   unlinkSync(file.path)
 
-  return {
-    name: file.filename,
-    mimetype: file.mimetype,
-    path: uploadParams.Key,
-  }
-}
-
-export const getFileUrlS3 = async (path: string): Promise<string> => {
-  const params = {
-    Bucket: config.get('aws.bucket'),
-    Key: path,
-  }
-
-  try {
-    await s3.headObject(params).promise()
-    return `${config.get('aws.s3.cloudfront')}/${path}`
-  } catch (err) {
-    return null
-  }
+  return uploadParams.Key
 }
