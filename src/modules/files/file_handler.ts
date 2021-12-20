@@ -11,11 +11,8 @@ export namespace File {
     next: NextFunction,
   ) => {
     try {
-      const file = await uploadLocalSingle({
-        req,
-        res,
-        fieldName: 'file',
-      })
+      const fieldName = 'file'
+      const file = await uploadLocalSingle({ req, res, fieldName })
       const path = uploadS3(file)
       const result: Entity.ResponseUpload = {
         data: { path },
