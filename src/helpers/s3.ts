@@ -6,10 +6,11 @@ import { s3 } from '../config/aws'
 
 export const uploadS3 = (file: Express.Multer.File, customDir = '/'): string => {
   const dir = `${config.get('node.env')}${customDir}`
+  const Key = `${dir}${file.filename}`
   const uploadParams = {
     Bucket: config.get('aws.bucket'),
     Body: fs.createReadStream(file.path),
-    Key: `${dir}${file.filename}`,
+    Key,
   }
 
   s3.upload(uploadParams, (err: Error, res: ManagedUpload.SendData) => {
@@ -18,5 +19,5 @@ export const uploadS3 = (file: Express.Multer.File, customDir = '/'): string => 
 
   unlinkSync(file.path)
 
-  return uploadParams.Key
+  return Key
 }
