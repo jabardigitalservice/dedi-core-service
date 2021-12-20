@@ -117,6 +117,13 @@ export namespace Auth {
     return responseJwt
   }
 
+  export const signOut = async (requestBody: Entity.RequestBodyRefreshToken) => {
+    const user: any = await Repository.findByRefreshToken(requestBody)
+    if (!user) throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, lang.__('auth.refreshToken.failed'))
+
+    return Repository.deleteOauthbyRefreshToken(requestBody)
+  }
+
   export const forgotPassword = async (requestBody: Entity.RequestBodyForgotPassword): Promise<Entity.ResponseForgotPassword> => {
     const user = await Repository.findByEmail(requestBody)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.email.failed'))

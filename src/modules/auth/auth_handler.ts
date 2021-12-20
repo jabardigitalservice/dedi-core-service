@@ -36,6 +36,16 @@ export namespace Auth {
     }
   }
 
+  export const signOut = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { body } = req
+      await Service.signOut(body)
+      res.status(httpStatus.OK).json({ message: 'LOGOUT' })
+    } catch (error) {
+      next(error)
+    }
+  }
+
   export const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
