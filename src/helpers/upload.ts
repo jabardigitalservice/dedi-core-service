@@ -28,6 +28,9 @@ interface UploadPromise {
 
 type MulterFile = Express.Multer.File | null
 
+const fileType = config.get('file.type', 'jpg|png|svg')
+const fileSize = Number(config.get('file.max', 10485760)) // set default size max 10 mb
+
 const formatError = (fieldName: string, message: string): HttpError => {
   const errors: StructErrors = {
     [fieldName]: [message],
@@ -37,8 +40,7 @@ const formatError = (fieldName: string, message: string): HttpError => {
 }
 
 const checkFileType = (file: Express.Multer.File, cb: FileFilterCallback) => {
-  const type = config.get('file.type', 'jpg|png|svg')
-  const fileTypes = new RegExp(type)
+  const fileTypes = new RegExp(fileType)
   const extname = fileTypes.test(path.extname(file.originalname).toLowerCase())
   const mimetype = fileTypes.test(file.mimetype)
 
@@ -46,7 +48,7 @@ const checkFileType = (file: Express.Multer.File, cb: FileFilterCallback) => {
 
   const customMessage = {
     attribute: file.fieldname,
-    values: type.split('|').join(', '),
+    values: fileType.split('|').join(', '),
   }
 
   cb(formatError(file.fieldname, lang.__('validation.file.mimetypes', customMessage)))
@@ -80,7 +82,6 @@ const uploadFile = async (file: UploadPromise): Promise<MulterFile> => new Promi
 })
 
 export const uploadLocalSingle = async (requestFile: RequestFile): Promise<MulterFile> => {
-  const fileSize = Number(config.get('file.max', 10485760)) // set default size max 10 mb
   const upload = multer({
     storage,
     limits: { fileSize },
