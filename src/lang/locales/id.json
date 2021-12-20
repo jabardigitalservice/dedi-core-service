@@ -14,7 +14,7 @@
   "validation.string.empty": "Isian {{ attribute }} tidak boleh string kosong.",
 
   "validation.file.mimetypes": "Isian {{ attribute }} harus berjenis : {{ values }}.",
-  "validation.file.size": "Isian {{ attribute }} seharusnya tidak lebih dari {{ max }} kilobytes.",
+  "validation.file.size": "Isian {{ attribute }} seharusnya tidak lebih dari {{ max }} MB.",
 
   "error.exists": "{{ entity }} dengan id {{ id }} tidak ditemukan.",
 

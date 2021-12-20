@@ -9,6 +9,7 @@ export default async (): Promise<Config.InitialOptions> => {
       './src/helpers/test/*.ts',
       './src/modules/**/*.ts',
       '!./src/modules/auth/*.ts',
+      '!./src/modules/files/*.ts',
     ],
     coverageReporters: ['lcov'],
     detectOpenHandles: true,

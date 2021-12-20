@@ -29,7 +29,7 @@ interface UploadPromise {
 type MulterFile = Express.Multer.File | null
 
 const fileType = config.get('file.type', 'jpg|png|svg')
-const fileSize = Number(config.get('file.max', 10485760)) // set default size max 10 mb
+const fileSize = Number(config.get('file.max', 10)) * 1000000 // set default size max 10 mb
 
 const formatError = (fieldName: string, message: string): HttpError => {
   const errors: StructErrors = {
@@ -65,7 +65,9 @@ const getError = (err: any, requestFile: RequestFile, fileSize: number): HttpErr
   if (err && err.code === 'LIMIT_FILE_SIZE') {
     message = lang.__('validation.file.size', customMessage)
   } else if (err && typeof err.code !== 'string') {
-    message = err.message
+    const parseError = JSON.parse(err.message)
+    const [error] = parseError.file
+    message = error
   } else if (!err && requestFile.req.file === undefined) {
     message = lang.__('validation.any.required', customMessage)
   }
