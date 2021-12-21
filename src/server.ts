@@ -12,6 +12,7 @@ import sentryTransaction from './middleware/sentry'
 import auth from './modules/auth/auth_http'
 import cities from './modules/cities/city_http'
 import districts from './modules/districts/district_http'
+import files from './modules/files/file_http'
 import partners from './modules/partners/partner_http'
 import testimonials from './modules/testimonials/testimonial_http'
 import villages from './modules/villages/village_http'
@@ -40,6 +41,7 @@ class App {
     this.app.use(auth)
     this.app.use(cities)
     this.app.use(districts)
+    this.app.use(files)
     this.app.use(partners)
     this.app.use(testimonials)
     this.app.use(villages)
