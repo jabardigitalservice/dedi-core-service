@@ -20,6 +20,7 @@ export namespace Page {
     is_active: boolean
     file: {
       name: string
+      path: string
     }
   }
 
@@ -27,6 +28,7 @@ export namespace Page {
     order_by: string
     sort_by: string
     q: string
+    is_active: string
     per_page: string
     current_page: string
   }

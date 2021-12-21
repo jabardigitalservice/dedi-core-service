@@ -1,3 +1,4 @@
+import config from '../../config'
 import { metaPagination } from '../../helpers/paginate'
 import { Page as Entity } from './page_entity'
 import { Page as Repository } from './page_repository'
@@ -13,6 +14,7 @@ export namespace Page {
         is_active: !!item.is_active,
         file: {
           name: item.files_name,
+          path: item.files_path ? `${config.get('aws.s3.cloudfront')}/${item.files_path}` : null,
         },
       })
     }
