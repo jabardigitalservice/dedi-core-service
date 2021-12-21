@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express'
 import lang from '../lang'
 
 export const message = (type: string, label: string, limit?: string, valids?: string[]) => {
-  const valid = valids?.join(', ')
+  const valid = valids?.filter((e) => e)?.join(', ')
 
   if (label === 'password_confirm' && type === 'any.only') type = `${type}.confirmed`
 
