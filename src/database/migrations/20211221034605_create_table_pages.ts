@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     if (!exists) {
       return knex.schema.createTable('pages', (table) => {
         table.increments('id')
-        table.uuid('user_id').notNullable().index()
+        table.uuid('created_by').notNullable().index()
         table.string('title', 70).notNullable().index()
         table.text('description').notNullable()
         table.boolean('is_active').defaultTo(true).index()
