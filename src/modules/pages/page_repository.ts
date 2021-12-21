@@ -6,8 +6,8 @@ export namespace Page {
   export const Pages = () => database<Entity.Struct>('pages')
 
   export const findAll = (requestQuery: Entity.RequestQueryPage) => {
-    const orderBy = requestQuery.order_by || 'title'
-    const sortBy = requestQuery.sort_by || 'asc'
+    const orderBy: string = requestQuery.order_by || 'title'
+    const sortBy: string = requestQuery.sort_by || 'asc'
 
     const query = Pages()
       .select(
