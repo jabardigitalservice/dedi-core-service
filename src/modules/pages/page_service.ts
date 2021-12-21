@@ -10,7 +10,7 @@ export namespace Page {
         id: item.id,
         title: item.title,
         description: item.description,
-        is_active: item.is_active,
+        is_active: !!item.is_active,
         file: {
           name: item.files_name,
         },
