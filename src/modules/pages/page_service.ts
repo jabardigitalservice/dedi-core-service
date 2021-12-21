@@ -3,8 +3,8 @@ import { Page as Entity } from './page_entity'
 import { Page as Repository } from './page_repository'
 
 export namespace Page {
-  const responseFindAll = (items: any[]): Entity.FindAll[] => {
-    const data: Entity.FindAll[] = []
+  const responseFindAll = (items: any[]): Entity.Response[] => {
+    const data: Entity.Response[] = []
     for (const item of items) {
       data.push({
         id: item.id,

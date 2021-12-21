@@ -13,7 +13,7 @@ export namespace Page {
     updated_at?: Date
   }
 
-  export interface FindAll {
+  export interface Response {
     id: string
     title: string
     description: string
@@ -32,7 +32,7 @@ export namespace Page {
   }
 
   export interface ResponseFindAll {
-    data: FindAll[]
+    data: Response[]
     meta: metaPaginate
   }
 }
