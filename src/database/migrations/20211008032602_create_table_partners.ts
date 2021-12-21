@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
         table.uuid('id').primary()
         table.string('name', 100).notNullable().index()
         table.integer('category_id').index().unsigned()
-        table.timestamp('deleted_at')
+        table.timestamp('deleted_at').index()
         table.timestamp('verified_at')
         table.string('logo')
         table.integer('total_village')
