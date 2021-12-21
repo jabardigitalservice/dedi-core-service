@@ -11,6 +11,5 @@ export namespace Page {
 
   export const ac = accessControl(flatList)
 
-  export const findAll = () => grantAccess(ac, 'readAny', 'page')
   export const findById = () => grantAccess(ac, 'readAny', 'page')
 }
