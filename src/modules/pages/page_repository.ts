@@ -36,7 +36,7 @@ export namespace Page {
   }
 
   export const findById = async (id: string) => {
-    const query = Query.where('pages.id', Number(id)).first()
+    const query = Query.clone().where('pages.id', Number(id)).first()
 
     return query
   }
