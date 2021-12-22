@@ -7,9 +7,13 @@ export namespace Page {
     {
       role: config.get('role.0'), resource: 'page', action: 'read:any', attributes: ['*'],
     },
+    {
+      role: config.get('role.0'), resource: 'page', action: 'create:any', attributes: ['*'],
+    },
   ]
 
   export const ac = accessControl(flatList)
 
   export const findById = () => grantAccess(ac, 'readAny', 'page')
+  export const store = () => grantAccess(ac, 'createAny', 'page')
 }

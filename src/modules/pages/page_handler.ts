@@ -5,7 +5,7 @@ import { Page as Service } from './page_service';
 
 export namespace Page {
   export const findAll = async (
-    req: Request<never, never, never, Entity.RequestQueryPage>,
+    req: Request<never, never, never, Entity.RequestQuery>,
     res: Response,
     next: NextFunction,
   ) => {
@@ -23,6 +23,20 @@ export namespace Page {
       const { id } = req.params
       const result: Entity.ResponseFindById = await Service.findById(id)
       res.status(httpStatus.OK).json(result)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  export const store = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { body, user } = req
+      await Service.store(body, user)
+      res.status(httpStatus.OK).json({ message: 'CREATED' })
     } catch (error) {
       next(error)
     }
