@@ -4,6 +4,7 @@ export namespace File {
       path: string
       filename: string
       original_name: string
-    }
+    },
+    meta: {}
   }
 }
