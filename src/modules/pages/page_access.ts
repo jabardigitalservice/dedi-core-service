@@ -15,5 +15,5 @@ export namespace Page {
   export const ac = accessControl(flatList)
 
   export const findById = () => grantAccess(ac, 'readAny', 'page')
-  export const Store = () => grantAccess(ac, 'createAny', 'page')
+  export const store = () => grantAccess(ac, 'createAny', 'page')
 }
