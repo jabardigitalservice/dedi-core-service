@@ -46,6 +46,15 @@ export namespace Auth {
     }
   }
 
+  export const me = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result: Entity.ResponseMe = await Service.me(req)
+      res.status(httpStatus.OK).json(result)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   export const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
