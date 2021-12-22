@@ -1,7 +1,7 @@
 import httpStatus from 'http-status'
-import config from '../../config'
 import { HttpError } from '../../handler/exception'
 import { metaPagination } from '../../helpers/paginate'
+import { getUrlS3 } from '../../helpers/s3'
 import lang from '../../lang'
 import { Page as Entity } from './page_entity'
 import { Page as Repository } from './page_repository'
@@ -13,8 +13,9 @@ export namespace Page {
     description: item.description,
     is_active: !!item.is_active,
     file: {
-      name: item.files_name,
-      path: item.files_path ? `${config.get('aws.s3.cloudfront')}/${config.get('node.env')}/${item.files_path}` : null,
+      path: item.files_path ? getUrlS3(item.files_path) : null,
+      filename: item.files_path,
+      original_name: item.files_name,
     },
   })
 

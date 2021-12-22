@@ -26,8 +26,9 @@ export namespace Page {
     description: string
     is_active: boolean
     file: {
-      name: string
       path: string
+      filename: string
+      original_name: string
     }
   }
 
