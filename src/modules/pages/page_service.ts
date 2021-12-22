@@ -17,6 +17,7 @@ export namespace Page {
       path: item.files_path ? `${config.get('aws.s3.cloudfront')}/${item.files_path}` : null,
     },
   })
+
   const responseFindAll = (items: any[]): Entity.Response[] => {
     const data: Entity.Response[] = []
     for (const item of items) {
