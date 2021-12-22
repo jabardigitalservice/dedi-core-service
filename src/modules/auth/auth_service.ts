@@ -10,6 +10,7 @@ import { Auth as Repository } from './auth_repository'
 import { createAccessToken, createRefreshToken, decodeToken } from '../../middleware/jwt'
 import { sendMail } from '../../helpers/mail'
 import config from '../../config'
+import { getRole } from '../../helpers/rbac'
 
 export namespace Auth {
   export const signUp = async (requestBody: Entity.RequestBodySignUp) => {
@@ -122,6 +123,24 @@ export namespace Auth {
     if (!user) throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, lang.__('auth.refreshToken.failed'))
 
     return Repository.deleteOauthbyRefreshToken(requestBody)
+  }
+
+  export const me = async (req: Request) => {
+    const decodeJwt: any = req.user
+    const user: any = await Repository.findByUserId(decodeJwt.identifier)
+    if (!user) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.user.not.found'))
+
+    const { name, email, avatar } = user
+    const role = getRole(req.user)
+
+    const result: Entity.ResponseMe = {
+      data: {
+        name, email, avatar, role,
+      },
+      meta: {},
+    }
+
+    return result
   }
 
   export const forgotPassword = async (requestBody: Entity.RequestBodyForgotPassword): Promise<Entity.ResponseForgotPassword> => {

@@ -87,4 +87,14 @@ export namespace Auth {
       expired_in: number
     }
   }
+
+  export interface ResponseMe {
+    data: {
+      name: string
+      email: string
+      avatar: string
+      role: string
+    },
+    meta: {}
+  }
 }
