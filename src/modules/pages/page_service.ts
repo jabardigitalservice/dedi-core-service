@@ -14,7 +14,7 @@ export namespace Page {
     is_active: !!item.is_active,
     file: {
       name: item.files_name,
-      path: item.files_path ? `${config.get('aws.s3.cloudfront')}/${item.files_path}` : null,
+      path: item.files_path ? `${config.get('aws.s3.cloudfront')}/${config.get('node.env')}/${item.files_path}` : null,
     },
   })
 
