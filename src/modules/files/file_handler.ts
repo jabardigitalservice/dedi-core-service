@@ -21,6 +21,7 @@ export namespace File {
           original_name: file.originalname,
           filename: file.filename,
         },
+        meta: {},
       }
       res.status(httpStatus.OK).json(result)
     } catch (error) {

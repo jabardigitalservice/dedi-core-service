@@ -13,4 +13,18 @@ export namespace Page {
 
     res.status(httpStatus.OK).json(result)
   }
+
+  export const findById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { id } = req.params
+      const result: Entity.ResponseFindById = await Service.findById(id)
+      res.status(httpStatus.OK).json(result)
+    } catch (error) {
+      next(error)
+    }
+  }
 }

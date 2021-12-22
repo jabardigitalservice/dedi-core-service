@@ -37,4 +37,9 @@ export namespace Page {
     data: Response[]
     meta: metaPaginate
   }
+
+  export interface ResponseFindById {
+    data: Response
+    meta: object
+  }
 }

@@ -15,7 +15,7 @@ export namespace Page {
     )
     .leftJoin('files', 'files.id', '=', 'pages.file_id')
 
-  export const findAll = (requestQuery: Entity.RequestQueryPage) => {
+  export const findAll = async (requestQuery: Entity.RequestQueryPage) => {
     const orderBy: string = requestQuery.order_by || 'title'
     const sortBy: string = requestQuery.sort_by || 'asc'
 
@@ -31,5 +31,11 @@ export namespace Page {
     }
 
     return query.paginate(pagination(requestQuery))
+  }
+
+  export const findById = async (id: string) => {
+    const query = Query.where('pages.id', Number(id)).first()
+
+    return query
   }
 }
