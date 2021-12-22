@@ -10,5 +10,6 @@ const router = Router()
 
 router.get('/v1/pages', cache(), validate(Rules.findAll, 'query'), Handler.findAll)
 router.get('/v1/pages/:id', verifyAccessToken, Access.findById(), Handler.findById)
+router.post('/v1/pages', verifyAccessToken, Access.Store(), validate(Rules.store), Handler.store)
 
 export default router

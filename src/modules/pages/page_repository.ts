@@ -4,6 +4,8 @@ import { Page as Entity } from './page_entity';
 
 export namespace Page {
   export const Pages = () => database<Entity.Struct>('pages')
+  export const Files = () => database<Entity.StructFile>('files')
+
   const Query = Pages()
     .select(
       'pages.id',
@@ -15,7 +17,7 @@ export namespace Page {
     )
     .leftJoin('files', 'files.id', '=', 'pages.file_id')
 
-  export const findAll = async (requestQuery: Entity.RequestQueryPage) => {
+  export const findAll = async (requestQuery: Entity.RequestQuery) => {
     const orderBy: string = requestQuery.order_by || 'title'
     const sortBy: string = requestQuery.sort_by || 'asc'
 
@@ -35,6 +37,24 @@ export namespace Page {
 
   export const findById = async (id: string) => {
     const query = Query.where('pages.id', Number(id)).first()
+
+    return query
+  }
+
+  export const createFile = async (requestBody: Entity.StructFile) => {
+    const query = Files().insert({
+      ...requestBody,
+      created_at: new Date(),
+    })
+
+    return query
+  }
+
+  export const store = async (requestBody: Entity.Struct) => {
+    const query = Pages().insert({
+      ...requestBody,
+      created_at: new Date(),
+    })
 
     return query
   }
