@@ -92,7 +92,7 @@ export namespace Auth {
     data: {
       name: string
       email: string
-      avatar: string
+      avatar?: string
       role: string
     },
     meta: {}
