@@ -3,7 +3,6 @@ import httpStatus from 'http-status'
 import { File as Entity } from './file_entity'
 import { getUrlS3, uploadS3 } from '../../helpers/s3'
 import { uploadLocalSingle } from '../../helpers/upload'
-import config from '../../config'
 
 export namespace File {
   export const upload = async (
