@@ -44,7 +44,7 @@ export namespace Page {
   export interface RequestBody {
     title: string
     description: string
-    is_active: boolean
+    is_active: string
     filename: string
     original_name: string
   }

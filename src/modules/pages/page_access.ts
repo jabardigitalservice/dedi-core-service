@@ -10,10 +10,14 @@ export namespace Page {
     {
       role: config.get('role.0'), resource: 'page', action: 'create:any', attributes: ['*'],
     },
+    {
+      role: config.get('role.0'), resource: 'page', action: 'delete:any', attributes: ['*'],
+    },
   ]
 
   export const ac = accessControl(flatList)
 
   export const findById = () => grantAccess(ac, 'readAny', 'page')
   export const store = () => grantAccess(ac, 'createAny', 'page')
+  export const destroy = () => grantAccess(ac, 'deleteAny', 'page')
 }

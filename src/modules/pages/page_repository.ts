@@ -14,6 +14,7 @@ export namespace Page {
       'is_active',
       'files.name as files_name',
       'files.path as files_path',
+      'files.id as files_id',
     )
     .leftJoin('files', 'files.id', '=', 'pages.file_id')
 
@@ -35,27 +36,19 @@ export namespace Page {
     return query.paginate(pagination(requestQuery))
   }
 
-  export const findById = async (id: string) => {
-    const query = Query.clone().where('pages.id', Number(id)).first()
+  export const findById = async (id: string) => Query.clone().where('pages.id', Number(id)).first()
 
-    return query
-  }
+  export const createFile = async (requestBody: Entity.StructFile) => Files().insert({
+    ...requestBody,
+    created_at: new Date(),
+  })
 
-  export const createFile = async (requestBody: Entity.StructFile) => {
-    const query = Files().insert({
-      ...requestBody,
-      created_at: new Date(),
-    })
+  export const store = async (requestBody: Entity.Struct) => Pages().insert({
+    ...requestBody,
+    created_at: new Date(),
+  })
 
-    return query
-  }
+  export const destroyFile = async (id: number) => Files().where('id', id).delete()
 
-  export const store = async (requestBody: Entity.Struct) => {
-    const query = Pages().insert({
-      ...requestBody,
-      created_at: new Date(),
-    })
-
-    return query
-  }
+  export const destroy = async (id: number) => Pages().where('id', id).delete()
 }

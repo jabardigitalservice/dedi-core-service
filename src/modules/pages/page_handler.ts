@@ -36,7 +36,21 @@ export namespace Page {
     try {
       const { body, user } = req
       await Service.store(body, user)
-      res.status(httpStatus.OK).json({ message: 'CREATED' })
+      res.status(httpStatus.CREATED).json({ message: 'CREATED' })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  export const destroy = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { id } = req.params
+      await Service.destroy(id)
+      res.status(httpStatus.OK).json({ message: 'DELETED' })
     } catch (error) {
       next(error)
     }
