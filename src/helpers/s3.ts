@@ -9,14 +9,11 @@ const Bucket = config.get('aws.bucket')
 export const uploadS3 = (file: Express.Multer.File, customDir = '/'): string => {
   const dir = `${config.get('node.env')}${customDir}`
   const Key = `${dir}${file.filename}`
-  const params = {
-    Bucket,
-    Body: fs.createReadStream(file.path),
-    Key,
-  }
+  const Body = fs.createReadStream(file.path)
 
+  const params = { Bucket, Body, Key }
   s3.upload(params, (err: Error, res: ManagedUpload.SendData) => {
-    if (err) console.log(err.message);
+    if (err) console.log(err.message)
   })
 
   unlinkSync(file.path)
@@ -31,9 +28,10 @@ export const getUrlS3 = (path: string) => {
 }
 
 export const removeS3 = (path: string) => {
-  const Key = `${config.get('node.env')}${path}`
+  const Key = `${config.get('node.env')}/${path}`
+
   const params = { Bucket, Key }
   s3.deleteObject(params, (err: Error, data: DeleteObjectOutput) => {
     if (err) console.log(err.message)
-  });
+  })
 }

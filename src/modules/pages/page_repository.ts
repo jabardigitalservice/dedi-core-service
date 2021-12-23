@@ -14,6 +14,7 @@ export namespace Page {
       'is_active',
       'files.name as files_name',
       'files.path as files_path',
+      'files.id as files_id',
     )
     .leftJoin('files', 'files.id', '=', 'pages.file_id')
 
@@ -55,6 +56,18 @@ export namespace Page {
       ...requestBody,
       created_at: new Date(),
     })
+
+    return query
+  }
+
+  export const destroyFile = async (id: number) => {
+    const query = Files().where('id', id).delete()
+
+    return query
+  }
+
+  export const destroy = async (id: number) => {
+    const query = Pages().where('id', id).delete()
 
     return query
   }
