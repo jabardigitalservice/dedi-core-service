@@ -57,15 +57,11 @@ export namespace Page {
       path: requestBody.filename,
     })
 
-    if (typeof requestBody.is_active === 'string') {
-      requestBody.is_active = requestBody.is_active === 'true'
-    }
-
     return Repository.store({
       created_by: user.identifier,
       title: requestBody.title,
       description: requestBody.description,
-      is_active: requestBody.is_active,
+      is_active: requestBody.is_active === 'true',
       file_id: fileId,
     })
   }
