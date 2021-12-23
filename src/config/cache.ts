@@ -9,6 +9,7 @@ const options = {
   statusCodes: {
     include: [httpStatus.OK],
   },
+  respectCacheControl: true,
 }
 
 export default apicache.options(options).middleware
