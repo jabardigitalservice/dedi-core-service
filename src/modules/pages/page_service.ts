@@ -67,7 +67,7 @@ export namespace Page {
   }
 
   export const destroy = async (id: string) => {
-    const item = await Repository.findById(id)
+    const item: any = await Repository.findById(id)
     if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
 
     removeS3(item.files_path)
