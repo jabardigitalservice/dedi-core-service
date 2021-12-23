@@ -6,9 +6,8 @@ import { s3 } from '../config/aws'
 
 const Bucket = config.get('aws.bucket')
 
-export const uploadS3 = (file: Express.Multer.File, customDir = '/'): string => {
-  const dir = `${config.get('node.env')}${customDir}`
-  const Key = `${dir}${file.filename}`
+export const uploadS3 = (file: Express.Multer.File): string => {
+  const Key = `${config.get('node.env')}/${file.filename}`
   const Body = fs.createReadStream(file.path)
 
   const params = { Bucket, Body, Key }
@@ -18,7 +17,7 @@ export const uploadS3 = (file: Express.Multer.File, customDir = '/'): string => 
 
   unlinkSync(file.path)
 
-  return Key
+  return file.filename
 }
 
 export const getUrlS3 = (path: string) => {

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
 import { File as Entity } from './file_entity'
-import { uploadS3 } from '../../helpers/s3'
+import { getUrlS3, uploadS3 } from '../../helpers/s3'
 import { uploadLocalSingle } from '../../helpers/upload'
 import config from '../../config'
 
@@ -17,7 +17,7 @@ export namespace File {
       const path = uploadS3(file)
       const result: Entity.ResponseUpload = {
         data: {
-          path: `${config.get('aws.s3.cloudfront')}/${path}`,
+          path: getUrlS3(path),
           original_name: file.originalname,
           filename: file.filename,
         },
