@@ -61,7 +61,7 @@ export namespace Page {
       created_by: user.identifier,
       title: requestBody.title,
       description: requestBody.description,
-      is_active: requestBody.is_active === 'true',
+      is_active: Boolean(requestBody.is_active),
       file_id: fileId,
     })
   }
