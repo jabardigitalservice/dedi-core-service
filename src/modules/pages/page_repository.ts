@@ -6,7 +6,7 @@ export namespace Page {
   export const Pages = () => database<Entity.Struct>('pages')
   export const Files = () => database<Entity.StructFile>('files')
 
-  const Query = Pages()
+  const Query = () => Pages()
     .select(
       'pages.id',
       'title',
@@ -22,7 +22,7 @@ export namespace Page {
     const orderBy: string = requestQuery.order_by || 'title'
     const sortBy: string = requestQuery.sort_by || 'asc'
 
-    const query = Query.orderBy(orderBy, sortBy)
+    const query = Query().orderBy(orderBy, sortBy)
 
     if (requestQuery.q) {
       query.where('title', 'like', `%${requestQuery.q}%`)
@@ -36,7 +36,7 @@ export namespace Page {
     return query.paginate(pagination(requestQuery))
   }
 
-  export const findById = async (id: string) => Query.clone().where('pages.id', Number(id)).first()
+  export const findById = async (id: string) => Query().where('pages.id', Number(id)).first()
 
   export const createFile = async (requestBody: Entity.StructFile) => Files().insert({
     ...requestBody,
