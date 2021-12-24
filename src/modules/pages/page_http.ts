@@ -12,5 +12,6 @@ router.get('/v1/pages', cache(), validate(Rules.findAll, 'query'), Handler.findA
 router.get('/v1/pages/:id', verifyAccessToken, Access.findById(), Handler.findById)
 router.post('/v1/pages', verifyAccessToken, Access.store(), validate(Rules.store), Handler.store)
 router.delete('/v1/pages/:id', verifyAccessToken, Access.destroy(), Handler.destroy)
+router.put('/v1/pages/:id', verifyAccessToken, Access.update(), validate(Rules.update), Handler.update)
 
 export default router

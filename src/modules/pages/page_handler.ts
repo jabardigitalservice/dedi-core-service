@@ -55,4 +55,19 @@ export namespace Page {
       next(error)
     }
   }
+
+  export const update = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { id } = req.params
+      const { body } = req
+      await Service.update(body, id)
+      res.status(httpStatus.OK).json({ message: 'UPDATED' })
+    } catch (error) {
+      next(error)
+    }
+  }
 }

@@ -8,11 +8,14 @@ export namespace Page {
     order_by: Joi.string().valid(...orderByValid).allow(...emptyAllow),
   })
 
-  export const store = Joi.object({
+  const validate = Joi.object({
     title: Joi.string().max(70).required(),
     description: Joi.string().required(),
     is_active: Joi.boolean().required(),
     filename: Joi.string().required(),
     original_name: Joi.string().required(),
   })
+
+  export const store = validate
+  export const update = validate
 }
