@@ -76,4 +76,20 @@ export namespace Page {
 
     return Repository.destroy(item.id)
   }
+
+  export const update = async (requestBody: Entity.RequestBody, id: string) => {
+    const item: any = await Repository.findById(id)
+    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
+
+    Repository.updateFile({
+      name: requestBody.original_name,
+      path: requestBody.filename,
+    }, item.files_id)
+
+    return Repository.update({
+      title: requestBody.title,
+      description: requestBody.description,
+      is_active: Boolean(requestBody.is_active),
+    }, item.id)
+  }
 }

@@ -4,11 +4,11 @@ import { Query } from '../../helpers/types';
 export namespace Page {
   export interface Struct {
     id?: number
-    created_by: string
+    created_by?: string
     title: string
     description: string
     is_active: boolean
-    file_id: number
+    file_id?: number
     created_at?: Date
     updated_at?: Date
   }

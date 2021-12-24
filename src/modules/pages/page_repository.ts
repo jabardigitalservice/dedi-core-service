@@ -38,17 +38,26 @@ export namespace Page {
 
   export const findById = async (id: string) => Query().where('pages.id', Number(id)).first()
 
-  export const createFile = async (requestBody: Entity.StructFile) => Files().insert({
-    ...requestBody,
-    created_at: new Date(),
-  })
-
   export const store = async (requestBody: Entity.Struct) => Pages().insert({
     ...requestBody,
     created_at: new Date(),
   })
 
-  export const destroyFile = async (id: number) => Files().where('id', id).delete()
-
   export const destroy = async (id: number) => Pages().where('id', id).delete()
+
+  export const update = async (requestBody: Entity.Struct, id: number) => Pages().where('id', id).update({
+    ...requestBody,
+    updated_at: new Date(),
+  })
+
+  export const createFile = async (requestBody: Entity.StructFile) => Files().insert({
+    ...requestBody,
+    created_at: new Date(),
+  })
+
+  export const updateFile = async (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
+    ...requestBody,
+  })
+
+  export const destroyFile = async (id: number) => Files().where('id', id).delete()
 }
