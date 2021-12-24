@@ -6,6 +6,7 @@ export namespace Page {
 
   export const findAll = Joi.object({
     order_by: Joi.string().valid(...orderByValid).allow(...emptyAllow),
+    is_active: Joi.boolean().allow(...emptyAllow),
   })
 
   const validate = Joi.object({

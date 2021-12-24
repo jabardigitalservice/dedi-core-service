@@ -1,4 +1,5 @@
 import database from '../../config/database';
+import { convertToBoolean } from '../../helpers/constant';
 import { pagination } from '../../helpers/paginate';
 import { Page as Entity } from './page_entity';
 
@@ -24,14 +25,9 @@ export namespace Page {
 
     const query = Query().orderBy(orderBy, sortBy)
 
-    if (requestQuery.q) {
-      query.where('title', 'like', `%${requestQuery.q}%`)
-    }
+    if (requestQuery.q) query.where('title', 'like', `%${requestQuery.q}%`)
 
-    if (requestQuery.is_active) {
-      const isActive = requestQuery.is_active.toLowerCase() === 'true'
-      query.where('is_active', isActive)
-    }
+    if (requestQuery.is_active) query.where('is_active', convertToBoolean(requestQuery.is_active))
 
     return query.paginate(pagination(requestQuery))
   }

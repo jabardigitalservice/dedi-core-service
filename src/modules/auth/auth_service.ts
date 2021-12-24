@@ -11,6 +11,7 @@ import { createAccessToken, createRefreshToken, decodeToken } from '../../middle
 import { sendMail } from '../../helpers/mail'
 import config from '../../config'
 import { getRole } from '../../helpers/rbac'
+import { convertToBoolean } from '../../helpers/constant'
 
 export namespace Auth {
   export const signUp = async (requestBody: Entity.RequestBodySignUp) => {
@@ -39,7 +40,7 @@ export namespace Auth {
     const access_token = createAccessToken({
       identifier,
       prtnr: !!user.partner_id,
-      adm: !!user.is_admin,
+      adm: convertToBoolean(user.is_admin),
     })
     const refresh_token = createRefreshToken({ identifier })
     const decodeJwt = decodeToken(access_token)

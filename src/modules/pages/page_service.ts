@@ -1,7 +1,8 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
+import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
-import { getUrlS3, removeS3 } from '../../helpers/s3'
+import { getUrlS3 } from '../../helpers/s3'
 import lang from '../../lang'
 import { Page as Entity } from './page_entity'
 import { Page as Repository } from './page_repository'
@@ -11,7 +12,7 @@ export namespace Page {
     id: item.id,
     title: item.title,
     description: item.description,
-    is_active: !!item.is_active,
+    is_active: convertToBoolean(item.is_active),
     file: {
       path: item.files_path ? getUrlS3(item.files_path) : null,
       filename: item.files_path,
@@ -61,7 +62,7 @@ export namespace Page {
       created_by: user.identifier,
       title: requestBody.title,
       description: requestBody.description,
-      is_active: Boolean(requestBody.is_active),
+      is_active: convertToBoolean(requestBody.is_active),
       file_id: fileId,
     })
   }
@@ -69,8 +70,6 @@ export namespace Page {
   export const destroy = async (id: string) => {
     const item: any = await Repository.findById(id)
     if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
-
-    removeS3(item.files_path)
 
     Repository.destroyFile(item.files_id)
 
@@ -89,7 +88,7 @@ export namespace Page {
     return Repository.update({
       title: requestBody.title,
       description: requestBody.description,
-      is_active: Boolean(requestBody.is_active),
+      is_active: convertToBoolean(requestBody.is_active),
     }, item.id)
   }
 }
