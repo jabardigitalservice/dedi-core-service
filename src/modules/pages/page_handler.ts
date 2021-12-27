@@ -33,13 +33,9 @@ export namespace Page {
     res: Response,
     next: NextFunction,
   ) => {
-    try {
-      const { body, user } = req
-      await Service.store(body, user)
-      res.status(httpStatus.CREATED).json({ message: 'CREATED' })
-    } catch (error) {
-      next(error)
-    }
+    const { body, user } = req
+    await Service.store(body, user)
+    res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
   export const destroy = async (

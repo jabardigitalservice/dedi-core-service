@@ -14,7 +14,7 @@ export namespace Page {
     description: item.description,
     is_active: convertToBoolean(item.is_active),
     file: {
-      path: item.files_path ? getUrlS3(item.files_path) : null,
+      path: getUrlS3(item.files_path),
       filename: item.files_path,
       original_name: item.files_name,
     },
