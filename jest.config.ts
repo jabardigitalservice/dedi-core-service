@@ -9,6 +9,7 @@ export default async (): Promise<Config.InitialOptions> => {
       './src/helpers/test/*.ts',
       './src/modules/cities/*.ts',
       './src/modules/districts/*.ts',
+      './src/modules/pages/*.ts',
       './src/modules/partners/*.ts',
       './src/modules/testimonials/*.ts',
       './src/modules/villages/*.ts',
