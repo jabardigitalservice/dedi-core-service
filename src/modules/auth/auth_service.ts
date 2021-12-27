@@ -29,8 +29,6 @@ export namespace Auth {
     }
 
     user.partner_id = requestBody.company ? await Repository.getPartnerId(requestBody) : null
-    user.is_admin = !user.partner_id
-    user.verified_at = !user.partner_id ? new Date() : null
 
     return Repository.signUp(user)
   }
@@ -68,6 +66,8 @@ export namespace Auth {
     if (!match) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.signin.failed'))
 
     if (!user.verified_at) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.verified.failed'))
+
+    if (!user.is_active) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.active.failed'))
 
     const responseJwt = generateJwtToken(user)
 

@@ -20,6 +20,7 @@
 
   "auth.signin.failed": "Email dan Kata Sandi tidak ditemukan.",
   "auth.verified.failed": "Email tidak dikenali",
+  "auth.active.failed": "Akun tidak aktif.",
   "auth.refreshToken.failed": "Refresh token tidak aktif.",
   "auth.rejected": "Access token tidak aktif.",
   "auth.email.forgot.password.success": "Berhasil mengirimkan tautan verifikasi ke {{ email }}",
