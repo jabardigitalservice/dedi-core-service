@@ -4,20 +4,23 @@ export namespace Auth {
 
   const regexPassword = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9&*_]+)$/
 
-  const password = {
-    password: Joi.string().min(6).regex(regexPassword).required(),
-    password_confirm: Joi.string().min(6).regex(regexPassword).valid(Joi.ref('password'))
-      .required(),
+  const emptyAllow = ['', null]
+
+  const password = () => Joi.string().min(6).max(72).regex(regexPassword)
+
+  const rulesPassword = {
+    password: password().required(),
+    password_confirm: password().valid(Joi.ref('password')).required(),
   }
 
-  const email = Joi.string().email().required()
+  const email = Joi.string().email().max(150).required()
 
   export const signUp = Joi.object({
-    name: Joi.string().required(),
-    company: Joi.string().allow(null),
-    partner_id: Joi.string().allow(null),
+    name: Joi.string().max(100).required(),
+    company: Joi.string().allow(...emptyAllow),
+    partner_id: Joi.string().allow(...emptyAllow),
     email,
-    ...password,
+    ...rulesPassword,
   })
 
   export const signIn = Joi.object({
@@ -34,6 +37,6 @@ export namespace Auth {
   })
 
   export const resetPassword = Joi.object({
-    ...password,
+    ...rulesPassword,
   })
 }
