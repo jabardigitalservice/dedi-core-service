@@ -13,8 +13,8 @@ export namespace Page {
     title: Joi.string().max(70).required(),
     description: Joi.string().required(),
     is_active: Joi.boolean().required(),
-    filename: Joi.string().required(),
-    original_name: Joi.string().required(),
+    filename: Joi.string().max(255).required(),
+    original_name: Joi.string().max(255).required(),
   })
 
   export const store = validate
