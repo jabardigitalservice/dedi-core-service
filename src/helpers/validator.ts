@@ -84,7 +84,9 @@ export const validateWithDB = (
 ) => async (req: Request, res: Response, next: NextFunction) => {
   const errors: any = {}
   const rules = Object.entries(validation)
-  for (const [Key, Value] of rules) {
+
+  for (let index = 0; index < rules.length; index++) {
+    const [Key, Value] = rules[index]
     const { error, type } = await validateWithDBError(req, Key, Value)
     if (error) errors[Key] = message(type, Key)
   }
