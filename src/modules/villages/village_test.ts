@@ -6,7 +6,7 @@ import database from '../../config/database'
 
 const expectMetaBounds = expect.objectContaining({
   total: expect.any(Number),
-  last_update: expect.any(String)
+  last_update: expect.any(String),
 })
 
 const expectMetaPaginate = expect.objectContaining({
