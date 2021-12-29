@@ -2,8 +2,16 @@ import httpStatus from 'http-status'
 import Joi, { Schema } from 'joi'
 import { Request, Response, NextFunction } from 'express'
 import lang from '../lang'
+import rules from './rules'
+import database from '../config/database'
 
-export const message = (type: string, label: string, limit?: string, valids?: string[]) => {
+interface ValidationWithDB {
+  [key: string]: string
+}
+
+const isTypeUnique = (type: string) => type === 'unique'
+
+const message = (type: string, label: string, limit?: string, valids?: string[]) => {
   const valid = valids?.filter((e) => e)?.join(', ')
 
   if (label === 'password_confirm' && type === 'any.only') type = `${type}.confirmed`
@@ -11,7 +19,7 @@ export const message = (type: string, label: string, limit?: string, valids?: st
   return lang.__(`validation.${type}`, { attribute: label, limit, valid })
 }
 
-export const validateError = (details: Joi.ValidationErrorItem[]) => {
+const validateError = (details: Joi.ValidationErrorItem[]) => {
   const rules: any = {}
 
   for (const item of details) {
@@ -38,5 +46,30 @@ export const validate = (
   const { details } = error
   const errors = validateError(details)
 
-  Object.keys(errors).length > 0 ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
+  Object.keys(errors).length ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
+}
+
+
+export const validateWithDB = (
+  validation: ValidationWithDB,
+) => async (req: Request, res: Response, next: NextFunction) => {
+  const errors: any = {}
+
+  for (const [Key, Value] of Object.entries(validation)) {
+    const [type, property] = Value.split(':')
+    const [table, column, primaryKey] = property.split(',')
+    const value: string = req.body[Key]
+
+    const primaryKeyValue = req.params[primaryKey] || null
+    const query = database(table).select(column).where(column, value)
+
+    if (isTypeUnique(type) && primaryKeyValue) query.whereNot(primaryKey, primaryKeyValue)
+
+    const row: any = await query.first()
+    const isError: boolean = rules[type](row)
+
+    if (isError) errors[Key] = message(type, Key)
+  }
+
+  Object.keys(errors).length ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
 }

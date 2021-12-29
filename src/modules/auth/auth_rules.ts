@@ -39,4 +39,8 @@ export namespace Auth {
   export const resetPassword = Joi.object({
     ...rulesPassword,
   })
+
+  export const signUpWithDB = {
+    email: 'unique:users,email,id',
+  }
 }

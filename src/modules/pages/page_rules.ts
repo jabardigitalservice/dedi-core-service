@@ -19,4 +19,11 @@ export namespace Page {
 
   export const store = validate
   export const update = validate
+
+  const validateWithDB = {
+    title: 'unique:pages,title,id',
+  }
+
+  export const storeWithDB = validateWithDB
+  export const updateWithDB = validateWithDB
 }
