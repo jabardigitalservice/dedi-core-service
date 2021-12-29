@@ -6,7 +6,7 @@ import { message } from './validator'
 interface rulesInterface {
   isError: boolean,
   errors?: {
-    [key: string]: string[]
+    [key: string]: string
   }
 }
 
@@ -36,7 +36,7 @@ export const uniqueRule = async (data: propertyData): Promise<rulesInterface> =>
   if (item) {
     rules.isError = true
     rules.errors = {
-      [data.key]: [message('unique', data.key)],
+      [data.key]: message('unique', data.key),
     }
   } else rules.isError = false
 
@@ -49,7 +49,7 @@ export const existsRule = async (data: propertyData): Promise<rulesInterface> =>
   if (!item) {
     rules.isError = true
     rules.errors = {
-      [data.key]: [message('exists', data.key)],
+      [data.key]: message('exists', data.key),
     }
   } else rules.isError = false
 
