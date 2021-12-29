@@ -36,8 +36,8 @@ export namespace Village {
     return pointRegex.test(point)
   }
 
-  const isRequestBounds = (requestQuery: Entity.RequestQueryWithLocation) => requestQuery?.bounds?.ne
-    && requestQuery?.bounds?.sw
+  const isRequestBounds = (requestQuery: Entity.RequestQueryWithLocation) => requestQuery.bounds?.ne
+    && requestQuery.bounds.sw
     && pointRegexRule(requestQuery.bounds.ne)
     && pointRegexRule(requestQuery.bounds.sw)
 
@@ -51,8 +51,8 @@ export namespace Village {
     const result: Entity.ResponseWithLocation = {
       data: responseWithLocation(items),
       meta: {
-        total: total?.total,
-        last_update: lastUpdate?.updated_at || null,
+        total: total.total,
+        last_update: lastUpdate.updated_at,
       },
     }
 

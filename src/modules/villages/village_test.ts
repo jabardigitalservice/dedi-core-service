@@ -1,23 +1,16 @@
 import request from 'supertest'
+import httpStatus from 'http-status'
 import app from '../../server'
 import { Village as Repository } from './village_repository'
 import database from '../../config/database'
 
-describe('seed data', () => {
-  it('insert villages', async () => {
-    await Repository.Villages().insert({
-      id: '123456785',
-      name: 'test',
-      district_id: '1',
-      level: 1,
-      location: database.raw('ST_GeomFromText(\'POINT(106.8207875 -6.4605558)\')'),
-      images: null,
-      is_active: true,
-    })
-  })
+const expectMetaFindAll = expect.objectContaining({
+  total: expect.any(Number),
 })
 
-const expectBodyFindAll = expect.arrayContaining([
+const expectMetaFindById = expect.any(Object)
+
+const expectFindAll = expect.arrayContaining([
   expect.objectContaining({
     id: expect.any(String),
     name: expect.any(String),
@@ -32,37 +25,75 @@ const expectBodyFindAll = expect.arrayContaining([
   }),
 ])
 
+const expectFindById = expect.objectContaining({
+  id: expect.any(String),
+  name: expect.any(String),
+  level: expect.any(Number),
+  city: expect.any(Object),
+  category: expect.any(Object),
+})
+
+const expectBodyFindById = expect.objectContaining({
+  data: expectFindById,
+  meta: expectMetaFindById,
+})
+
+const expectBodyFindAll = expect.objectContaining({
+  data: expectFindAll,
+  meta: expectMetaFindAll,
+})
+
+const expectBodyFindAllEmptyData = expect.objectContaining({
+  data: [],
+  meta: expectMetaFindAll,
+})
+
+describe('seed data', () => {
+  it('insert villages', async () => {
+    await Repository.Villages().insert({
+      id: '123456785',
+      name: 'test',
+      district_id: '1',
+      level: 1,
+      location: database.raw('ST_GeomFromText(\'POINT(106.8207875 -6.4605558)\')'),
+      images: null,
+      is_active: true,
+      updated_at: new Date(),
+    })
+  })
+})
+
 describe('tests villages', () => {
-  it('test success findAll', async () => request(app)
+  it('test success find all', async () => request(app)
     .get('/v1/villages/list-with-location')
-    .expect(200)
+    .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expect.objectContaining({
-        data: expectBodyFindAll,
-        meta: expect.objectContaining({
-          total: expect.any(Number),
-        }),
-      }))
+      expect(response.body).toEqual(expectBodyFindAll)
     }))
 })
 
 describe('tests villages', () => {
-  it('test success findAll filter', async () => request(app)
+  it('test success with query name find all', async () => request(app)
     .get('/v1/villages/list-with-location')
-    .query({ name: 'test', level: 1 })
-    .expect(200)
+    .query({ name: 'test' })
+    .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expect.objectContaining({
-        data: expectBodyFindAll,
-        meta: expect.objectContaining({
-          total: expect.any(Number),
-        }),
-      }))
+      expect(response.body).toEqual(expectBodyFindAll)
     }))
 })
 
 describe('tests villages', () => {
-  it('test success findAll with location', async () => request(app)
+  it('test success with query level find all', async () => request(app)
+    .get('/v1/villages/list-with-location')
+    .query({ level: 1 })
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectBodyFindAll)
+    }))
+})
+
+describe('tests villages', () => {
+  it('test success with location find all', async () => request(app)
     .get('/v1/villages/with-location')
     .query({
       bounds: {
@@ -70,42 +101,32 @@ describe('tests villages', () => {
         sw: '106.8207875, -6.4605558',
       },
     })
-    .expect(200)
+    .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expect.objectContaining({
-        data: [],
-        meta: expect.objectContaining({
-          total: expect.any(Number),
-        }),
-      }))
+      expect(response.body).toEqual(expectBodyFindAllEmptyData)
     }))
 })
 
-describe('test find by id', () => {
-  it('responds with 404 given unknown id', async () => request(app)
+describe('tests villages', () => {
+  it('test success without query bounds', async () => request(app)
+    .get('/v1/villages/with-location')
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectBodyFindAllEmptyData)
+    }))
+})
+
+describe('tests villages', () => {
+  it('test failed not found find by id', async () => request(app)
     .get('/v1/villages/34543234565435654')
-    .expect(404)
-    .then((response) => {
-      expect(response.body).toEqual(expect.objectContaining({
-        error: expect.any(String),
-      }))
-    }))
+    .expect(httpStatus.NOT_FOUND))
 })
 
-describe('test find by id', () => {
+describe('tests villages', () => {
   it('responds success', async () => request(app)
     .get('/v1/villages/123456785')
-    .expect(200)
+    .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expect.objectContaining({
-        data: expect.objectContaining({
-          id: expect.any(String),
-          name: expect.any(String),
-          level: expect.any(Number),
-          city: expect.any(Object),
-          category: expect.any(Object),
-        }),
-        meta: expect.any(Object),
-      }))
+      expect(response.body).toEqual(expectBodyFindById)
     }))
 })
