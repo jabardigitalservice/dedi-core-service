@@ -21,7 +21,7 @@ export const validateError = (details: Joi.ValidationErrorItem[]) => {
 
     if (type === 'object.unknown') continue
 
-    rules[key] = [message(type, label, context?.limit, context?.valids)]
+    rules[key] = message(type, label, context?.limit, context?.valids)
   }
 
   return rules
