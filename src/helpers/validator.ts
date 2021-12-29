@@ -49,7 +49,6 @@ export const validate = (
   Object.keys(errors).length ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
 }
 
-
 export const validateWithDB = (
   validation: ValidationWithDB,
 ) => async (req: Request, res: Response, next: NextFunction) => {
@@ -57,13 +56,14 @@ export const validateWithDB = (
 
   for (const [Key, Value] of Object.entries(validation)) {
     const [type, property] = Value.split(':')
-    const [table, column, primaryKey] = property.split(',')
+    const [table, column, primaryKey, deletedAt] = property.split(',')
     const value: string = req.body[Key]
 
     const primaryKeyValue = req.params[primaryKey] || null
     const query = database(table).select(column).where(column, value)
 
     if (isTypeUnique(type) && primaryKeyValue) query.whereNot(primaryKey, primaryKeyValue)
+    if (deletedAt === 'deleted_at') query.whereNull(deletedAt)
 
     const row: any = await query.first()
     const isError: boolean = rules[type](row)
