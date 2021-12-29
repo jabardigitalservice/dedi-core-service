@@ -49,26 +49,44 @@ export const validate = (
   Object.keys(errors).length ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
 }
 
+const Query = (table: string, column: string, value: string, deletedAt: string) => {
+  const query = database(table).select(column).where(column, value)
+  if (deletedAt === 'deleted_at') query.whereNull(deletedAt)
+  return query
+}
+
+const validateWithDBError = async (req: Request, Key: string, Value: string) => {
+  let error: string = null
+  const [type, property] = Value.split(':')
+  const [table, column, primaryKey, deletedAt] = property.split(',')
+  const value: string = req.body[Key]
+
+  const primaryKeyValue = req.params[primaryKey] || null
+
+  const query = Query(table, column, value, deletedAt)
+  if (isTypeUnique(type) && primaryKeyValue) query.whereNot(primaryKey, primaryKeyValue)
+  const row: any = await query.first()
+
+  const isError: boolean = rules[type](row)
+
+  if (isError) {
+    error = message(type, Key)
+  }
+
+  return {
+    error,
+    type,
+  }
+}
+
 export const validateWithDB = (
   validation: ValidationWithDB,
 ) => async (req: Request, res: Response, next: NextFunction) => {
   const errors: any = {}
 
   for (const [Key, Value] of Object.entries(validation)) {
-    const [type, property] = Value.split(':')
-    const [table, column, primaryKey, deletedAt] = property.split(',')
-    const value: string = req.body[Key]
-
-    const primaryKeyValue = req.params[primaryKey] || null
-    const query = database(table).select(column).where(column, value)
-
-    if (isTypeUnique(type) && primaryKeyValue) query.whereNot(primaryKey, primaryKeyValue)
-    if (deletedAt === 'deleted_at') query.whereNull(deletedAt)
-
-    const row: any = await query.first()
-    const isError: boolean = rules[type](row)
-
-    if (isError) errors[Key] = message(type, Key)
+    const { error, type } = await validateWithDBError(req, Key, Value)
+    if (error) errors[Key] = message(type, Key)
   }
 
   Object.keys(errors).length ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
