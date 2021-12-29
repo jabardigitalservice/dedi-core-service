@@ -4,7 +4,17 @@ import app from '../../server'
 import { Village as Repository } from './village_repository'
 import database from '../../config/database'
 
-const expectMetaFindAll = expect.objectContaining({
+const expectMetaBounds = expect.objectContaining({
+  total: expect.any(Number),
+  last_update: expect.any(String)
+})
+
+const expectMetaPaginate = expect.objectContaining({
+  current_page: expect.any(Number),
+  from: expect.any(Number),
+  last_page: expect.any(Number),
+  per_page: expect.any(Number),
+  to: expect.any(Number),
   total: expect.any(Number),
 })
 
@@ -40,12 +50,17 @@ const expectBodyFindById = expect.objectContaining({
 
 const expectBodyFindAll = expect.objectContaining({
   data: expectFindAll,
-  meta: expectMetaFindAll,
+  meta: expectMetaPaginate,
 })
 
-const expectBodyFindAllEmptyData = expect.objectContaining({
-  data: [],
-  meta: expectMetaFindAll,
+const expectBodyFindAllBounds = expect.objectContaining({
+  data: expectFindAll,
+  meta: expectMetaBounds,
+})
+
+const expectBodyFindAllBoundsEmpty = expect.objectContaining({
+  data: expect.any(Array),
+  meta: expectMetaBounds,
 })
 
 describe('seed data', () => {
@@ -55,7 +70,7 @@ describe('seed data', () => {
       name: 'test',
       district_id: '1',
       level: 1,
-      location: database.raw('ST_GeomFromText(\'POINT(106.8207875 -6.4605558)\')'),
+      location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
       images: null,
       is_active: true,
       updated_at: new Date(),
@@ -97,13 +112,13 @@ describe('tests villages', () => {
     .get('/v1/villages/with-location')
     .query({
       bounds: {
-        ne: '106.8207875, -6.4605558',
-        sw: '106.8207875, -6.4605558',
+        sw: '107.4312207548229,-7.044551821267334',
+        ne: '107.78594184930455,-6.79575221317816',
       },
     })
     .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAllEmptyData)
+      expect(response.body).toEqual(expectBodyFindAllBounds)
     }))
 })
 
@@ -112,7 +127,21 @@ describe('tests villages', () => {
     .get('/v1/villages/with-location')
     .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAllEmptyData)
+      expect(response.body).toEqual(expectBodyFindAllBoundsEmpty)
+    }))
+})
+
+describe('tests villages', () => {
+  it('test success without query bounds sw', async () => request(app)
+    .get('/v1/villages/with-location')
+    .query({
+      bounds: {
+        ne: '107.78594184930455,-6.79575221317816',
+      },
+    })
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectBodyFindAllBoundsEmpty)
     }))
 })
 
