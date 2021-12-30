@@ -52,7 +52,7 @@ export namespace Village {
       data: responseWithLocation(items),
       meta: {
         total: total.total,
-        last_update: lastUpdate.updated_at,
+        last_update: lastUpdate?.updated_at,
       },
     }
 
