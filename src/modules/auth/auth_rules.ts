@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { ValidationWithDB } from '../../helpers/validator';
 
 export namespace Auth {
 
@@ -40,7 +41,11 @@ export namespace Auth {
     ...rulesPassword,
   })
 
-  export const signUpWithDB = {
-    email: 'unique:users,email,id',
+  export const signUpWithDB: ValidationWithDB = {
+    email: [
+      {
+        type: 'unique', attr: 'email', table: 'users', column: 'email',
+      },
+    ],
   }
 }

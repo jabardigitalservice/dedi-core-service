@@ -5,8 +5,16 @@ import lang from '../lang'
 import rules from './rules'
 import database from '../config/database'
 
-interface ValidationWithDB {
-  [key: string]: string
+interface PropertyWithDB {
+  attr: string
+  type: string
+  table: string
+  column: string
+  params?: string
+  isDeletedAt?: boolean
+}
+export interface ValidationWithDB {
+  [key: string]: PropertyWithDB[]
 }
 
 const isTypeUnique = (type: string) => type === 'unique'
@@ -49,46 +57,37 @@ export const validate = (
   Object.keys(errors).length ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
 }
 
-const Query = (table: string, column: string, value: string, deletedAt: string) => {
-  const query = database(table).select(column).where(column, value)
-  if (deletedAt === 'deleted_at') query.whereNull(deletedAt)
-  return query
+const Query = async (rule: PropertyWithDB, value: string, primaryKeyValue?: string) => {
+  const query = database(rule.table).select(rule.column).where(rule.column, value)
+
+  if (rule.isDeletedAt) query.whereNull('deleted_at')
+
+  if (isTypeUnique(rule.type) && primaryKeyValue) query.whereNot(rule.params, primaryKeyValue)
+
+  return query.first()
 }
 
-const validateWithDBError = async (req: Request, Key: string, Value: string) => {
-  let error: string = null
-  const [type, property] = Value.split(':')
-  const [table, column, primaryKey, deletedAt] = property.split(',')
-  const value: string = req.body[Key]
+const validateWithDBError = async (req: Request, rule: PropertyWithDB): Promise<string> => {
+  const value: string = req.body[rule.attr]
+  const primaryKeyValue = req.params[rule.params] || null
 
-  const primaryKeyValue = req.params[primaryKey] || null
+  const row: any = await Query(rule, value, primaryKeyValue)
 
-  const query = Query(table, column, value, deletedAt)
-  if (isTypeUnique(type) && primaryKeyValue) query.whereNot(primaryKey, primaryKeyValue)
-  const row: any = await query.first()
+  const isError: boolean = rules[rule.type](row)
 
-  const isError: boolean = rules[type](row)
-
-  if (isError) {
-    error = message(type, Key)
-  }
-
-  return {
-    error,
-    type,
-  }
+  return isError ? message(rule.type, rule.attr) : null
 }
 
 export const validateWithDB = (
   validation: ValidationWithDB,
 ) => async (req: Request, res: Response, next: NextFunction) => {
   const errors: any = {}
-  const rules = Object.entries(validation)
 
-  for (let index = 0; index < rules.length; index++) {
-    const [Key, Value] = rules[index]
-    const { error, type } = await validateWithDBError(req, Key, Value)
-    if (error) errors[Key] = message(type, Key)
+  for (const [_, rules] of Object.entries(validation)) {
+    for (const rule of rules) {
+      const error = await validateWithDBError(req, rule)
+      if (error) errors[rule.attr] = error
+    }
   }
 
   Object.keys(errors).length ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
