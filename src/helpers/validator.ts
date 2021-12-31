@@ -67,7 +67,7 @@ const Query = async (rule: PropertyWithDB, value: string, primaryKeyValue?: stri
   return query.first()
 }
 
-const validateWithDBError = async (req: Request, rule: PropertyWithDB): Promise<string> => {
+const getErrorWithDB = async (req: Request, rule: PropertyWithDB): Promise<string> => {
   const value: string = req.body[rule.attr]
   const primaryKeyValue = req.params[rule.params] || null
 
@@ -78,10 +78,10 @@ const validateWithDBError = async (req: Request, rule: PropertyWithDB): Promise<
   return isError ? message(rule.type, rule.attr) : null
 }
 
-const getErrorWithDB = async (req: Request, rules: PropertyWithDB[]) => {
+const validateWithDBError = async (req: Request, rules: PropertyWithDB[]) => {
   let message: string
   for (const rule of rules) {
-    const error = await validateWithDBError(req, rule)
+    const error = await getErrorWithDB(req, rule)
     if (error) message = error
   }
   return message
@@ -90,7 +90,7 @@ const getErrorWithDB = async (req: Request, rules: PropertyWithDB[]) => {
 const validateErrorWithDB = async (req: Request, validation: ValidationWithDB) => {
   const errors: any = {}
   for (const [key, rules] of Object.entries(validation)) {
-    const error = await getErrorWithDB(req, rules)
+    const error = await validateWithDBError(req, rules)
     if (error) errors[key] = error
   }
   return errors
