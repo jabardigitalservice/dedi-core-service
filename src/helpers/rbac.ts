@@ -1,7 +1,7 @@
 import { AccessControl } from 'accesscontrol';
 import config from '../config';
 
-interface AccessControlStruct {
+export interface AccessControlStruct {
   role: string
   resource: string
   action: string

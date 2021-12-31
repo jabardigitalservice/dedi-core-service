@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt'
 import { Request } from 'express'
 import { verify } from 'jsonwebtoken'
 import { HttpError } from '../../handler/exception'
-import { checkError, uniqueRule } from '../../helpers/rules'
 import lang from '../../lang'
 import { Auth as Entity } from './auth_entity'
 import { Auth as Repository } from './auth_repository'
@@ -15,12 +14,6 @@ import { convertToBoolean } from '../../helpers/constant'
 
 export namespace Auth {
   export const signUp = async (requestBody: Entity.RequestBodySignUp) => {
-    checkError(await uniqueRule({
-      table: 'users',
-      key: 'email',
-      value: requestBody.email,
-    }))
-
     const user: Entity.RequestBodySignUp = {
       name: requestBody.name,
       email: requestBody.email,

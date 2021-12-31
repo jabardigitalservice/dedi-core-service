@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { ValidationWithDB } from '../../helpers/validator';
 
 export namespace Page {
   const orderByValid = ['title', 'is_active']
@@ -19,4 +20,15 @@ export namespace Page {
 
   export const store = validate
   export const update = validate
+
+  const validateWithDB: ValidationWithDB = {
+    title: [
+      {
+        type: 'unique', attr: 'title', table: 'pages', column: 'title', params: 'id',
+      },
+    ],
+  }
+
+  export const storeWithDB = validateWithDB
+  export const updateWithDB = validateWithDB
 }
