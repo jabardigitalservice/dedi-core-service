@@ -78,13 +78,20 @@ const validateWithDBError = async (req: Request, rule: PropertyWithDB): Promise<
   return isError ? message(rule.type, rule.attr) : null
 }
 
+const getErrorWithDB = async (req: Request, rules: PropertyWithDB[]) => {
+  let message: string
+  for (const rule of rules) {
+    const error = await validateWithDBError(req, rule)
+    if (error) message = error
+  }
+  return message
+}
+
 const validateErrorWithDB = async (req: Request, validation: ValidationWithDB) => {
   const errors: any = {}
-  for (const [_, rules] of Object.entries(validation)) {
-    for (const rule of rules) {
-      const error = await validateWithDBError(req, rule)
-      if (error) errors[rule.attr] = error
-    }
+  for (const [key, rules] of Object.entries(validation)) {
+    const error = await getErrorWithDB(req, rules)
+    if (error) errors[key] = error
   }
   return errors
 }
