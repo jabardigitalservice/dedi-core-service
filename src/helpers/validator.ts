@@ -78,17 +78,20 @@ const validateWithDBError = async (req: Request, rule: PropertyWithDB): Promise<
   return isError ? message(rule.type, rule.attr) : null
 }
 
-export const validateWithDB = (
-  validation: ValidationWithDB,
-) => async (req: Request, res: Response, next: NextFunction) => {
+const validateErrorWithDB = async (req: Request, validation: ValidationWithDB) => {
   const errors: any = {}
-
   for (const [_, rules] of Object.entries(validation)) {
     for (const rule of rules) {
       const error = await validateWithDBError(req, rule)
       if (error) errors[rule.attr] = error
     }
   }
+  return errors
+}
 
+export const validateWithDB = (
+  validation: ValidationWithDB,
+) => async (req: Request, res: Response, next: NextFunction) => {
+  const errors = await validateErrorWithDB(req, validation)
   Object.keys(errors).length ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
 }
