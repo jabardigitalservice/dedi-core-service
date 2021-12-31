@@ -46,10 +46,10 @@ const accessToken = createAccessToken({
   adm: true,
 })
 
-const title = faker.lorem.slug(2)
+const title = () => faker.lorem.slug(2)
 
 const data = (): Entity.RequestBody => ({
-  title,
+  title: title(),
   description: faker.lorem.paragraph(),
   is_active: 'true',
   filename: faker.image.image(),
