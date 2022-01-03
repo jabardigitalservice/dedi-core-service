@@ -46,15 +46,17 @@ const accessToken = createAccessToken({
   adm: true,
 })
 
-const title = () => faker.lorem.slug(2)
+const title = faker.lorem.slug(2)
 
 const data = (): Entity.RequestBody => ({
-  title: title(),
+  title,
   description: faker.lorem.paragraph(),
-  is_active: 'true',
+  is_active: true,
   filename: faker.image.image(),
   original_name: faker.image.image(),
 })
+
+const dataRandomTitle = (): Entity.RequestBody => ({ ...data(), title: faker.lorem.slug(2) })
 
 let pagesId: number
 
@@ -69,7 +71,7 @@ describe('tests pages', () => {
   it('test success store', async () => request(app)
     .post('/v1/pages')
     .set('Authorization', `Bearer ${accessToken}`)
-    .send(data())
+    .send(dataRandomTitle())
     .expect(httpStatus.CREATED))
 })
 
@@ -85,7 +87,7 @@ describe('tests pages', () => {
   it('test failed not found update', async () => request(app)
     .put('/v1/pages/9999')
     .set('Authorization', `Bearer ${accessToken}`)
-    .send(data())
+    .send(dataRandomTitle())
     .expect(httpStatus.NOT_FOUND))
 })
 

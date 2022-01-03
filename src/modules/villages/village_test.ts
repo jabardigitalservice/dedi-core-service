@@ -1,3 +1,4 @@
+import 'jest-extended';
 import request from 'supertest'
 import httpStatus from 'http-status'
 import app from '../../server'
@@ -6,7 +7,7 @@ import database from '../../config/database'
 
 const expectMetaBounds = expect.objectContaining({
   total: expect.any(Number),
-  last_update: expect.any(String),
+  last_update: expect.toBeOneOf([null, expect.any(String)]),
 })
 
 const expectMetaPaginate = expect.objectContaining({
@@ -73,7 +74,6 @@ describe('seed data', () => {
       location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
       images: null,
       is_active: true,
-      updated_at: new Date(),
     })
   })
 })
@@ -120,6 +120,14 @@ describe('tests villages', () => {
     .then((response) => {
       expect(response.body).toEqual(expectBodyFindAllBounds)
     }))
+})
+
+describe('seed data', () => {
+  it('update villages', async () => {
+    await Repository.Villages().where('id', '123456785').update({
+      updated_at: new Date(),
+    })
+  })
 })
 
 describe('tests villages', () => {
