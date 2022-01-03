@@ -1,4 +1,5 @@
 import request from 'supertest'
+import httpStatus from 'http-status'
 import app from '../../server'
 import { District as Repository } from './district_repository'
 import database from '../../config/database'
@@ -15,7 +16,7 @@ describe('seed data', () => {
   })
 })
 
-const expectBodyFindAll = expect.arrayContaining([
+const expectFindAll = expect.arrayContaining([
   expect.objectContaining({
     id: expect.any(String),
     name: expect.any(String),
@@ -27,8 +28,22 @@ const expectBodyFindAll = expect.arrayContaining([
   }),
 ])
 
+const expectMeta = expect.objectContaining({
+  total: expect.any(Number),
+})
+
+const expectBodyFindAll = expect.objectContaining({
+  data: expectFindAll,
+  meta: expectMeta,
+})
+
+const expectEmptyBodyFindAll = expect.objectContaining({
+  data: [],
+  meta: expectMeta,
+})
+
 describe('tests districts', () => {
-  it('test success with location', async () => request(app)
+  it('test success find all', async () => request(app)
     .get('/v1/districts/with-location')
     .query({
       bounds: {
@@ -36,13 +51,31 @@ describe('tests districts', () => {
         ne: '107.78594184930455,-6.79575221317816',
       },
     })
-    .expect(200)
+    .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expect.objectContaining({
-        data: expectBodyFindAll,
-        meta: expect.objectContaining({
-          total: expect.any(Number),
-        }),
-      }))
+      expect(response.body).toEqual(expectBodyFindAll)
+    }))
+})
+
+describe('tests districts', () => {
+  it('test success find all without bound sw', async () => request(app)
+    .get('/v1/districts/with-location')
+    .query({
+      bounds: {
+        ne: '107.78594184930455,-6.79575221317816',
+      },
+    })
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectEmptyBodyFindAll)
+    }))
+})
+
+describe('tests districts', () => {
+  it('test success find all without bounds', async () => request(app)
+    .get('/v1/districts/with-location')
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectEmptyBodyFindAll)
     }))
 })

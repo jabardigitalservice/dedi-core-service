@@ -7,8 +7,8 @@ export namespace District {
     return pointRegex.test(point)
   }
 
-  const isRequestBounds = (requestQuery: Entity.RequestQueryWithLocation) => requestQuery?.bounds?.ne
-    && requestQuery?.bounds?.sw
+  const isRequestBounds = (requestQuery: Entity.RequestQueryWithLocation) => requestQuery.bounds?.ne
+    && requestQuery.bounds.sw
     && pointRegexRule(requestQuery.bounds.ne)
     && pointRegexRule(requestQuery.bounds.sw)
 
