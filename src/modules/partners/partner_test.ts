@@ -1,3 +1,5 @@
+import 'jest-extended'
+import httpStatus from 'http-status'
 import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
 import app from '../../server'
@@ -26,150 +28,127 @@ const expectMeta = expect.objectContaining({
   per_page: expect.any(Number),
   to: expect.any(Number),
   total: expect.any(Number),
+  last_update: expect.toBeOneOf([null, expect.any(String)]),
 })
 
-const expectBody = expect.objectContaining({
-  data: expect.arrayContaining([
-    expect.objectContaining({
-      id: expect.any(String),
-      name: expect.any(String),
-      total_village: expect.any(Number),
-      logo: expect.any(String),
-      created_at: expect.any(String),
-      website: expect.any(String),
-    }),
-  ]),
+const expectFindAll = expect.arrayContaining([
+  expect.objectContaining({
+    id: expect.any(String),
+    name: expect.any(String),
+    total_village: expect.any(Number),
+    logo: expect.any(String),
+    created_at: expect.any(String),
+    website: expect.any(String),
+  }),
+])
+
+const expectMetaSuggestion = expect.objectContaining({
+  total: expect.any(Number),
+})
+
+const expectSuggestion = expect.arrayContaining([
+  expect.objectContaining({
+    id: expect.any(String),
+    name: expect.any(String),
+  }),
+])
+
+const expectBodyFindAll = expect.objectContaining({
+  data: expectFindAll,
   meta: expectMeta,
 })
 
+const expectEmptyBodyFindAll = expect.objectContaining({
+  data: [],
+  meta: expectMeta,
+})
+
+const expectBodySuggestion = expect.objectContaining({
+  data: expectSuggestion,
+  meta: expectMetaSuggestion,
+})
+
+const expectEmptyBodySuggestion = expect.objectContaining({
+  data: [],
+  meta: expectMetaSuggestion,
+})
+
 describe('tests partners', () => {
-  it('test success findAll', async () => request(app)
+  it('test success find all', async () => request(app)
     .get('/v1/partners')
-    .expect(200)
+    .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expectBody)
+      expect(response.body).toEqual(expectBodyFindAll)
     }))
 })
 
 describe('tests partners', () => {
-  it('test success findAll with requestQuery', async () => request(app)
+  it('test success find all with query name', async () => request(app)
     .get('/v1/partners')
     .query({ name: 'test' })
-    .expect(200)
+    .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expectBody)
+      expect(response.body).toEqual(expectBodyFindAll)
     }))
 })
 
 describe('tests partners', () => {
-  it('test success findAll return data empty', async () => request(app)
+  it('test success find all with query name return data empty', async () => request(app)
     .get('/v1/partners')
-    .query({ name: 'test2', current_page: 2 })
-    .expect(200)
+    .query({ name: 'test2' })
+    .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expect.objectContaining({
-        data: [],
-        meta: expectMeta,
-      }))
+      expect(response.body).toEqual(expectEmptyBodyFindAll)
     }))
 })
 
-describe('test partner suggestion', () => {
-  it('returns partners that contain given substring', async () => {
-    await Repository.Partners().insert([
-      {
-        id: uuidv4(),
-        name: 'TokoPedia',
-        total_village: 1,
-        created_at: timestamp,
-      },
-      {
-        id: uuidv4(),
-        name: 'TokoCrypto',
-        total_village: 1,
-        created_at: timestamp,
-      },
-      {
-        id: uuidv4(),
-        name: 'Bukalapak',
-        total_village: 1,
-        created_at: timestamp,
-      },
-    ])
-    return request(app)
-      .get('/v1/partners/suggestion')
-      .query({ name: 'oko' })
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(
-          expect.objectContaining({
-            data: expect.arrayContaining([
-              {
-                id: expect.any(String),
-                name: 'TokoCrypto',
-              },
-              {
-                id: expect.any(String),
-                name: 'TokoPedia',
-              },
-            ]),
-            meta: expect.objectContaining({
-              total: 2,
-            }),
-          }),
-        )
-      })
-  })
+describe('tests partners', () => {
+  it('returns partners that contain given substring', async () => request(app)
+    .get('/v1/partners/suggestion')
+    .query({ name: 'tes' })
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectBodySuggestion)
+    }))
 })
 
-describe('test partner suggestion', () => {
-  it('returns empty list given query name length < 3', async () => {
-    await Repository.Partners().insert({
-      id: uuidv4(),
-      name: 'TokoKita',
-      total_village: 1,
-      created_at: timestamp,
-    })
-
-    return request(app)
-      .get('/v1/partners/suggestion')
-      .query({ name: 'to' })
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(
-          expect.objectContaining({
-            data: [],
-            meta: expect.objectContaining({
-              total: 0,
-            }),
-          }),
-        )
-      })
-  })
+describe('tests partners', () => {
+  it('test success suggestion with given query name length < 3 return data empty', async () => request(app)
+    .get('/v1/partners/suggestion')
+    .query({ name: 'te' })
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectEmptyBodySuggestion)
+    }))
 })
 
-describe('test partner suggestion', () => {
-  it('returns empty list given no partner contain the requested name', async () => {
-    await Repository.Partners().insert({
-      id: uuidv4(),
-      name: 'e-fishery',
-      total_village: 1,
-      created_at: timestamp,
-    })
+describe('tests partners', () => {
+  it('test success suggestion with query name return data empty', async () => request(app)
+    .get('/v1/partners/suggestion')
+    .query({ name: 'test1' })
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectEmptyBodySuggestion)
+    }))
+})
 
+describe('tests partners', () => {
+  it('test success suggestion without query', async () => request(app)
+    .get('/v1/partners/suggestion')
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectEmptyBodySuggestion)
+    }))
+})
+
+describe('tests partners', () => {
+  it('test success find all data is deleted return data empty', async () => {
+    await Repository.Partners().where('name', 'test').update({ deleted_at: new Date() })
     return request(app)
-      .get('/v1/partners/suggestion')
-      .query({ name: 'efishery' })
-      .expect(200)
+      .get('/v1/partners')
+      .expect(httpStatus.OK)
       .then((response) => {
-        expect(response.body).toEqual(
-          expect.objectContaining({
-            data: [],
-            meta: expect.objectContaining({
-              total: 0,
-            }),
-          }),
-        )
+        expect(response.body).toEqual(expectEmptyBodyFindAll)
       })
   })
 })

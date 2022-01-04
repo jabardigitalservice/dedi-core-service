@@ -1,4 +1,4 @@
-import 'jest-extended';
+import 'jest-extended'
 import request from 'supertest'
 import httpStatus from 'http-status'
 import app from '../../server'
