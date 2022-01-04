@@ -30,9 +30,8 @@ export namespace Partner {
     const query = Partners()
       .select('id', 'name')
       .whereNull('deleted_at')
+      .where('name', 'LIKE', `%${requestQuery.name}%`)
       .orderBy('name', 'asc')
-
-    if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
 
     return query
   }
