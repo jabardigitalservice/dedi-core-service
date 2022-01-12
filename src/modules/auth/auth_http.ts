@@ -9,7 +9,7 @@ import config from '../../config'
 import lang from '../../lang'
 
 const apiLimiterSignIn = rateLimit({
-  windowMs: Number(config.get('api.limiter.time.signin', 300000)), // Default time signin 5 minutes
+  windowMs: Number(config.get('api.limiter.time.signin', 5)) * 60 * 1000, // Default time signin 5 minutes
   max: Number(config.get('api.limiter.max.signin', 3)),
   handler: (request, response, next) => {
     const { resetTime } = request.rateLimit
