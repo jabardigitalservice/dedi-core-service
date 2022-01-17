@@ -50,7 +50,7 @@ const title = faker.lorem.slug(2)
 
 const data = (): Entity.RequestBody => ({
   title,
-  description: faker.lorem.paragraph(),
+  link: faker.internet.url(),
   is_active: true,
   filename: faker.image.image(),
   original_name: faker.image.image(),

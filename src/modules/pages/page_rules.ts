@@ -12,7 +12,7 @@ export namespace Page {
 
   const validate = Joi.object({
     title: Joi.string().max(70).required(),
-    description: Joi.string().required(),
+    link: Joi.string().uri().required(),
     is_active: Joi.boolean().required(),
     filename: Joi.string().max(255).required(),
     original_name: Joi.string().max(255).required(),

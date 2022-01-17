@@ -11,7 +11,7 @@ export namespace Page {
   const response = (item: any): Entity.Response => ({
     id: item.id,
     title: item.title,
-    description: item.description,
+    link: item.link,
     is_active: convertToBoolean(item.is_active),
     file: {
       path: getUrlS3(item.files_path),
@@ -61,7 +61,7 @@ export namespace Page {
     return Repository.store({
       created_by: user.identifier,
       title: requestBody.title,
-      description: requestBody.description,
+      link: requestBody.link,
       is_active: convertToBoolean(requestBody.is_active),
       file_id: fileId,
     })
@@ -87,7 +87,7 @@ export namespace Page {
 
     return Repository.update({
       title: requestBody.title,
-      description: requestBody.description,
+      link: requestBody.link,
       is_active: convertToBoolean(requestBody.is_active),
     }, item.id)
   }

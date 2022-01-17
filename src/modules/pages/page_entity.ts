@@ -6,7 +6,7 @@ export namespace Page {
     id?: number
     created_by?: string
     title: string
-    description: string
+    link: string
     is_active: boolean
     file_id?: number
     created_at?: Date
@@ -23,7 +23,7 @@ export namespace Page {
   export interface Response {
     id: string
     title: string
-    description: string
+    link: string
     is_active: boolean
     file: {
       path: string
@@ -43,7 +43,7 @@ export namespace Page {
 
   export interface RequestBody {
     title: string
-    description: string
+    link: string
     is_active: boolean
     filename: string
     original_name: string

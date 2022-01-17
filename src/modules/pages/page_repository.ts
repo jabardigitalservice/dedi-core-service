@@ -11,7 +11,7 @@ export namespace Page {
     .select(
       'pages.id',
       'title',
-      'description',
+      'link',
       'is_active',
       'files.name as files_name',
       'files.path as files_path',
