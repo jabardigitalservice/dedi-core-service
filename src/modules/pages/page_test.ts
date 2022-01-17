@@ -19,7 +19,7 @@ const expectMeta = expect.objectContaining({
 const expectResponse = expect.objectContaining({
   id: expect.any(Number),
   title: expect.any(String),
-  description: expect.any(String),
+  link: expect.any(String),
   is_active: expect.any(Boolean),
   file: expect.objectContaining({
     path: expect.any(String),
