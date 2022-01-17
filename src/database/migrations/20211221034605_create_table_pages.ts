@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
         table.increments('id')
         table.uuid('created_by').notNullable().index()
         table.string('title', 70).notNullable().index()
-        table.text('description').notNullable()
+        table.string('link').notNullable()
         table.boolean('is_active').defaultTo(true).index()
         table.integer('file_id').notNullable()
         table.timestamp('created_at').notNullable()

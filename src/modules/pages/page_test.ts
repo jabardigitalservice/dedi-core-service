@@ -19,7 +19,7 @@ const expectMeta = expect.objectContaining({
 const expectResponse = expect.objectContaining({
   id: expect.any(Number),
   title: expect.any(String),
-  description: expect.any(String),
+  link: expect.any(String),
   is_active: expect.any(Boolean),
   file: expect.objectContaining({
     path: expect.any(String),
@@ -50,7 +50,7 @@ const title = faker.lorem.slug(2)
 
 const data = (): Entity.RequestBody => ({
   title,
-  description: faker.lorem.paragraph(),
+  link: faker.internet.url(),
   is_active: true,
   filename: faker.image.image(),
   original_name: faker.image.image(),
