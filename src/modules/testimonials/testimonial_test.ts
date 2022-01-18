@@ -1,4 +1,4 @@
-import faker, { fake } from 'faker'
+import faker from 'faker'
 import httpStatus from 'http-status'
 import 'jest-extended'
 import moment from 'moment'
