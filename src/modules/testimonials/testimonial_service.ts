@@ -10,12 +10,12 @@ export namespace Testimonial {
     avatar: item.avatar,
     type: item.type,
     partner: {
-      id: item.partners_id,
-      name: item.partners_name,
+      id: item.partner_id,
+      name: item.partner_name,
     },
     village: {
-      id: item.villages_id,
-      name: item.villages_name,
+      id: item.village_id,
+      name: item.village_name,
     },
   })
 

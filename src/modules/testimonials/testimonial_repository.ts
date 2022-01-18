@@ -13,10 +13,10 @@ export namespace Testimonial {
       'testimonials.description',
       'avatar',
       'type',
-      'partners.id as partners_id',
-      'partners.name as partners_name',
-      'villages.id as villages_id',
-      'villages.name as villages_name',
+      'partners.id as partner_id',
+      'partners.name as partner_name',
+      'villages.id as village_id',
+      'villages.name as village_name',
     )
     .leftJoin('partners', 'partners.id', '=', 'testimonials.partner_id')
     .leftJoin('villages', 'villages.id', '=', 'testimonials.village_id')
