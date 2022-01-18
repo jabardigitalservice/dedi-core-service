@@ -3,11 +3,36 @@ import { Testimonial as Entity } from './testimonial_entity'
 import { Testimonial as Repository } from './testimonial_repository'
 
 export namespace Testimonial {
+  const response = (item: any): Entity.Response => ({
+    id: item.id,
+    name: item.name,
+    description: item.description,
+    avatar: item.avatar,
+    type: item.type,
+    partner: {
+      id: item.partners_id,
+      name: item.partners_name,
+    },
+    village: {
+      id: item.villages_id,
+      name: item.villages_name,
+    },
+  })
+
+  const responseFindAll = (items: any[]): Entity.Response[] => {
+    const data: Entity.Response[] = []
+    for (const item of items) {
+      data.push(response(item))
+    }
+
+    return data
+  }
+
   export const findAll = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAll> => {
     const items: any = await Repository.findAll(requestQuery)
 
     const result: Entity.ResponseFindAll = {
-      data: items.data,
+      data: responseFindAll(items.data),
       meta: metaPagination(items.pagination),
     }
 
