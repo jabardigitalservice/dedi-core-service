@@ -1,18 +1,25 @@
+import faker from 'faker'
+import httpStatus from 'http-status'
+import 'jest-extended'
 import moment from 'moment'
 import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
+import config from '../../config'
 import app from '../../server'
 import { Testimonial as Repository } from './testimonial_repository'
+
+const isActive = faker.random.arrayElement([true, false])
+const type = faker.random.arrayElement([config.get('role.1'), config.get('role.2')])
 
 describe('seed data', () => {
   it('insert a row of testimonial', async () => {
     await Repository.Testimonials().insert({
       id: uuidv4(),
-      name: 'test',
-      description: 'test',
-      avatar: 'test.svg',
-      type: 'mitra',
-      is_active: true,
+      name: faker.name.firstName(),
+      description: faker.lorem.paragraph(),
+      avatar: faker.image.avatar(),
+      type,
+      is_active: isActive,
       created_at: moment().subtract({ seconds: 1 }).toDate(),
       created_by: uuidv4(),
     })
@@ -28,50 +35,51 @@ const expectMeta = expect.objectContaining({
   total: expect.any(Number),
 })
 
-const expectData = expect.arrayContaining([
-  expect.objectContaining({
-    id: expect.any(String),
-    name: expect.any(String),
-    description: expect.any(String),
-    avatar: expect.any(String),
-    type: expect.any(String),
-  }),
-])
+const expectResponse = expect.objectContaining({
+  id: expect.any(String),
+  name: expect.any(String),
+  description: expect.any(String),
+  avatar: expect.any(String),
+  type: expect.any(String),
+  village: expect.toBeOneOf([null, expect.any(Object)]),
+  partner: expect.toBeOneOf([null, expect.any(Object)]),
+})
 
-describe('testimonials', () => {
-  it('/v1/testimonials --> data testimonials', async () => request(app)
+const expectFindAll = expect.objectContaining({
+  data: expect.arrayContaining([expectResponse]),
+  meta: expectMeta,
+})
+
+const expectFindAllEmpty = expect.objectContaining({
+  data: expect.arrayContaining([]),
+  meta: expectMeta,
+})
+
+describe('test testimonials', () => {
+  it('test success find all', async () => request(app)
     .get('/v1/testimonials')
-    .expect(200)
+    .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expect.objectContaining({
-        data: expectData,
-        meta: expectMeta,
-      }))
+      expect(response.body).toEqual(expectFindAll)
     }))
 })
 
-describe('filter testimonials', () => {
-  it('/v1/testimonials?query --> empty data testimonial if type not found', async () => request(app)
+describe('test testimonials', () => {
+  it('test failed find all not found', async () => request(app)
     .get('/v1/testimonials')
     .query({ type: 'test' })
-    .expect(200)
+    .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expect.objectContaining({
-        data: expect.any(Array),
-        meta: expectMeta,
-      }))
+      expect(response.body).toEqual(expectFindAllEmpty)
     }))
 })
 
-describe('filter testimonials', () => {
-  it('/v1/testimonials?query --> data testimonials with spesific type', async () => request(app)
+describe('test testimonials', () => {
+  it('test success with query find all', async () => request(app)
     .get('/v1/testimonials')
-    .query({ type: 'mitra' })
-    .expect(200)
+    .query({ type, is_active: isActive })
+    .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expect.objectContaining({
-        data: expectData,
-        meta: expectMeta,
-      }))
+      expect(response.body).toEqual(expectFindAll)
     }))
 })
