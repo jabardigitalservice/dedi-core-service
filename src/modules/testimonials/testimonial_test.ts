@@ -9,6 +9,7 @@ import app from '../../server'
 import { Testimonial as Repository } from './testimonial_repository'
 
 const isActive = faker.random.arrayElement([true, false])
+const type = faker.random.arrayElement([config.get('role.1'), config.get('role.2')])
 
 describe('seed data', () => {
   it('insert a row of testimonial', async () => {
@@ -17,7 +18,7 @@ describe('seed data', () => {
       name: faker.name.firstName(),
       description: faker.lorem.paragraph(),
       avatar: faker.image.avatar(),
-      type: config.get('role.1'),
+      type,
       is_active: isActive,
       created_at: moment().subtract({ seconds: 1 }).toDate(),
       created_by: uuidv4(),
@@ -76,7 +77,7 @@ describe('test testimonials', () => {
 describe('test testimonials', () => {
   it('test success with query find all', async () => request(app)
     .get('/v1/testimonials')
-    .query({ type: 'mitra', is_active: isActive })
+    .query({ type, is_active: isActive })
     .expect(httpStatus.OK)
     .then((response) => {
       expect(response.body).toEqual(expectFindAll)
