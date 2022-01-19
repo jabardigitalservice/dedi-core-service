@@ -10,8 +10,8 @@ export namespace Testimonial {
     avatar: string
     type: string
     is_active: boolean
-    partner_id: string
-    village_id: string
+    partner_id?: string
+    village_id?: string
     created_by: string
     created_at?: Date
   }
@@ -39,6 +39,16 @@ export namespace Testimonial {
     is_active: string
     per_page: string
     current_page: string
+  }
+
+  export interface RequestBody {
+    name: string
+    description: string
+    avatar: string
+    type: string
+    is_active: string
+    partner_id?: string
+    village_id?: string
   }
 
   interface Meta extends metaPaginate { }
