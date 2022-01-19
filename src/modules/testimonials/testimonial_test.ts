@@ -5,11 +5,16 @@ import moment from 'moment'
 import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
 import config from '../../config'
+import database from '../../config/database'
+import { createAccessToken } from '../../middleware/jwt'
 import app from '../../server'
+import { Testimonial as Entity } from './testimonial_entity'
 import { Testimonial as Repository } from './testimonial_repository'
 
 const isActive = faker.random.arrayElement([true, false])
 const type = faker.random.arrayElement([config.get('role.1'), config.get('role.2')])
+const partnerId = uuidv4()
+const villageId = '123456788'
 
 describe('seed data', () => {
   it('insert a row of testimonial', async () => {
@@ -24,6 +29,55 @@ describe('seed data', () => {
       created_by: uuidv4(),
     })
   })
+})
+
+describe('seed data', () => {
+  it('insert a row of village', async () => {
+    await database('villages').insert({
+      id: villageId,
+      name: 'test',
+      district_id: '1',
+      level: 1,
+      location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
+      images: null,
+      is_active: true,
+    })
+  })
+})
+
+describe('seed data', () => {
+  it('insert a row of partner', async () => {
+    await database('partners').insert({
+      id: partnerId,
+      name: 'test',
+      total_village: 1,
+      logo: 'https://test.com',
+      website: 'https://test.com',
+      created_at: new Date(),
+      updated_at: new Date(),
+    })
+  })
+})
+
+const data = (): Entity.RequestBody => ({
+  name: faker.name.firstName(),
+  description: faker.lorem.paragraph(),
+  avatar: faker.image.avatar(),
+  type,
+  is_active: faker.random.arrayElement(['true', 'false']),
+  partner_id: partnerId,
+  village_id: villageId,
+})
+
+const dataTypeRole1 = (): Entity.RequestBody => ({ ...data(), type: config.get('role.1') })
+const dataTypeRole2 = (): Entity.RequestBody => ({ ...data(), type: config.get('role.2') })
+
+const identifier = uuidv4()
+
+const accessToken = createAccessToken({
+  identifier,
+  prtnr: false,
+  adm: true,
 })
 
 const expectMeta = expect.objectContaining({
@@ -82,4 +136,20 @@ describe('test testimonials', () => {
     .then((response) => {
       expect(response.body).toEqual(expectFindAll)
     }))
+})
+
+describe('test testimonials', () => {
+  it(`test success store with type ${config.get('role.1')}`, async () => request(app)
+    .post('/v1/testimonials')
+    .send(dataTypeRole1())
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.CREATED))
+})
+
+describe('test testimonials', () => {
+  it(`test success store with type ${config.get('role.2')}`, async () => request(app)
+    .post('/v1/testimonials')
+    .send(dataTypeRole2())
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.CREATED))
 })

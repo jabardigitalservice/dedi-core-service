@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
@@ -33,4 +34,10 @@ export namespace Testimonial {
 
     return query.paginate(pagination(requestQuery))
   }
+
+  export const store = async (requestBody: Entity.Struct) => Testimonials().insert({
+    id: uuidv4(),
+    ...requestBody,
+    created_at: new Date(),
+  })
 }

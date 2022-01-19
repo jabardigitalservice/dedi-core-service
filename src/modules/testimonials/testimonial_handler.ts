@@ -13,4 +13,14 @@ export namespace Testimonial {
 
     res.status(httpStatus.OK).json(result)
   }
+
+  export const store = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    const { body, user } = req
+    await Service.store(body, user)
+    res.status(httpStatus.CREATED).json({ message: 'CREATED' })
+  }
 }

@@ -71,6 +71,8 @@ const getErrorWithDB = async (req: Request, rule: PropertyWithDB): Promise<strin
   const value: string = req.body[rule.attr]
   const primaryKeyValue = req.params[rule.params] || null
 
+  if (!value) return null
+
   const row: any = await Query(rule, value, primaryKeyValue)
 
   const isError: boolean = rules[rule.type](row)
