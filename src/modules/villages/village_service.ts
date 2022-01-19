@@ -14,12 +14,12 @@ export namespace Village {
         name: item.villages_name,
         level: item.level,
         city: {
-          id: item.cities_id,
-          name: item.cities_name,
+          id: item.city_id,
+          name: item.city_name,
         },
         category: {
-          id: item.categories_id,
-          name: item.categories_name,
+          id: item.category_id,
+          name: item.category_name,
         },
         location: {
           lat: item.location.y,
@@ -81,12 +81,12 @@ export namespace Village {
         name: item.villages_name,
         level: item.level,
         city: {
-          id: item.cities_id,
-          name: item.cities_name,
+          id: item.city_id,
+          name: item.city_name,
         },
         category: {
-          id: item.categories_id,
-          name: item.categories_name,
+          id: item.category_id,
+          name: item.category_name,
         },
       },
       meta: {},

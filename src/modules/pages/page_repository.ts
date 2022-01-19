@@ -13,8 +13,8 @@ export namespace Page {
       'title',
       'link',
       'is_active',
-      'files.name as files_name',
-      'files.path as files_path',
+      'files.name as file_name',
+      'files.path as file_path',
       'files.id as files_id',
     )
     .leftJoin('files', 'files.id', '=', 'pages.file_id')

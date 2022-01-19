@@ -71,10 +71,10 @@ export namespace Village {
         'villages.id as id',
         'villages.name as villages_name',
         'villages.level as level',
-        'cities.id as cities_id',
-        'cities.name as cities_name',
-        'categories.id as categories_id',
-        'categories.name as categories_name',
+        'cities.id as city_id',
+        'cities.name as city_name',
+        'categories.id as category_id',
+        'categories.name as category_name',
       )
       .leftJoin('categories', 'categories.id', '=', 'villages.category_id')
       .leftJoin('districts', 'districts.id', '=', 'villages.district_id')

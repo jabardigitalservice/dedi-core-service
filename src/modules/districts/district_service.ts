@@ -19,8 +19,8 @@ export namespace District {
         id: item.id,
         name: item.name,
         city: {
-          id: item.cities_id,
-          name: item.cities_name,
+          id: item.city_id,
+          name: item.city_name,
         },
         location: {
           lat: item.location.y,
