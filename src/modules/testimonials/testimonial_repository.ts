@@ -35,9 +35,18 @@ export namespace Testimonial {
     return query.paginate(pagination(requestQuery))
   }
 
-  export const store = async (requestBody: Entity.Struct) => Testimonials().insert({
-    id: uuidv4(),
-    ...requestBody,
-    created_at: new Date(),
-  })
+  export const store = async (requestBody: Entity.Struct) => {
+    const id = uuidv4()
+    Testimonials().insert({
+      id,
+      ...requestBody,
+      created_at: new Date(),
+    })
+
+    return id
+  }
+
+  export const findById = async (id: string) => Testimonials().where('id', id).first()
+
+  export const destroy = async (id: string) => Testimonials().where('id', id).delete()
 }

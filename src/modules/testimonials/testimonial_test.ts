@@ -109,11 +109,15 @@ const expectFindAllEmpty = expect.objectContaining({
   meta: expectMeta,
 })
 
+let testimonialId: string
+
 describe('test testimonials', () => {
   it('test success find all', async () => request(app)
     .get('/v1/testimonials')
     .expect(httpStatus.OK)
     .then((response) => {
+      const [item] = response.body.data
+      testimonialId = item.id
       expect(response.body).toEqual(expectFindAll)
     }))
 })
@@ -152,4 +156,32 @@ describe('test testimonials', () => {
     .send(dataTypeRole2())
     .set('Authorization', `Bearer ${accessToken}`)
     .expect(httpStatus.CREATED))
+})
+
+describe('test testimonials', () => {
+  it('test success find by id', async () => request(app)
+    .get(`/v1/testimonials/${testimonialId}`)
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.OK))
+})
+
+describe('test testimonials', () => {
+  it('test success find by id not found', async () => request(app)
+    .get('/v1/testimonials/9999')
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.NOT_FOUND))
+})
+
+describe('test testimonials', () => {
+  it('test success destroy not found', async () => request(app)
+    .delete('/v1/testimonials/9999')
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.NOT_FOUND))
+})
+
+describe('test testimonials', () => {
+  it('test success destroy', async () => request(app)
+    .delete(`/v1/testimonials/${testimonialId}`)
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.OK))
 })
