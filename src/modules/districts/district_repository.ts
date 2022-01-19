@@ -32,7 +32,7 @@ export namespace District {
         'districts.name',
         'districts.location',
         'cities.id as city_id',
-        'cities.name as citiy_name',
+        'cities.name as city_name',
       )
       .leftJoin('cities', 'cities.id', '=', 'districts.city_id')
       .where('districts.is_active', true)
