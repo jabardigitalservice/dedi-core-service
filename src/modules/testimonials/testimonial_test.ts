@@ -143,8 +143,7 @@ describe('test testimonials', () => {
     .post('/v1/testimonials')
     .send(dataTypeRole1())
     .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.CREATED)
-  )
+    .expect(httpStatus.CREATED))
 })
 
 describe('test testimonials', () => {
@@ -152,6 +151,5 @@ describe('test testimonials', () => {
     .post('/v1/testimonials')
     .send(dataTypeRole2())
     .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.CREATED)
-  )
+    .expect(httpStatus.CREATED))
 })
