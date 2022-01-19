@@ -20,7 +20,7 @@ export namespace District {
         name: item.name,
         city: {
           id: item.city_id,
-          name: item.citiy_name,
+          name: item.city_name,
         },
         location: {
           lat: item.location.y,
