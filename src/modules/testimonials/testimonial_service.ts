@@ -41,8 +41,7 @@ export namespace Testimonial {
     return result
   }
 
-  export const store = async (requestBody: Entity.RequestBody, user: any) => Repository.store({
-    created_by: user.identifier,
+  export const getRequestBody = (requestBody: Entity.RequestBody) => ({
     name: requestBody.name,
     description: requestBody.description,
     avatar: requestBody.avatar,
@@ -50,5 +49,10 @@ export namespace Testimonial {
     is_active: convertToBoolean(requestBody.is_active),
     partner_id: requestBody.type === config.get('role.1') ? requestBody.partner_id : null,
     village_id: requestBody.type === config.get('role.2') ? requestBody.village_id : null,
+  })
+
+  export const store = async (requestBody: Entity.RequestBody, user: any) => Repository.store({
+    created_by: user.identifier,
+    ...getRequestBody(requestBody),
   })
 }
