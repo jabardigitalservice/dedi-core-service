@@ -1,6 +1,9 @@
+import httpStatus from 'http-status'
 import config from '../../config'
+import { HttpError } from '../../handler/exception'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
+import lang from '../../lang'
 import { Testimonial as Entity } from './testimonial_entity'
 import { Testimonial as Repository } from './testimonial_repository'
 
@@ -55,4 +58,23 @@ export namespace Testimonial {
     created_by: user.identifier,
     ...getRequestBody(requestBody),
   })
+
+  export const destroy = async (id: string) => {
+    const item: any = await Repository.findById(id)
+    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'testimonial', id }))
+
+    return Repository.destroy(id)
+  }
+
+  export const findById = async (id: string) => {
+    const item: any = await Repository.findById(id)
+    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'testimonial', id }))
+
+    const result: Entity.ResponseFindById = {
+      data: response(item),
+      meta: {},
+    }
+
+    return result
+  }
 }

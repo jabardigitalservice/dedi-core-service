@@ -57,4 +57,9 @@ export namespace Testimonial {
     data: Response[]
     meta: Meta
   }
+
+  export interface ResponseFindById {
+    data: Response
+    meta: {}
+  }
 }

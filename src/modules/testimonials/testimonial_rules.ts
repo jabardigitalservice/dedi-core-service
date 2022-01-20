@@ -15,7 +15,7 @@ export namespace Testimonial {
   const validate = Joi.object({
     name: Joi.string().max(100).required(),
     description: Joi.string().required(),
-    avatar: Joi.string().uri().required(),
+    avatar: Joi.string().uri().max(255).required(),
     type: Joi.string().valid(...typeValid).required(),
     is_active: Joi.boolean().required(),
     partner_id: Joi.alternatives().conditional('type', { is: config.get('role.1'), then: Joi.string().max(36).required(), otherwise: Joi.optional() }),

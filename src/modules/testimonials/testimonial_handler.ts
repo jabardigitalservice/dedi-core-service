@@ -23,4 +23,32 @@ export namespace Testimonial {
     await Service.store(body, user)
     res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
+
+  export const destroy = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { id } = req.params
+      await Service.destroy(id)
+      res.status(httpStatus.OK).json({ message: 'DELETED' })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  export const findById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { id } = req.params
+      const result: Entity.ResponseFindById = await Service.findById(id)
+      res.status(httpStatus.OK).json(result)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
