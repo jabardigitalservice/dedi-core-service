@@ -21,6 +21,7 @@ export namespace Testimonial {
   export const ac = accessControl(flatList)
 
   export const store = () => grantAccess(ac, 'createAny', 'testimonial')
+  export const update = () => grantAccess(ac, 'updateAny', 'testimonial')
   export const destroy = () => grantAccess(ac, 'deleteAny', 'testimonial')
   export const findById = () => grantAccess(ac, 'readAny', 'testimonial')
 }

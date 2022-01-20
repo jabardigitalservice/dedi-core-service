@@ -12,7 +12,7 @@ export namespace Testimonial {
     is_active: boolean
     partner_id?: string
     village_id?: string
-    created_by: string
+    created_by?: string
     created_at?: Date
   }
 

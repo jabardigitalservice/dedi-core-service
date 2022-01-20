@@ -24,6 +24,21 @@ export namespace Testimonial {
     res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
+  export const update = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { body } = req
+      const { id } = req.params
+      await Service.update(body, id)
+      res.status(httpStatus.OK).json({ message: 'UPDATE' })
+    } catch (error) {
+      next(error)
+    }
+  }
+
   export const destroy = async (
     req: Request,
     res: Response,

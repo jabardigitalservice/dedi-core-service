@@ -159,6 +159,22 @@ describe('test testimonials', () => {
 })
 
 describe('test testimonials', () => {
+  it('test success update', async () => request(app)
+    .put(`/v1/testimonials/${testimonialId}`)
+    .send(dataTypeRole2())
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.OK))
+})
+
+describe('test testimonials', () => {
+  it('test failed update not found', async () => request(app)
+    .put('/v1/testimonials/9999')
+    .send(dataTypeRole2())
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.NOT_FOUND))
+})
+
+describe('test testimonials', () => {
   it('test success find by id', async () => request(app)
     .get(`/v1/testimonials/${testimonialId}`)
     .set('Authorization', `Bearer ${accessToken}`)
@@ -166,14 +182,14 @@ describe('test testimonials', () => {
 })
 
 describe('test testimonials', () => {
-  it('test success find by id not found', async () => request(app)
+  it('test failed find by id not found', async () => request(app)
     .get('/v1/testimonials/9999')
     .set('Authorization', `Bearer ${accessToken}`)
     .expect(httpStatus.NOT_FOUND))
 })
 
 describe('test testimonials', () => {
-  it('test success destroy not found', async () => request(app)
+  it('test failed destroy not found', async () => request(app)
     .delete('/v1/testimonials/9999')
     .set('Authorization', `Bearer ${accessToken}`)
     .expect(httpStatus.NOT_FOUND))

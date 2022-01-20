@@ -59,6 +59,13 @@ export namespace Testimonial {
     ...getRequestBody(requestBody),
   })
 
+  export const update = async (requestBody: Entity.RequestBody, id: string) => {
+    const item: any = await Repository.findById(id)
+    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'testimonial', id }))
+
+    return Repository.update(getRequestBody(requestBody), id)
+  }
+
   export const destroy = async (id: string) => {
     const item: any = await Repository.findById(id)
     if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'testimonial', id }))
