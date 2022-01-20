@@ -23,6 +23,7 @@ export namespace Testimonial {
   })
 
   export const store = validate
+  export const update = validate
 
   const validateWithDB: ValidationWithDB = {
     partner_id: [
@@ -38,4 +39,5 @@ export namespace Testimonial {
   }
 
   export const storeWithDB = validateWithDB
+  export const updateWithDB = validateWithDB
 }
