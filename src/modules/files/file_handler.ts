@@ -18,7 +18,7 @@ export namespace File {
         data: {
           path: getUrlS3(path),
           original_name: file.originalname,
-          filename: file.filename,
+          source: file.filename,
         },
         meta: {},
       }
