@@ -52,8 +52,8 @@ const data = (): Entity.RequestBody => ({
   title,
   link: faker.internet.url(),
   is_active: true,
-  filename: faker.image.image(),
-  original_name: faker.image.image(),
+  image: faker.image.image(),
+  image_original_name: faker.image.image(),
 })
 
 const dataRandomTitle = (): Entity.RequestBody => ({ ...data(), title: faker.lorem.slug(2) })

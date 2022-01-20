@@ -8,7 +8,7 @@ export namespace Page {
     title: string
     link: string
     is_active: boolean
-    file_id?: number
+    image: string
     created_at?: Date
     updated_at?: Date
   }
@@ -16,7 +16,7 @@ export namespace Page {
   export interface StructFile {
     id?: number
     name: string
-    path: string
+    source: string
     created_at?: Date
   }
 
@@ -45,8 +45,8 @@ export namespace Page {
     title: string
     link: string
     is_active: boolean
-    filename: string
-    original_name: string
+    image: string
+    image_original_name: string
   }
 
   export interface ResponseFindAll {

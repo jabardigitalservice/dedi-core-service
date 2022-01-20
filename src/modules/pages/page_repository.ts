@@ -14,10 +14,10 @@ export namespace Page {
       'link',
       'is_active',
       'files.name as file_name',
-      'files.path as file_path',
-      'files.id as files_id',
+      'files.source as file_source',
+      'files.id as file_id',
     )
-    .leftJoin('files', 'files.id', '=', 'pages.file_id')
+    .leftJoin('files', 'files.source', '=', 'pages.image')
 
   export const findAll = async (requestQuery: Entity.RequestQuery) => {
     const orderBy: string = requestQuery.order_by || 'title'

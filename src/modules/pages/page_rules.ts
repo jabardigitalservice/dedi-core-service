@@ -14,8 +14,8 @@ export namespace Page {
     title: Joi.string().max(70).required(),
     link: Joi.string().uri().max(255).required(),
     is_active: Joi.boolean().required(),
-    filename: Joi.string().max(255).required(),
-    original_name: Joi.string().max(255).required(),
+    image: Joi.string().max(255).required(),
+    image_original_name: Joi.string().max(255).required(),
   })
 
   export const store = validate
