@@ -13,9 +13,9 @@ export namespace Page {
     title: item.title,
     link: item.link,
     is_active: convertToBoolean(item.is_active),
-    file: {
-      path: getUrlS3(item.file_source),
-      filename: item.file_source,
+    image: {
+      path: getUrlS3(item.image),
+      source: item.image,
       original_name: item.file_name,
     },
   })

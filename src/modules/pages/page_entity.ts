@@ -25,9 +25,9 @@ export namespace Page {
     title: string
     link: string
     is_active: boolean
-    file: {
+    image: {
       path: string
-      filename: string
+      source: string
       original_name: string
     }
   }
