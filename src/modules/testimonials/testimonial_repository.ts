@@ -41,7 +41,7 @@ export namespace Testimonial {
     created_at: new Date(),
   })
 
-  export const findById = async (id: string) => Testimonials().where('id', id).first()
+  export const findById = async (id: string) => Query().where('testimonials.id', id).first()
 
   export const destroy = async (id: string) => Testimonials().where('id', id).delete()
 }
