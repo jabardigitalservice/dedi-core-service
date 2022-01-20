@@ -33,7 +33,7 @@ export namespace Testimonial {
       const { body } = req
       const { id } = req.params
       await Service.update(body, id)
-      res.status(httpStatus.OK).json({ message: 'UPDATE' })
+      res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
       next(error)
     }
