@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('title', 70).notNullable().index()
         table.string('link').notNullable()
         table.boolean('is_active').defaultTo(true).index()
-        table.integer('file_id').notNullable()
+        table.string('image').notNullable()
         table.timestamp('created_at').notNullable()
         table.timestamp('updated_at')
       })

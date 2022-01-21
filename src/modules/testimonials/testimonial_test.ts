@@ -1,7 +1,6 @@
 import faker from 'faker'
 import httpStatus from 'http-status'
 import 'jest-extended'
-import moment from 'moment'
 import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
 import config from '../../config'
@@ -9,27 +8,11 @@ import database from '../../config/database'
 import { createAccessToken } from '../../middleware/jwt'
 import app from '../../server'
 import { Testimonial as Entity } from './testimonial_entity'
-import { Testimonial as Repository } from './testimonial_repository'
 
-const isActive = faker.random.arrayElement([true, false])
+const isActive = faker.random.arrayElement(['true', 'false'])
 const type = faker.random.arrayElement([config.get('role.1'), config.get('role.2')])
 const partnerId = uuidv4()
 const villageId = '123456788'
-
-describe('seed data', () => {
-  it('insert a row of testimonial', async () => {
-    await Repository.Testimonials().insert({
-      id: uuidv4(),
-      name: faker.name.firstName(),
-      description: faker.lorem.paragraph(),
-      avatar: faker.image.avatar(),
-      type,
-      is_active: isActive,
-      created_at: moment().subtract({ seconds: 1 }).toDate(),
-      created_by: uuidv4(),
-    })
-  })
-})
 
 describe('seed data', () => {
   it('insert a row of village', async () => {
@@ -63,8 +46,9 @@ const data = (): Entity.RequestBody => ({
   name: faker.name.firstName(),
   description: faker.lorem.paragraph(),
   avatar: faker.image.avatar(),
+  avatar_original_name: faker.image.avatar(),
   type,
-  is_active: faker.random.arrayElement(['true', 'false']),
+  is_active: isActive,
   partner_id: partnerId,
   village_id: villageId,
 })
@@ -93,7 +77,11 @@ const expectResponse = expect.objectContaining({
   id: expect.any(String),
   name: expect.any(String),
   description: expect.any(String),
-  avatar: expect.any(String),
+  avatar: {
+    path: expect.any(String),
+    source: expect.any(String),
+    original_name: expect.any(String),
+  },
   type: expect.any(String),
   village: expect.toBeOneOf([null, expect.any(Object)]),
   partner: expect.toBeOneOf([null, expect.any(Object)]),
@@ -110,6 +98,22 @@ const expectFindAllEmpty = expect.objectContaining({
 })
 
 let testimonialId: string
+
+describe('test testimonials', () => {
+  it(`test success store with type ${config.get('role.1')}`, async () => request(app)
+    .post('/v1/testimonials')
+    .send(dataTypeRole1())
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.CREATED))
+})
+
+describe('test testimonials', () => {
+  it(`test success store with type ${config.get('role.2')}`, async () => request(app)
+    .post('/v1/testimonials')
+    .send(dataTypeRole2())
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.CREATED))
+})
 
 describe('test testimonials', () => {
   it('test success find all', async () => request(app)
@@ -140,22 +144,6 @@ describe('test testimonials', () => {
     .then((response) => {
       expect(response.body).toEqual(expectFindAll)
     }))
-})
-
-describe('test testimonials', () => {
-  it(`test success store with type ${config.get('role.1')}`, async () => request(app)
-    .post('/v1/testimonials')
-    .send(dataTypeRole1())
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.CREATED))
-})
-
-describe('test testimonials', () => {
-  it(`test success store with type ${config.get('role.2')}`, async () => request(app)
-    .post('/v1/testimonials')
-    .send(dataTypeRole2())
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.CREATED))
 })
 
 describe('test testimonials', () => {

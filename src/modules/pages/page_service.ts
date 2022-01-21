@@ -13,9 +13,9 @@ export namespace Page {
     title: item.title,
     link: item.link,
     is_active: convertToBoolean(item.is_active),
-    file: {
-      path: getUrlS3(item.file_path),
-      filename: item.file_path,
+    image: {
+      path: getUrlS3(item.image),
+      source: item.image,
       original_name: item.file_name,
     },
   })
@@ -53,9 +53,9 @@ export namespace Page {
   }
 
   export const store = async (requestBody: Entity.RequestBody, user: any) => {
-    const [fileId] = await Repository.createFile({
-      name: requestBody.original_name,
-      path: requestBody.filename,
+    Repository.createFile({
+      source: requestBody.image,
+      name: requestBody.image_original_name,
     })
 
     return Repository.store({
@@ -63,15 +63,13 @@ export namespace Page {
       title: requestBody.title,
       link: requestBody.link,
       is_active: convertToBoolean(requestBody.is_active),
-      file_id: fileId,
+      image: requestBody.image,
     })
   }
 
   export const destroy = async (id: string) => {
     const item: any = await Repository.findById(id)
     if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
-
-    Repository.destroyFile(item.files_id)
 
     return Repository.destroy(item.id)
   }
@@ -81,14 +79,15 @@ export namespace Page {
     if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
 
     Repository.updateFile({
-      name: requestBody.original_name,
-      path: requestBody.filename,
-    }, item.files_id)
+      source: requestBody.image,
+      name: requestBody.image_original_name,
+    }, item.file_id)
 
     return Repository.update({
       title: requestBody.title,
       link: requestBody.link,
       is_active: convertToBoolean(requestBody.is_active),
+      image: requestBody.image,
     }, item.id)
   }
 }

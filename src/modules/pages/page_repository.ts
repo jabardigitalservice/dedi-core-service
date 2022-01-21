@@ -13,11 +13,12 @@ export namespace Page {
       'title',
       'link',
       'is_active',
+      'image',
       'files.name as file_name',
-      'files.path as file_path',
-      'files.id as files_id',
+      'files.source as file_source',
+      'files.id as file_id',
     )
-    .leftJoin('files', 'files.id', '=', 'pages.file_id')
+    .leftJoin('files', 'files.source', '=', 'pages.image')
 
   export const findAll = async (requestQuery: Entity.RequestQuery) => {
     const orderBy: string = requestQuery.order_by || 'title'
@@ -46,14 +47,17 @@ export namespace Page {
     updated_at: new Date(),
   })
 
-  export const createFile = async (requestBody: Entity.StructFile) => Files().insert({
-    ...requestBody,
-    created_at: new Date(),
-  })
+  export const createFile = async (requestBody: Entity.StructFile) => {
+    const item: any = await Files().where('source', requestBody.source).first()
+    if (item) return Files().where('source', requestBody.source).update(requestBody)
+
+    return Files().insert({
+      ...requestBody,
+      created_at: new Date(),
+    })
+  }
 
   export const updateFile = async (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
     ...requestBody,
   })
-
-  export const destroyFile = async (id: number) => Files().where('id', id).delete()
 }

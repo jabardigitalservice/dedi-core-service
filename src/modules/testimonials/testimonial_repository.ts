@@ -6,6 +6,7 @@ import { Testimonial as Entity } from './testimonial_entity'
 
 export namespace Testimonial {
   export const Testimonials = () => database<Entity.Struct>('testimonials')
+  export const Files = () => database<Entity.StructFile>('files')
 
   const Query = () => Testimonials()
     .select(
@@ -18,9 +19,13 @@ export namespace Testimonial {
       'partners.name as partner_name',
       'villages.id as village_id',
       'villages.name as village_name',
+      'files.name as file_name',
+      'files.source as file_source',
+      'files.id as file_id',
     )
     .leftJoin('partners', 'partners.id', '=', 'testimonials.partner_id')
     .leftJoin('villages', 'villages.id', '=', 'testimonials.village_id')
+    .leftJoin('files', 'files.source', '=', 'testimonials.avatar')
 
   export const findAll = (requestQuery: Entity.RequestQuery) => {
     const orderBy: string = requestQuery.order_by || 'type'
@@ -48,4 +53,20 @@ export namespace Testimonial {
   export const findById = async (id: string) => Query().where('testimonials.id', id).first()
 
   export const destroy = async (id: string) => Testimonials().where('id', id).delete()
+
+  export const createFile = async (requestBody: Entity.StructFile) => {
+    const item: any = await Files().where('source', requestBody.source).first()
+    if (item) return Files().where('source', requestBody.source).update(requestBody)
+
+    return Files().insert({
+      ...requestBody,
+      created_at: new Date(),
+    })
+  }
+
+  export const updateFile = async (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
+    ...requestBody,
+  })
+
+  export const destroyFile = async (id: number) => Files().where('id', id).delete()
 }

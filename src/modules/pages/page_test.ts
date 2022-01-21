@@ -21,9 +21,9 @@ const expectResponse = expect.objectContaining({
   title: expect.any(String),
   link: expect.any(String),
   is_active: expect.any(Boolean),
-  file: expect.objectContaining({
+  image: expect.objectContaining({
     path: expect.any(String),
-    filename: expect.any(String),
+    source: expect.any(String),
     original_name: expect.any(String),
   }),
 })
@@ -52,8 +52,8 @@ const data = (): Entity.RequestBody => ({
   title,
   link: faker.internet.url(),
   is_active: true,
-  filename: faker.image.image(),
-  original_name: faker.image.image(),
+  image: faker.image.image(),
+  image_original_name: faker.image.image(),
 })
 
 const dataRandomTitle = (): Entity.RequestBody => ({ ...data(), title: faker.lorem.slug(2) })

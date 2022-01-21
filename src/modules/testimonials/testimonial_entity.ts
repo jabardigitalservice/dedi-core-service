@@ -16,11 +16,22 @@ export namespace Testimonial {
     created_at?: Date
   }
 
+  export interface StructFile {
+    id?: number
+    name: string
+    source: string
+    created_at?: Date
+  }
+
   export interface Response {
     id: string
     name: string
     description: string
-    avatar: string
+    avatar: {
+      path: string
+      source: string
+      original_name: string
+    }
     type: string
     partner: {
       id: string
@@ -45,6 +56,7 @@ export namespace Testimonial {
     name: string
     description: string
     avatar: string
+    avatar_original_name: string
     type: string
     is_active: string
     partner_id?: string

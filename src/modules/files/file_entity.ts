@@ -2,7 +2,7 @@ export namespace File {
   export interface ResponseUpload {
     data: {
       path: string
-      filename: string
+      source: string
       original_name: string
     },
     meta: {}
