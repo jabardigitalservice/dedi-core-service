@@ -67,6 +67,4 @@ export namespace Testimonial {
   export const updateFile = async (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
     ...requestBody,
   })
-
-  export const destroyFile = async (id: number) => Files().where('id', id).delete()
 }
