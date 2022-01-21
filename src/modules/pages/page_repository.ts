@@ -47,14 +47,18 @@ export namespace Page {
     updated_at: new Date(),
   })
 
-  export const createFile = async (requestBody: Entity.StructFile) => Files().insert({
-    ...requestBody,
-    created_at: new Date(),
-  })
+  export const createFile = async (requestBody: Entity.StructFile) => {
+    try {
+      Files().where('source', requestBody.source).update(requestBody)
+    } catch (error) {
+      Files().insert({
+        ...requestBody,
+        created_at: new Date(),
+      })
+    }
+  }
 
   export const updateFile = async (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
     ...requestBody,
   })
-
-  export const destroyFile = async (id: number) => Files().where('id', id).delete()
 }

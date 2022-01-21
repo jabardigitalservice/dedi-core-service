@@ -71,8 +71,6 @@ export namespace Page {
     const item: any = await Repository.findById(id)
     if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
 
-    Repository.destroyFile(item.file_id)
-
     return Repository.destroy(item.id)
   }
 

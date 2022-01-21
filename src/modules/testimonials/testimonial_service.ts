@@ -3,6 +3,7 @@ import config from '../../config'
 import { HttpError } from '../../handler/exception'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
+import { getUrlS3 } from '../../helpers/s3'
 import lang from '../../lang'
 import { Testimonial as Entity } from './testimonial_entity'
 import { Testimonial as Repository } from './testimonial_repository'
@@ -12,7 +13,11 @@ export namespace Testimonial {
     id: item.id,
     name: item.name,
     description: item.description,
-    avatar: item.avatar,
+    avatar: {
+      path: getUrlS3(item.avatar),
+      source: item.avatar,
+      original_name: item.file_name,
+    },
     type: item.type,
     partner: {
       id: item.partner_id,
@@ -54,14 +59,26 @@ export namespace Testimonial {
     village_id: requestBody.type === config.get('role.2') ? requestBody.village_id : null,
   })
 
-  export const store = async (requestBody: Entity.RequestBody, user: any) => Repository.store({
-    created_by: user.identifier,
-    ...getRequestBody(requestBody),
-  })
+  export const store = async (requestBody: Entity.RequestBody, user: any) => {
+    Repository.createFile({
+      source: requestBody.avatar,
+      name: requestBody.avatar_original_name,
+    })
+
+    return Repository.store({
+      created_by: user.identifier,
+      ...getRequestBody(requestBody),
+    })
+  }
 
   export const update = async (requestBody: Entity.RequestBody, id: string) => {
     const item: any = await Repository.findById(id)
     if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'testimonial', id }))
+
+    Repository.updateFile({
+      source: requestBody.avatar,
+      name: requestBody.avatar_original_name,
+    }, item.file_id)
 
     return Repository.update(getRequestBody(requestBody), id)
   }
