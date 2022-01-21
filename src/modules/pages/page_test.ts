@@ -21,9 +21,9 @@ const expectResponse = expect.objectContaining({
   title: expect.any(String),
   link: expect.any(String),
   is_active: expect.any(Boolean),
-  file: expect.objectContaining({
+  image: expect.objectContaining({
     path: expect.any(String),
-    filename: expect.any(String),
+    source: expect.any(String),
     original_name: expect.any(String),
   }),
 })
