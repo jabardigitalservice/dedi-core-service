@@ -21,8 +21,8 @@ export namespace Page {
     .leftJoin('files', 'files.source', '=', 'pages.image')
 
   export const findAll = async (requestQuery: Entity.RequestQuery) => {
-    const orderBy: string = requestQuery.order_by || 'title'
-    const sortBy: string = requestQuery.sort_by || 'asc'
+    const orderBy: string = requestQuery.order_by || 'updated_at'
+    const sortBy: string = requestQuery.sort_by || 'desc'
 
     const query = Query().orderBy(orderBy, sortBy)
 
