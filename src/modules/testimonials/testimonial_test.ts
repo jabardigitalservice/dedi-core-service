@@ -11,6 +11,7 @@ import { Testimonial as Entity } from './testimonial_entity'
 
 const isActive = faker.random.arrayElement(['true', 'false'])
 const type = faker.random.arrayElement([config.get('role.1'), config.get('role.2')])
+const avatar = faker.image.image()
 const partnerId = uuidv4()
 const villageId = '123456788'
 
@@ -45,7 +46,7 @@ describe('seed data', () => {
 const data = (): Entity.RequestBody => ({
   name: faker.name.firstName(),
   description: faker.lorem.paragraph(),
-  avatar: faker.image.avatar(),
+  avatar,
   avatar_original_name: faker.image.avatar(),
   type,
   is_active: isActive,
