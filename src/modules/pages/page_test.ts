@@ -53,6 +53,7 @@ const data = (): Entity.RequestBody => ({
   link: faker.internet.url(),
   is_active: true,
   image: faker.image.image(),
+  order: faker.datatype.number(10),
   image_original_name: faker.image.image(),
 })
 

@@ -61,6 +61,7 @@ export namespace Page {
     return Repository.store({
       created_by: user.identifier,
       title: requestBody.title,
+      order: requestBody.order,
       link: requestBody.link,
       is_active: convertToBoolean(requestBody.is_active),
       image: requestBody.image,
@@ -86,6 +87,7 @@ export namespace Page {
     return Repository.update({
       title: requestBody.title,
       link: requestBody.link,
+      order: requestBody.order,
       is_active: convertToBoolean(requestBody.is_active),
       image: requestBody.image,
     }, item.id)

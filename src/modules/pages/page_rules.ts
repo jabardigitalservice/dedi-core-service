@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { ValidationWithDB } from '../../helpers/validator';
 
 export namespace Page {
-  const orderByValid = ['title', 'is_active', 'updated_at']
+  const orderByValid = ['title', 'is_active', 'updated_at', 'order']
   const emptyAllow = ['', null]
 
   export const findAll = Joi.object({
@@ -13,6 +13,7 @@ export namespace Page {
   const validate = Joi.object({
     title: Joi.string().max(70).required(),
     link: Joi.string().uri().max(255).required(),
+    order: Joi.number().required(),
     is_active: Joi.boolean().required(),
     image: Joi.string().max(255).required(),
     image_original_name: Joi.string().max(255).required(),
