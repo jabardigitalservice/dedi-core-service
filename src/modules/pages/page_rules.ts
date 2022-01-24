@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { ValidationWithDB } from '../../helpers/validator';
 
 export namespace Page {
-  const orderByValid = ['title', 'is_active']
+  const orderByValid = ['title', 'is_active', 'updated_at']
   const emptyAllow = ['', null]
 
   export const findAll = Joi.object({
