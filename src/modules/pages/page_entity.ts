@@ -7,6 +7,7 @@ export namespace Page {
     created_by?: string
     title: string
     link: string
+    order: number
     is_active: boolean
     image: string
     created_at?: Date
@@ -45,6 +46,7 @@ export namespace Page {
     title: string
     link: string
     is_active: boolean
+    order: number
     image: string
     image_original_name: string
   }

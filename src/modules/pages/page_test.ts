@@ -47,12 +47,14 @@ const accessToken = createAccessToken({
 })
 
 const title = faker.lorem.slug(2)
+const image = faker.image.image()
 
 const data = (): Entity.RequestBody => ({
   title,
   link: faker.internet.url(),
   is_active: true,
-  image: faker.image.image(),
+  image,
+  order: faker.datatype.number(10),
   image_original_name: faker.image.image(),
 })
 
