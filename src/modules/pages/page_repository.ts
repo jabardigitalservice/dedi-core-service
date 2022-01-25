@@ -13,6 +13,7 @@ export namespace Page {
       'title',
       'link',
       'is_active',
+      'order',
       'image',
       'files.name as file_name',
       'files.source as file_source',

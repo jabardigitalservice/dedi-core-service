@@ -26,6 +26,7 @@ export namespace Page {
     title: string
     link: string
     is_active: boolean
+    order: number
     image: {
       path: string
       source: string

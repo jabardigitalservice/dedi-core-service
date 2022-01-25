@@ -13,6 +13,7 @@ export namespace Page {
     title: item.title,
     link: item.link,
     is_active: convertToBoolean(item.is_active),
+    order: item.order,
     image: {
       path: getUrlS3(item.image),
       source: item.image,
