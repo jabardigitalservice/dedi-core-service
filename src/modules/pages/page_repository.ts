@@ -18,6 +18,7 @@ export namespace Page {
       'files.name as file_name',
       'files.source as file_source',
       'files.id as file_id',
+      'pages.created_at',
     )
     .leftJoin('files', 'files.source', '=', 'pages.image')
 
