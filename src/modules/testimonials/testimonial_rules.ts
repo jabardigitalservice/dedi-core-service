@@ -37,6 +37,11 @@ export namespace Testimonial {
         type: 'exists', attr: 'village_id', table: 'villages', column: 'id',
       },
     ],
+    avatar: [
+      {
+        type: 'unique', attr: 'avatar', table: 'testimonials', column: 'avatar', params: 'id',
+      },
+    ],
   }
 
   export const storeWithDB = validateWithDB
