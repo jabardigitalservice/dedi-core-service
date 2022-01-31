@@ -28,6 +28,11 @@ export namespace Page {
         type: 'unique', attr: 'title', table: 'pages', column: 'title', params: 'id',
       },
     ],
+    image: [
+      {
+        type: 'unique', attr: 'image', table: 'pages', column: 'image', params: 'id',
+      },
+    ],
   }
 
   export const storeWithDB = validateWithDB
