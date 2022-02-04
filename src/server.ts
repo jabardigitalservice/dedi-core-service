@@ -56,11 +56,11 @@ class App {
 }
 
 const { app } = new App()
-// if (!isNodeEnvTest()) {
+if (!isNodeEnvTest()) {
   const PORT = config.get('port', 8000)
   app.listen(PORT, () => {
     console.log(`App listening at http://0.0.0.0:${PORT}`)
   })
-// }
+}
 
 export default app
