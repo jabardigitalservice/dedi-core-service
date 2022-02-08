@@ -94,10 +94,7 @@ describe('tests pages', () => {
     .put(`/v1/pages/${pagesId}`)
     .set('Authorization', `Bearer ${accessToken}`)
     .send(dataRandomTitle())
-    .expect(httpStatus.OK)
-    .then((response) => {
-      console.log(response.body);
-    }))
+    .expect(httpStatus.OK))
 })
 
 describe('tests pages', () => {
@@ -105,10 +102,7 @@ describe('tests pages', () => {
     .put('/v1/pages/9999')
     .set('Authorization', `Bearer ${accessToken}`)
     .send(dataRandomTitle())
-    .expect(httpStatus.NOT_FOUND)
-    .then((response) => {
-      console.log(response.body);
-    }))
+    .expect(httpStatus.NOT_FOUND))
 })
 
 describe('tests pages', () => {
