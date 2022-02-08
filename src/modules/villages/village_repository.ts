@@ -30,7 +30,7 @@ export namespace Village {
     const query = Villages()
       .select(
         'villages.id as id',
-        'villages.name as villages_name',
+        'villages.name as name',
         'villages.level',
         'cities.id as city_id',
         'cities.name as city_name',
