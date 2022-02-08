@@ -70,6 +70,18 @@ describe('seed pages', () => {
 })
 
 describe('tests pages', () => {
+  it('test failed not found update', async () => request(app)
+    .put('/v1/pages/9999')
+    .set('Authorization', `Bearer ${accessToken}`)
+    .send(dataRandomTitle())
+    .expect(httpStatus.NOT_FOUND)
+    .then((response) => {
+      console.log(response.body);
+
+    }))
+})
+
+describe('tests pages', () => {
   it('test success store', async () => request(app)
     .post('/v1/pages')
     .set('Authorization', `Bearer ${accessToken}`)
@@ -85,13 +97,7 @@ describe('tests pages', () => {
     .expect(httpStatus.OK))
 })
 
-describe('tests pages', () => {
-  it('test failed not found update', async () => request(app)
-    .put('/v1/pages/9999')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .send(dataRandomTitle())
-    .expect(httpStatus.NOT_FOUND))
-})
+
 
 describe('tests pages', () => {
   it('test success find all', async () => request(app)
