@@ -70,18 +70,6 @@ describe('seed pages', () => {
 })
 
 describe('tests pages', () => {
-  it('test failed not found update', async () => request(app)
-    .put('/v1/pages/9999')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .send(dataRandomTitle())
-    .expect(httpStatus.NOT_FOUND)
-    .then((response) => {
-      console.log(response.body);
-
-    }))
-})
-
-describe('tests pages', () => {
   it('test success store', async () => request(app)
     .post('/v1/pages')
     .set('Authorization', `Bearer ${accessToken}`)
@@ -90,20 +78,11 @@ describe('tests pages', () => {
 })
 
 describe('tests pages', () => {
-  it('test success update', async () => request(app)
-    .put(`/v1/pages/${pagesId}`)
-    .set('Authorization', `Bearer ${accessToken}`)
-    .send(data())
-    .expect(httpStatus.OK))
-})
-
-
-
-describe('tests pages', () => {
-  it('test success find all', async () => request(app)
+  it('test success with query find all', async () => request(app)
     .get('/v1/pages')
     .set('Authorization', `Bearer ${accessToken}`)
     .set('Cache-Control', 'no-cache')
+    .query({ q: title, is_active: true })
     .expect(httpStatus.OK)
     .then((response) => {
       expect(response.body).toEqual(expectFindAll)
@@ -111,11 +90,32 @@ describe('tests pages', () => {
 })
 
 describe('tests pages', () => {
-  it('test success with query find all', async () => request(app)
+  it('test success update', async () => request(app)
+    .put(`/v1/pages/${pagesId}`)
+    .set('Authorization', `Bearer ${accessToken}`)
+    .send(dataRandomTitle())
+    .expect(httpStatus.OK)
+    .then((response) => {
+      console.log(response.body);
+    }))
+})
+
+describe('tests pages', () => {
+  it('test failed not found update', async () => request(app)
+    .put('/v1/pages/9999')
+    .set('Authorization', `Bearer ${accessToken}`)
+    .send(dataRandomTitle())
+    .expect(httpStatus.NOT_FOUND)
+    .then((response) => {
+      console.log(response.body);
+    }))
+})
+
+describe('tests pages', () => {
+  it('test success find all', async () => request(app)
     .get('/v1/pages')
     .set('Authorization', `Bearer ${accessToken}`)
     .set('Cache-Control', 'no-cache')
-    .query({ q: title, is_active: true })
     .expect(httpStatus.OK)
     .then((response) => {
       expect(response.body).toEqual(expectFindAll)
