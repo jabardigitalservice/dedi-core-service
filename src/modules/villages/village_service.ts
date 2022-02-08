@@ -11,7 +11,7 @@ export namespace Village {
     for (const item of items) {
       data.push({
         id: item.id,
-        name: item.villages_name,
+        name: item.name,
         level: item.level,
         city: {
           id: item.city_id,

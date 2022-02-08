@@ -78,10 +78,22 @@ describe('tests pages', () => {
 })
 
 describe('tests pages', () => {
+  it('test success with query find all', async () => request(app)
+    .get('/v1/pages')
+    .set('Authorization', `Bearer ${accessToken}`)
+    .set('Cache-Control', 'no-cache')
+    .query({ q: title, is_active: true })
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectFindAll)
+    }))
+})
+
+describe('tests pages', () => {
   it('test success update', async () => request(app)
     .put(`/v1/pages/${pagesId}`)
     .set('Authorization', `Bearer ${accessToken}`)
-    .send(data())
+    .send(dataRandomTitle())
     .expect(httpStatus.OK))
 })
 
@@ -98,18 +110,6 @@ describe('tests pages', () => {
     .get('/v1/pages')
     .set('Authorization', `Bearer ${accessToken}`)
     .set('Cache-Control', 'no-cache')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectFindAll)
-    }))
-})
-
-describe('tests pages', () => {
-  it('test success with query find all', async () => request(app)
-    .get('/v1/pages')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .set('Cache-Control', 'no-cache')
-    .query({ q: title, is_active: true })
     .expect(httpStatus.OK)
     .then((response) => {
       expect(response.body).toEqual(expectFindAll)
