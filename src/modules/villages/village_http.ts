@@ -7,6 +7,7 @@ const router = Router()
 
 router.get('/v1/villages/with-location', Handler.withLocation)
 router.get('/v1/villages/list-with-location', cache(), Log.listWithLocation(), Handler.listWithLocation)
+router.get('/v1/villages/suggestion', cache(), Handler.suggestion)
 router.get('/v1/villages/:id', Handler.findById)
 
 export default router

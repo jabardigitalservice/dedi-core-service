@@ -37,4 +37,18 @@ export namespace Village {
       next(err)
     }
   }
+
+  export const suggestion = async (
+    req: Request<Entity.RequestParamFindById, never, never, never>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const result: Entity.ResponseSuggestion = await Service.suggestion(req.query)
+
+      res.status(httpStatus.OK).json(result)
+    } catch (err) {
+      next(err)
+    }
+  }
 }
