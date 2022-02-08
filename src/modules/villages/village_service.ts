@@ -1,11 +1,22 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
 import { metaPagination } from '../../helpers/paginate'
+import { getUrlS3 } from '../../helpers/s3'
 import lang from '../../lang'
 import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
 
 export namespace Village {
+  const getImages = (image: any): string[] => {
+    const images: string[] = []
+    const items = JSON.parse(image) || []
+    for (const item of items) {
+      images.push(getUrlS3(item))
+    }
+
+    return images
+  }
+
   const responseWithLocation = (items: any[]): Entity.WithLocation[] => {
     const data: Entity.WithLocation[] = []
     for (const item of items) {
@@ -25,7 +36,7 @@ export namespace Village {
           lat: item.location.y,
           lng: item.location.x,
         },
-        images: JSON.parse(item.images) || [],
+        images: getImages(item.images),
       })
     }
 
@@ -78,7 +89,7 @@ export namespace Village {
     const result: Entity.ResponseFindById = {
       data: {
         id: item.id,
-        name: item.villages_name,
+        name: item.name,
         level: item.level,
         city: {
           id: item.city_id,
@@ -90,6 +101,35 @@ export namespace Village {
         },
       },
       meta: {},
+    };
+
+    return result
+  }
+
+  const responseSuggestion = (items: any[]): Entity.Suggestion[] => {
+    const data: Entity.Suggestion[] = []
+    for (const item of items) {
+      data.push({
+        id: item.id,
+        name: item.name,
+        city: {
+          id: item.city_id,
+          name: item.city_name,
+        },
+      })
+    }
+
+    return data
+  }
+
+  export const suggestion = async (request: Entity.requestQuerySuggestion): Promise<Entity.ResponseSuggestion> => {
+    const items: any = await Repository.suggestion(request)
+
+    const result: Entity.ResponseSuggestion = {
+      data: responseSuggestion(items),
+      meta: {
+        total: items.length,
+      },
     };
 
     return result

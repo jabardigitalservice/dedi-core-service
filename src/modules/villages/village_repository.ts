@@ -26,7 +26,7 @@ export namespace Village {
 
   export const Villages = () => database<Entity.Struct>('villages')
 
-  const getWithLocation = () => {
+  const Query = () => {
     const query = Villages()
       .select(
         'villages.id as id',
@@ -49,15 +49,23 @@ export namespace Village {
   }
 
   export const withLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
-    const query = getWithLocation()
+    const query = Query()
 
     query.whereRaw(getWherePolygon(requestQuery))
 
     return query
   }
 
+  export const suggestion = (requestQuery: Entity.requestQuerySuggestion) => {
+    const query = Query()
+
+    if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
+
+    return query
+  }
+
   export const listWithLocation = (requestQuery: Entity.RequestQueryListWithLocation) => {
-    const query = getWithLocation()
+    const query = Query()
 
     if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
     if (requestQuery.level) query.where('villages.level', requestQuery.level)
@@ -69,7 +77,7 @@ export namespace Village {
     const query = Villages()
       .select(
         'villages.id as id',
-        'villages.name as villages_name',
+        'villages.name as name',
         'villages.level as level',
         'cities.id as city_id',
         'cities.name as city_name',

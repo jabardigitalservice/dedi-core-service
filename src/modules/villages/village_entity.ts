@@ -35,6 +35,15 @@ export namespace Village {
     images: string[]
   }
 
+  export interface Suggestion {
+    id: string
+    name: string
+    city: {
+      id: string
+      name: string
+    }
+  }
+
   export interface FindById {
     id: string
     name: string
@@ -67,11 +76,22 @@ export namespace Village {
     id: string
   }
 
+  export interface requestQuerySuggestion {
+    name: string
+  }
+
   export interface ResponseWithLocation {
     data: WithLocation[]
     meta: {
       total: number
       last_update?: Date
+    }
+  }
+
+  export interface ResponseSuggestion {
+    data: Suggestion[]
+    meta: {
+      total: number
     }
   }
 
