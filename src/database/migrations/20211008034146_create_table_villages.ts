@@ -4,7 +4,7 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema.hasTable('villages').then((exists) => {
     if (!exists) {
       return knex.schema.createTable('villages', (table) => {
-        table.string('id', 11).primary()
+        table.string('id', 14).primary()
         table.string('name', 60).notNullable()
         table.string('district_id', 8).notNullable().index()
         table.string('area_id', 4).index()

@@ -21,6 +21,10 @@ const expectMetaPaginate = expect.objectContaining({
 
 const expectMetaFindById = expect.any(Object)
 
+const expectMetaSuggestion = expect.objectContaining({
+  total: expect.any(Number),
+})
+
 const expectFindAll = expect.arrayContaining([
   expect.objectContaining({
     id: expect.any(String),
@@ -33,6 +37,14 @@ const expectFindAll = expect.arrayContaining([
       lng: expect.any(Number),
     }),
     images: expect.any(Array),
+  }),
+])
+
+const expectSuggestion = expect.arrayContaining([
+  expect.objectContaining({
+    id: expect.any(String),
+    name: expect.any(String),
+    city: expect.any(Object),
   }),
 ])
 
@@ -52,6 +64,11 @@ const expectBodyFindById = expect.objectContaining({
 const expectBodyFindAll = expect.objectContaining({
   data: expectFindAll,
   meta: expectMetaPaginate,
+})
+
+const expectBodySuggestion = expect.objectContaining({
+  data: expectSuggestion,
+  meta: expectMetaSuggestion,
 })
 
 const expectBodyFindAllBounds = expect.objectContaining({
@@ -94,6 +111,27 @@ describe('tests villages', () => {
     .expect(httpStatus.OK)
     .then((response) => {
       expect(response.body).toEqual(expectBodyFindAll)
+    }))
+})
+
+describe('tests villages', () => {
+  it('test success suggestion', async () => request(app)
+    .get('/v1/villages/suggestion')
+    .set('Cache-Control', 'no-cache')
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectBodySuggestion)
+    }))
+})
+
+describe('tests villages', () => {
+  it('test success suggestion with query name', async () => request(app)
+    .get('/v1/villages/suggestion')
+    .set('Cache-Control', 'no-cache')
+    .query({ name: 'test' })
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectBodySuggestion)
     }))
 })
 
