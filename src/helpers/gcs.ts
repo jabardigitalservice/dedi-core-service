@@ -4,7 +4,6 @@ import path from 'path';
 import config from '../config'
 import { GCS } from '../config/cloudStorage'
 
-
 export const uploadGCS = (file: Express.Multer.File): string => {
   const bucket = GCS.bucket(config.get('gcs.bucket'));
   const filename = uuidv4() + path.extname(file.originalname)
