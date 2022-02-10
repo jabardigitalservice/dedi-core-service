@@ -9,6 +9,6 @@ export const s3 = new S3({
 });
 
 export const GCS = new Storage({
-  credentials: JSON.parse(Buffer.from(config.get('gcloud.key'), 'base64').toString() || null),
+  credentials: JSON.parse(Buffer.from(config.get('gcloud.key'), 'base64').toString() || null) || null,
   projectId: config.get('gcloud.project.id'),
 });
