@@ -2,7 +2,7 @@ import fs, { unlinkSync } from 'fs'
 import { Express } from 'express'
 import { DeleteObjectOutput, ManagedUpload } from 'aws-sdk/clients/s3'
 import config from '../config'
-import { s3 } from '../config/aws'
+import { s3 } from '../config/cloudStorage'
 
 const Bucket = config.get('aws.bucket')
 
