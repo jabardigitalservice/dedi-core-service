@@ -13,6 +13,7 @@ export namespace Testimonial {
       'testimonials.id',
       'testimonials.name',
       'testimonials.description',
+      'testimonials.is_active',
       'avatar',
       'type',
       'partners.id as partner_id',
@@ -36,6 +37,8 @@ export namespace Testimonial {
     if (requestQuery.is_active) query.where('testimonials.is_active', convertToBoolean(requestQuery.is_active))
 
     if (requestQuery.type) query.where('type', requestQuery.type)
+
+    if (requestQuery.q) query.where('testimonials.name', 'like', `%${requestQuery.q}%`)
 
     return query.paginate(pagination(requestQuery))
   }

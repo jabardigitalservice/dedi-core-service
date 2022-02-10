@@ -13,6 +13,7 @@ export namespace Testimonial {
     id: item.id,
     name: item.name,
     description: item.description,
+    is_active: item.is_active,
     avatar: {
       path: getUrlS3(item.avatar),
       source: item.avatar,
