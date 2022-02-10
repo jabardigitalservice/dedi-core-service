@@ -8,7 +8,17 @@ export const s3 = new S3({
   region: config.get('aws.default.region'),
 });
 
+const IsJsonString = (str: string) => {
+  let isJsonString = true
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    isJsonString = false
+  }
+  return isJsonString;
+}
+
 export const GCS = new Storage({
-  credentials: JSON.parse(Buffer.from(config.get('gcloud.key', 'test'), 'base64').toString() || null),
+  credentials: IsJsonString(config.get('gcloud.key')) ? JSON.parse(config.get('gcloud.key')) : null,
   projectId: config.get('gcloud.project.id'),
 });
