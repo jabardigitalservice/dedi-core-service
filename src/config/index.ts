@@ -10,15 +10,15 @@ if (!config.get('node.env')) dotEnv.config()
 const decodeBase64 = (key = '') => Buffer.from(key, 'base64').toString()
 
 // override config
-config.set('jwt.secret', decodeBase64(config.get('jwt.secret', 'test').replace(/\\n/g, '\n')))
-config.set('jwt.public', decodeBase64(config.get('jwt.public', 'test').replace(/\\n/g, '\n')))
+config.set('jwt.secret', decodeBase64(config.get('jwt.secret', 'test')).replace(/\\n/g, '\n'))
+config.set('jwt.public', decodeBase64(config.get('jwt.public', 'test')).replace(/\\n/g, '\n'))
 config.set('jwt.algorithm', config.get('jwt.algorithm', 'HS256'))
 config.set('jwt.ttl', config.get('jwt.ttl', 36000))
 
 config.set('jwt.type', config.get('jwt.type', 'Bearer'))
 
-config.set('jwt.refresh.secret', decodeBase64(config.get('jwt.refresh.secret', 'test')))
-config.set('jwt.refresh.public', decodeBase64(config.get('jwt.refresh.public', 'test')))
+config.set('jwt.refresh.secret', decodeBase64(config.get('jwt.refresh.secret', 'test')).replace(/\\n/g, '\n'))
+config.set('jwt.refresh.public', decodeBase64(config.get('jwt.refresh.public', 'test')).replace(/\\n/g, '\n'))
 config.set('jwt.refresh.algorithm', config.get('jwt.refresh.algorithm', 'HS256'))
 config.set('jwt.refresh.ttl', config.get('jwt.refresh.ttl', 36000))
 
