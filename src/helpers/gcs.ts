@@ -9,13 +9,10 @@ const bucket = GCS.bucket(config.get('gcs.bucket'));
 export const uploadGCS = (file: Express.Multer.File): string => {
   const filename = uuidv4() + path.extname(file.originalname)
   const Key = `${config.get('node.env')}/${filename}`
+
   const blob = bucket.file(Key);
   const blobStream = blob.createWriteStream({
     resumable: false,
-  });
-
-  blobStream.on('finish', async () => {
-    await blob.makePrivate();
   });
 
   blobStream.end(file.buffer);
