@@ -1,7 +1,7 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
+import { getUrlGCS } from '../../helpers/gcs'
 import { metaPagination } from '../../helpers/paginate'
-import { getUrlS3 } from '../../helpers/s3'
 import lang from '../../lang'
 import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
@@ -11,7 +11,7 @@ export namespace Village {
     const images: string[] = []
     const items = JSON.parse(image) || []
     for (const item of items) {
-      images.push(getUrlS3(item))
+      images.push(getUrlGCS(item))
     }
 
     return images
