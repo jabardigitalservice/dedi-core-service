@@ -1,32 +1,26 @@
-import fs, { unlinkSync } from 'fs'
 import { Express } from 'express'
+import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
 import config from '../config'
 import { GCS } from '../config/cloudStorage'
 
 const bucket = GCS.bucket(config.get('gcs.bucket'));
 
 export const uploadGCS = (file: Express.Multer.File): string => {
-  const Key = `${config.get('node.env')}/${file.filename}`
+  const filename = uuidv4() + path.extname(file.originalname)
+  const Key = `${config.get('node.env')}/${filename}`
   const blob = bucket.file(Key);
   const blobStream = blob.createWriteStream({
     resumable: false,
   });
 
   blobStream.on('finish', async () => {
-    await bucket.file(Key).makePublic();
+    await blob.makePrivate();
   });
 
-  const Body = fs.createReadStream(file.path)
-  let buffers: string;
-  Body.on('data', (data) => {
-    buffers += data;
-  }).on('end', () => {
-    blobStream.end(buffers);
-  });
+  blobStream.end(file.buffer);
 
-  unlinkSync(file.path)
-
-  return file.filename
+  return filename
 }
 
 export const getUrlGCS = (path: string) => {
