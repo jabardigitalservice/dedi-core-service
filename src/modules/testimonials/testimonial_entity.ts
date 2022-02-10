@@ -27,6 +27,7 @@ export namespace Testimonial {
     id: string
     name: string
     description: string
+    is_active: boolean
     avatar: {
       path: string
       source: string
@@ -50,6 +51,7 @@ export namespace Testimonial {
     is_active: string
     per_page: string
     current_page: string
+    q: string
   }
 
   export interface RequestBody {
