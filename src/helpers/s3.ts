@@ -4,6 +4,7 @@ import path from 'path';
 import { DeleteObjectOutput, ManagedUpload } from 'aws-sdk/clients/s3'
 import config from '../config'
 import { s3 } from '../config/cloudStorage'
+import Sentry from '../config/sentry';
 
 const Bucket = config.get('aws.bucket')
 
@@ -14,7 +15,7 @@ export const uploadS3 = (file: Express.Multer.File): string => {
 
   const params = { Bucket, Body, Key }
   s3.upload(params, (err: Error, res: ManagedUpload.SendData) => {
-    if (err) console.log(err.message)
+    if (err) Sentry.captureException(err)
   })
 
   return filename
