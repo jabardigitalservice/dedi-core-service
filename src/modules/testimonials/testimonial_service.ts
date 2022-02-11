@@ -2,8 +2,8 @@ import httpStatus from 'http-status'
 import config from '../../config'
 import { HttpError } from '../../handler/exception'
 import { convertToBoolean } from '../../helpers/constant'
+import { getUrlGCS } from '../../helpers/gcs'
 import { metaPagination } from '../../helpers/paginate'
-import { getUrlS3 } from '../../helpers/s3'
 import lang from '../../lang'
 import { Testimonial as Entity } from './testimonial_entity'
 import { Testimonial as Repository } from './testimonial_repository'
@@ -15,7 +15,7 @@ export namespace Testimonial {
     description: item.description,
     is_active: item.is_active,
     avatar: {
-      path: getUrlS3(item.avatar),
+      path: getUrlGCS(item.avatar),
       source: item.avatar,
       original_name: item.file_name,
     },

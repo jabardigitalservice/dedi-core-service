@@ -6,7 +6,6 @@ import multer, { FileFilterCallback } from 'multer'
 import httpStatus from 'http-status'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { HttpError } from '../handler/exception'
-import storage from '../config/storage'
 import lang from '../lang'
 import config from '../config'
 
@@ -85,7 +84,7 @@ const uploadFile = async (file: UploadPromise): Promise<MulterFile> => new Promi
 
 export const uploadLocalSingle = async (requestFile: RequestFile): Promise<MulterFile> => {
   const upload = multer({
-    storage,
+    storage: multer.memoryStorage(),
     limits: { fileSize },
     fileFilter: (req: Request, file, cb: FileFilterCallback) => {
       checkFileType(file, cb)

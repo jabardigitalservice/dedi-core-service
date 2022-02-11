@@ -1,8 +1,8 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
 import { convertToBoolean } from '../../helpers/constant'
+import { getUrlGCS } from '../../helpers/gcs'
 import { metaPagination } from '../../helpers/paginate'
-import { getUrlS3 } from '../../helpers/s3'
 import lang from '../../lang'
 import { Page as Entity } from './page_entity'
 import { Page as Repository } from './page_repository'
@@ -15,7 +15,7 @@ export namespace Page {
     is_active: convertToBoolean(item.is_active),
     order: item.order,
     image: {
-      path: getUrlS3(item.image),
+      path: getUrlGCS(item.image),
       source: item.image,
       original_name: item.file_name,
     },
