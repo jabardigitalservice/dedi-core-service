@@ -93,7 +93,7 @@ describe('tests pages', () => {
   it('test success update', async () => request(app)
     .put(`/v1/pages/${pagesId}`)
     .set('Authorization', `Bearer ${accessToken}`)
-    .send(dataRandomTitle())
+    .send(data())
     .expect(httpStatus.OK))
 })
 
