@@ -18,10 +18,7 @@ export const sendMail = async (payload: Payload) => {
     ...payload,
   }
 
-  mail.sendMail(mailOptions, (err) => {
-    if (err) {
-      console.log(err.message);
-      Sentry.captureException(err)
-    }
+  mail.sendMail(mailOptions, (err: Error) => {
+    if (err) Sentry.captureException(err)
   })
 }
