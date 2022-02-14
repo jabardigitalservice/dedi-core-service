@@ -19,7 +19,7 @@ export namespace Partner {
     res: Response,
     next: NextFunction,
   ) => {
-    const result: Entity.ResponseSuggestion = await Service.search(req.query);
+    const result: Entity.ResponseSuggestion = await Service.suggestion(req.query);
 
     res.status(httpStatus.OK).json(result);
   };

@@ -14,6 +14,7 @@ export namespace Testimonial {
       'testimonials.name',
       'testimonials.description',
       'testimonials.is_active',
+      'testimonials.created_at',
       'avatar',
       'type',
       'partners.id as partner_id',
@@ -29,8 +30,8 @@ export namespace Testimonial {
     .leftJoin('files', 'files.source', '=', 'testimonials.avatar')
 
   export const findAll = (requestQuery: Entity.RequestQuery) => {
-    const orderBy: string = requestQuery.order_by || 'type'
-    const sortBy: string = requestQuery.sort_by || 'asc'
+    const orderBy: string = requestQuery.order_by || 'created_at'
+    const sortBy: string = requestQuery.sort_by || 'desc'
 
     const query = Query().orderBy(orderBy, sortBy)
 

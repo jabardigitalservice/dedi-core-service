@@ -6,6 +6,6 @@ import { Partner as Log } from './partner_log';
 const router = Router();
 
 router.get('/v1/partners', cache(), Log.findAll(), Handler.findAll)
-router.get('/v1/partners/suggestion', Handler.suggestion)
+router.get('/v1/partners/suggestion', cache(), Handler.suggestion)
 
 export default router;
