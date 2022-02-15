@@ -26,12 +26,13 @@ export namespace Partner {
     return query
   }
 
-  export const search = (requestQuery: Entity.RequestQuerySuggestion) => {
+  export const suggestion = (requestQuery: Entity.RequestQuerySuggestion) => {
     const query = Partners()
       .select('id', 'name')
       .whereNull('deleted_at')
-      .where('name', 'LIKE', `%${requestQuery.name}%`)
       .orderBy('name', 'asc')
+
+    if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
 
     return query
   }

@@ -118,7 +118,7 @@ describe('tests partners', () => {
     .query({ name: 'te' })
     .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expectEmptyBodySuggestion)
+      expect(response.body).toEqual(expectBodySuggestion)
     }))
 })
 
@@ -137,7 +137,7 @@ describe('tests partners', () => {
     .get('/v1/partners/suggestion')
     .expect(httpStatus.OK)
     .then((response) => {
-      expect(response.body).toEqual(expectEmptyBodySuggestion)
+      expect(response.body).toEqual(expectBodySuggestion)
     }))
 })
 
