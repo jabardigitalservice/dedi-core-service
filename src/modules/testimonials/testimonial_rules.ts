@@ -20,7 +20,7 @@ export namespace Testimonial {
     type: Joi.string().valid(...typeValid).required(),
     is_active: Joi.boolean().required(),
     partner_id: Joi.alternatives().conditional('type', { is: config.get('role.1'), then: Joi.string().max(36).required(), otherwise: Joi.optional() }),
-    village_id: Joi.alternatives().conditional('type', { is: config.get('role.2'), then: Joi.string().max(11).required(), otherwise: Joi.optional() }),
+    village_id: Joi.alternatives().conditional('type', { is: config.get('role.2'), then: Joi.string().max(14).required(), otherwise: Joi.optional() }),
   })
 
   export const store = validate
