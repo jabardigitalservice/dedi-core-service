@@ -30,6 +30,7 @@ export namespace User {
     id: string
     name: string
     email: string
+    role: string
     avatar: {
       path: string
       source: string

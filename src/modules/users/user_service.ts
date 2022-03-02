@@ -3,6 +3,7 @@ import { HttpError } from '../../handler/exception'
 import { convertToBoolean } from '../../helpers/constant'
 import { getUrlGCS } from '../../helpers/gcs'
 import { metaPagination } from '../../helpers/paginate'
+import { getRole } from '../../helpers/rbac'
 import lang from '../../lang'
 import { User as Entity } from './user_entity'
 import { User as Repository } from './user_repository'
@@ -12,6 +13,7 @@ export namespace User {
     id: item.id,
     name: item.name,
     email: item.email,
+    role: getRole({ prtnr: item.partner_id, adm: item.is_admin }),
     avatar: {
       path: getUrlGCS(item.avatar),
       source: item.avatar,

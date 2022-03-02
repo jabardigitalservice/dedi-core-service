@@ -13,6 +13,8 @@ export namespace User {
       'users.name',
       'users.email',
       'avatar',
+      'users.is_admin',
+      'users.partner_id',
       'users.is_active',
       'users.created_at',
       'users.updated_at',
