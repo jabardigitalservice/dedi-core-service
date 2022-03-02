@@ -15,6 +15,8 @@ export async function up(knex: Knex): Promise<void> {
         table.string('google_id').index()
         table.timestamp('created_at').notNullable()
         table.timestamp('verified_at')
+        table.timestamp('updated_at')
+        table.timestamp('last_login_at')
       })
     }
   })

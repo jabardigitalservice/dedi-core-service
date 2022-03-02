@@ -16,6 +16,7 @@ import files from './modules/files/file_http'
 import pages from './modules/pages/page_http'
 import partners from './modules/partners/partner_http'
 import testimonials from './modules/testimonials/testimonial_http'
+import users from './modules/users/user_http'
 import villages from './modules/villages/village_http'
 
 class App {
@@ -46,6 +47,7 @@ class App {
     this.app.use(pages)
     this.app.use(partners)
     this.app.use(testimonials)
+    this.app.use(users)
     this.app.use(villages)
   }
 

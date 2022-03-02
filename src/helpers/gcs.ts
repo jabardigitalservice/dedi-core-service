@@ -27,5 +27,5 @@ export const uploadGCS = (file: Express.Multer.File): string => {
 export const getUrlGCS = (path: string) => {
   const url = `${config.get('gcs.cdn')}/${config.get('node.env')}/${path}`
 
-  return url
+  return path ? url : null
 }
