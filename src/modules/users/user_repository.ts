@@ -38,7 +38,7 @@ export namespace User {
     return query.paginate(pagination(requestQuery))
   }
 
-  export const findById = async (id: string) => Query().where('users.id', id).first()
+  export const findById = (id: string) => Query().where('users.id', id).first()
 
-  export const destroy = async (id: number) => Users().where('id', id).delete()
+  export const destroy = (id: number) => Users().where('id', id).delete()
 }
