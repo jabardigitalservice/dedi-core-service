@@ -27,4 +27,18 @@ export namespace User {
       next(error)
     }
   }
+
+  export const destroy = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { id } = req.params
+      await Service.destroy(id)
+      res.status(httpStatus.OK).json({ message: 'DELETED' })
+    } catch (error) {
+      next(error)
+    }
+  }
 }
