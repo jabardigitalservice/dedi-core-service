@@ -11,6 +11,7 @@ export namespace Auth {
     verified_at?: Date
     is_admin?: boolean
     is_active?: boolean
+    last_login_at?: Date
   }
 
   export interface StructPartner {

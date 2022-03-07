@@ -68,26 +68,24 @@ export namespace Auth {
     .where('refresh_token', requestBody.refresh_token)
     .delete()
 
-  export const createOauthToken = async (oauthToken: Entity.StructOauthToken) => {
-    const timestamp = new Date()
-    return OauthTokens().insert({
-      id: uuidv4(),
-      created_at: timestamp,
-      ...oauthToken,
-    })
-  }
+  export const createOauthToken = async (oauthToken: Entity.StructOauthToken) => OauthTokens().insert({
+    id: uuidv4(),
+    created_at: new Date(),
+    ...oauthToken,
+  })
 
-  export const updateRefreshToken = async (refreshToken: string, oauthToken: Entity.StructOauthToken) => {
-    const timestamp = new Date()
-    return OauthTokens()
-      .where('refresh_token', '=', refreshToken)
-      .update({
-        ...oauthToken,
-        updated_at: timestamp,
-      })
-  }
+  export const updateRefreshToken = async (refreshToken: string, oauthToken: Entity.StructOauthToken) => OauthTokens()
+    .where('refresh_token', '=', refreshToken)
+    .update({
+      ...oauthToken,
+      updated_at: new Date(),
+    })
 
   export const updatePassword = async (id: string, password: string) => Users()
     .where('id', id)
     .update({ password })
+
+  export const updateLastLoginAt = async (id: string) => Users()
+    .where('id', id)
+    .update({ last_login_at: new Date() })
 }
