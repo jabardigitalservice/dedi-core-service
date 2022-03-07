@@ -64,6 +64,8 @@ export namespace Auth {
 
     const responseJwt = generateJwtToken(user)
 
+    Repository.updateLastLoginAt(user.id)
+
     Repository.createOauthToken({
       user_id: user.id,
       access_token: responseJwt.data.access_token,
