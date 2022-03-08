@@ -41,4 +41,18 @@ export namespace User {
       next(error)
     }
   }
+
+  export const store = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { body } = req
+      await Service.store(body)
+      res.status(httpStatus.OK).json({ message: 'CREATED' })
+    } catch (error) {
+      next(error)
+    }
+  }
 }

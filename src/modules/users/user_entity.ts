@@ -55,7 +55,7 @@ export namespace User {
   export interface RequestBody {
     name: string
     email: string
-    password: string
+    password?: string
     avatar: string
     avatar_original_name: string
     is_active: string

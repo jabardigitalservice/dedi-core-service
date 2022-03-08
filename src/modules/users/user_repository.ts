@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
@@ -41,4 +42,21 @@ export namespace User {
   export const findById = (id: string) => Query().where('users.id', id).first()
 
   export const destroy = (id: number) => Users().where('id', id).delete()
+
+  export const store = async (requestBody: Entity.Struct) => Users().insert({
+    id: uuidv4(),
+    ...requestBody,
+    verified_at: new Date(),
+    created_at: new Date(),
+  })
+
+  export const createFile = async (requestBody: Entity.StructFile) => {
+    const item: any = await Files().where('source', requestBody.source).first()
+    if (item) return Files().where('source', requestBody.source).update(requestBody)
+
+    return Files().insert({
+      ...requestBody,
+      created_at: new Date(),
+    })
+  }
 }
