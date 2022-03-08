@@ -3,6 +3,7 @@ import { HttpError } from '../../handler/exception'
 import { convertToBoolean } from '../../helpers/constant'
 import { getUrlGCS } from '../../helpers/gcs'
 import { metaPagination } from '../../helpers/paginate'
+import { passwordHash } from '../../helpers/passwordHash'
 import { getRole } from '../../helpers/rbac'
 import lang from '../../lang'
 import { User as Entity } from './user_entity'
@@ -62,5 +63,26 @@ export namespace User {
     if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
     return Repository.destroy(item.id)
+  }
+
+  const getRequestBody = (requestBody: Entity.RequestBody) => ({
+    name: requestBody.name,
+    email: requestBody.email,
+    avatar: requestBody.avatar,
+    is_active: convertToBoolean(requestBody.is_active),
+  })
+
+  export const store = async (requestBody: Entity.RequestBody) => {
+    Repository.createFile({
+      source: requestBody.avatar,
+      name: requestBody.avatar_original_name,
+    })
+
+    return Repository.store({
+      ...getRequestBody(requestBody),
+      password: passwordHash(requestBody.password),
+      is_admin: true,
+      is_active: true,
+    })
   }
 }
