@@ -21,6 +21,7 @@ export namespace User {
       'users.updated_at',
       'users.last_login_at',
       'files.name as file_name',
+      'files.id as file_id',
     )
     .leftJoin('files', 'files.source', '=', 'users.avatar')
 
@@ -59,4 +60,12 @@ export namespace User {
       created_at: new Date(),
     })
   }
+
+  export const updateFile = async (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
+    ...requestBody,
+  })
+
+  export const update = async (requestBody: Entity.Struct, id: string) => Users().where('id', id).update({
+    ...requestBody,
+  })
 }
