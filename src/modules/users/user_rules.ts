@@ -22,13 +22,21 @@ export namespace User {
 
   const email = Joi.string().email().max(150).required()
 
-  export const store = Joi.object({
+  const validate = {
     name: Joi.string().max(100).required(),
     email,
     avatar: Joi.string().max(255).required(),
     avatar_original_name: Joi.string().max(255).required(),
     is_active: Joi.boolean().required(),
+  }
+
+  export const store = Joi.object({
+    ...validate,
     ...rulesPassword,
+  })
+
+  export const update = Joi.object({
+    ...validate,
   })
 
   const validateWithDB: ValidationWithDB = {
@@ -45,4 +53,5 @@ export namespace User {
   }
 
   export const storeWithDB = validateWithDB
+  export const updateWithDB = validateWithDB
 }

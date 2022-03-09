@@ -85,4 +85,16 @@ export namespace User {
       is_active: true,
     })
   }
+
+  export const update = async (requestBody: Entity.RequestBody, id: string) => {
+    const item: any = await Repository.findById(id)
+    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
+
+    Repository.updateFile({
+      source: requestBody.avatar,
+      name: requestBody.avatar_original_name,
+    }, item.file_id)
+
+    return Repository.update(getRequestBody(requestBody), id)
+  }
 }
