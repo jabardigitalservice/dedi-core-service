@@ -53,6 +53,11 @@ const expectFindAll = expect.objectContaining({
   meta: expectMeta,
 })
 
+const expectFindById = expect.objectContaining({
+  data: expectResponse,
+  meta: {},
+})
+
 let userId: string
 
 describe('test users', () => {
@@ -71,9 +76,20 @@ describe('test users', () => {
   it('test success find all', async () => request(app)
     .get('/v1/users')
     .expect(httpStatus.OK)
+    .set('Authorization', `Bearer ${accessToken}`)
     .then((response) => {
       const [item] = response.body.data
       userId = item.id
       expect(response.body).toEqual(expectFindAll)
+    }))
+})
+
+describe('test users', () => {
+  it('test success find by id', async () => request(app)
+    .get(`/v1/users/${userId}`)
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectFindById)
     }))
 })
