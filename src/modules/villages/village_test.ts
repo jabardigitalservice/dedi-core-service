@@ -1,3 +1,4 @@
+import faker from 'faker'
 import 'jest-extended'
 import request from 'supertest'
 import httpStatus from 'http-status'
@@ -89,7 +90,7 @@ describe('seed data', () => {
       district_id: '1',
       level: 1,
       location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
-      images: null,
+      images: JSON.stringify([faker.image.image(), faker.image.image()]),
       is_active: true,
     })
   })

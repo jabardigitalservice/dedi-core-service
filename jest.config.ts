@@ -12,6 +12,7 @@ export default async (): Promise<Config.InitialOptions> => {
       './src/modules/pages/*.ts',
       './src/modules/partners/*.ts',
       './src/modules/testimonials/*.ts',
+      './src/modules/users/*.ts',
       './src/modules/villages/*.ts',
     ],
     coverageReporters: ['lcov'],
