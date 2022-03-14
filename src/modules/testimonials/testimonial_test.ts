@@ -11,6 +11,7 @@ import { Testimonial as Entity } from './testimonial_entity'
 
 const isActive = faker.random.arrayElement(['true', 'false'])
 const type = faker.random.arrayElement([config.get('role.1'), config.get('role.2')])
+const name = faker.name.firstName()
 const partnerId = uuidv4()
 const villageId = '123456788'
 
@@ -43,7 +44,7 @@ describe('seed data', () => {
 })
 
 const data = (): Entity.RequestBody => ({
-  name: faker.name.firstName(),
+  name,
   description: faker.lorem.paragraph(),
   avatar: faker.image.avatar(),
   avatar_original_name: faker.image.avatar(),
@@ -139,7 +140,7 @@ describe('test testimonials', () => {
 describe('test testimonials', () => {
   it('test success with query find all', async () => request(app)
     .get('/v1/testimonials')
-    .query({ type, is_active: isActive })
+    .query({ type, is_active: isActive, q: name })
     .expect(httpStatus.OK)
     .then((response) => {
       expect(response.body).toEqual(expectFindAll)

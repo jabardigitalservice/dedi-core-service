@@ -7,12 +7,14 @@ import { createAccessToken } from '../../middleware/jwt'
 import app from '../../server'
 import { User as Entity } from './user_entity'
 
+const name = faker.name.firstName()
+
 const data = (): Entity.RequestBody => ({
-  name: faker.name.firstName(),
+  name,
   email: faker.internet.email(),
   avatar: faker.image.avatar(),
   avatar_original_name: faker.image.avatar(),
-  is_active: faker.random.arrayElement(['true', 'false']),
+  is_active: 'true',
 })
 
 const identifier = uuidv4()
@@ -85,6 +87,14 @@ describe('test users', () => {
 })
 
 describe('test users', () => {
+  it('test success find all with query', async () => request(app)
+    .get('/v1/users')
+    .expect(httpStatus.OK)
+    .query({ is_active: true, is_admin: true, q: name })
+    .set('Authorization', `Bearer ${accessToken}`))
+})
+
+describe('test users', () => {
   it('test success find by id', async () => request(app)
     .get(`/v1/users/${userId}`)
     .set('Authorization', `Bearer ${accessToken}`)
@@ -92,4 +102,41 @@ describe('test users', () => {
     .then((response) => {
       expect(response.body).toEqual(expectFindById)
     }))
+})
+
+describe('test users', () => {
+  it('test failed find by id not found', async () => request(app)
+    .get('/v1/users/9999')
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.NOT_FOUND))
+})
+
+describe('test users', () => {
+  it('test failed update not found', async () => request(app)
+    .put('/v1/users/9999')
+    .send(data())
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.NOT_FOUND))
+})
+
+describe('test users', () => {
+  it('test success update', async () => request(app)
+    .put(`/v1/users/${userId}`)
+    .send(data())
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.OK))
+})
+
+describe('test users', () => {
+  it('test failed destroy not found', async () => request(app)
+    .delete('/v1/users/9999')
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.NOT_FOUND))
+})
+
+describe('test users', () => {
+  it('test success destroy', async () => request(app)
+    .delete(`/v1/users/${userId}`)
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.OK))
 })

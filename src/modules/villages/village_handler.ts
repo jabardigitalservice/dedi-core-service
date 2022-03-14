@@ -43,12 +43,7 @@ export namespace Village {
     res: Response,
     next: NextFunction,
   ) => {
-    try {
-      const result: Entity.ResponseSuggestion = await Service.suggestion(req.query)
-
-      res.status(httpStatus.OK).json(result)
-    } catch (err) {
-      next(err)
-    }
+    const result: Entity.ResponseSuggestion = await Service.suggestion(req.query)
+    res.status(httpStatus.OK).json(result)
   }
 }
