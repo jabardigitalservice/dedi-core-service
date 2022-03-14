@@ -47,13 +47,9 @@ export namespace User {
     res: Response,
     next: NextFunction,
   ) => {
-    try {
-      const { body } = req
-      await Service.store(body)
-      res.status(httpStatus.CREATED).json({ message: 'CREATED' })
-    } catch (error) {
-      next(error)
-    }
+    const { body } = req
+    await Service.store(body)
+    res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
   export const update = async (

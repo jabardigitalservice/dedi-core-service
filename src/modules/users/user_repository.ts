@@ -51,15 +51,10 @@ export namespace User {
     created_at: new Date(),
   })
 
-  export const createFile = async (requestBody: Entity.StructFile) => {
-    const item: any = await Files().where('source', requestBody.source).first()
-    if (item) return Files().where('source', requestBody.source).update(requestBody)
-
-    return Files().insert({
-      ...requestBody,
-      created_at: new Date(),
-    })
-  }
+  export const createFile = async (requestBody: Entity.StructFile) => Files().insert({
+    ...requestBody,
+    created_at: new Date(),
+  })
 
   export const updateFile = async (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
     ...requestBody,
