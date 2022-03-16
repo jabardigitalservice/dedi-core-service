@@ -4,7 +4,6 @@ import httpStatus from 'http-status'
 import { v4 as uuidv4 } from 'uuid'
 import app from '../../server'
 import { Page as Entity } from './page_entity'
-import { Page as Service } from './page_service'
 import { createAccessToken } from '../../middleware/jwt'
 
 const expectMeta = expect.objectContaining({
@@ -53,28 +52,34 @@ const data = (): Entity.RequestBody => ({
   title,
   link: faker.internet.url(),
   is_active: true,
-  image: faker.image.image(),
+  image: faker.image.avatar(),
   order: faker.datatype.number(10),
-  image_original_name: faker.image.image(),
+  image_original_name: faker.image.avatar(),
 })
 
 const dataRandomTitle = (): Entity.RequestBody => ({ ...data(), title: faker.lorem.slug(2) })
 
 let pagesId: number
 
-describe('seed pages', () => {
-  it('insert pages', async () => {
-    const [id] = await Service.store(data(), { identifier })
-    pagesId = id
-  })
-})
-
 describe('tests pages', () => {
   it('test success store', async () => request(app)
     .post('/v1/pages')
     .set('Authorization', `Bearer ${accessToken}`)
-    .send(dataRandomTitle())
+    .send(data())
     .expect(httpStatus.CREATED))
+})
+
+describe('tests pages', () => {
+  it('test success find all', async () => request(app)
+    .get('/v1/pages')
+    .set('Authorization', `Bearer ${accessToken}`)
+    .set('Cache-Control', 'no-cache')
+    .expect(httpStatus.OK)
+    .then((response) => {
+      const [item] = response.body.data
+      pagesId = item.id
+      expect(response.body).toEqual(expectFindAll)
+    }))
 })
 
 describe('tests pages', () => {
@@ -90,30 +95,33 @@ describe('tests pages', () => {
 })
 
 describe('tests pages', () => {
-  it('test success update', async () => request(app)
-    .put(`/v1/pages/${pagesId}`)
-    .set('Authorization', `Bearer ${accessToken}`)
-    .send(data())
-    .expect(httpStatus.OK))
-})
-
-describe('tests pages', () => {
   it('test failed not found update', async () => request(app)
-    .put('/v1/pages/9999')
+    .put('/v1/pages/99999')
     .set('Authorization', `Bearer ${accessToken}`)
     .send(dataRandomTitle())
     .expect(httpStatus.NOT_FOUND))
 })
 
 describe('tests pages', () => {
-  it('test success find all', async () => request(app)
-    .get('/v1/pages')
+  it('test failed not found find by id', async () => request(app)
+    .get('/v1/pages/99999')
     .set('Authorization', `Bearer ${accessToken}`)
-    .set('Cache-Control', 'no-cache')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectFindAll)
-    }))
+    .expect(httpStatus.NOT_FOUND))
+})
+
+describe('tests pages', () => {
+  it('test failed not found destroy', async () => request(app)
+    .delete('/v1/pages/99999')
+    .set('Authorization', `Bearer ${accessToken}`)
+    .expect(httpStatus.NOT_FOUND))
+})
+
+describe('tests pages', () => {
+  it('test success update', async () => request(app)
+    .put(`/v1/pages/${pagesId}`)
+    .set('Authorization', `Bearer ${accessToken}`)
+    .send(data())
+    .expect(httpStatus.OK))
 })
 
 describe('tests pages', () => {
@@ -127,22 +135,8 @@ describe('tests pages', () => {
 })
 
 describe('tests pages', () => {
-  it('test failed not found find by id', async () => request(app)
-    .get('/v1/pages/99999')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.NOT_FOUND))
-})
-
-describe('tests pages', () => {
   it('test success destroy', async () => request(app)
     .delete(`/v1/pages/${pagesId}`)
     .set('Authorization', `Bearer ${accessToken}`)
     .expect(httpStatus.OK))
-})
-
-describe('tests pages', () => {
-  it('test failed not found destroy', async () => request(app)
-    .delete('/v1/pages/9999')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.NOT_FOUND))
 })
