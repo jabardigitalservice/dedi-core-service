@@ -58,7 +58,6 @@ export namespace User {
     password?: string
     avatar: string
     avatar_original_name: string
-    is_active: string
   }
 
   interface Meta extends metaPaginate { }
