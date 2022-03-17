@@ -14,7 +14,6 @@ const data = (): Entity.RequestBody => ({
   email: faker.internet.email(),
   avatar: faker.image.avatar(),
   avatar_original_name: faker.image.avatar(),
-  is_active: 'true',
 })
 
 const identifier = uuidv4()
@@ -68,7 +67,6 @@ describe('test users', () => {
     .send({
       ...data(),
       password: 'test123',
-      password_confirm: 'test123',
     })
     .set('Authorization', `Bearer ${accessToken}`)
     .expect(httpStatus.CREATED))
