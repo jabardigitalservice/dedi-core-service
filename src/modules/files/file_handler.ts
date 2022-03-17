@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
 import { File as Entity } from './file_entity'
-import { uploadLocalSingle } from '../../helpers/upload'
-import { getUrlGCS, uploadGCS } from '../../helpers/gcs'
+import { File as Service } from './file_service'
 
 export namespace File {
   export const upload = async (
@@ -11,17 +10,8 @@ export namespace File {
     next: NextFunction,
   ) => {
     try {
-      const fieldName = 'file'
-      const file = await uploadLocalSingle({ req, res, fieldName })
-      const source = uploadGCS(file)
-      const result: Entity.ResponseUpload = {
-        data: {
-          path: getUrlGCS(source),
-          original_name: file.originalname,
-          source,
-        },
-        meta: {},
-      }
+      const result: Entity.ResponseUpload = await Service.upload(req, res)
+
       res.status(httpStatus.OK).json(result)
     } catch (error) {
       next(error)

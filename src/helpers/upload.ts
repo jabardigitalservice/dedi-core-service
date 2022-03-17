@@ -10,7 +10,7 @@ import lang from '../lang'
 import config from '../config'
 
 interface StructErrors {
-  [key: string]: string[]
+  [key: string]: string
 }
 
 interface RequestFile {
@@ -32,7 +32,7 @@ const fileSize = Number(config.get('file.max', 10)) * 1000000 // set default siz
 
 const formatError = (fieldName: string, message: string): HttpError => {
   const errors: StructErrors = {
-    [fieldName]: [message],
+    [fieldName]: message,
   }
 
   return new HttpError(httpStatus.UNPROCESSABLE_ENTITY, JSON.stringify(errors), true)
@@ -65,7 +65,7 @@ const getError = (err: any, requestFile: RequestFile, fileSize: number): HttpErr
     message = lang.__('validation.file.size', customMessage)
   } else if (err && typeof err.code !== 'string') {
     const parseError = JSON.parse(err.message)
-    const [error] = parseError.file
+    const error = parseError.file
     message = error
   } else if (!err && requestFile.req.file === undefined) {
     message = lang.__('validation.any.required', customMessage)
