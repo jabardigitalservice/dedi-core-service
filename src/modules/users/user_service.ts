@@ -69,7 +69,6 @@ export namespace User {
     name: requestBody.name,
     email: requestBody.email,
     avatar: requestBody.avatar,
-    is_active: convertToBoolean(requestBody.is_active),
   })
 
   export const store = async (requestBody: Entity.RequestBody) => {

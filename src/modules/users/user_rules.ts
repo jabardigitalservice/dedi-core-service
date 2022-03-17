@@ -17,17 +17,15 @@ export namespace User {
 
   const rulesPassword = {
     password: password().required(),
-    password_confirm: password().valid(Joi.ref('password')).required(),
   }
 
   const email = Joi.string().email().max(150).required()
 
   const validate = {
-    name: Joi.string().max(100).required(),
+    name: Joi.string().min(3).max(100).required(),
     email,
     avatar: Joi.string().max(255).required(),
     avatar_original_name: Joi.string().max(255).required(),
-    is_active: Joi.boolean().required(),
   }
 
   export const store = Joi.object({
