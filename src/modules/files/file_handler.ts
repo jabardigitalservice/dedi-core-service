@@ -17,4 +17,15 @@ export namespace File {
       next(error)
     }
   }
+
+  export const destroy = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    const { source } = req.body
+
+    Service.destroy(source)
+    res.status(httpStatus.OK).json({ message: 'DELETED' })
+  }
 }

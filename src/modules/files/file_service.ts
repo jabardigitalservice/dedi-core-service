@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { File as Entity } from './file_entity'
+import { File as Repository } from './file_repository'
 import { uploadLocalSingle } from '../../helpers/upload'
 import { getUrlGCS, uploadGCS } from '../../helpers/gcs'
 
@@ -20,4 +21,6 @@ export namespace File {
 
     return result
   }
+
+  export const destroy = async (source: string) => Repository.destroy(source)
 }

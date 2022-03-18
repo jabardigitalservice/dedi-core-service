@@ -7,4 +7,11 @@ export namespace File {
     },
     meta: {}
   }
+
+  export interface Struct {
+    id?: number
+    name: string
+    source: string
+    created_at?: Date
+  }
 }
