@@ -26,7 +26,7 @@ export namespace User {
     .leftJoin('files', 'files.source', '=', 'users.avatar')
 
   export const findAll = (requestQuery: Entity.RequestQuery) => {
-    const orderBy: string = requestQuery.order_by || 'name'
+    const orderBy: string = requestQuery.order_by || 'updated_at'
     const sortBy: string = requestQuery.sort_by || 'desc'
 
     const query = Query().orderBy(orderBy, sortBy)
@@ -61,6 +61,10 @@ export namespace User {
   })
 
   export const update = async (requestBody: Entity.Struct, id: string) => Users().where('id', id).update({
+    ...requestBody,
+  })
+
+  export const status = async (requestBody: Entity.RequestBodyStatus, id: string) => Users().where('id', id).update({
     ...requestBody,
   })
 }

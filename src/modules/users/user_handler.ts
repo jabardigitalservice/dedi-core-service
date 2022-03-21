@@ -66,4 +66,19 @@ export namespace User {
       next(error)
     }
   }
+
+  export const status = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { body } = req
+      const { id } = req.params
+      await Service.status(body, id)
+      res.status(httpStatus.OK).json({ message: 'UPDATED' })
+    } catch (error) {
+      next(error)
+    }
+  }
 }

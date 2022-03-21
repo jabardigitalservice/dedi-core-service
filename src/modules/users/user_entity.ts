@@ -60,6 +60,10 @@ export namespace User {
     avatar_original_name: string
   }
 
+  export interface RequestBodyStatus {
+    is_active: boolean
+  }
+
   interface Meta extends metaPaginate { }
 
   export interface ResponseFindAll {
