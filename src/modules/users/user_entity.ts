@@ -60,7 +60,7 @@ export namespace User {
     avatar_original_name: string
   }
 
-  export interface RequestBodyStatus {
+  export interface RequestBodyUpdateStatus {
     is_active: boolean
   }
 

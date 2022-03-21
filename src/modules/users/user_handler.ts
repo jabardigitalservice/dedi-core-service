@@ -67,7 +67,7 @@ export namespace User {
     }
   }
 
-  export const status = async (
+  export const updateStatus = async (
     req: Request,
     res: Response,
     next: NextFunction,
@@ -75,7 +75,7 @@ export namespace User {
     try {
       const { body } = req
       const { id } = req.params
-      await Service.status(body, id)
+      await Service.updateStatus(body, id)
       res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
       next(error)

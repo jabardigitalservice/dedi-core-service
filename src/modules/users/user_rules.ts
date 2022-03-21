@@ -37,7 +37,7 @@ export namespace User {
     ...validate,
   })
 
-  export const status = Joi.object({
+  export const updateStatus = Joi.object({
     is_active: Joi.boolean().required(),
   })
 

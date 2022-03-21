@@ -65,7 +65,7 @@ export namespace User {
     updated_at: new Date(),
   })
 
-  export const status = async (requestBody: Entity.RequestBodyStatus, id: string) => Users().where('id', id).update({
+  export const updateStatus = async (requestBody: Entity.RequestBodyUpdateStatus, id: string) => Users().where('id', id).update({
     ...requestBody,
     updated_at: new Date(),
   })
