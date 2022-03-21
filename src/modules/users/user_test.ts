@@ -111,7 +111,7 @@ describe('test users', () => {
 
 describe('test users', () => {
   it('test failed update status not found', async () => request(app)
-    .patch('/v1/users/status/9999')
+    .patch('/v1/users/9999/status')
     .send({ is_active: true })
     .set('Authorization', `Bearer ${accessToken}`)
     .expect(httpStatus.NOT_FOUND))
@@ -119,7 +119,7 @@ describe('test users', () => {
 
 describe('test users', () => {
   it('test success update status', async () => request(app)
-    .patch(`/v1/users/status/${userId}`)
+    .patch(`/v1/users/${userId}/status`)
     .send({ is_active: true })
     .set('Authorization', `Bearer ${accessToken}`)
     .expect(httpStatus.OK))
