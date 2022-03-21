@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { ValidationWithDB } from '../../helpers/validator';
 
 export namespace User {
-  const orderByValid = ['name', 'is_active', 'email']
+  const orderByValid = ['name', 'is_active', 'email', 'updated_at']
   const emptyAllow = ['', null]
 
   const regexPassword = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9&*_]+)$/
@@ -35,6 +35,10 @@ export namespace User {
 
   export const update = Joi.object({
     ...validate,
+  })
+
+  export const updateStatus = Joi.object({
+    is_active: Joi.boolean().required(),
   })
 
   const validateWithDB: ValidationWithDB = {

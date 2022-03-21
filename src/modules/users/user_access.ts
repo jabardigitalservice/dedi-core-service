@@ -22,6 +22,7 @@ export namespace User {
 
   export const store = () => grantAccess(ac, 'createAny', 'user')
   export const update = () => grantAccess(ac, 'updateAny', 'user')
+  export const updateStatus = () => grantAccess(ac, 'updateAny', 'user')
   export const destroy = () => grantAccess(ac, 'deleteAny', 'user')
   export const findById = () => grantAccess(ac, 'readAny', 'user')
   export const findAll = () => grantAccess(ac, 'readAny', 'user')

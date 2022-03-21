@@ -11,6 +11,7 @@ router.get('/v1/users', verifyAccessToken, Access.findAll(), validate(Rules.find
 router.get('/v1/users/:id', verifyAccessToken, Access.findById(), Handler.findById)
 router.post('/v1/users', verifyAccessToken, Access.store(), validate(Rules.store), validateWithDB(Rules.storeWithDB), Handler.store)
 router.put('/v1/users/:id', verifyAccessToken, Access.update(), validate(Rules.update), validateWithDB(Rules.updateWithDB), Handler.update)
+router.patch('/v1/users/:id/status', verifyAccessToken, Access.updateStatus(), validate(Rules.updateStatus), Handler.updateStatus)
 router.delete('/v1/users/:id', verifyAccessToken, Access.destroy(), Handler.destroy)
 
 export default router

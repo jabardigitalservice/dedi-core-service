@@ -96,4 +96,11 @@ export namespace User {
 
     return Repository.update(getRequestBody(requestBody), id)
   }
+
+  export const updateStatus = async (requestBody: Entity.RequestBodyUpdateStatus, id: string) => {
+    const item: any = await Repository.findById(id)
+    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
+
+    return Repository.updateStatus({ is_active: convertToBoolean(requestBody.is_active) }, id)
+  }
 }
