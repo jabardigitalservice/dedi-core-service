@@ -31,5 +31,6 @@
   "subject.forgot.password": "Reset Kata Sandi",
   "template.paragraph.forgot.password": "Klik link di bawah ini untuk melakukan reset kata sandi",
 
-  "route.not.found": "Route tidak ditemukan"
+  "route.not.found": "Route tidak ditemukan",
+  "error.cors": "Tidak diizinkan oleh CORS"
 }

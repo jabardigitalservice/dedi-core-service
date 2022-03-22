@@ -4,6 +4,7 @@ import cors from 'cors'
 import express, { Application } from 'express'
 import helmet from 'helmet'
 import config from './config'
+import corsOptions from './config/cors'
 import { onError } from './handler/exception'
 import home from './handler/home'
 import { isNodeEnvTest } from './helpers/constant'
@@ -32,7 +33,7 @@ class App {
   protected plugins(): void {
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json())
-    this.app.use(cors())
+    this.app.use(cors(corsOptions))
     this.app.use(helmet())
     this.app.use(compression())
     this.app.use(sentryTransaction)
