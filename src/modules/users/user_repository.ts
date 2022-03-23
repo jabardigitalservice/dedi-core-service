@@ -49,6 +49,7 @@ export namespace User {
     ...requestBody,
     verified_at: new Date(),
     created_at: new Date(),
+    updated_at: new Date(),
   })
 
   export const createFile = async (requestBody: Entity.StructFile) => Files().insert({
