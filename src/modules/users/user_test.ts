@@ -66,7 +66,7 @@ describe('test users', () => {
     .post('/v1/users')
     .send({
       ...data(),
-      password: 'test123',
+      password: 'test1234',
     })
     .set('Authorization', `Bearer ${accessToken}`)
     .expect(httpStatus.CREATED))
