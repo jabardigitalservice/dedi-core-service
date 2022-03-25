@@ -11,10 +11,6 @@ export namespace User {
     is_active: Joi.boolean().allow(...emptyAllow),
   })
 
-  const rulesPassword = {
-    password: Joi.string().min(8).required(),
-  }
-
   const email = Joi.string().email().max(150).required()
 
   const validate = {
@@ -26,7 +22,7 @@ export namespace User {
 
   export const store = Joi.object({
     ...validate,
-    ...rulesPassword,
+    password: Joi.string().min(8).required(),
   })
 
   export const update = Joi.object({
