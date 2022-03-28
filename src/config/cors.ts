@@ -18,7 +18,7 @@ const whitelist = () => {
 
 export default {
   origin(origin: any, callback: any) {
-    console.log(origin)
+    console.log(origin, whitelist())
     if (isNodeEnvTest() || whitelist().indexOf(origin) !== -1) {
       callback(null, true)
     } else {
