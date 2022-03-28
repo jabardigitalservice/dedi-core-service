@@ -13,7 +13,7 @@ export namespace Testimonial {
     id: item.id,
     name: item.name,
     description: item.description,
-    is_active: item.is_active,
+    is_active: convertToBoolean(item.is_active),
     avatar: {
       path: getUrlGCS(item.avatar),
       source: item.avatar,
