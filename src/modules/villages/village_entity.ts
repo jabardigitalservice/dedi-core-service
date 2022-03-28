@@ -14,6 +14,7 @@ export namespace Village {
     images: string
     is_active: boolean
     updated_at: Date
+    properties: string
   }
 
   export interface WithLocation {
@@ -103,5 +104,11 @@ export namespace Village {
   export interface ResponseFindById {
     data: FindById
     meta: Object
+  }
+
+  export interface RequestBodyQuestionnaire {
+    id?: string
+    level: number
+    properties: string
   }
 }

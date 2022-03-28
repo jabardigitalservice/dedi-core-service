@@ -8,6 +8,10 @@
   "validation.string.pattern.base": "Format isian {{ attribute }} tidak valid.",
   "validation.string.base": "Isian {{ attribute }} harus berupa string.",
   "validation.number.base": "Isian {{ attribute }} harus berupa number.",
+  "validation.object.base": "Isian {{ attribute }} harus berupa object.",
+  "validation.number.max": "Isian {{ attribute }} sudah melebihi dari {{ limit }}.",
+  "validation.number.min": "Isian {{ attribute }} harus minimal dari {{ limit }}.",
+  "validation.object.min": "Isian {{ attribute }} minimal dari {{ limit }} object.",
   "validation.unique": "Isian {{ attribute }} sudah terdaftar.",
   "validation.exists": "Isian {{ attribute }} yang dipilih tidak terdaftar.",
   "validation.boolean.base": "Isian {{ attribute }} harus berupa true atau false.",
@@ -17,6 +21,7 @@
   "validation.file.size": "Isian {{ attribute }} seharusnya tidak lebih dari {{ max }} MB.",
 
   "error.exists": "{{ entity }} dengan id {{ id }} tidak ditemukan.",
+  "error.village.registered": "Desa tersebut sudah melakukan registrasi.",
 
   "auth.signin.failed": "Email dan Kata Sandi tidak ditemukan.",
   "auth.signin.failed.limiter": "Harap mencoba login dalam",

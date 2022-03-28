@@ -82,6 +82,14 @@ const expectBodyFindAllBoundsEmpty = expect.objectContaining({
   meta: expectMetaBounds,
 })
 
+const requestBodyQuestionnaire = {
+  id: '123456789',
+  level: 1,
+  properties: {
+    id: 1,
+  },
+}
+
 describe('seed data', () => {
   it('insert villages', async () => {
     await Repository.Villages().insert({
@@ -90,10 +98,36 @@ describe('seed data', () => {
       district_id: '1',
       level: 1,
       location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
+      is_active: true,
+    })
+
+    await Repository.Villages().insert({
+      id: '123456789',
+      name: 'test3',
+      district_id: '1',
+      level: null,
+      location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
       images: JSON.stringify([faker.image.image(), faker.image.image()]),
       is_active: true,
     })
   })
+})
+
+describe('tests villages', () => {
+  it('test failed questionnaire', async () => request(app)
+    .post('/v1/villages/questionnaire')
+    .send({
+      ...requestBodyQuestionnaire,
+      id: '123456785',
+    })
+    .expect(httpStatus.BAD_REQUEST))
+})
+
+describe('tests villages', () => {
+  it('test success questionnaire', async () => request(app)
+    .post('/v1/villages/questionnaire')
+    .send(requestBodyQuestionnaire)
+    .expect(httpStatus.CREATED))
 })
 
 describe('tests villages', () => {
