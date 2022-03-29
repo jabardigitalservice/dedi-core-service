@@ -36,7 +36,7 @@ export namespace User {
   const validateWithDB: ValidationWithDB = {
     email: [
       {
-        type: 'unique', attr: 'email', table: 'users', column: 'id', params: 'id',
+        type: 'unique', attr: 'email', table: 'users', column: 'email', params: 'id',
       },
     ],
     avatar: [
