@@ -3,7 +3,7 @@ import { ValidationWithDB } from '../../helpers/validator';
 
 export namespace Auth {
 
-  const regexPassword = /^(?=.{6,})(?=.*[a-z|A-Z])(?=.*[0-9])$/
+  const regexPassword = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9&*+?.,^|&]+)$/
 
   const emptyAllow = ['', null]
 

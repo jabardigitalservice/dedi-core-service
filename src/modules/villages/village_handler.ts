@@ -38,6 +38,21 @@ export namespace Village {
     }
   }
 
+  export const questionnaire = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { body } = req
+      await Service.questionnaire(body)
+
+      res.status(httpStatus.CREATED).json({ message: 'CREATED' })
+    } catch (err) {
+      next(err)
+    }
+  }
+
   export const suggestion = async (
     req: Request<Entity.RequestParamFindById, never, never, never>,
     res: Response,

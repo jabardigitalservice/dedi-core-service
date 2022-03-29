@@ -15,6 +15,7 @@ export async function up(knex: Knex): Promise<void> {
         table.json('images')
         table.boolean('is_active').notNullable().index()
         table.timestamp('updated_at').index()
+        table.json('properties')
       })
     }
   })

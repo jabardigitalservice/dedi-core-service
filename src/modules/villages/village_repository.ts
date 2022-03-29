@@ -108,4 +108,6 @@ export namespace Village {
 
     return { total, lastUpdate }
   }
+
+  export const questionnaire = (id: string, requestBody: Entity.RequestBodyQuestionnaire) => Villages().where('id', id).update(requestBody)
 }
