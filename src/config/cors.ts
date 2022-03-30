@@ -10,7 +10,7 @@ const whitelist = () => {
   let origins: string[] = []
 
   if (appOrigin) {
-    origins = appOrigin.trim().split(',')
+    origins = appOrigin.split(',')
   }
 
   return origins
@@ -18,7 +18,7 @@ const whitelist = () => {
 
 export default {
   origin(origin: any, callback: any) {
-    if (isNodeEnvTest() || !origin || whitelist().indexOf(origin) !== -1) {
+    if (isNodeEnvTest() || !origin || whitelist().find((value) => origin.includes(value))) {
       callback(null, true)
     } else {
       callback(new HttpError(httpStatus.FORBIDDEN, lang.__('error.cors')))
