@@ -2,14 +2,96 @@ import Joi from 'joi';
 import { ValidationWithDB } from '../../helpers/validator';
 
 export namespace Village {
+  const file = Joi.object({
+    path: Joi.string().uri(),
+    original_name: Joi.string(),
+    source: Joi.string(),
+  }).required()
+
+  const fasilitas_desa = Joi.alternatives().conditional('...level', {
+    is: Joi.number().valid(1, 2, 3, 4),
+    then: Joi.object({
+      akses_kendaraan: Joi.object({
+        data: Joi.array().items(Joi.string()).required(),
+        photo: file,
+      }).required(),
+      suplai_listrik: Joi.object({
+        data: Joi.string().required(),
+        photo: file,
+      }).required(),
+      jaringan_telepon: Joi.object({
+        data: Joi.string().required(),
+        photo: file,
+        operator: Joi.string().required(),
+      }).required(),
+      jaringan_internet: Joi.object({
+        data: Joi.string().required(),
+        photo: file,
+        website: Joi.string().required(),
+      }).required(),
+    }).required(),
+    otherwise: Joi.optional(),
+  })
+
+  const literasi_digital = Joi.alternatives().conditional('...level', {
+    is: Joi.number().valid(2, 3, 4),
+    then: Joi.object({
+      komunitas: Joi.object({
+        data: Joi.array().items(Joi.string()).required(),
+        photo: file,
+      }).required(),
+      pelatihan: Joi.object({
+        data: Joi.string().required(),
+        photo: file,
+        pelatihan: Joi.string().required(),
+      }).required(),
+    }).required(),
+    otherwise: Joi.optional(),
+  })
+
+  const tentang_bumdes = Joi.alternatives().conditional('...level', {
+    is: Joi.number().valid(3, 4),
+    then: Joi.object({
+      sosial_media: Joi.object({
+        data: Joi.array().items(Joi.string()).required(),
+        photo: file,
+      }).required(),
+      bumdes: Joi.object({
+        data: Joi.string().required(),
+        photo: file,
+        bumdes: Joi.string().required(),
+      }).required(),
+      komoditas: Joi.object({
+        data: Joi.string().required(),
+        photo: file,
+      }).required(),
+    }).required(),
+    otherwise: Joi.optional(),
+  })
+
+  const potensi_desa = Joi.alternatives().conditional('...level', {
+    is: Joi.number().valid(4),
+    then: Joi.object({
+      data: Joi.array().items(Joi.string()).required(),
+      potensi_dapat_dikembangkan: Joi.string().required(),
+      photo: file,
+    }).required(),
+    otherwise: Joi.optional(),
+  })
+
   export const questionnaire = Joi.object({
     id: Joi.string().max(14).required(),
-    level: Joi.number().min(1).max(4).required(),
-    properties: Joi.object().min(1).required(),
+    level: Joi.number().valid(1, 2, 3, 4).required(),
+    properties: Joi.object({
+      fasilitas_desa,
+      literasi_digital,
+      tentang_bumdes,
+      potensi_desa,
+    }).required(),
   })
 
   export const questionnaireWithDB: ValidationWithDB = {
-    email: [
+    id: [
       {
         type: 'exists', attr: 'id', table: 'villages', column: 'id',
       },
