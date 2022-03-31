@@ -3,9 +3,9 @@ import { ValidationWithDB } from '../../helpers/validator';
 
 export namespace Village {
   const file = Joi.object({
-    path: Joi.string().uri(),
-    original_name: Joi.string(),
-    source: Joi.string(),
+    path: Joi.string().uri().required(),
+    original_name: Joi.string().required(),
+    source: Joi.string().required(),
   }).required()
 
   const fasilitas_desa = Joi.alternatives().conditional('...level', {
