@@ -33,7 +33,7 @@ const validateError = (details: Joi.ValidationErrorItem[]) => {
   for (const item of details) {
     const { context, type, path } = item
     const key = path.join('.')
-    const label = path.join(' ')
+    const label = path[path.length - 1].toString()
 
     if (type === 'object.unknown') continue
 

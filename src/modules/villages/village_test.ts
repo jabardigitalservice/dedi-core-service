@@ -82,11 +82,36 @@ const expectBodyFindAllBoundsEmpty = expect.objectContaining({
   meta: expectMetaBounds,
 })
 
+const file = () => ({
+  path: faker.image.avatar(),
+  original_name: faker.image.avatar(),
+  source: faker.image.avatar(),
+})
+
 const requestBodyQuestionnaire = {
   id: '123456789',
   level: 1,
   properties: {
-    id: 1,
+    fasilitas_desa: {
+      akses_kendaraan: {
+        data: [faker.name.firstName()],
+        photo: file(),
+      },
+      suplai_listrik: {
+        data: faker.name.firstName(),
+        photo: file(),
+      },
+      jaringan_telepon: {
+        data: faker.name.firstName(),
+        photo: file(),
+        operator: faker.name.firstName(),
+      },
+      jaringan_internet: {
+        data: faker.name.firstName(),
+        photo: file(),
+        website: faker.name.firstName(),
+      },
+    },
   },
 }
 
