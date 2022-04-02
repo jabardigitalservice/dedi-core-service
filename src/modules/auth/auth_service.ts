@@ -1,5 +1,5 @@
 import httpStatus from 'http-status'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { Request } from 'express'
 import { verify } from 'jsonwebtoken'
 import { HttpError } from '../../handler/exception'
@@ -11,13 +11,14 @@ import { sendMail } from '../../helpers/mail'
 import config from '../../config'
 import { getRole } from '../../helpers/rbac'
 import { convertToBoolean } from '../../helpers/constant'
+import { passwordHash } from '../../helpers/passwordHash'
 
 export namespace Auth {
   export const signUp = async (requestBody: Entity.RequestBodySignUp) => {
     const user: Entity.RequestBodySignUp = {
       name: requestBody.name,
       email: requestBody.email,
-      password: Repository.passwordHash(requestBody.password),
+      password: passwordHash(requestBody.password),
       google_id: requestBody.google_id,
     }
 
@@ -186,9 +187,7 @@ export namespace Auth {
 
     if (decodeJwt?.target !== 'reset-password') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.rejected'))
 
-    const passwordHash = Repository.passwordHash(requestBody.password)
-
-    return Repository.updatePassword(decodeJwt.identifier, passwordHash)
+    return Repository.updatePassword(decodeJwt.identifier, passwordHash(requestBody.password))
   }
 
 }

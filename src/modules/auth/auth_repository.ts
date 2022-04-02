@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid'
-import bcrypt from 'bcrypt'
 import database from '../../config/database';
 import { Auth as Entity } from './auth_entity';
 import bcryptRounds from '../../config/bcryptRounds';
@@ -37,11 +36,6 @@ export namespace Auth {
     }
 
     return requestBody.partner_id
-  }
-
-  export const passwordHash = (password: string): string => {
-    const salt = bcrypt.genSaltSync(bcryptRounds)
-    return bcrypt.hashSync(password, salt)
   }
 
   export const signUp = async (requestBody: Entity.RequestBodySignUp) => Users().insert({

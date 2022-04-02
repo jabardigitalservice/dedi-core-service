@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import bcryptRounds from '../config/bcryptRounds'
 
 export const passwordHash = (password: string): string => {
