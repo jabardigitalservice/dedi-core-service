@@ -53,7 +53,7 @@ export namespace Auth {
     .first()
 
   export const findByRefreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => OauthTokens()
-    .select('users.id', 'partner_id', 'is_admin', 'is_active')
+    .select('users.id', 'partner_id', 'is_admin', 'users.is_active')
     .join('users', 'users.id', 'oauth_tokens.user_id')
     .where('refresh_token', requestBody.refresh_token)
     .first()
