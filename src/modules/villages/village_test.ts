@@ -167,7 +167,7 @@ describe('tests villages', () => {
 describe('tests villages', () => {
   it('test success with query name find all', async () => request(app)
     .get('/v1/villages/list-with-location')
-    .query({ name: 'test' })
+    .query({ name: 'test', is_active: true })
     .expect(httpStatus.OK)
     .then((response) => {
       expect(response.body).toEqual(expectBodyFindAll)
@@ -188,7 +188,7 @@ describe('tests villages', () => {
   it('test success suggestion with query name', async () => request(app)
     .get('/v1/villages/suggestion')
     .set('Cache-Control', 'no-cache')
-    .query({ name: 'test' })
+    .query({ name: 'test', is_active: true })
     .expect(httpStatus.OK)
     .then((response) => {
       expect(response.body).toEqual(expectBodySuggestion)
@@ -213,6 +213,22 @@ describe('tests villages', () => {
         sw: '107.4312207548229,-7.044551821267334',
         ne: '107.78594184930455,-6.79575221317816',
       },
+    })
+    .expect(httpStatus.OK)
+    .then((response) => {
+      expect(response.body).toEqual(expectBodyFindAllBounds)
+    }))
+})
+
+describe('tests villages', () => {
+  it('test success with location and is active find all', async () => request(app)
+    .get('/v1/villages/with-location')
+    .query({
+      bounds: {
+        sw: '107.4312207548229,-7.044551821267334',
+        ne: '107.78594184930455,-6.79575221317816',
+      },
+      is_active: true,
     })
     .expect(httpStatus.OK)
     .then((response) => {
