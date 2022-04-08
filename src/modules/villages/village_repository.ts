@@ -1,4 +1,5 @@
 import database from '../../config/database';
+import { convertToBoolean } from '../../helpers/constant';
 import { pagination } from '../../helpers/paginate';
 import { Village as Entity } from './village_entity';
 
@@ -42,7 +43,6 @@ export namespace Village {
       .leftJoin('districts', 'districts.id', '=', 'villages.district_id')
       .leftJoin('categories', 'categories.id', '=', 'villages.category_id')
       .leftJoin('cities', 'cities.id', '=', 'districts.city_id')
-      .where('villages.is_active', true)
       .orderBy('villages.name', 'asc')
 
     return query
@@ -51,15 +51,18 @@ export namespace Village {
   export const withLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
     const query = Query()
 
+    if (requestQuery.is_active) query.where('villages.is_active', convertToBoolean(requestQuery.is_active))
+
     query.whereRaw(getWherePolygon(requestQuery))
 
     return query
   }
 
-  export const suggestion = (requestQuery: Entity.requestQuerySuggestion) => {
+  export const suggestion = (requestQuery: Entity.RequestQuerySuggestion) => {
     const query = Query()
 
     if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
+    if (requestQuery.is_active) query.where('villages.is_active', convertToBoolean(requestQuery.is_active))
 
     return query
   }
@@ -69,6 +72,7 @@ export namespace Village {
 
     if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
     if (requestQuery.level) query.where('villages.level', requestQuery.level)
+    if (requestQuery.is_active) query.where('villages.is_active', convertToBoolean(requestQuery.is_active))
 
     return query.paginate(pagination(requestQuery))
   }
@@ -79,6 +83,7 @@ export namespace Village {
         'villages.id as id',
         'villages.name as name',
         'villages.level as level',
+        'villages.is_active as is_active',
         'cities.id as city_id',
         'cities.name as city_name',
         'categories.id as category_id',
@@ -93,21 +98,25 @@ export namespace Village {
     return query
   }
 
-  export const metaWithLocation = () => {
+  export const metaWithLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
     const total = Villages()
       .count('id', { as: 'total' })
-      .where('is_active', true)
-      .first()
 
     const lastUpdate = Villages()
       .select('updated_at')
       .whereNotNull('updated_at')
       .orderBy('updated_at', 'desc')
-      .where('is_active', true)
-      .first()
 
-    return { total, lastUpdate }
+    if (requestQuery.is_active) {
+      total.where('villages.is_active', convertToBoolean(requestQuery.is_active))
+      lastUpdate.where('villages.is_active', convertToBoolean(requestQuery.is_active))
+    }
+
+    return { total: total.first(), lastUpdate: lastUpdate.first() }
   }
 
-  export const questionnaire = (id: string, requestBody: Entity.RequestBodyQuestionnaire) => Villages().where('id', id).update(requestBody)
+  export const questionnaire = (id: string, requestBody: Entity.RequestBodyQuestionnaire) => Villages().where('id', id).update({
+    ...requestBody,
+    is_active: true,
+  })
 }
