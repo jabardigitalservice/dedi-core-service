@@ -133,7 +133,7 @@ describe('seed data', () => {
       level: null,
       location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
       images: JSON.stringify([faker.image.image(), faker.image.image()]),
-      is_active: true,
+      is_active: false,
     })
   })
 })

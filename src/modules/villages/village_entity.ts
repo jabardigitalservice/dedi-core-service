@@ -52,11 +52,11 @@ export namespace Village {
     city: {
       id: string
       name: string
-    },
+    }
     category: {
       id: number
       name: string
-    },
+    }
   }
 
   export interface RequestQueryListWithLocation extends Query {
@@ -64,6 +64,7 @@ export namespace Village {
     level: string
     per_page: string
     current_page: string
+    is_active: string
   }
 
   export interface RequestQueryWithLocation extends Query {
@@ -71,14 +72,16 @@ export namespace Village {
       ne: string
       sw: string
     }
+    is_active: string
   }
 
   export interface RequestParamFindById {
     id: string
   }
 
-  export interface requestQuerySuggestion {
+  export interface RequestQuerySuggestion {
     name: string
+    is_active: string
   }
 
   export interface ResponseWithLocation {

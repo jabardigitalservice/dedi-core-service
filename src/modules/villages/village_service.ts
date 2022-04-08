@@ -55,7 +55,7 @@ export namespace Village {
   export const withLocation = async (requestQuery: Entity.RequestQueryWithLocation): Promise<Entity.ResponseWithLocation> => {
     const items: any = isRequestBounds(requestQuery) ? await Repository.withLocation(requestQuery) : []
 
-    const meta: any = Repository.metaWithLocation()
+    const meta: any = Repository.metaWithLocation(requestQuery)
     const total: any = await meta.total
     const lastUpdate: any = await meta.lastUpdate
 
@@ -122,7 +122,7 @@ export namespace Village {
     return data
   }
 
-  export const suggestion = async (request: Entity.requestQuerySuggestion): Promise<Entity.ResponseSuggestion> => {
+  export const suggestion = async (request: Entity.RequestQuerySuggestion): Promise<Entity.ResponseSuggestion> => {
     const items: any = await Repository.suggestion(request)
 
     const result: Entity.ResponseSuggestion = {
@@ -139,7 +139,7 @@ export namespace Village {
     const { id } = requestBody
     const item: any = await Repository.findById(id)
 
-    if (item.level) throw new HttpError(httpStatus.BAD_REQUEST, lang.__('error.village.registered'))
+    if (item.is_active) throw new HttpError(httpStatus.BAD_REQUEST, lang.__('error.village.registered'))
 
     return Repository.questionnaire(id, {
       level: requestBody.level,
