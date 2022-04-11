@@ -5,7 +5,7 @@ name: DeDi Service Release Tags
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - '*'
 
 jobs:
   deploy:
