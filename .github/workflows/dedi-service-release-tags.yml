@@ -3,9 +3,9 @@
 name: DeDi Service Release Tags
 
 on:
-  release:
-    types:
-      - published
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   deploy:
