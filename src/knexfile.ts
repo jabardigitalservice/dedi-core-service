@@ -12,7 +12,7 @@ const locationDatabase = {
 }
 
 const databaseConfig = {
-  client: config.get('db.connection'),
+  client: config.get('db.connection', 'mysql'),
   connection: {
     host: config.get('db.host'),
     port: config.get('db.port'),
@@ -22,8 +22,9 @@ const databaseConfig = {
   },
   pool: {
     min: Number(config.get('db.pool.min', 0)),
-    max: Number(config.get('db.pool.max', 100)),
+    max: Number(config.get('db.pool.max', 0)),
   },
+  acquireConnectionTimeout: Number(config.get('db.timeout', 10000)),
   ...locationDatabase,
 }
 
