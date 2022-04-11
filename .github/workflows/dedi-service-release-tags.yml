@@ -38,4 +38,4 @@ jobs:
         context: .
         file: docker/Dockerfile
         push: true
-        tags: ${{ secrets.SERVICE_IMAGENAME }}:${{ steps.get_version.outputs.VERSION }}
+        tags: ${{ secrets.SERVICE_TAGNAME }}:${{ steps.get_version.outputs.VERSION }}
