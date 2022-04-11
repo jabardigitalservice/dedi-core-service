@@ -7,13 +7,11 @@ on:
     branches: [ main ]
     paths:
       - 'src/**'
-      - '.github/**'
 
   push:
     branches: [ main ]
     paths:
       - 'src/**'
-      - '.github/**'
 
 jobs:
   test:

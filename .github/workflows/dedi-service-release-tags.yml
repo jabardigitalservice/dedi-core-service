@@ -3,8 +3,9 @@
 name: DeDi Service Release Tags
 
 on:
-  registry_package:
-    types: [ published ]
+  release:
+    types:
+      - published
 
 jobs:
   deploy:
