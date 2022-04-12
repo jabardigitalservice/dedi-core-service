@@ -6,10 +6,9 @@ import lang from '../lang'
 import { verifyAccessToken } from './jwt'
 
 export default (req: Request, res: Response, next: NextFunction) => {
-  const { authorization } = req.headers
-  const { secret } = req.query
+  const { authorization, 'x-api-key': xApiKey } = req.headers
 
-  if (!authorization && secret !== config.get('app.secret')) {
+  if (!authorization && xApiKey !== config.get('app.secret')) {
     next(new HttpError(httpStatus.FORBIDDEN, lang.__('auth.grant.access')))
   }
 
