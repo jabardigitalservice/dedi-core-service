@@ -137,9 +137,6 @@ export namespace Village {
 
   export const questionnaire = async (requestBody: Entity.RequestBodyQuestionnaire) => {
     const { id } = requestBody
-    const item: any = await Repository.findById(id)
-
-    if (item.is_active) throw new HttpError(httpStatus.BAD_REQUEST, lang.__('error.village.registered'))
 
     return Repository.questionnaire(id, {
       level: requestBody.level,

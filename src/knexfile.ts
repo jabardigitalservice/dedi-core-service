@@ -1,3 +1,4 @@
+import { Knex } from 'knex'
 import path from 'path'
 import config from './config'
 
@@ -11,7 +12,7 @@ const locationDatabase = {
   },
 }
 
-const databaseConfig = {
+const databaseConfig: Knex.Config = {
   client: config.get('db.connection', 'mysql'),
   connection: {
     host: config.get('db.host'),
@@ -28,18 +29,20 @@ const databaseConfig = {
   ...locationDatabase,
 }
 
+const databaseConfigTest: Knex.Config = {
+  client: config.get('test.db.connection', 'mysql'),
+  connection: {
+    host: config.get('test.db.host'),
+    port: config.get('test.db.port'),
+    user: config.get('test.db.user'),
+    password: config.get('test.db.password'),
+    database: config.get('test.db.database'),
+  },
+  ...locationDatabase,
+}
+
 export default {
   development: databaseConfig,
   production: databaseConfig,
-  test: {
-    client: config.get('test.db.connection', 'mysql'),
-    connection: {
-      host: config.get('test.db.host'),
-      port: config.get('test.db.port'),
-      user: config.get('test.db.user'),
-      password: config.get('test.db.password'),
-      database: config.get('test.db.database'),
-    },
-    ...locationDatabase,
-  },
+  test: databaseConfigTest,
 }
