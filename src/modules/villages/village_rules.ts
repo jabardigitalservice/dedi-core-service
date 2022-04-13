@@ -8,11 +8,13 @@ export namespace Village {
     source: Joi.string().required(),
   }).required()
 
+  const ruleArrayString = Joi.array().items(Joi.string()).required().min(1)
+
   const fasilitas_desa = Joi.alternatives().conditional('...level', {
     is: Joi.number().valid(1, 2, 3, 4),
     then: Joi.object({
       akses_kendaraan: Joi.object({
-        data: Joi.array().items(Joi.string()).required(),
+        data: ruleArrayString,
         photo: file,
       }).required(),
       suplai_listrik: Joi.object({
@@ -37,7 +39,7 @@ export namespace Village {
     is: Joi.number().valid(2, 3, 4),
     then: Joi.object({
       komunitas: Joi.object({
-        data: Joi.array().items(Joi.string()).required(),
+        data: ruleArrayString,
         photo: file,
       }).required(),
       pelatihan: Joi.object({
@@ -53,7 +55,7 @@ export namespace Village {
     is: Joi.number().valid(3, 4),
     then: Joi.object({
       sosial_media: Joi.object({
-        data: Joi.array().items(Joi.string()).required(),
+        data: ruleArrayString,
         photo: file,
       }).required(),
       bumdes: Joi.object({
@@ -72,7 +74,7 @@ export namespace Village {
   const potensi_desa = Joi.alternatives().conditional('...level', {
     is: Joi.number().valid(4),
     then: Joi.object({
-      data: Joi.array().items(Joi.string()).required(),
+      data: ruleArrayString,
       potensi_dapat_dikembangkan: Joi.string().required(),
       photo: file,
     }).required(),
