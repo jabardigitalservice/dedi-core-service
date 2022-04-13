@@ -43,14 +43,8 @@ export namespace Village {
     res: Response,
     next: NextFunction,
   ) => {
-    try {
-      const { body } = req
-      await Service.questionnaire(body)
-
-      res.status(httpStatus.CREATED).json({ message: 'CREATED' })
-    } catch (err) {
-      next(err)
-    }
+    Service.questionnaire(req.body)
+    res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
   export const suggestion = async (

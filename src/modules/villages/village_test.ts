@@ -139,16 +139,6 @@ describe('seed data', () => {
 })
 
 describe('tests villages', () => {
-  it('test failed questionnaire', async () => request(app)
-    .post('/v1/villages/questionnaire')
-    .send({
-      ...requestBodyQuestionnaire,
-      id: '123456785',
-    })
-    .expect(httpStatus.BAD_REQUEST))
-})
-
-describe('tests villages', () => {
   it('test success questionnaire', async () => request(app)
     .post('/v1/villages/questionnaire')
     .send(requestBodyQuestionnaire)
