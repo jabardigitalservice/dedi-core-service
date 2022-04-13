@@ -10,6 +10,8 @@
   "validation.number.base": "Isian {{ attribute }} harus berupa number.",
   "validation.object.base": "Isian {{ attribute }} harus berupa object.",
   "validation.array.base": "Isian {{ attribute }} harus berupa array.",
+  "validation.array.max": "Isian {{ attribute }} sudah melebihi dari {{ limit }} item.",
+  "validation.array.min": "Isian {{ attribute }} harus minimal dari {{ limit }} item.",
   "validation.number.max": "Isian {{ attribute }} sudah melebihi dari {{ limit }}.",
   "validation.number.min": "Isian {{ attribute }} harus minimal dari {{ limit }}.",
   "validation.object.min": "Isian {{ attribute }} minimal dari {{ limit }} object.",
