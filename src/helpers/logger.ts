@@ -1,6 +1,5 @@
 import winston from 'winston'
-import 'winston-mongodb'
-import { MongoDBConnectionOptions } from 'winston-mongodb';
+import { MongoDBConnectionOptions } from 'winston-mongodb'
 import config from '../config';
 
 interface Log {
