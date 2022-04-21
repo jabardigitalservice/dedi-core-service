@@ -1,7 +1,7 @@
 import winston from 'winston'
 import 'winston-mongodb'
+import { MongoDBConnectionOptions } from 'winston-mongodb';
 import config from '../config';
-import { isNodeEnvTest } from './constant';
 
 interface Log {
   level: string
@@ -13,8 +13,10 @@ interface Log {
 
 const logger = winston.createLogger()
 
-if (config.get('mongo.connection') && !isNodeEnvTest()) {
-  const configMongo = {
+logger.add(new winston.transports.Console())
+
+if (config.get('mongo.connection')) {
+  const configMongo: MongoDBConnectionOptions = {
     db: config.get('mongo.connection'),
     collection: config.get('log.mongo.collection'),
     capped: true,
@@ -24,10 +26,6 @@ if (config.get('mongo.connection') && !isNodeEnvTest()) {
     metaKey: 'meta',
   }
   logger.add(new winston.transports.MongoDB(configMongo))
-}
-
-if (isNodeEnvTest()) {
-  logger.add(new winston.transports.Console())
 }
 
 export default (log: Log) => {
