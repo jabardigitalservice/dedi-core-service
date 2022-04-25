@@ -2,10 +2,12 @@ import Joi from 'joi';
 import { ValidationWithDB } from '../../helpers/validator';
 
 export namespace Village {
+  const emptyAllow = ['', null]
+
   const file = Joi.object({
-    path: Joi.string().uri(),
-    original_name: Joi.string(),
-    source: Joi.string(),
+    path: Joi.string().uri().allow(...emptyAllow),
+    original_name: Joi.string().allow(...emptyAllow),
+    source: Joi.string().allow(...emptyAllow),
   }).required()
 
   const ruleArrayString = Joi.array().items(Joi.string()).required().min(1)
