@@ -2,12 +2,10 @@ import Joi from 'joi';
 import { ValidationWithDB } from '../../helpers/validator';
 
 export namespace Village {
-  const emptyAllow = ['', null]
-
   const file = Joi.object({
-    path: Joi.string().uri().allow(...emptyAllow),
-    original_name: Joi.string().allow(...emptyAllow),
-    source: Joi.string().allow(...emptyAllow),
+    path: Joi.string().uri().allow(null),
+    original_name: Joi.string().allow(null),
+    source: Joi.string().allow(null),
   }).required()
 
   const ruleArrayString = Joi.array().items(Joi.string()).required().min(1)
@@ -26,12 +24,12 @@ export namespace Village {
       jaringan_telepon: Joi.object({
         data: Joi.string().required(),
         photo: file,
-        operator: Joi.string().required(),
+        operator: Joi.string().allow(null),
       }).required(),
       jaringan_internet: Joi.object({
         data: Joi.string().required(),
         photo: file,
-        website: Joi.string().required(),
+        website: Joi.string().allow(null),
       }).required(),
     }).required(),
     otherwise: Joi.optional(),
@@ -47,7 +45,7 @@ export namespace Village {
       pelatihan: Joi.object({
         data: Joi.string().required(),
         photo: file,
-        pelatihan: Joi.string().required(),
+        pelatihan: Joi.string().allow(null),
       }).required(),
     }).required(),
     otherwise: Joi.optional(),
@@ -63,10 +61,10 @@ export namespace Village {
       bumdes: Joi.object({
         data: Joi.string().required(),
         photo: file,
-        bumdes: Joi.string().required(),
+        bumdes: Joi.string().allow(null),
       }).required(),
       komoditas: Joi.object({
-        data: Joi.string().required(),
+        data: Joi.string().allow(null),
         photo: file,
       }).required(),
     }).required(),
@@ -76,9 +74,9 @@ export namespace Village {
   const potensi_desa = Joi.alternatives().conditional('...level', {
     is: Joi.number().valid(4),
     then: Joi.object({
-      data: ruleArrayString,
-      potensi_dapat_dikembangkan: Joi.string().required(),
+      data: Joi.string().required(),
       photo: file,
+      potensi_dapat_dikembangkan: Joi.string().allow(null),
     }).required(),
     otherwise: Joi.optional(),
   })
