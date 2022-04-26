@@ -1,9 +1,8 @@
-import database from '../../config/database'
 import { pagination } from '../../helpers/paginate'
 import { Partner as Entity } from './partner_entity'
 
 export namespace Partner {
-  export const Partners = () => database<Entity.Struct>('partners')
+  const { Partners } = Entity
 
   export const findAll = (requestQuery: Entity.RequestQuery) => {
     const query = Partners()

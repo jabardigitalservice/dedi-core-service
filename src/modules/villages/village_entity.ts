@@ -1,3 +1,4 @@
+import database from '../../config/database';
 import { metaPaginate } from '../../helpers/paginate';
 import { Query } from '../../helpers/types';
 
@@ -16,6 +17,8 @@ export namespace Village {
     updated_at: Date
     properties: string
   }
+
+  export const Villages = () => database<Struct>('villages')
 
   export interface WithLocation {
     id: string

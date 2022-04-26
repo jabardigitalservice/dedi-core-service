@@ -1,3 +1,4 @@
+import database from '../../config/database';
 import { metaPaginate } from '../../helpers/paginate';
 import { Query } from '../../helpers/types';
 
@@ -20,6 +21,9 @@ export namespace Page {
     source: string
     created_at?: Date
   }
+
+  export const Pages = () => database<Struct>('pages')
+  export const Files = () => database<StructFile>('files')
 
   export interface Response {
     id: string

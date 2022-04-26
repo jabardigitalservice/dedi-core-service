@@ -1,11 +1,9 @@
-import database from '../../config/database';
 import { convertToBoolean } from '../../helpers/constant';
 import { pagination } from '../../helpers/paginate';
 import { Page as Entity } from './page_entity';
 
 export namespace Page {
-  export const Pages = () => database<Entity.Struct>('pages')
-  export const Files = () => database<Entity.StructFile>('files')
+  const { Pages, Files } = Entity
 
   const Query = () => Pages()
     .select(

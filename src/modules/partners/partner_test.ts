@@ -3,13 +3,13 @@ import httpStatus from 'http-status'
 import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
 import app from '../../server'
-import { Partner as Repository } from './partner_repository'
+import database from '../../config/database'
 
 const timestamp = new Date()
 
 describe('seed data', () => {
   it('insert partners', async () => {
-    await Repository.Partners().insert({
+    await database('partners').insert({
       id: uuidv4(),
       name: 'test',
       total_village: 1,
@@ -143,7 +143,7 @@ describe('tests partners', () => {
 
 describe('tests partners', () => {
   it('test success find all data is deleted return data empty', async () => {
-    await Repository.Partners().where('name', 'test').update({ deleted_at: new Date() })
+    await database('partners').where('name', 'test').update({ deleted_at: new Date() })
     return request(app)
       .get('/v1/partners')
       .expect(httpStatus.OK)
