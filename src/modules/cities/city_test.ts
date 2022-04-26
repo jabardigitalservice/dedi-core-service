@@ -1,12 +1,11 @@
 import request from 'supertest'
 import httpStatus from 'http-status'
 import app from '../../server'
-import { City as Repository } from './city_repository'
 import database from '../../config/database'
 
 describe('seed data', () => {
   it('insert cities', async () => {
-    await Repository.Cities().insert({
+    await database('cities').insert({
       id: '12345',
       name: 'test123',
       location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),

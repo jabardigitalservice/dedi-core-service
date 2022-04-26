@@ -1,12 +1,10 @@
 import { v4 as uuidv4 } from 'uuid'
-import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
 import { User as Entity } from './user_entity'
 
 export namespace User {
-  export const Users = () => database<Entity.Struct>('users')
-  export const Files = () => database<Entity.StructFile>('files')
+  const { Users, Files } = Entity
 
   const Query = () => Users()
     .select(

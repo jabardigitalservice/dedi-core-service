@@ -1,29 +1,14 @@
-import database from '../../config/database';
+import { getPolygon } from '../../helpers/polygon';
 import { District as Entity } from './district_entity';
 
 export namespace District {
-  const getPolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
-    const { ne, sw } = requestQuery.bounds
-
-    const boundsNE = ne.trimStart().trimEnd().split(/[, ]+/)
-    const boundsSW = sw.trimStart().trimEnd().split(/[, ]+/)
-
-    return `POLYGON((
-      ${boundsNE[0]} ${boundsNE[1]},
-      ${boundsNE[0]} ${boundsSW[1]},
-      ${boundsSW[0]} ${boundsSW[1]},
-      ${boundsSW[0]} ${boundsNE[1]},
-      ${boundsNE[0]} ${boundsNE[1]}
-    ))`
-  }
+  const { Districts } = Entity
 
   const getWherePolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
-    const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(requestQuery)}'), districts.location)`
+    const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(requestQuery.bounds)}'), districts.location)`
 
     return wherePolygon
   }
-
-  export const Districts = () => database<Entity.Struct>('districts')
 
   export const withLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
     const query = Districts()

@@ -1,29 +1,14 @@
-import database from '../../config/database';
+import { getPolygon } from '../../helpers/polygon';
 import { City as Entity } from './city_entity';
 
 export namespace City {
-  const getPolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
-    const { ne, sw } = requestQuery.bounds
-
-    const boundsNE = ne.trimStart().trimEnd().split(/[, ]+/)
-    const boundsSW = sw.trimStart().trimEnd().split(/[, ]+/)
-
-    return `POLYGON((
-      ${boundsNE[0]} ${boundsNE[1]},
-      ${boundsNE[0]} ${boundsSW[1]},
-      ${boundsSW[0]} ${boundsSW[1]},
-      ${boundsSW[0]} ${boundsNE[1]},
-      ${boundsNE[0]} ${boundsNE[1]}
-    ))`
-  }
+  const { Cities } = Entity
 
   const getWherePolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
-    const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(requestQuery)}'), location)`
+    const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(requestQuery.bounds)}'), location)`
 
     return wherePolygon
   }
-
-  export const Cities = () => database<Entity.Struct>('cities')
 
   export const withLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
     const query = Cities()

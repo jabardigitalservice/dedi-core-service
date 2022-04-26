@@ -1,3 +1,5 @@
+import database from '../../config/database';
+
 export namespace Auth {
   export interface StructUser {
     id: string
@@ -31,6 +33,10 @@ export namespace Auth {
     created_at?: Date
     updated_at?: Date
   }
+
+  export const Users = () => database<StructUser>('users')
+  export const Partners = () => database<StructPartner>('partners')
+  export const OauthTokens = () => database<StructOauthToken>('oauth_tokens')
 
   export interface RequestBodySignUp {
     name: string

@@ -1,3 +1,4 @@
+import database from '../../config/database'
 import { metaPaginate } from '../../helpers/paginate'
 import { Query } from '../../helpers/types'
 
@@ -14,6 +15,8 @@ export namespace Partner {
     updated_at?: Date
     created_at?: Date
   }
+
+  export const Partners = () => database<Struct>('partners')
 
   export interface RequestQuery extends Query {
     name: string

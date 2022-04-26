@@ -1,12 +1,11 @@
 import request from 'supertest'
 import httpStatus from 'http-status'
 import app from '../../server'
-import { District as Repository } from './district_repository'
 import database from '../../config/database'
 
 describe('seed data', () => {
   it('insert districts', async () => {
-    await Repository.Districts().insert({
+    await database('districts').insert({
       id: '12345678',
       name: 'test123',
       city_id: '12345',

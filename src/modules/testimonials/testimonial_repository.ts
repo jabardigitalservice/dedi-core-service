@@ -1,12 +1,10 @@
 import { v4 as uuidv4 } from 'uuid'
-import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
 import { Testimonial as Entity } from './testimonial_entity'
 
 export namespace Testimonial {
-  export const Testimonials = () => database<Entity.Struct>('testimonials')
-  export const Files = () => database<Entity.StructFile>('files')
+  const { Testimonials, Files } = Entity
 
   const Query = () => Testimonials()
     .select(

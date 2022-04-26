@@ -1,3 +1,4 @@
+import database from '../../config/database';
 import { metaPaginate } from '../../helpers/paginate';
 import { Query } from '../../helpers/types';
 
@@ -22,6 +23,9 @@ export namespace Testimonial {
     source: string
     created_at?: Date
   }
+
+  export const Testimonials = () => database<Struct>('testimonials')
+  export const Files = () => database<StructFile>('files')
 
   export interface Response {
     id: string

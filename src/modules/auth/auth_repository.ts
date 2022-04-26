@@ -1,12 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
-import database from '../../config/database';
 import { Auth as Entity } from './auth_entity';
-import bcryptRounds from '../../config/bcryptRounds';
 
 export namespace Auth {
-  export const Users = () => database<Entity.StructUser>('users')
-  export const Partners = () => database<Entity.StructPartner>('partners')
-  export const OauthTokens = () => database<Entity.StructOauthToken>('oauth_tokens')
+  const { Partners, Users, OauthTokens } = Entity
 
   export const createPartner = async (partner: Entity.PartnerCreate) => Partners().insert({
     ...partner,

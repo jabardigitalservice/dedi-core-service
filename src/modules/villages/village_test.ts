@@ -3,7 +3,6 @@ import 'jest-extended'
 import request from 'supertest'
 import httpStatus from 'http-status'
 import app from '../../server'
-import { Village as Repository } from './village_repository'
 import database from '../../config/database'
 
 const expectMetaBounds = expect.objectContaining({
@@ -117,7 +116,7 @@ const requestBodyQuestionnaire = {
 
 describe('seed data', () => {
   it('insert villages', async () => {
-    await Repository.Villages().insert({
+    await database('villages').insert({
       id: '123456785',
       name: 'test',
       district_id: '1',
@@ -126,7 +125,7 @@ describe('seed data', () => {
       is_active: true,
     })
 
-    await Repository.Villages().insert({
+    await database('villages').insert({
       id: '123456789',
       name: 'test3',
       district_id: '1',
@@ -228,7 +227,7 @@ describe('tests villages', () => {
 
 describe('seed data', () => {
   it('update villages', async () => {
-    await Repository.Villages().where('id', '123456785').update({
+    await database('villages').where('id', '123456785').update({
       updated_at: new Date(),
     })
   })
