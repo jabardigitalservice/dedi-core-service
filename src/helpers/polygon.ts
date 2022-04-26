@@ -1,4 +1,4 @@
-export interface Bounds {
+interface Bounds {
   ne: string
   sw: string
 }
