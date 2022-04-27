@@ -2,6 +2,7 @@ import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
 import { getUrlGCS } from '../../helpers/gcs'
 import { metaPagination } from '../../helpers/paginate'
+import { isRequestBounds } from '../../helpers/polygon'
 import lang from '../../lang'
 import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
@@ -42,18 +43,9 @@ export namespace Village {
 
     return data
   }
-  const pointRegexRule = (point: string) => {
-    const pointRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/
-    return pointRegex.test(point)
-  }
-
-  const isRequestBounds = (requestQuery: Entity.RequestQueryWithLocation) => requestQuery.bounds?.ne
-    && requestQuery.bounds.sw
-    && pointRegexRule(requestQuery.bounds.ne)
-    && pointRegexRule(requestQuery.bounds.sw)
 
   export const withLocation = async (requestQuery: Entity.RequestQueryWithLocation): Promise<Entity.ResponseWithLocation> => {
-    const items: any = isRequestBounds(requestQuery) ? await Repository.withLocation(requestQuery) : []
+    const items: any = isRequestBounds(requestQuery.bounds) ? await Repository.withLocation(requestQuery) : []
 
     const meta: any = Repository.metaWithLocation(requestQuery)
     const total: any = await meta.total

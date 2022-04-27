@@ -1,17 +1,8 @@
+import { isRequestBounds } from '../../helpers/polygon'
 import { District as Entity } from './district_entity'
 import { District as Repository } from './district_repository'
 
 export namespace District {
-  const pointRegexRule = (point: string) => {
-    const pointRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/
-    return pointRegex.test(point)
-  }
-
-  const isRequestBounds = (requestQuery: Entity.RequestQueryWithLocation) => requestQuery.bounds?.ne
-    && requestQuery.bounds.sw
-    && pointRegexRule(requestQuery.bounds.ne)
-    && pointRegexRule(requestQuery.bounds.sw)
-
   const responseWithLocation = (items: any[]): Entity.WithLocation[] => {
     const data: Entity.WithLocation[] = []
     for (const item of items) {
@@ -33,7 +24,7 @@ export namespace District {
   }
 
   export const withLocation = async (requestQuery: Entity.RequestQueryWithLocation): Promise<Entity.ResponseWithLocation> => {
-    const items: any = isRequestBounds(requestQuery) ? await Repository.withLocation(requestQuery) : []
+    const items: any = isRequestBounds(requestQuery.bounds) ? await Repository.withLocation(requestQuery) : []
     const total: any = await Repository.getTotalWithLocation()
 
     const result: Entity.ResponseWithLocation = {
