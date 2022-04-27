@@ -74,8 +74,9 @@ export namespace Village {
   const potensi_desa = Joi.alternatives().conditional('...level', {
     is: Joi.number().valid(4),
     then: Joi.object({
-      data: ruleArrayString,
+      data: ruleArrayString.max(3),
       photo: file,
+      potensi_lainnya: Joi.string().allow(null),
       potensi_dapat_dikembangkan: Joi.string().allow(null),
     }).required(),
     otherwise: Joi.optional(),
