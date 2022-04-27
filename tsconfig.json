@@ -10,8 +10,5 @@
     "removeComments": true,
     "skipLibCheck": true
   },
-  "include": [
-    "./src/**/*.ts",
-    "./src/lang/locales/*.json",
-  ]
+  "include": ["src"]
 }
