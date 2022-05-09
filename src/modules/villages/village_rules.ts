@@ -66,7 +66,14 @@ export namespace Village {
       komoditas: Joi.object({
         data: Joi.string().allow(null),
         photo: file,
+        productivity: Joi.string().required(),
       }).required(),
+      ecommerce: Joi.object({
+        data: ruleArrayString,
+        ecommerce: Joi.string().allow(null),
+        distribution: Joi.string().allow(null),
+      }),
+      logistic: Joi.string().required(),
     }).required(),
     otherwise: Joi.optional(),
   })
