@@ -25,6 +25,20 @@ export namespace City {
     return query
   }
 
+  export const suggestion = (requestQuery: Entity.RequestQuerySuggestion) => {
+    const query = Cities()
+      .select(
+        'id',
+        'name',
+      )
+      .where('is_active', true)
+      .orderBy('name', 'asc')
+
+    if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
+
+    return query
+  }
+
   export const getTotalWithLocation = () => {
     const query = Cities()
       .count('id', { as: 'total' })

@@ -32,4 +32,17 @@ export namespace City {
 
     return result
   }
+
+  export const suggestion = async (requestQuery: Entity.RequestQuerySuggestion): Promise<Entity.ResponseSuggestion> => {
+    const items: any = await Repository.suggestion(requestQuery)
+
+    const result: Entity.ResponseSuggestion = {
+      data: items,
+      meta: {
+        total: items.length,
+      },
+    }
+
+    return result
+  }
 }

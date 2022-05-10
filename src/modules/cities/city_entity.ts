@@ -21,6 +21,11 @@ export namespace City {
     },
   }
 
+  export interface Suggestion {
+    id: string
+    name: string
+  }
+
   export interface RequestQueryWithLocation extends Query {
     bounds: {
       ne: string
@@ -28,8 +33,19 @@ export namespace City {
     }
   }
 
+  export interface RequestQuerySuggestion extends Query {
+    name: string
+  }
+
   export interface ResponseWithLocation {
     data: WithLocation[]
+    meta: {
+      total: number
+    }
+  }
+
+  export interface ResponseSuggestion {
+    data: Suggestion[]
     meta: {
       total: number
     }
