@@ -13,4 +13,14 @@ export namespace City {
 
     res.status(httpStatus.OK).json(result)
   }
+
+  export const suggestion = async (
+    req: Request<never, never, never, Entity.RequestQuerySuggestion>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    const result: Entity.ResponseSuggestion = await Service.suggestion(req.query)
+
+    res.status(httpStatus.OK).json(result)
+  }
 }
