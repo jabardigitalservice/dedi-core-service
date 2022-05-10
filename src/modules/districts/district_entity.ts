@@ -33,8 +33,26 @@ export namespace District {
     }
   }
 
+  export interface Suggestion {
+    id: string
+    name: string
+  }
+
+  export interface RequestQuerySuggestion extends Query {
+    name: string
+    is_active: string
+    city_id: string
+  }
+
   export interface ResponseWithLocation {
     data: WithLocation[]
+    meta: {
+      total: number
+    }
+  }
+
+  export interface ResponseSuggestion {
+    data: Suggestion[]
     meta: {
       total: number
     }

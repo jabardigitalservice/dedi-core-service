@@ -1,3 +1,4 @@
+import { convertToBoolean } from '../../helpers/constant';
 import { getPolygon } from '../../helpers/polygon';
 import { District as Entity } from './district_entity';
 
@@ -24,6 +25,18 @@ export namespace District {
       .orderBy('districts.name', 'asc')
 
     query.whereRaw(getWherePolygon(requestQuery))
+
+    return query
+  }
+
+  export const suggestion = (requestQuery: Entity.RequestQuerySuggestion) => {
+    const query = Districts()
+      .select('id', 'name')
+      .orderBy('name', 'asc')
+
+    if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
+    if (requestQuery.is_active) query.where('is_active', convertToBoolean(requestQuery.is_active))
+    if (requestQuery.city_id) query.where('city_id', requestQuery.city_id)
 
     return query
   }

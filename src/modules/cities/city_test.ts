@@ -100,11 +100,12 @@ describe('tests cities', () => {
 })
 
 describe('tests cities', () => {
-  it('test success suggestion with query name', async () => request(app)
+  it('test success suggestion with query', async () => request(app)
     .get('/v1/cities/suggestion')
     .set('Cache-Control', 'no-cache')
     .query({
       name: 'test123',
+      is_active: true
     })
     .expect(httpStatus.OK)
     .then((response) => {
