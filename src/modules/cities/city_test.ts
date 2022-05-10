@@ -105,7 +105,7 @@ describe('tests cities', () => {
     .set('Cache-Control', 'no-cache')
     .query({
       name: 'test123',
-      is_active: true
+      is_active: true,
     })
     .expect(httpStatus.OK)
     .then((response) => {

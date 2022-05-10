@@ -108,7 +108,7 @@ describe('tests districts', () => {
     .query({
       name: 'test123',
       is_active: true,
-      city_id: '12345'
+      city_id: '12345',
     })
     .expect(httpStatus.OK)
     .then((response) => {
