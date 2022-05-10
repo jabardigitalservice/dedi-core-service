@@ -35,6 +35,7 @@ export namespace City {
 
   export interface RequestQuerySuggestion extends Query {
     name: string
+    is_active: string
   }
 
   export interface ResponseWithLocation {
