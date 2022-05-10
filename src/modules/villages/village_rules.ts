@@ -60,7 +60,7 @@ export namespace Village {
     }).required(),
     ecommerce: Joi.object({
       data: ruleArrayString,
-      ecommerce: Joi.string().allow(null),
+      ecommerce_lainnya: Joi.string().allow(null),
       distribusi: Joi.string().allow(null),
     }),
     logistik: Joi.string().required(),
