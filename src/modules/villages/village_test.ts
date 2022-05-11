@@ -88,9 +88,16 @@ const file = () => ({
 })
 
 const requestBodyQuestionnaire = {
-  id: '123456789',
+  id: '123456785',
   level: 1,
   properties: {
+    pemohon: {
+      nama: faker.name.firstName(),
+      posisi: faker.name.jobTitle(),
+      file: file(),
+      nomor_telepon: faker.phone.phoneNumber(),
+      email: faker.internet.email(),
+    },
     fasilitas_desa: {
       akses_kendaraan: {
         data: [faker.name.firstName()],

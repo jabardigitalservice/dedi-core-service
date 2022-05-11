@@ -10,6 +10,14 @@ export namespace Village {
 
   const ruleArrayString = Joi.array().items(Joi.string()).required().min(1)
 
+  const ruleApplicant = Joi.object({
+    nama: Joi.string().required(),
+    posisi: Joi.string().required(),
+    file,
+    nomor_telepon: Joi.string().required(),
+    email: Joi.string().email().required(),
+  }).required()
+
   const ruleLevel1 = Joi.object({
     akses_kendaraan: Joi.object({
       data: ruleArrayString,
@@ -84,6 +92,7 @@ export namespace Village {
     id: Joi.string().max(14).required(),
     level: Joi.number().valid(1, 2, 3, 4).required(),
     properties: Joi.object({
+      pemohon: ruleApplicant,
       fasilitas_desa: getRuleLevel(ruleLevel1, [1, 2, 3, 4]),
       literasi_digital: getRuleLevel(ruleLevel2, [2, 3, 4]),
       tentang_bumdes: getRuleLevel(ruleLevel3, [3, 4]),
