@@ -33,8 +33,8 @@ export namespace Village {
       const result: Entity.ResponseFindById = await Service.findById(req.params)
 
       res.status(httpStatus.OK).json(result)
-    } catch (err) {
-      next(err)
+    } catch (error) {
+      next(error)
     }
   }
 
@@ -54,5 +54,18 @@ export namespace Village {
   ) => {
     const result: Entity.ResponseSuggestion = await Service.suggestion(req.query)
     res.status(httpStatus.OK).json(result)
+  }
+
+  export const checkRegistered = async (
+    req: Request<Entity.RequestParamFindById, never, never, never>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      await Service.checkRegistered(req.params)
+      res.status(httpStatus.OK).json({ message: 'Available' })
+    } catch (error) {
+      next(error)
+    }
   }
 }

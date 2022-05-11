@@ -12,5 +12,6 @@ router.get('/v1/villages/list-with-location', cache(), Log.listWithLocation(), H
 router.get('/v1/villages/suggestion', cache(), Handler.suggestion)
 router.post('/v1/villages/questionnaire', validate(Rules.questionnaire), validateWithDB(Rules.questionnaireWithDB), Handler.questionnaire)
 router.get('/v1/villages/:id', Handler.findById)
+router.get('/v1/villages/:id/check-registered', Handler.checkRegistered)
 
 export default router
