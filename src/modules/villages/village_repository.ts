@@ -48,6 +48,7 @@ export namespace Village {
 
     if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
     if (requestQuery.is_active) query.where('villages.is_active', convertToBoolean(requestQuery.is_active))
+    if (requestQuery.district_id) query.where('villages.district_id', requestQuery.district_id)
 
     return query
   }

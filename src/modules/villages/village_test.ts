@@ -177,7 +177,11 @@ describe('tests villages', () => {
   it('test success suggestion with query name', async () => request(app)
     .get('/v1/villages/suggestion')
     .set('Cache-Control', 'no-cache')
-    .query({ name: 'test', is_active: true })
+    .query({
+      name: 'test',
+      is_active: true,
+      district_id: '1',
+    })
     .expect(httpStatus.OK)
     .then((response) => {
       expect(response.body).toEqual(expectBodySuggestion)

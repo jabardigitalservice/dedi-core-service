@@ -85,6 +85,7 @@ export namespace Village {
   export interface RequestQuerySuggestion {
     name: string
     is_active: string
+    district_id: string
   }
 
   export interface ResponseWithLocation {
