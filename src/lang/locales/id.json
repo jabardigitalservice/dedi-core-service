@@ -25,7 +25,7 @@
   "validation.file.size": "Isian {{ attribute }} seharusnya tidak lebih dari {{ max }} MB.",
 
   "error.exists": "{{ entity }} dengan id {{ id }} tidak ditemukan.",
-  "error.village.registered": "Desa yang anda ajukan telah terdaftar di Desa Digital level {{ level }}",
+  "error.village.registered": "Desa yang Anda ajukan telah terdaftar di Desa Digital level {{ level }}",
 
   "auth.signin.failed": "Email dan Kata Sandi tidak ditemukan.",
   "auth.signin.failed.limiter": "Harap mencoba login dalam",
