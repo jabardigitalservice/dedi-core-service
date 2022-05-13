@@ -8,7 +8,7 @@ export namespace Village {
     source: Joi.string().allow(null),
   }).required()
 
-  const ruleArrayString = Joi.array().items(Joi.string()).required().min(1)
+  const ruleArrayString = Joi.array().items(Joi.string()).required()
 
   const ruleApplicant = Joi.object({
     nama: Joi.string().required(),
@@ -20,7 +20,7 @@ export namespace Village {
 
   const ruleLevel1 = Joi.object({
     akses_kendaraan: Joi.object({
-      data: ruleArrayString,
+      data: ruleArrayString.min(1),
       photo: file,
     }).required(),
     suplai_listrik: Joi.object({
@@ -41,7 +41,7 @@ export namespace Village {
 
   const ruleLevel2 = Joi.object({
     komunitas: Joi.object({
-      data: ruleArrayString,
+      data: ruleArrayString.min(1),
       photo: file,
     }).required(),
     pelatihan: Joi.object({
@@ -53,7 +53,7 @@ export namespace Village {
 
   const ruleLevel3 = Joi.object({
     sosial_media: Joi.object({
-      data: ruleArrayString,
+      data: ruleArrayString.min(1),
       photo: file,
     }).required(),
     bumdes: Joi.object({
