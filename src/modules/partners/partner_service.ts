@@ -1,4 +1,4 @@
-import { getUrl } from '../../helpers/cloudStorage'
+import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { metaPagination } from '../../helpers/paginate'
 import { Partner as Entity } from './partner_entity'
 import { Partner as Repository } from './partner_repository'
@@ -11,7 +11,7 @@ export namespace Partner {
     logo: {
       path: getUrl(item.logo),
       source: item.logo,
-      original_name: item.file_name || null,
+      original_name: getOriginalName(item.file_name),
     },
     created_at: item.created_at,
     website: item.website,
