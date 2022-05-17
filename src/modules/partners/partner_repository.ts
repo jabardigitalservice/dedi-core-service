@@ -6,11 +6,12 @@ export namespace Partner {
 
   export const findAll = (requestQuery: Entity.RequestQuery) => {
     const query = Partners()
-      .select('id', 'name', 'total_village', 'logo', 'created_at', 'website')
+      .select('partners.id', 'partners.name', 'total_village', 'logo', 'partners.created_at', 'website')
       .whereNull('deleted_at')
       .orderBy('created_at', 'desc')
+      .leftJoin('files', 'files.source', '=', 'logo')
 
-    if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
+    if (requestQuery.name) query.where('partners.name', 'LIKE', `%${requestQuery.name}%`)
 
     return query.paginate(pagination(requestQuery))
   }

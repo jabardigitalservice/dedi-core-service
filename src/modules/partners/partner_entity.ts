@@ -16,6 +16,19 @@ export namespace Partner {
     created_at?: Date
   }
 
+  export interface Response {
+    id: string
+    name: string
+    total_village: number
+    logo: {
+      path: string
+      source: string
+      original_name: string
+    }
+    created_at: Date
+    website: string
+  }
+
   export const Partners = () => database<Struct>('partners')
 
   export interface RequestQuery extends Query {
@@ -29,7 +42,7 @@ export namespace Partner {
   }
 
   export interface ResponseFindAll {
-    data: Struct[]
+    data: Response[]
     meta: Meta
   }
 

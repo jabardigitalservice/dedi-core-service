@@ -36,7 +36,11 @@ const expectFindAll = expect.arrayContaining([
     id: expect.any(String),
     name: expect.any(String),
     total_village: expect.any(Number),
-    logo: expect.any(String),
+    logo: expect.objectContaining({
+      path: expect.any(String),
+      source: expect.any(String),
+      original_name: expect.toBeOneOf([null, expect.any(String)]),
+    }),
     created_at: expect.any(String),
     website: expect.any(String),
   }),
