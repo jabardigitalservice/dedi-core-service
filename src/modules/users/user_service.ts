@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
-import { getUrlCloudStorage } from '../../helpers/cloudStorage'
+import { getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
@@ -16,7 +16,7 @@ export namespace User {
     email: item.email,
     role: getRole({ prtnr: item.partner_id, adm: item.is_admin }),
     avatar: {
-      path: getUrlCloudStorage(item.avatar),
+      path: getUrl(item.avatar),
       source: item.avatar,
       original_name: item.file_name,
     },

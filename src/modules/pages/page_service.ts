@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
-import { getUrlCloudStorage } from '../../helpers/cloudStorage'
+import { getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import lang from '../../lang'
@@ -15,7 +15,7 @@ export namespace Page {
     is_active: convertToBoolean(item.is_active),
     order: item.order,
     image: {
-      path: getUrlCloudStorage(item.image),
+      path: getUrl(item.image),
       source: item.image,
       original_name: item.file_name,
     },

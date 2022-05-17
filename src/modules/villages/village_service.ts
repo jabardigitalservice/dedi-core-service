@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
-import { getUrlCloudStorage } from '../../helpers/cloudStorage'
+import { getUrl } from '../../helpers/cloudStorage'
 import { metaPagination } from '../../helpers/paginate'
 import { isRequestBounds } from '../../helpers/polygon'
 import lang from '../../lang'
@@ -12,7 +12,7 @@ export namespace Village {
     const images: string[] = []
     const items = JSON.parse(image) || []
     for (const item of items) {
-      images.push(getUrlCloudStorage(item))
+      images.push(getUrl(item))
     }
 
     return images

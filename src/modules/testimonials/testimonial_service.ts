@@ -1,7 +1,7 @@
 import httpStatus from 'http-status'
 import config from '../../config'
 import { HttpError } from '../../handler/exception'
-import { getUrlCloudStorage } from '../../helpers/cloudStorage'
+import { getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import lang from '../../lang'
@@ -15,7 +15,7 @@ export namespace Testimonial {
     description: item.description,
     is_active: convertToBoolean(item.is_active),
     avatar: {
-      path: getUrlCloudStorage(item.avatar),
+      path: getUrl(item.avatar),
       source: item.avatar,
       original_name: item.file_name,
     },
