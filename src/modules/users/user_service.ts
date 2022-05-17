@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
-import { getUrl } from '../../helpers/cloudStorage'
+import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
@@ -18,7 +18,7 @@ export namespace User {
     avatar: {
       path: getUrl(item.avatar),
       source: item.avatar,
-      original_name: item.file_name,
+      original_name: getOriginalName(item.file_name),
     },
     is_active: convertToBoolean(item.is_active),
     created_at: item.created_at,

@@ -1,7 +1,7 @@
 import httpStatus from 'http-status'
 import config from '../../config'
 import { HttpError } from '../../handler/exception'
-import { getUrl } from '../../helpers/cloudStorage'
+import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import lang from '../../lang'
@@ -17,7 +17,7 @@ export namespace Testimonial {
     avatar: {
       path: getUrl(item.avatar),
       source: item.avatar,
-      original_name: item.file_name,
+      original_name: getOriginalName(item.file_name),
     },
     type: item.type,
     partner: {

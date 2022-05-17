@@ -41,7 +41,7 @@ const expectResponse = expect.objectContaining({
   avatar: {
     path: expect.any(String),
     source: expect.any(String),
-    original_name: expect.any(String),
+    original_name: expect.toBeOneOf([null, expect.any(String)]),
   },
   is_active: expect.any(Boolean),
   created_at: expect.toBeOneOf([null, expect.any(String)]),
