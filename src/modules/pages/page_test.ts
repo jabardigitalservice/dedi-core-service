@@ -24,7 +24,7 @@ const expectResponse = expect.objectContaining({
   image: expect.objectContaining({
     path: expect.any(String),
     source: expect.any(String),
-    original_name: expect.any(String),
+    original_name: expect.toBeOneOf([null, expect.any(String)]),
   }),
 })
 

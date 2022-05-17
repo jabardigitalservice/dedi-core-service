@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
-import { getUrl } from '../../helpers/cloudStorage'
+import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import lang from '../../lang'
@@ -17,7 +17,7 @@ export namespace Page {
     image: {
       path: getUrl(item.image),
       source: item.image,
-      original_name: item.file_name,
+      original_name: getOriginalName(item.file_name),
     },
   })
 
