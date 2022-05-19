@@ -28,6 +28,8 @@ jobs:
 
     - name: setup Redis
       uses: shogo82148/actions-setup-redis@v1
+      with:
+        redis-version: '6.2.6'
 
     - name: Set up Node
       uses: actions/setup-node@master
