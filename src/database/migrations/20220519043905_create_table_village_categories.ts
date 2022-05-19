@@ -1,6 +1,6 @@
-import { Knex } from 'knex'
+import { Knex } from 'knex';
 
-const tableName = 'categories'
+const tableName = 'village_categories'
 
 export async function up(knex: Knex): Promise<void> {
   if (await knex.schema.hasTable(tableName)) {
@@ -9,9 +9,8 @@ export async function up(knex: Knex): Promise<void> {
 
   return knex.schema.createTable(tableName, (table) => {
     table.increments('id').unsigned()
-    table.string('name', 20).notNullable().unique()
-    table.integer('level', 2).notNullable()
-    table.boolean('is_active').notNullable().index()
+    table.string('category_id').index()
+    table.string('village_id').index()
   })
 }
 
