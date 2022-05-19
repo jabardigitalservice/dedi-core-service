@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
 
   return knex.schema.createTable(tableName, (table) => {
     table.increments('id').unsigned()
-    table.string('category_id').index()
+    table.integer('category_id').index()
     table.string('village_id', 14).index()
   })
 }
