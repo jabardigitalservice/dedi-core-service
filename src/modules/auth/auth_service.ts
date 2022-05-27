@@ -12,6 +12,7 @@ import config from '../../config'
 import { getRole } from '../../helpers/rbac'
 import { convertToBoolean } from '../../helpers/constant'
 import { passwordHash } from '../../helpers/passwordHash'
+import { getUrl } from '../../helpers/cloudStorage'
 
 export namespace Auth {
   export const signUp = async (requestBody: Entity.RequestBodySignUp) => {
@@ -132,7 +133,7 @@ export namespace Auth {
 
     const result: Entity.ResponseMe = {
       data: {
-        name, email, avatar, role,
+        name, email, avatar: getUrl(avatar), role,
       },
       meta: {},
     }
