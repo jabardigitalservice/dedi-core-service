@@ -1,7 +1,7 @@
 import { CustomError } from 'ts-custom-error'
 import httpStatus from 'http-status'
 import { Request, Response, NextFunction } from 'express'
-import Sentry from '../config/sentry'
+import newrelic from 'newrelic'
 import { isNodeEnvProduction } from '../helpers/constant'
 
 const isErrorCodeNotNumber = (error: any) => typeof error.code === 'string' || typeof error.code === 'undefined'
@@ -32,14 +32,12 @@ export const onError = (error: any, req: Request, res: Response, next: NextFunct
       userAgent: req.headers['user-agent'],
       path: req.path,
       code: error.code,
+      user: JSON.stringify(req.user),
     }
 
     console.log(JSON.stringify(logger));
 
-    Sentry.captureException(error, {
-      tags: logger,
-      user: req.user,
-    });
+    newrelic.noticeError(error, logger)
   }
 
   return res.status(error.code).json(messageError(error))
