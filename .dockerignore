@@ -4,3 +4,4 @@ node_modules
 build
 *.sqlite
 coverage
+newrelic_agent.log
