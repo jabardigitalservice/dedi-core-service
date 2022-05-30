@@ -7,3 +7,4 @@ build
 coverage
 mongodb
 tmp
+newrelic_agent.log
