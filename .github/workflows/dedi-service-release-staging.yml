@@ -60,7 +60,7 @@ jobs:
     - name: GitOps ArgoCD Update Image Tag
       uses: mikefarah/yq@master
       with:
-        cmd: yq -i '.spec.template.spec.containers[1] = "${{ secrets.SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/desa-digital/development/deployment.yaml'
+        cmd: yq -i '.spec.template.spec.containers[0].image = "${{ secrets.SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/desa-digital/development/deployment.yaml'
 
     - name: GitOps ArgoCD Create Branch, Commit, Push
       run: |
