@@ -127,7 +127,7 @@ describe('seed data', () => {
       id: '123456785',
       name: 'test',
       district_id: '1',
-      level: 1,
+      level: 4,
       location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
       is_active: true,
     })
