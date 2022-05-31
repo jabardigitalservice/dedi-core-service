@@ -72,4 +72,4 @@ jobs:
         git checkout -b desa-digital-release-staging
         git add deployment.yaml
         git commit -m "Desa Digital Release ${{ steps.vars.outputs.sha_short }} to Staging"
-        git push origin desa-digital-release-staging -o merge_request.description="# Overview \n\n - Desa Digital Release ${{ steps.vars.outputs.sha_short }} to Staging \n\n ## Evidence \n\n - title: Desa Digital Release ${{ steps.vars.outputs.sha_short }} to Staging \n - project: Desa Digital \n - participants:  " merge_request.create
+        git push origin desa-digital-release-staging -o merge_request.description="# Overview \n\n - Desa Digital Release ${{ steps.vars.outputs.sha_short }} to Staging \n\n ## Evidence \n\n - title: Desa Digital Release ${{ steps.vars.outputs.sha_short }} to Staging \n - project: Desa Digital \n - participants:  " -o merge_request.create
