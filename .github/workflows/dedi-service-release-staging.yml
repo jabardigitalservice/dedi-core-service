@@ -49,3 +49,26 @@ jobs:
         password: ${{ secrets.CAPROVER_PASSWORD }}
         app: ${{ secrets.SERVICE_CAPROVER_APPNAME }}
         image: ${{ secrets.SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}
+
+    # GitOps
+    - name: GitOps ArgoCD Setup
+      run: |
+        echo "${{ secrets.GITLAB_ARGOCD_KEY }}" > /tmp/gitlab-deploy-ssh-key
+        chmod 600 /tmp/gitlab-deploy-ssh-key
+        export GIT_SSH_COMMAND="ssh -i /tmp/gitlab-deploy-ssh-key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+        git clone ${{ secrets.GITLAB_ARGOCD_REPOSITORY }}
+    - name: GitOps ArgoCD Update Image Tag
+      uses: mikefarah/yq@master
+      with:
+        cmd: yq -i '.spec.template.spec.containers.image = "${{ secrets.SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/desa-digital/development/deployment.yaml'
+
+    - name: GitOps ArgoCD Create Branch, Commit, Push
+      run: |
+        export GIT_SSH_COMMAND="ssh -i /tmp/gitlab-deploy-ssh-key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+        cd jds-terraform-gke/k8s/desa-digital/development
+        git config user.email "github-action@github.com"
+        git config user.name "Github Action"
+        git checkout -b desa-digital-release-staging
+        git add deployment.yaml
+        git commit -m "Desa Digital Release to Staging"
+        git push origin desa-digital-release-staging -o merge_request.create
