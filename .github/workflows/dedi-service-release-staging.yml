@@ -7,7 +7,7 @@ on:
     branches: [ main ]
     paths:
       - 'src/**'
-      - '.github'
+      - '.github/**'
 
 jobs:
   deploy:
