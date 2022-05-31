@@ -1,9 +1,9 @@
 import { Express } from 'express'
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
+import newrelic from 'newrelic'
 import config from '../config'
 import { GCS } from '../config/cloudStorage'
-import Sentry from '../config/sentry';
 
 export const uploadGCS = (file: Express.Multer.File): string => {
   const bucket = GCS.bucket(config.get('gcs.bucket'));
@@ -16,7 +16,7 @@ export const uploadGCS = (file: Express.Multer.File): string => {
   });
 
   blobStream.on('error', (err: Error) => {
-    Sentry.captureException(err)
+    newrelic.noticeError(err)
   })
 
   blobStream.end(file.buffer);

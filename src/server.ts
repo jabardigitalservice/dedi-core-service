@@ -10,7 +10,6 @@ import { onError } from './handler/exception'
 import home from './handler/home'
 import { isNodeEnvTest } from './helpers/constant'
 import httpTimeout from './middleware/httpTimeout'
-import sentryTransaction from './middleware/sentry'
 import auth from './modules/auth/auth_http'
 import cities from './modules/cities/city_http'
 import districts from './modules/districts/district_http'
@@ -37,7 +36,6 @@ class App {
     this.app.use(cors(corsOptions))
     this.app.use(helmet())
     this.app.use(compression())
-    this.app.use(sentryTransaction)
     this.app.use(httpTimeout)
   }
 

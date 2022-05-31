@@ -1,6 +1,6 @@
+import newrelic from 'newrelic'
 import config from '../config'
 import mail from '../config/mailer'
-import Sentry from '../config/sentry'
 
 export interface Payload {
   to: string
@@ -18,7 +18,7 @@ export const sendMail = async (payload: Payload) => {
     ...payload,
   }
 
-  mail.sendMail(mailOptions, (err: Error) => {
-    if (err) Sentry.captureException(err)
+  mail.sendMail(mailOptions, (error: Error) => {
+    if (error) newrelic.noticeError(error)
   })
 }
