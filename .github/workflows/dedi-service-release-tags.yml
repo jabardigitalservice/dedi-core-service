@@ -60,5 +60,5 @@ jobs:
         git config user.name "Github Action"
         git checkout -b desa-digital-release-production
         git add deployment.yaml
-        git commit -m "Desa Digital Release to Staging"
+        git commit -m "Desa Digital Release to Production"
         git push origin desa-digital-release-production -o merge_request.create
