@@ -69,7 +69,7 @@ jobs:
         cd jds-terraform-gke/k8s/desa-digital/development
         git config user.email "github-action@github.com"
         git config user.name "Github Action"
-        git checkout -b desa-digital-release-staging
+        git checkout -b desa-digital-release-${{ steps.vars.outputs.sha_short }}-staging
         git add deployment.yaml
         git commit -m "Desa Digital Release ${{ steps.vars.outputs.sha_short }} to Staging"
-        git push origin desa-digital-release-staging -o merge_request.description="# Overview \n\n - Desa Digital Release ${{ steps.vars.outputs.sha_short }} to Staging \n\n ## Evidence \n\n - title: Desa Digital Release ${{ steps.vars.outputs.sha_short }} to Staging \n - project: Desa Digital \n - participants:  " -o merge_request.create
+        git push origin desa-digital-release-${{ steps.vars.outputs.sha_short }}-staging -o merge_request.description="# Overview \n\n - Desa Digital Release ${{ steps.vars.outputs.sha_short }} to Staging \n\n ## Evidence \n\n - title: Desa Digital Release ${{ steps.vars.outputs.sha_short }} to Staging \n - project: Desa Digital \n - participants:  " -o merge_request.create
