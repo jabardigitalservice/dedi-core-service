@@ -39,3 +39,26 @@ jobs:
         file: docker/Dockerfile
         push: true
         tags: ${{ secrets.SERVICE_TAGNAME }}:${{ steps.get_version.outputs.VERSION }}
+
+    # GitOps
+    - name: GitOps ArgoCD Setup
+      run: |
+        echo "${{ secrets.GITLAB_ARGOCD_KEY }}" > /tmp/gitlab-deploy-ssh-key
+        chmod 600 /tmp/gitlab-deploy-ssh-key
+        export GIT_SSH_COMMAND="ssh -i /tmp/gitlab-deploy-ssh-key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+        git clone ${{ secrets.GITLAB_ARGOCD_REPOSITORY }}
+    - name: GitOps ArgoCD Update Image Tag
+      uses: mikefarah/yq@master
+      with:
+        cmd: yq -i '.spec.template.spec.containers[0].image = "${{ secrets.SERVICE_TAGNAME }}:${{ steps.get_version.outputs.VERSION }}"' 'jds-terraform-gke/k8s/desa-digital/production/deployment.yaml'
+
+    - name: GitOps ArgoCD Create Branch, Commit, Push
+      run: |
+        export GIT_SSH_COMMAND="ssh -i /tmp/gitlab-deploy-ssh-key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+        cd jds-terraform-gke/k8s/desa-digital/production
+        git config user.email "github-action@github.com"
+        git config user.name "Github Action"
+        git checkout -b desa-digital-release-${{ steps.vars.outputs.sha_short }}-production
+        git add deployment.yaml
+        git commit -m "Desa Digital Release ${{ steps.vars.outputs.sha_short }} to production"
+        git push origin desa-digital-release-${{ steps.vars.outputs.sha_short }}-production -o merge_request.description="# Overview \n\n - Desa Digital Release ${{ steps.vars.outputs.sha_short }} to production \n\n ## Evidence \n\n - title: Desa Digital Release ${{ steps.vars.outputs.sha_short }} to production \n - project: Desa Digital \n - participants:  " -o merge_request.create
