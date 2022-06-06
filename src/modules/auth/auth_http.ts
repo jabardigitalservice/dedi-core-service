@@ -2,7 +2,7 @@ import { Router } from 'express'
 import rateLimit from 'express-rate-limit'
 import httpStatus from 'http-status'
 import { validate, validateWithDB } from '../../helpers/validator'
-import { verifyAccessToken } from '../../middleware/jwt'
+import { verifyAccessToken, verifyRefreshToken } from '../../middleware/jwt'
 import { Auth as Rules } from './auth_rules'
 import { Auth as Handler } from './auth_handler'
 import config from '../../config'
@@ -28,7 +28,7 @@ router.post('/v1/auth/users/sign-out', verifyAccessToken, validate(Rules.refresh
 router.post('/v1/auth/users/me', verifyAccessToken, Handler.me)
 router.post('/v1/auth/users/refresh-token', verifyAccessToken, validate(Rules.refreshToken), Handler.refreshToken)
 router.post('/v1/auth/users/forgot-password', validate(Rules.forgotPassword), Handler.forgotPassword)
-router.post('/v1/auth/users/forgot-password/verify', verifyAccessToken, Handler.forgotPasswordVerify)
-router.post('/v1/auth/users/reset-password', verifyAccessToken, validate(Rules.resetPassword), Handler.resetPassword)
+router.post('/v1/auth/users/forgot-password/verify', verifyRefreshToken, Handler.forgotPasswordVerify)
+router.post('/v1/auth/users/reset-password', verifyRefreshToken, validate(Rules.resetPassword), Handler.resetPassword)
 
 export default router

@@ -50,6 +50,11 @@ export const verifyAccessToken = verifyToken({
   algorithms: config.get('jwt.algorithm'),
 })
 
+export const verifyRefreshToken = verifyToken({
+  secretOrPublic: config.get('jwt.refresh.public'),
+  algorithms: config.get('jwt.refresh.algorithm'),
+})
+
 export const createAccessToken = (data: object) => createToken({
   data,
   secret: config.get('jwt.secret'),
