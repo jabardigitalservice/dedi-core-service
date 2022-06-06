@@ -4,7 +4,7 @@ import { Auth as Entity } from './auth_entity';
 export namespace Auth {
   const { Partners, Users, OauthTokens } = Entity
 
-  export const createPartner = async (partner: Entity.PartnerCreate) => Partners().insert({
+  export const createPartner = (partner: Entity.PartnerCreate) => Partners().insert({
     ...partner,
     created_at: new Date(),
   })
@@ -34,48 +34,48 @@ export namespace Auth {
     return requestBody.partner_id
   }
 
-  export const signUp = async (requestBody: Entity.RequestBodySignUp) => Users().insert({
+  export const signUp = (requestBody: Entity.RequestBodySignUp) => Users().insert({
     id: uuidv4(),
     created_at: new Date(),
     ...requestBody,
   })
 
-  export const findByEmail = async (requestBody: Entity.FindByEmail) => Users()
+  export const findByEmail = (requestBody: Entity.FindByEmail) => Users()
     .where('email', requestBody.email)
     .first()
 
-  export const findByUserId = async (id: string) => Users()
+  export const findByUserId = (id: string) => Users()
     .where('id', id)
     .first()
 
-  export const findByRefreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => OauthTokens()
+  export const findByRefreshToken = (requestBody: Entity.RequestBodyRefreshToken) => OauthTokens()
     .select('users.id', 'partner_id', 'is_admin', 'users.is_active')
     .join('users', 'users.id', 'oauth_tokens.user_id')
     .where('refresh_token', requestBody.refresh_token)
     .first()
 
-  export const deleteOauthbyRefreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => OauthTokens()
+  export const deleteOauthbyRefreshToken = (requestBody: Entity.RequestBodyRefreshToken) => OauthTokens()
     .where('refresh_token', requestBody.refresh_token)
     .delete()
 
-  export const createOauthToken = async (oauthToken: Entity.StructOauthToken) => OauthTokens().insert({
+  export const createOauthToken = (oauthToken: Entity.StructOauthToken) => OauthTokens().insert({
     id: uuidv4(),
     created_at: new Date(),
     ...oauthToken,
   })
 
-  export const updateRefreshToken = async (refreshToken: string, oauthToken: Entity.StructOauthToken) => OauthTokens()
+  export const updateRefreshToken = (refreshToken: string, oauthToken: Entity.StructOauthToken) => OauthTokens()
     .where('refresh_token', '=', refreshToken)
     .update({
       ...oauthToken,
       updated_at: new Date(),
     })
 
-  export const updatePassword = async (id: string, password: string) => Users()
+  export const updatePassword = (id: string, password: string) => Users()
     .where('id', id)
     .update({ password })
 
-  export const updateLastLoginAt = async (id: string) => Users()
+  export const updateLastLoginAt = (id: string) => Users()
     .where('id', id)
     .update({ last_login_at: new Date() })
 }

@@ -61,7 +61,7 @@ export namespace Testimonial {
   })
 
   export const store = async (requestBody: Entity.RequestBody, user: any) => {
-    Repository.createFile({
+    await Repository.createFile({
       source: requestBody.avatar,
       name: requestBody.avatar_original_name,
     })
@@ -76,7 +76,7 @@ export namespace Testimonial {
     const item: any = await Repository.findById(id)
     if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'testimonial', id }))
 
-    Repository.updateFile({
+    await Repository.updateFile({
       source: requestBody.avatar,
       name: requestBody.avatar_original_name,
     }, item.file_id)
