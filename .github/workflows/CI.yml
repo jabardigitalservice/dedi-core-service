@@ -48,7 +48,6 @@ jobs:
         echo TEST_DB_USER='dedi_test' >> .env
         echo TEST_DB_PASSWORD='dedi_test' >> .env
         echo TEST_DB_DATABASE='dedi_test' >> .env
-        echo NEW_RELIC_ENABLED=false >> .env
         cat .env
 
     - name: Run Testing

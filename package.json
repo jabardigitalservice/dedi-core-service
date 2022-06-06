@@ -93,7 +93,7 @@
     "migrate:test": "knex migrate:latest --cwd=src",
     "rollback:test": "knex migrate:rollback --cwd=src",
     "refresh:test": "npm run rollback:test && npm run migrate:test",
-    "test": "NODE_ENV=test dotenv -e .env npm run refresh:test && NODE_ENV=test dotenv -e .env jest"
+    "test": "NODE_ENV=test dotenv -e .env npm run refresh:test && NODE_ENV=test NEW_RELIC_ENABLED=false dotenv -e .env jest"
   },
   "author": "ayocodingit",
   "license": "MIT"

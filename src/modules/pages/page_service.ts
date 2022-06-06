@@ -54,7 +54,7 @@ export namespace Page {
   }
 
   export const store = async (requestBody: Entity.RequestBody, user: any) => {
-    Repository.createFile({
+    await Repository.createFile({
       source: requestBody.image,
       name: requestBody.image_original_name,
     })
@@ -80,7 +80,7 @@ export namespace Page {
     const item: any = await Repository.findById(id)
     if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
 
-    Repository.updateFile({
+    await Repository.updateFile({
       source: requestBody.image,
       name: requestBody.image_original_name,
     }, item.file_id)

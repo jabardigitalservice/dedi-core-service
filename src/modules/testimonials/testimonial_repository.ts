@@ -42,26 +42,26 @@ export namespace Testimonial {
     return query.paginate(pagination(requestQuery))
   }
 
-  export const store = async (requestBody: Entity.Struct) => Testimonials().insert({
+  export const store = (requestBody: Entity.Struct) => Testimonials().insert({
     id: uuidv4(),
     ...requestBody,
     created_at: new Date(),
   })
 
-  export const update = async (requestBody: Entity.Struct, id: string) => Testimonials().where('id', id).update({
+  export const update = (requestBody: Entity.Struct, id: string) => Testimonials().where('id', id).update({
     ...requestBody,
   })
 
-  export const findById = async (id: string) => Query().where('testimonials.id', id).first()
+  export const findById = (id: string) => Query().where('testimonials.id', id).first()
 
-  export const destroy = async (id: string) => Testimonials().where('id', id).delete()
+  export const destroy = (id: string) => Testimonials().where('id', id).delete()
 
-  export const createFile = async (requestBody: Entity.StructFile) => Files().insert({
+  export const createFile = (requestBody: Entity.StructFile) => Files().insert({
     ...requestBody,
     created_at: new Date(),
   })
 
-  export const updateFile = async (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
+  export const updateFile = (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
     ...requestBody,
   })
 }

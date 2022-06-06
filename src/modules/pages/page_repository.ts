@@ -20,7 +20,7 @@ export namespace Page {
     )
     .leftJoin('files', 'files.source', '=', 'pages.image')
 
-  export const findAll = async (requestQuery: Entity.RequestQuery) => {
+  export const findAll = (requestQuery: Entity.RequestQuery) => {
     const orderBy: string = requestQuery.order_by || 'created_at'
     const sortBy: string = requestQuery.sort_by || 'desc'
 
@@ -33,26 +33,26 @@ export namespace Page {
     return query.paginate(pagination(requestQuery))
   }
 
-  export const findById = async (id: string) => Query().where('pages.id', Number(id)).first()
+  export const findById = (id: string) => Query().where('pages.id', Number(id)).first()
 
-  export const store = async (requestBody: Entity.Struct) => Pages().insert({
+  export const store = (requestBody: Entity.Struct) => Pages().insert({
     ...requestBody,
     created_at: new Date(),
   })
 
-  export const destroy = async (id: number) => Pages().where('id', id).delete()
+  export const destroy = (id: number) => Pages().where('id', id).delete()
 
-  export const update = async (requestBody: Entity.Struct, id: number) => Pages().where('id', id).update({
+  export const update = (requestBody: Entity.Struct, id: number) => Pages().where('id', id).update({
     ...requestBody,
     updated_at: new Date(),
   })
 
-  export const createFile = async (requestBody: Entity.StructFile) => Files().insert({
+  export const createFile = (requestBody: Entity.StructFile) => Files().insert({
     ...requestBody,
     created_at: new Date(),
   })
 
-  export const updateFile = async (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
+  export const updateFile = (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
     ...requestBody,
   })
 }

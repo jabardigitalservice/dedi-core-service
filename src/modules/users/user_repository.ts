@@ -42,7 +42,7 @@ export namespace User {
 
   export const destroy = (id: number) => Users().where('id', id).delete()
 
-  export const store = async (requestBody: Entity.Struct) => Users().insert({
+  export const store = (requestBody: Entity.Struct) => Users().insert({
     id: uuidv4(),
     ...requestBody,
     verified_at: new Date(),
@@ -50,21 +50,21 @@ export namespace User {
     updated_at: new Date(),
   })
 
-  export const createFile = async (requestBody: Entity.StructFile) => Files().insert({
+  export const createFile = (requestBody: Entity.StructFile) => Files().insert({
     ...requestBody,
     created_at: new Date(),
   })
 
-  export const updateFile = async (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
+  export const updateFile = (requestBody: Entity.StructFile, id: number) => Files().where('id', id).update({
     ...requestBody,
   })
 
-  export const update = async (requestBody: Entity.Struct, id: string) => Users().where('id', id).update({
+  export const update = (requestBody: Entity.Struct, id: string) => Users().where('id', id).update({
     ...requestBody,
     updated_at: new Date(),
   })
 
-  export const updateStatus = async (requestBody: Entity.RequestBodyUpdateStatus, id: string) => Users().where('id', id).update({
+  export const updateStatus = (requestBody: Entity.RequestBodyUpdateStatus, id: string) => Users().where('id', id).update({
     ...requestBody,
     updated_at: new Date(),
   })

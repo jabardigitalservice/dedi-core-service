@@ -66,9 +66,9 @@ export namespace Auth {
 
     const responseJwt = generateJwtToken(user)
 
-    Repository.updateLastLoginAt(user.id)
+    await Repository.updateLastLoginAt(user.id)
 
-    Repository.createOauthToken({
+    await Repository.createOauthToken({
       user_id: user.id,
       access_token: responseJwt.data.access_token,
       refresh_token: responseJwt.data.refresh_token,
@@ -79,7 +79,7 @@ export namespace Auth {
   }
 
   const throwRefreshTokenFailed = async (requestBody: Entity.RequestBodyRefreshToken) => {
-    Repository.deleteOauthbyRefreshToken(requestBody)
+    await Repository.deleteOauthbyRefreshToken(requestBody)
     throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, lang.__('auth.refreshToken.failed'))
   }
 
@@ -103,7 +103,7 @@ export namespace Auth {
 
     const responseJwt = generateJwtToken(user)
 
-    Repository.updateRefreshToken(
+    await Repository.updateRefreshToken(
       requestBody.refresh_token,
       {
         user_id: user.id,
