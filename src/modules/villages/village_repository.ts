@@ -23,7 +23,7 @@ export namespace Village {
         'categories.id as category_id',
         'categories.name as category_name',
         'villages.location',
-        'images',
+        'image',
       )
       .leftJoin('districts', 'districts.id', '=', 'villages.district_id')
       .leftJoin('categories', 'categories.id', '=', 'villages.category_id')

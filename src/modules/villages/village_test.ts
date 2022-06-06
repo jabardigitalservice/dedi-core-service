@@ -36,7 +36,7 @@ const expectFindAll = expect.arrayContaining([
       lat: expect.any(Number),
       lng: expect.any(Number),
     }),
-    images: expect.any(Array),
+    image: expect.toBeOneOf([null, expect.any(String)]),
   }),
 ])
 
@@ -138,7 +138,7 @@ describe('seed data', () => {
       district_id: '1',
       level: null,
       location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
-      images: JSON.stringify([faker.image.image(), faker.image.image()]),
+      image: faker.image.image(),
       is_active: false,
     })
   })

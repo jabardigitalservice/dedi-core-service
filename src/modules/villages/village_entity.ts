@@ -36,7 +36,7 @@ export namespace Village {
       lat: number
       lng: number
     },
-    images: string[]
+    image: string
   }
 
   export interface Suggestion {

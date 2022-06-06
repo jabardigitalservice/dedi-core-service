@@ -8,16 +8,6 @@ import { Village as Entity } from './village_entity'
 import { Village as Repository } from './village_repository'
 
 export namespace Village {
-  const getImages = (image: any): string[] => {
-    const images: string[] = []
-    const items = JSON.parse(image) || []
-    for (const item of items) {
-      images.push(getUrl(item))
-    }
-
-    return images
-  }
-
   const responseWithLocation = (items: any[]): Entity.WithLocation[] => {
     const data: Entity.WithLocation[] = []
     for (const item of items) {
@@ -37,7 +27,7 @@ export namespace Village {
           lat: item.location.y,
           lng: item.location.x,
         },
-        images: getImages(item.images),
+        image: getUrl(item.image),
       })
     }
 

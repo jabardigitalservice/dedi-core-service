@@ -16,7 +16,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer('level', 2).index()
     table.string('status', 10).index()
     table.specificType('location', 'POINT').notNullable().index()
-    table.json('images')
+    table.string('image')
     table.boolean('is_active').notNullable().index()
     table.timestamp('updated_at').index()
     table.json('properties')
