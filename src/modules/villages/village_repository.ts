@@ -104,5 +104,6 @@ export namespace Village {
   export const questionnaire = (id: string, requestBody: Entity.RequestBodyQuestionnaire) => Villages().where('id', id).update({
     ...requestBody,
     is_active: true,
+    updated_at: new Date(),
   })
 }
