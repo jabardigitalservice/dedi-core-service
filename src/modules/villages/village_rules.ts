@@ -16,7 +16,7 @@ export namespace Village {
     file,
     nomor_telepon: Joi.string().required(),
     email: Joi.string().email().required(),
-  })
+  }).required()
 
   const ruleLevel1 = Joi.object({
     akses_kendaraan: Joi.object({
