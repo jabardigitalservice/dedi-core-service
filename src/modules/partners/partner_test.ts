@@ -43,6 +43,7 @@ const expectFindAll = expect.arrayContaining([
     }),
     created_at: expect.any(String),
     website: expect.any(String),
+    join_year: expect.toBeOneOf([null, expect.any(String)]),
   }),
 ])
 

@@ -18,6 +18,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('website')
     table.timestamp('created_at').notNullable()
     table.timestamp('updated_at')
+    table.specificType('join_year', 'year').index()
   })
 }
 
