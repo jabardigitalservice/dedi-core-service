@@ -15,6 +15,7 @@ export namespace Partner {
     },
     created_at: item.created_at,
     website: item.website,
+    join_year: item.join_year,
   })
 
   const responseFindAll = (items: any[]): Entity.Response[] => {

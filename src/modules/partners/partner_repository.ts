@@ -6,7 +6,7 @@ export namespace Partner {
 
   export const findAll = (requestQuery: Entity.RequestQuery) => {
     const query = Partners()
-      .select('partners.id', 'partners.name', 'total_village', 'logo', 'partners.created_at', 'website')
+      .select('partners.id', 'partners.name', 'total_village', 'logo', 'partners.created_at', 'website', 'join_year')
       .whereNull('deleted_at')
       .orderBy('created_at', 'desc')
       .leftJoin('files', 'files.source', '=', 'logo')

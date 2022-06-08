@@ -10,6 +10,7 @@ export namespace Partner {
     logo?: string
     verified_at?: Date
     total_village: number
+    join_year?: string
     website?: string
     deleted_at?: Date
     updated_at?: Date
@@ -27,6 +28,7 @@ export namespace Partner {
     }
     created_at: Date
     website: string
+    join_year: string
   }
 
   export const Partners = () => database<Struct>('partners')
