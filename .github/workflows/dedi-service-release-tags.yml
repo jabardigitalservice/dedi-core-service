@@ -58,7 +58,7 @@ jobs:
         cd jds-terraform-gke/k8s/desa-digital/production
         git config user.email "github-action@github.com"
         git config user.name "Github Action"
-        git checkout -b desa-digital-release-${{ steps.vars.outputs.sha_short }}-production
+        git checkout -b desa-digital-release-${{ steps.get_version.outputs.VERSION }}-production
         git add deployment.yaml
-        git commit -m "Desa Digital Release ${{ steps.vars.outputs.sha_short }} to production"
-        git push origin desa-digital-release-${{ steps.vars.outputs.sha_short }}-production -o merge_request.description="# Overview \n\n - Desa Digital Release ${{ steps.vars.outputs.sha_short }} to production \n\n ## Evidence \n\n - title: Desa Digital Release ${{ steps.vars.outputs.sha_short }} to production \n - project: Desa Digital \n - participants:  " -o merge_request.create
+        git commit -m "Desa Digital Release ${{ steps.get_version.outputs.VERSION }} to production"
+        git push origin desa-digital-release-${{ steps.get_version.outputs.VERSION }}-production -o merge_request.description="# Overview \n\n - Desa Digital Release ${{ steps.get_version.outputs.VERSION }} to production \n\n ## Evidence \n\n - title: Desa Digital Release ${{ steps.get_version.outputs.VERSION }} to production \n - project: Desa Digital \n - participants:  " -o merge_request.create
