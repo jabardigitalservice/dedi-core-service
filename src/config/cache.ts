@@ -6,7 +6,7 @@ import redis from './redis'
 
 const options = {
   redisClient: redis,
-  defaultDuration: config.get('redis.cache.duration', '30 minutes'),
+  defaultDuration: config.get('redis.cache.duration', '5 minutes'),
   appendKey: (req: Request, res: Response) => req.headers.origin,
   statusCodes: {
     include: [httpStatus.OK],
