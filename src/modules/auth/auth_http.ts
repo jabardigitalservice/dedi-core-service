@@ -18,6 +18,7 @@ const apiLimiterSignIn = rateLimit({
       reset_time: resetTime,
     })
   },
+  skipSuccessfulRequests: true,
 });
 
 const router = Router()
