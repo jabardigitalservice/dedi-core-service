@@ -27,7 +27,7 @@ export namespace Auth {
     }
 
     if (requestBody.company && await isPartnerIdNotExist(requestBody)) {
-      createPartner(Partner)
+      await createPartner(Partner)
       return Partner.id
     }
 
