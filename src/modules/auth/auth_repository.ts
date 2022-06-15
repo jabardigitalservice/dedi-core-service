@@ -12,8 +12,7 @@ export namespace Auth {
   const isPartnerIdNotExist = async (requestBody: Entity.RequestBodySignUp) => {
     const partner = Partners()
       .select('id')
-      .where('id', requestBody.partner_id)
-      .orWhere('name', requestBody.company)
+      .where('name', requestBody.company)
       .whereNull('deleted_at')
       .first()
 
