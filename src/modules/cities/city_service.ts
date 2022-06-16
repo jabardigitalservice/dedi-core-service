@@ -19,8 +19,12 @@ export namespace City {
     return data
   }
 
-  export const withLocation = async (requestQuery: Entity.RequestQueryWithLocation): Promise<Entity.ResponseWithLocation> => {
-    const items: any = isRequestBounds(requestQuery.bounds) ? await Repository.withLocation(requestQuery) : []
+  export const withLocation = async (
+    requestQuery: Entity.RequestQueryWithLocation
+  ): Promise<Entity.ResponseWithLocation> => {
+    const items: any = isRequestBounds(requestQuery.bounds)
+      ? await Repository.withLocation(requestQuery)
+      : []
     const total: any = await Repository.getTotalWithLocation()
 
     const result: Entity.ResponseWithLocation = {
@@ -33,7 +37,9 @@ export namespace City {
     return result
   }
 
-  export const suggestion = async (requestQuery: Entity.RequestQuerySuggestion): Promise<Entity.ResponseSuggestion> => {
+  export const suggestion = async (
+    requestQuery: Entity.RequestQuerySuggestion
+  ): Promise<Entity.ResponseSuggestion> => {
     const items: any = await Repository.suggestion(requestQuery)
 
     const result: Entity.ResponseSuggestion = {

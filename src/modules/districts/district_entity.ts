@@ -1,5 +1,5 @@
-import database from '../../config/database';
-import { Query } from '../../helpers/types';
+import database from '../../config/database'
+import { Query } from '../../helpers/types'
 
 export namespace District {
   export interface Struct {
@@ -23,7 +23,7 @@ export namespace District {
     location: {
       lat: number
       lng: number
-    },
+    }
   }
 
   export interface RequestQueryWithLocation extends Query {

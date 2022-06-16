@@ -1,5 +1,5 @@
-import logger from '../../helpers/logger';
-import { Auth as Entity } from './auth_entity';
+import logger from '../../helpers/logger'
+import { Auth as Entity } from './auth_entity'
 
 export namespace Auth {
   export const signIn = (requestBody: Entity.RequestBodySignIn) => {

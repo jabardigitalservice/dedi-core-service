@@ -22,7 +22,7 @@ describe('seed data', () => {
       name: 'test',
       district_id: '1',
       level: 1,
-      location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
+      location: database.raw("ST_GeomFromText('POINT(107.5090974 -6.8342172)')"),
       images: null,
       is_active: true,
     })
@@ -101,92 +101,103 @@ const expectFindAllEmpty = expect.objectContaining({
 let testimonialId: string
 
 describe('test testimonials', () => {
-  it(`test success store with type ${config.get('role.1')}`, async () => request(app)
-    .post('/v1/testimonials')
-    .send(dataTypeRole1())
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.CREATED))
+  it(`test success store with type ${config.get('role.1')}`, async () =>
+    request(app)
+      .post('/v1/testimonials')
+      .send(dataTypeRole1())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.CREATED))
 })
 
 describe('test testimonials', () => {
-  it(`test success store with type ${config.get('role.2')}`, async () => request(app)
-    .post('/v1/testimonials')
-    .send(dataTypeRole2())
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.CREATED))
+  it(`test success store with type ${config.get('role.2')}`, async () =>
+    request(app)
+      .post('/v1/testimonials')
+      .send(dataTypeRole2())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.CREATED))
 })
 
 describe('test testimonials', () => {
-  it('test success find all', async () => request(app)
-    .get('/v1/testimonials')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      const [item] = response.body.data
-      testimonialId = item.id
-      expect(response.body).toEqual(expectFindAll)
-    }))
+  it('test success find all', async () =>
+    request(app)
+      .get('/v1/testimonials')
+      .expect(httpStatus.OK)
+      .then((response) => {
+        const [item] = response.body.data
+        testimonialId = item.id
+        expect(response.body).toEqual(expectFindAll)
+      }))
 })
 
 describe('test testimonials', () => {
-  it('test failed find all not found', async () => request(app)
-    .get('/v1/testimonials')
-    .query({ type: 'test' })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectFindAllEmpty)
-    }))
+  it('test failed find all not found', async () =>
+    request(app)
+      .get('/v1/testimonials')
+      .query({ type: 'test' })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectFindAllEmpty)
+      }))
 })
 
 describe('test testimonials', () => {
-  it('test success with query find all', async () => request(app)
-    .get('/v1/testimonials')
-    .query({ type, is_active: isActive, q: name })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectFindAll)
-    }))
+  it('test success with query find all', async () =>
+    request(app)
+      .get('/v1/testimonials')
+      .query({ type, is_active: isActive, q: name })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectFindAll)
+      }))
 })
 
 describe('test testimonials', () => {
-  it('test success update', async () => request(app)
-    .put(`/v1/testimonials/${testimonialId}`)
-    .send(dataTypeRole2())
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.OK))
+  it('test success update', async () =>
+    request(app)
+      .put(`/v1/testimonials/${testimonialId}`)
+      .send(dataTypeRole2())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
 })
 
 describe('test testimonials', () => {
-  it('test failed update not found', async () => request(app)
-    .put('/v1/testimonials/9999')
-    .send(dataTypeRole2())
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed update not found', async () =>
+    request(app)
+      .put('/v1/testimonials/9999')
+      .send(dataTypeRole2())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
 })
 
 describe('test testimonials', () => {
-  it('test success find by id', async () => request(app)
-    .get(`/v1/testimonials/${testimonialId}`)
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.OK))
+  it('test success find by id', async () =>
+    request(app)
+      .get(`/v1/testimonials/${testimonialId}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
 })
 
 describe('test testimonials', () => {
-  it('test failed find by id not found', async () => request(app)
-    .get('/v1/testimonials/9999')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed find by id not found', async () =>
+    request(app)
+      .get('/v1/testimonials/9999')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
 })
 
 describe('test testimonials', () => {
-  it('test failed destroy not found', async () => request(app)
-    .delete('/v1/testimonials/9999')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed destroy not found', async () =>
+    request(app)
+      .delete('/v1/testimonials/9999')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
 })
 
 describe('test testimonials', () => {
-  it('test success destroy', async () => request(app)
-    .delete(`/v1/testimonials/${testimonialId}`)
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.OK))
+  it('test success destroy', async () =>
+    request(app)
+      .delete(`/v1/testimonials/${testimonialId}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
 })

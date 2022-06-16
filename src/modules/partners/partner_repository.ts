@@ -6,7 +6,15 @@ export namespace Partner {
 
   export const findAll = (requestQuery: Entity.RequestQuery) => {
     const query = Partners()
-      .select('partners.id', 'partners.name', 'total_village', 'logo', 'partners.created_at', 'website', 'join_year')
+      .select(
+        'partners.id',
+        'partners.name',
+        'total_village',
+        'logo',
+        'partners.created_at',
+        'website',
+        'join_year'
+      )
       .whereNull('deleted_at')
       .orderBy('created_at', 'desc')
       .leftJoin('files', 'files.source', '=', 'logo')
@@ -27,10 +35,7 @@ export namespace Partner {
   }
 
   export const suggestion = (requestQuery: Entity.RequestQuerySuggestion) => {
-    const query = Partners()
-      .select('id', 'name')
-      .whereNull('deleted_at')
-      .orderBy('name', 'asc')
+    const query = Partners().select('id', 'name').whereNull('deleted_at').orderBy('name', 'asc')
 
     if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
 

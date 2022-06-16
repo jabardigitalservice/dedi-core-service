@@ -1,7 +1,5 @@
 import path from 'path'
-import {
-  Express, Request, RequestHandler, Response,
-} from 'express'
+import { Express, Request, RequestHandler, Response } from 'express'
 import multer, { FileFilterCallback } from 'multer'
 import httpStatus from 'http-status'
 import { ParamsDictionary } from 'express-serve-static-core'
@@ -74,13 +72,14 @@ const getError = (err: any, requestFile: RequestFile, fileSize: number): HttpErr
   return message ? formatError(requestFile.fieldName, message) : null
 }
 
-const uploadFile = async (file: UploadPromise): Promise<MulterFile> => new Promise((resolve, reject) => {
-  file.upload(file.requestFile.req, file.requestFile.res, (err: any) => {
-    const error = getError(err, file.requestFile, file.fileSize)
-    if (error) return reject(error)
-    resolve(file.requestFile.req.file || null)
+const uploadFile = async (file: UploadPromise): Promise<MulterFile> =>
+  new Promise((resolve, reject) => {
+    file.upload(file.requestFile.req, file.requestFile.res, (err: any) => {
+      const error = getError(err, file.requestFile, file.fileSize)
+      if (error) return reject(error)
+      resolve(file.requestFile.req.file || null)
+    })
   })
-})
 
 export const uploadLocalSingle = async (requestFile: RequestFile): Promise<MulterFile> => {
   const upload = multer({
@@ -89,8 +88,7 @@ export const uploadLocalSingle = async (requestFile: RequestFile): Promise<Multe
     fileFilter: (req: Request, file, cb: FileFilterCallback) => {
       checkFileType(file, cb)
     },
-  })
-    .single(requestFile.fieldName)
+  }).single(requestFile.fieldName)
 
   return uploadFile({
     upload,

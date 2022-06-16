@@ -27,7 +27,9 @@ export namespace Partner {
     return data
   }
 
-  export const findAll = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAll> => {
+  export const findAll = async (
+    requestQuery: Entity.RequestQuery
+  ): Promise<Entity.ResponseFindAll> => {
     const items: any = await Repository.findAll(requestQuery)
 
     const lastUpdate = await Repository.getLastUpdate()
@@ -43,7 +45,9 @@ export namespace Partner {
     return result
   }
 
-  export const suggestion = async (requestQuery: Entity.RequestQuerySuggestion): Promise<Entity.ResponseSuggestion> => {
+  export const suggestion = async (
+    requestQuery: Entity.RequestQuerySuggestion
+  ): Promise<Entity.ResponseSuggestion> => {
     const partners: Entity.PartnerSuggestion[] = await Repository.suggestion(requestQuery)
 
     const result: Entity.ResponseSuggestion = {

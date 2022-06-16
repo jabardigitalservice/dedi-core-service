@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
 import { Village as Entity } from './village_entity'
-import { Village as Service } from './village_service';
+import { Village as Service } from './village_service'
 
 export namespace Village {
   export const withLocation = async (
     req: Request<never, never, never, Entity.RequestQueryWithLocation>,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => {
     const result: Entity.ResponseWithLocation = await Service.withLocation(req.query)
 
@@ -17,7 +17,7 @@ export namespace Village {
   export const listWithLocation = async (
     req: Request<never, never, never, Entity.RequestQueryListWithLocation>,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => {
     const result: Entity.ResponseListWithLocation = await Service.listWithLocation(req.query)
 
@@ -27,7 +27,7 @@ export namespace Village {
   export const findById = async (
     req: Request<Entity.RequestParamFindById, never, never, never>,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => {
     try {
       const result: Entity.ResponseFindById = await Service.findById(req.params)
@@ -38,11 +38,7 @@ export namespace Village {
     }
   }
 
-  export const questionnaire = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const questionnaire = async (req: Request, res: Response, next: NextFunction) => {
     Service.questionnaire(req.body)
     res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
@@ -50,7 +46,7 @@ export namespace Village {
   export const suggestion = async (
     req: Request<Entity.RequestParamFindById, never, never, never>,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => {
     const result: Entity.ResponseSuggestion = await Service.suggestion(req.query)
     res.status(httpStatus.OK).json(result)
@@ -59,7 +55,7 @@ export namespace Village {
   export const checkRegistered = async (
     req: Request<Entity.RequestParamFindById, never, never, never>,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => {
     try {
       await Service.checkRegistered(req.params)

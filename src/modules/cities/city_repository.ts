@@ -1,23 +1,21 @@
-import { convertToBoolean } from '../../helpers/constant';
-import { getPolygon } from '../../helpers/polygon';
-import { City as Entity } from './city_entity';
+import { convertToBoolean } from '../../helpers/constant'
+import { getPolygon } from '../../helpers/polygon'
+import { City as Entity } from './city_entity'
 
 export namespace City {
   const { Cities } = Entity
 
   const getWherePolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
-    const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(requestQuery.bounds)}'), location)`
+    const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(
+      requestQuery.bounds
+    )}'), location)`
 
     return wherePolygon
   }
 
   export const withLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
     const query = Cities()
-      .select(
-        'id',
-        'name',
-        'location',
-      )
+      .select('id', 'name', 'location')
       .where('is_active', true)
       .orderBy('name', 'asc')
 
@@ -27,9 +25,7 @@ export namespace City {
   }
 
   export const suggestion = (requestQuery: Entity.RequestQuerySuggestion) => {
-    const query = Cities()
-      .select('id', 'name')
-      .orderBy('name', 'asc')
+    const query = Cities().select('id', 'name').orderBy('name', 'asc')
 
     if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
     if (requestQuery.is_active) query.where('is_active', convertToBoolean(requestQuery.is_active))
@@ -38,10 +34,7 @@ export namespace City {
   }
 
   export const getTotalWithLocation = () => {
-    const query = Cities()
-      .count('id', { as: 'total' })
-      .where('is_active', true)
-      .first()
+    const query = Cities().count('id', { as: 'total' }).where('is_active', true).first()
 
     return query
   }

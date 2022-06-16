@@ -1,6 +1,6 @@
 import { Express } from 'express'
-import { v4 as uuidv4 } from 'uuid';
-import path from 'path';
+import { v4 as uuidv4 } from 'uuid'
+import path from 'path'
 import { ManagedUpload } from 'aws-sdk/clients/s3'
 import newrelic from 'newrelic'
 import config from '../config'

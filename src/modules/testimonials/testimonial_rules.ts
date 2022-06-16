@@ -1,6 +1,6 @@
-import Joi from 'joi';
-import config from '../../config';
-import { ValidationWithDB } from '../../helpers/validator';
+import Joi from 'joi'
+import config from '../../config'
+import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace Testimonial {
   const orderByValid = ['type', 'is_active', 'created_at']
@@ -8,7 +8,9 @@ export namespace Testimonial {
   const typeValid = [config.get('role.1'), config.get('role.2')]
 
   export const findAll = Joi.object({
-    order_by: Joi.string().valid(...orderByValid).allow(...emptyAllow),
+    order_by: Joi.string()
+      .valid(...orderByValid)
+      .allow(...emptyAllow),
     is_active: Joi.boolean().allow(...emptyAllow),
   })
 
@@ -17,10 +19,20 @@ export namespace Testimonial {
     description: Joi.string().required(),
     avatar: Joi.string().max(255).required(),
     avatar_original_name: Joi.string().max(255).required(),
-    type: Joi.string().valid(...typeValid).required(),
+    type: Joi.string()
+      .valid(...typeValid)
+      .required(),
     is_active: Joi.boolean().required(),
-    partner_id: Joi.alternatives().conditional('type', { is: config.get('role.1'), then: Joi.string().max(36).required(), otherwise: Joi.optional() }),
-    village_id: Joi.alternatives().conditional('type', { is: config.get('role.2'), then: Joi.string().max(14).required(), otherwise: Joi.optional() }),
+    partner_id: Joi.alternatives().conditional('type', {
+      is: config.get('role.1'),
+      then: Joi.string().max(36).required(),
+      otherwise: Joi.optional(),
+    }),
+    village_id: Joi.alternatives().conditional('type', {
+      is: config.get('role.2'),
+      then: Joi.string().max(14).required(),
+      otherwise: Joi.optional(),
+    }),
   })
 
   export const store = validate
@@ -29,17 +41,27 @@ export namespace Testimonial {
   const validateWithDB: ValidationWithDB = {
     partner_id: [
       {
-        type: 'exists', attr: 'partner_id', table: 'partners', column: 'id',
+        type: 'exists',
+        attr: 'partner_id',
+        table: 'partners',
+        column: 'id',
       },
     ],
     village_id: [
       {
-        type: 'exists', attr: 'village_id', table: 'villages', column: 'id',
+        type: 'exists',
+        attr: 'village_id',
+        table: 'villages',
+        column: 'id',
       },
     ],
     avatar: [
       {
-        type: 'unique', attr: 'avatar', table: 'testimonials', column: 'avatar', params: 'id',
+        type: 'unique',
+        attr: 'avatar',
+        table: 'testimonials',
+        column: 'avatar',
+        params: 'id',
       },
     ],
   }

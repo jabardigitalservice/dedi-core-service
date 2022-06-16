@@ -7,11 +7,7 @@ import { HttpError } from './exception'
 
 const router = express.Router()
 
-router.get('/', async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     await database.raw('select 1+1 as result')
     res.status(httpStatus.OK).json({
@@ -23,10 +19,8 @@ router.get('/', async (
   }
 })
 
-router.all('*', async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => next(new HttpError(httpStatus.NOT_FOUND, lang.__('route.not.found'))));
+router.all('*', async (req: Request, res: Response, next: NextFunction) =>
+  next(new HttpError(httpStatus.NOT_FOUND, lang.__('route.not.found')))
+)
 
 export default router

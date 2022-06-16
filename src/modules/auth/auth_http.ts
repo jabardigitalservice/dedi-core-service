@@ -19,17 +19,45 @@ const apiLimiterSignIn = rateLimit({
     })
   },
   skipSuccessfulRequests: true,
-});
+})
 
 const router = Router()
 
-router.post('/v1/auth/users/sign-up', validate(Rules.signUp), validateWithDB(Rules.signUpWithDB), Handler.signUp)
+router.post(
+  '/v1/auth/users/sign-up',
+  validate(Rules.signUp),
+  validateWithDB(Rules.signUpWithDB),
+  Handler.signUp
+)
 router.post('/v1/auth/users/sign-in', apiLimiterSignIn, validate(Rules.signIn), Handler.signIn)
-router.post('/v1/auth/users/sign-out', verifyAccessToken, validate(Rules.refreshToken), Handler.signOut)
+router.post(
+  '/v1/auth/users/sign-out',
+  verifyAccessToken,
+  validate(Rules.refreshToken),
+  Handler.signOut
+)
 router.post('/v1/auth/users/me', verifyAccessToken, Handler.me)
-router.post('/v1/auth/users/refresh-token', verifyAccessToken, validate(Rules.refreshToken), Handler.refreshToken)
-router.post('/v1/auth/users/forgot-password', validate(Rules.forgotPassword), Handler.forgotPassword)
-router.post('/v1/auth/users/forgot-password/verify', verifyRefreshToken, Handler.forgotPasswordVerify)
-router.post('/v1/auth/users/reset-password', verifyRefreshToken, validate(Rules.resetPassword), Handler.resetPassword)
+router.post(
+  '/v1/auth/users/refresh-token',
+  verifyAccessToken,
+  validate(Rules.refreshToken),
+  Handler.refreshToken
+)
+router.post(
+  '/v1/auth/users/forgot-password',
+  validate(Rules.forgotPassword),
+  Handler.forgotPassword
+)
+router.post(
+  '/v1/auth/users/forgot-password/verify',
+  verifyRefreshToken,
+  Handler.forgotPasswordVerify
+)
+router.post(
+  '/v1/auth/users/reset-password',
+  verifyRefreshToken,
+  validate(Rules.resetPassword),
+  Handler.resetPassword
+)
 
 export default router

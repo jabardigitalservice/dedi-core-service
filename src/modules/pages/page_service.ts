@@ -43,7 +43,8 @@ export namespace Page {
 
   export const findById = async (id: string) => {
     const item: any = await Repository.findById(id)
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
+    if (!item)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
 
     const result: Entity.ResponseFindById = {
       data: response(item),
@@ -71,26 +72,34 @@ export namespace Page {
 
   export const destroy = async (id: string) => {
     const item: any = await Repository.findById(id)
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
+    if (!item)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
 
     return Repository.destroy(item.id)
   }
 
   export const update = async (requestBody: Entity.RequestBody, id: string) => {
     const item: any = await Repository.findById(id)
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
+    if (!item)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
 
-    await Repository.updateFile({
-      source: requestBody.image,
-      name: requestBody.image_original_name,
-    }, item.file_id)
+    await Repository.updateFile(
+      {
+        source: requestBody.image,
+        name: requestBody.image_original_name,
+      },
+      item.file_id
+    )
 
-    return Repository.update({
-      title: requestBody.title,
-      link: requestBody.link,
-      order: requestBody.order,
-      is_active: convertToBoolean(requestBody.is_active),
-      image: requestBody.image,
-    }, item.id)
+    return Repository.update(
+      {
+        title: requestBody.title,
+        link: requestBody.link,
+        order: requestBody.order,
+        is_active: convertToBoolean(requestBody.is_active),
+        image: requestBody.image,
+      },
+      item.id
+    )
   }
 }

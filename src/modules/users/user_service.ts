@@ -35,7 +35,9 @@ export namespace User {
     return data
   }
 
-  export const findAll = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAll> => {
+  export const findAll = async (
+    requestQuery: Entity.RequestQuery
+  ): Promise<Entity.ResponseFindAll> => {
     const items: any = await Repository.findAll(requestQuery)
 
     const result: Entity.ResponseFindAll = {
@@ -48,7 +50,8 @@ export namespace User {
 
   export const findById = async (id: string) => {
     const item: any = await Repository.findById(id)
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
+    if (!item)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
     const result: Entity.ResponseFindById = {
       data: response(item),
@@ -60,7 +63,8 @@ export namespace User {
 
   export const destroy = async (id: string) => {
     const item: any = await Repository.findById(id)
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
+    if (!item)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
     return Repository.destroy(item.id)
   }
@@ -87,19 +91,24 @@ export namespace User {
 
   export const update = async (requestBody: Entity.RequestBody, id: string) => {
     const item: any = await Repository.findById(id)
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
+    if (!item)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
-    await Repository.updateFile({
-      source: requestBody.avatar,
-      name: requestBody.avatar_original_name,
-    }, item.file_id)
+    await Repository.updateFile(
+      {
+        source: requestBody.avatar,
+        name: requestBody.avatar_original_name,
+      },
+      item.file_id
+    )
 
     return Repository.update(getRequestBody(requestBody), id)
   }
 
   export const updateStatus = async (requestBody: Entity.RequestBodyUpdateStatus, id: string) => {
     const item: any = await Repository.findById(id)
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
+    if (!item)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
     return Repository.updateStatus({ is_active: convertToBoolean(requestBody.is_active) }, id)
   }

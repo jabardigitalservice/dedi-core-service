@@ -1,4 +1,4 @@
-import database from '../../config/database';
+import database from '../../config/database'
 
 export namespace Auth {
   export interface StructUser {
@@ -102,7 +102,7 @@ export namespace Auth {
       email: string
       avatar?: string
       role: string
-    },
+    }
     meta: {}
   }
 }

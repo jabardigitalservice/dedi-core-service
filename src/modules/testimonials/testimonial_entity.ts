@@ -1,9 +1,8 @@
-import database from '../../config/database';
-import { metaPaginate } from '../../helpers/paginate';
-import { Query } from '../../helpers/types';
+import database from '../../config/database'
+import { metaPaginate } from '../../helpers/paginate'
+import { Query } from '../../helpers/types'
 
 export namespace Testimonial {
-
   export interface Struct {
     id?: string
     name: string
@@ -69,7 +68,7 @@ export namespace Testimonial {
     village_id?: string
   }
 
-  interface Meta extends metaPaginate { }
+  type Meta = metaPaginate
 
   export interface ResponseFindAll {
     data: Response[]

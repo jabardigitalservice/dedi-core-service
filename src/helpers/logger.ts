@@ -1,6 +1,6 @@
 import winston from 'winston'
 import { MongoDBConnectionOptions } from 'winston-mongodb'
-import config from '../config';
+import config from '../config'
 
 interface Log {
   level: string

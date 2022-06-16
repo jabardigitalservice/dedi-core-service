@@ -62,81 +62,90 @@ const dataRandomTitle = (): Entity.RequestBody => ({ ...data(), title: faker.lor
 let pagesId: number
 
 describe('tests pages', () => {
-  it('test success store', async () => request(app)
-    .post('/v1/pages')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .send(data())
-    .expect(httpStatus.CREATED))
+  it('test success store', async () =>
+    request(app)
+      .post('/v1/pages')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(data())
+      .expect(httpStatus.CREATED))
 })
 
 describe('tests pages', () => {
-  it('test success find all', async () => request(app)
-    .get('/v1/pages')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .set('Cache-Control', 'no-cache')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      const [item] = response.body.data
-      pagesId = item.id
-      expect(response.body).toEqual(expectFindAll)
-    }))
+  it('test success find all', async () =>
+    request(app)
+      .get('/v1/pages')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .set('Cache-Control', 'no-cache')
+      .expect(httpStatus.OK)
+      .then((response) => {
+        const [item] = response.body.data
+        pagesId = item.id
+        expect(response.body).toEqual(expectFindAll)
+      }))
 })
 
 describe('tests pages', () => {
-  it('test success with query find all', async () => request(app)
-    .get('/v1/pages')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .set('Cache-Control', 'no-cache')
-    .query({ q: title, is_active: true })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectFindAll)
-    }))
+  it('test success with query find all', async () =>
+    request(app)
+      .get('/v1/pages')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .set('Cache-Control', 'no-cache')
+      .query({ q: title, is_active: true })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectFindAll)
+      }))
 })
 
 describe('tests pages', () => {
-  it('test failed not found update', async () => request(app)
-    .put('/v1/pages/99999')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .send(dataRandomTitle())
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed not found update', async () =>
+    request(app)
+      .put('/v1/pages/99999')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(dataRandomTitle())
+      .expect(httpStatus.NOT_FOUND))
 })
 
 describe('tests pages', () => {
-  it('test failed not found find by id', async () => request(app)
-    .get('/v1/pages/99999')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed not found find by id', async () =>
+    request(app)
+      .get('/v1/pages/99999')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
 })
 
 describe('tests pages', () => {
-  it('test failed not found destroy', async () => request(app)
-    .delete('/v1/pages/99999')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed not found destroy', async () =>
+    request(app)
+      .delete('/v1/pages/99999')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
 })
 
 describe('tests pages', () => {
-  it('test success update', async () => request(app)
-    .put(`/v1/pages/${pagesId}`)
-    .set('Authorization', `Bearer ${accessToken}`)
-    .send(data())
-    .expect(httpStatus.OK))
+  it('test success update', async () =>
+    request(app)
+      .put(`/v1/pages/${pagesId}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(data())
+      .expect(httpStatus.OK))
 })
 
 describe('tests pages', () => {
-  it('test success find by id', async () => request(app)
-    .get(`/v1/pages/${pagesId}`)
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectFindById)
-    }))
+  it('test success find by id', async () =>
+    request(app)
+      .get(`/v1/pages/${pagesId}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectFindById)
+      }))
 })
 
 describe('tests pages', () => {
-  it('test success destroy', async () => request(app)
-    .delete(`/v1/pages/${pagesId}`)
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.OK))
+  it('test success destroy', async () =>
+    request(app)
+      .delete(`/v1/pages/${pagesId}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
 })

@@ -1,4 +1,4 @@
-import config from '../config';
+import config from '../config'
 
 export const isNodeEnvProduction = () => config.get('node.env') === 'production'
 export const isNodeEnvDevelopment = () => config.get('node.env') === 'development'

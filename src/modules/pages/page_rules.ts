@@ -1,12 +1,14 @@
-import Joi from 'joi';
-import { ValidationWithDB } from '../../helpers/validator';
+import Joi from 'joi'
+import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace Page {
   const orderByValid = ['title', 'is_active', 'updated_at', 'order', 'created_at']
   const emptyAllow = ['', null]
 
   export const findAll = Joi.object({
-    order_by: Joi.string().valid(...orderByValid).allow(...emptyAllow),
+    order_by: Joi.string()
+      .valid(...orderByValid)
+      .allow(...emptyAllow),
     is_active: Joi.boolean().allow(...emptyAllow),
   })
 
@@ -25,12 +27,20 @@ export namespace Page {
   const validateWithDB: ValidationWithDB = {
     title: [
       {
-        type: 'unique', attr: 'title', table: 'pages', column: 'title', params: 'id',
+        type: 'unique',
+        attr: 'title',
+        table: 'pages',
+        column: 'title',
+        params: 'id',
       },
     ],
     image: [
       {
-        type: 'unique', attr: 'image', table: 'pages', column: 'image', params: 'id',
+        type: 'unique',
+        attr: 'image',
+        table: 'pages',
+        column: 'image',
+        params: 'id',
       },
     ],
   }

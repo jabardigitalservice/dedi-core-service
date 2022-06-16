@@ -5,16 +5,28 @@ import grantAccess from '../../middleware/grantAccess'
 export namespace User {
   const flatList: AccessControlStruct[] = [
     {
-      role: config.get('role.0'), resource: 'user', action: 'read:any', attributes: ['*'],
+      role: config.get('role.0'),
+      resource: 'user',
+      action: 'read:any',
+      attributes: ['*'],
     },
     {
-      role: config.get('role.0'), resource: 'user', action: 'create:any', attributes: ['*'],
+      role: config.get('role.0'),
+      resource: 'user',
+      action: 'create:any',
+      attributes: ['*'],
     },
     {
-      role: config.get('role.0'), resource: 'user', action: 'delete:any', attributes: ['*'],
+      role: config.get('role.0'),
+      resource: 'user',
+      action: 'delete:any',
+      attributes: ['*'],
     },
     {
-      role: config.get('role.0'), resource: 'user', action: 'update:any', attributes: ['*'],
+      role: config.get('role.0'),
+      resource: 'user',
+      action: 'update:any',
+      attributes: ['*'],
     },
   ]
 

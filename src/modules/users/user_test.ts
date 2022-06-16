@@ -62,95 +62,106 @@ const expectFindById = expect.objectContaining({
 let userId: string
 
 describe('test users', () => {
-  it('test success store', async () => request(app)
-    .post('/v1/users')
-    .send({
-      ...data(),
-      password: 'test1234',
-    })
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.CREATED))
+  it('test success store', async () =>
+    request(app)
+      .post('/v1/users')
+      .send({
+        ...data(),
+        password: 'test1234',
+      })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.CREATED))
 })
 
 describe('test users', () => {
-  it('test success find all', async () => request(app)
-    .get('/v1/users')
-    .expect(httpStatus.OK)
-    .set('Authorization', `Bearer ${accessToken}`)
-    .then((response) => {
-      const [item] = response.body.data
-      userId = item.id
-      expect(response.body).toEqual(expectFindAll)
-    }))
+  it('test success find all', async () =>
+    request(app)
+      .get('/v1/users')
+      .expect(httpStatus.OK)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .then((response) => {
+        const [item] = response.body.data
+        userId = item.id
+        expect(response.body).toEqual(expectFindAll)
+      }))
 })
 
 describe('test users', () => {
-  it('test success find all with query', async () => request(app)
-    .get('/v1/users')
-    .expect(httpStatus.OK)
-    .query({ is_active: true, is_admin: true, q: name })
-    .set('Authorization', `Bearer ${accessToken}`))
+  it('test success find all with query', async () =>
+    request(app)
+      .get('/v1/users')
+      .expect(httpStatus.OK)
+      .query({ is_active: true, is_admin: true, q: name })
+      .set('Authorization', `Bearer ${accessToken}`))
 })
 
 describe('test users', () => {
-  it('test success find by id', async () => request(app)
-    .get(`/v1/users/${userId}`)
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectFindById)
-    }))
+  it('test success find by id', async () =>
+    request(app)
+      .get(`/v1/users/${userId}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectFindById)
+      }))
 })
 
 describe('test users', () => {
-  it('test failed find by id not found', async () => request(app)
-    .get('/v1/users/9999')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed find by id not found', async () =>
+    request(app)
+      .get('/v1/users/9999')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
 })
 
 describe('test users', () => {
-  it('test failed update status not found', async () => request(app)
-    .patch('/v1/users/9999/status')
-    .send({ is_active: true })
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed update status not found', async () =>
+    request(app)
+      .patch('/v1/users/9999/status')
+      .send({ is_active: true })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
 })
 
 describe('test users', () => {
-  it('test success update status', async () => request(app)
-    .patch(`/v1/users/${userId}/status`)
-    .send({ is_active: true })
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.OK))
+  it('test success update status', async () =>
+    request(app)
+      .patch(`/v1/users/${userId}/status`)
+      .send({ is_active: true })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
 })
 
 describe('test users', () => {
-  it('test failed update not found', async () => request(app)
-    .put('/v1/users/9999')
-    .send(data())
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed update not found', async () =>
+    request(app)
+      .put('/v1/users/9999')
+      .send(data())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
 })
 
 describe('test users', () => {
-  it('test success update', async () => request(app)
-    .put(`/v1/users/${userId}`)
-    .send(data())
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.OK))
+  it('test success update', async () =>
+    request(app)
+      .put(`/v1/users/${userId}`)
+      .send(data())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
 })
 
 describe('test users', () => {
-  it('test failed destroy not found', async () => request(app)
-    .delete('/v1/users/9999')
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed destroy not found', async () =>
+    request(app)
+      .delete('/v1/users/9999')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
 })
 
 describe('test users', () => {
-  it('test success destroy', async () => request(app)
-    .delete(`/v1/users/${userId}`)
-    .set('Authorization', `Bearer ${accessToken}`)
-    .expect(httpStatus.OK))
+  it('test success destroy', async () =>
+    request(app)
+      .delete(`/v1/users/${userId}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
 })
