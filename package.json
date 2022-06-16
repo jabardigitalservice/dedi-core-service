@@ -85,7 +85,7 @@
     "dev": "concurrently --kill-others \"npm run ts\" \"nodemon build/src/server.js\"",
     "ts": "rm -rf build && tsc -w",
     "build": "rm -rf build && tsc --project .",
-    "lint": "eslint --ext .ts ./src",
+    "lint": "npx prettier ./src --check && eslint --ext .ts ./src",
     "lint:fix": "npx prettier ./src --write && eslint --fix --ext .ts ./src",
     "migrate": "knex migrate:latest --cwd=build/src",
     "rollback": "knex migrate:rollback --cwd=build/src",
