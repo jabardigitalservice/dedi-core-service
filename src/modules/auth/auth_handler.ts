@@ -5,11 +5,7 @@ import { Auth as Service } from './auth_service'
 import { Auth as Log } from './auth_log'
 
 export namespace Auth {
-  export const signUp = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
       await Service.signUp(body)
@@ -19,11 +15,7 @@ export namespace Auth {
     }
   }
 
-  export const signIn = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const signIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
       const result: Entity.ResponseJWT = await Service.signIn(body)
@@ -34,11 +26,7 @@ export namespace Auth {
     }
   }
 
-  export const refreshToken = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
       const result: Entity.ResponseJWT = await Service.refreshToken(body)
@@ -48,11 +36,7 @@ export namespace Auth {
     }
   }
 
-  export const signOut = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const signOut = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
       await Service.signOut(body)
@@ -62,11 +46,7 @@ export namespace Auth {
     }
   }
 
-  export const me = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const me = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result: Entity.ResponseMe = await Service.me(req)
       res.status(httpStatus.OK).json(result)
@@ -75,11 +55,7 @@ export namespace Auth {
     }
   }
 
-  export const forgotPassword = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
       const result: Entity.ResponseForgotPassword = await Service.forgotPassword(body)
@@ -89,11 +65,7 @@ export namespace Auth {
     }
   }
 
-  export const forgotPasswordVerify = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const forgotPasswordVerify = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result: Entity.ResponseForgotPasswordVerify = await Service.forgotPasswordVerify(req)
       res.status(httpStatus.OK).json(result)
@@ -102,11 +74,7 @@ export namespace Auth {
     }
   }
 
-  export const resetPassword = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
       await Service.resetPassword(req, body)

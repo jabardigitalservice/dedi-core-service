@@ -7,18 +7,14 @@ export namespace User {
   export const findAll = async (
     req: Request<never, never, never, Entity.RequestQuery>,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => {
     const result: Entity.ResponseFindAll = await Service.findAll(req.query)
 
     res.status(httpStatus.OK).json(result)
   }
 
-  export const findById = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
       const result: Entity.ResponseFindById = await Service.findById(id)
@@ -28,11 +24,7 @@ export namespace User {
     }
   }
 
-  export const destroy = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const destroy = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
       await Service.destroy(id)
@@ -42,21 +34,13 @@ export namespace User {
     }
   }
 
-  export const store = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const store = async (req: Request, res: Response, next: NextFunction) => {
     const { body } = req
     await Service.store(body)
     res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
-  export const update = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const update = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
       const { id } = req.params
@@ -67,11 +51,7 @@ export namespace User {
     }
   }
 
-  export const updateStatus = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
       const { id } = req.params

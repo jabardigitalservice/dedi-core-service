@@ -128,7 +128,7 @@ describe('seed data', () => {
       name: 'test',
       district_id: '1',
       level: 4,
-      location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
+      location: database.raw("ST_GeomFromText('POINT(107.5090974 -6.8342172)')"),
       is_active: true,
     })
 
@@ -137,7 +137,7 @@ describe('seed data', () => {
       name: 'test3',
       district_id: '1',
       level: null,
-      location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
+      location: database.raw("ST_GeomFromText('POINT(107.5090974 -6.8342172)')"),
       images: JSON.stringify([faker.image.image(), faker.image.image()]),
       is_active: false,
     })
@@ -145,113 +145,120 @@ describe('seed data', () => {
 })
 
 describe('tests villages', () => {
-  it('test failed not found check registered', async () => request(app)
-    .get('/v1/villages/34543234565435654/check-registered')
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed not found check registered', async () =>
+    request(app)
+      .get('/v1/villages/34543234565435654/check-registered')
+      .expect(httpStatus.NOT_FOUND))
 })
 
 describe('tests villages', () => {
-  it('test failed bad request check registered', async () => request(app)
-    .get('/v1/villages/123456785/check-registered')
-    .expect(httpStatus.BAD_REQUEST))
+  it('test failed bad request check registered', async () =>
+    request(app).get('/v1/villages/123456785/check-registered').expect(httpStatus.BAD_REQUEST))
 })
 
 describe('tests villages', () => {
-  it('test success check registered', async () => request(app)
-    .get('/v1/villages/123456789/check-registered')
-    .expect(httpStatus.OK))
+  it('test success check registered', async () =>
+    request(app).get('/v1/villages/123456789/check-registered').expect(httpStatus.OK))
 })
 
 describe('tests villages', () => {
-  it('test success questionnaire', async () => request(app)
-    .post('/v1/villages/questionnaire')
-    .send(requestBodyQuestionnaire)
-    .expect(httpStatus.CREATED))
+  it('test success questionnaire', async () =>
+    request(app)
+      .post('/v1/villages/questionnaire')
+      .send(requestBodyQuestionnaire)
+      .expect(httpStatus.CREATED))
 })
 
 describe('tests villages', () => {
-  it('test success find all', async () => request(app)
-    .get('/v1/villages/list-with-location')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAll)
-    }))
+  it('test success find all', async () =>
+    request(app)
+      .get('/v1/villages/list-with-location')
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindAll)
+      }))
 })
 
 describe('tests villages', () => {
-  it('test success with query name find all', async () => request(app)
-    .get('/v1/villages/list-with-location')
-    .query({ name: 'test', is_active: true })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAll)
-    }))
+  it('test success with query name find all', async () =>
+    request(app)
+      .get('/v1/villages/list-with-location')
+      .query({ name: 'test', is_active: true })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindAll)
+      }))
 })
 
 describe('tests villages', () => {
-  it('test success suggestion', async () => request(app)
-    .get('/v1/villages/suggestion')
-    .set('Cache-Control', 'no-cache')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodySuggestion)
-    }))
+  it('test success suggestion', async () =>
+    request(app)
+      .get('/v1/villages/suggestion')
+      .set('Cache-Control', 'no-cache')
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodySuggestion)
+      }))
 })
 
 describe('tests villages', () => {
-  it('test success suggestion with query name', async () => request(app)
-    .get('/v1/villages/suggestion')
-    .set('Cache-Control', 'no-cache')
-    .query({
-      name: 'test',
-      is_active: true,
-      district_id: '1',
-    })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodySuggestion)
-    }))
+  it('test success suggestion with query name', async () =>
+    request(app)
+      .get('/v1/villages/suggestion')
+      .set('Cache-Control', 'no-cache')
+      .query({
+        name: 'test',
+        is_active: true,
+        district_id: '1',
+      })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodySuggestion)
+      }))
 })
 
 describe('tests villages', () => {
-  it('test success with query level find all', async () => request(app)
-    .get('/v1/villages/list-with-location')
-    .query({ level: 1 })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAll)
-    }))
+  it('test success with query level find all', async () =>
+    request(app)
+      .get('/v1/villages/list-with-location')
+      .query({ level: 1 })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindAll)
+      }))
 })
 
 describe('tests villages', () => {
-  it('test success with location find all', async () => request(app)
-    .get('/v1/villages/with-location')
-    .query({
-      bounds: {
-        sw: '107.4312207548229,-7.044551821267334',
-        ne: '107.78594184930455,-6.79575221317816',
-      },
-    })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAllBounds)
-    }))
+  it('test success with location find all', async () =>
+    request(app)
+      .get('/v1/villages/with-location')
+      .query({
+        bounds: {
+          sw: '107.4312207548229,-7.044551821267334',
+          ne: '107.78594184930455,-6.79575221317816',
+        },
+      })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindAllBounds)
+      }))
 })
 
 describe('tests villages', () => {
-  it('test success with location and is active find all', async () => request(app)
-    .get('/v1/villages/with-location')
-    .query({
-      bounds: {
-        sw: '107.4312207548229,-7.044551821267334',
-        ne: '107.78594184930455,-6.79575221317816',
-      },
-      is_active: true,
-    })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAllBounds)
-    }))
+  it('test success with location and is active find all', async () =>
+    request(app)
+      .get('/v1/villages/with-location')
+      .query({
+        bounds: {
+          sw: '107.4312207548229,-7.044551821267334',
+          ne: '107.78594184930455,-6.79575221317816',
+        },
+        is_active: true,
+      })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindAllBounds)
+      }))
 })
 
 describe('seed data', () => {
@@ -263,39 +270,41 @@ describe('seed data', () => {
 })
 
 describe('tests villages', () => {
-  it('test success without query bounds', async () => request(app)
-    .get('/v1/villages/with-location')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAllBoundsEmpty)
-    }))
+  it('test success without query bounds', async () =>
+    request(app)
+      .get('/v1/villages/with-location')
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindAllBoundsEmpty)
+      }))
 })
 
 describe('tests villages', () => {
-  it('test success without query bounds sw', async () => request(app)
-    .get('/v1/villages/with-location')
-    .query({
-      bounds: {
-        ne: '107.78594184930455,-6.79575221317816',
-      },
-    })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAllBoundsEmpty)
-    }))
+  it('test success without query bounds sw', async () =>
+    request(app)
+      .get('/v1/villages/with-location')
+      .query({
+        bounds: {
+          ne: '107.78594184930455,-6.79575221317816',
+        },
+      })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindAllBoundsEmpty)
+      }))
 })
 
 describe('tests villages', () => {
-  it('test failed not found find by id', async () => request(app)
-    .get('/v1/villages/34543234565435654')
-    .expect(httpStatus.NOT_FOUND))
+  it('test failed not found find by id', async () =>
+    request(app).get('/v1/villages/34543234565435654').expect(httpStatus.NOT_FOUND))
 })
 
 describe('tests villages', () => {
-  it('responds success', async () => request(app)
-    .get('/v1/villages/123456785')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodyFindById)
-    }))
+  it('responds success', async () =>
+    request(app)
+      .get('/v1/villages/123456785')
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindById)
+      }))
 })

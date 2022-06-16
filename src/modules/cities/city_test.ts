@@ -8,7 +8,7 @@ describe('seed data', () => {
     await database('cities').insert({
       id: '12345',
       name: 'test123',
-      location: database.raw('ST_GeomFromText(\'POINT(107.5090974 -6.8342172)\')'),
+      location: database.raw("ST_GeomFromText('POINT(107.5090974 -6.8342172)')"),
       is_active: true,
     })
   })
@@ -52,63 +52,68 @@ const expectEmptyBody = expect.objectContaining({
 })
 
 describe('tests cities', () => {
-  it('test success findAll', async () => request(app)
-    .get('/v1/cities/with-location')
-    .query({
-      bounds: {
-        sw: '107.4312207548229,-7.044551821267334',
-        ne: '107.78594184930455,-6.79575221317816',
-      },
-    })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAll)
-    }))
+  it('test success findAll', async () =>
+    request(app)
+      .get('/v1/cities/with-location')
+      .query({
+        bounds: {
+          sw: '107.4312207548229,-7.044551821267334',
+          ne: '107.78594184930455,-6.79575221317816',
+        },
+      })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindAll)
+      }))
 })
 
 describe('tests cities', () => {
-  it('test success findAll without bound sw', async () => request(app)
-    .get('/v1/cities/with-location')
-    .query({
-      bounds: {
-        ne: '107.78594184930455,-6.79575221317816',
-      },
-    })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectEmptyBody)
-    }))
+  it('test success findAll without bound sw', async () =>
+    request(app)
+      .get('/v1/cities/with-location')
+      .query({
+        bounds: {
+          ne: '107.78594184930455,-6.79575221317816',
+        },
+      })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectEmptyBody)
+      }))
 })
 
 describe('tests cities', () => {
-  it('test success findAll without bounds', async () => request(app)
-    .get('/v1/cities/with-location')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectEmptyBody)
-    }))
+  it('test success findAll without bounds', async () =>
+    request(app)
+      .get('/v1/cities/with-location')
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectEmptyBody)
+      }))
 })
 
 describe('tests cities', () => {
-  it('test success suggestion', async () => request(app)
-    .get('/v1/cities/suggestion')
-    .set('Cache-Control', 'no-cache')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodySuggestion)
-    }))
+  it('test success suggestion', async () =>
+    request(app)
+      .get('/v1/cities/suggestion')
+      .set('Cache-Control', 'no-cache')
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodySuggestion)
+      }))
 })
 
 describe('tests cities', () => {
-  it('test success suggestion with query', async () => request(app)
-    .get('/v1/cities/suggestion')
-    .set('Cache-Control', 'no-cache')
-    .query({
-      name: 'test123',
-      is_active: true,
-    })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodySuggestion)
-    }))
+  it('test success suggestion with query', async () =>
+    request(app)
+      .get('/v1/cities/suggestion')
+      .set('Cache-Control', 'no-cache')
+      .query({
+        name: 'test123',
+        is_active: true,
+      })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodySuggestion)
+      }))
 })

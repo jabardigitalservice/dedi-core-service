@@ -1,8 +1,6 @@
 import Jwt from 'express-jwt'
 import { Request } from 'express'
-import {
-  JwtPayload, Secret, sign, SignOptions, decode,
-} from 'jsonwebtoken'
+import { JwtPayload, Secret, sign, SignOptions, decode } from 'jsonwebtoken'
 import config from '../config'
 
 interface VerifyToken {
@@ -23,21 +21,19 @@ const getToken = (req: Request) => {
   return null
 }
 
-const verifyToken = (payload: VerifyToken) => Jwt({
-  secret: payload.secretOrPublic,
-  algorithms: [payload.algorithms],
-  credentialsRequired: payload.isRequired ?? false,
-  getToken,
-})
+const verifyToken = (payload: VerifyToken) =>
+  Jwt({
+    secret: payload.secretOrPublic,
+    algorithms: [payload.algorithms],
+    credentialsRequired: payload.isRequired ?? false,
+    getToken,
+  })
 
-const createToken = (payload: CreateToken) => sign(
-  payload.data,
-  payload.secret,
-  {
+const createToken = (payload: CreateToken) =>
+  sign(payload.data, payload.secret, {
     expiresIn: payload.expiresIn,
     algorithm: payload.algorithm,
-  },
-)
+  })
 
 export const decodeToken = (token: string): JwtPayload => {
   const decodeJwt: any = decode(token)
@@ -55,16 +51,18 @@ export const verifyRefreshToken = verifyToken({
   algorithms: config.get('jwt.refresh.algorithm'),
 })
 
-export const createAccessToken = (data: object) => createToken({
-  data,
-  secret: config.get('jwt.secret'),
-  expiresIn: Number(config.get('jwt.ttl')),
-  algorithm: config.get('jwt.algorithm'),
-})
+export const createAccessToken = (data: object) =>
+  createToken({
+    data,
+    secret: config.get('jwt.secret'),
+    expiresIn: Number(config.get('jwt.ttl')),
+    algorithm: config.get('jwt.algorithm'),
+  })
 
-export const createRefreshToken = (data: object) => createToken({
-  data,
-  secret: config.get('jwt.refresh.secret'),
-  expiresIn: Number(config.get('jwt.refresh.ttl')),
-  algorithm: config.get('jwt.refresh.algorithm'),
-})
+export const createRefreshToken = (data: object) =>
+  createToken({
+    data,
+    secret: config.get('jwt.refresh.secret'),
+    expiresIn: Number(config.get('jwt.refresh.ttl')),
+    algorithm: config.get('jwt.refresh.algorithm'),
+  })

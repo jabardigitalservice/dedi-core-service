@@ -1,6 +1,6 @@
-import database from '../../config/database';
-import { metaPaginate } from '../../helpers/paginate';
-import { Query } from '../../helpers/types';
+import database from '../../config/database'
+import { metaPaginate } from '../../helpers/paginate'
+import { Query } from '../../helpers/types'
 
 export namespace Page {
   export interface Struct {

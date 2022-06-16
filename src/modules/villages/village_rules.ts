@@ -1,5 +1,5 @@
-import Joi from 'joi';
-import { ValidationWithDB } from '../../helpers/validator';
+import Joi from 'joi'
+import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace Village {
   const file = Joi.object({
@@ -81,8 +81,8 @@ export namespace Village {
     potensi_dapat_dikembangkan: Joi.string().allow(null),
   }).required()
 
-  const getRuleLevel = (ruleLevelSchema: Joi.Schema, ruleLevelValid: number[]) => Joi.alternatives()
-    .conditional('...level', {
+  const getRuleLevel = (ruleLevelSchema: Joi.Schema, ruleLevelValid: number[]) =>
+    Joi.alternatives().conditional('...level', {
       is: Joi.number().valid(...ruleLevelValid),
       then: ruleLevelSchema,
       otherwise: Joi.optional(),
@@ -103,7 +103,10 @@ export namespace Village {
   export const questionnaireWithDB: ValidationWithDB = {
     id: [
       {
-        type: 'exists', attr: 'id', table: 'villages', column: 'id',
+        type: 'exists',
+        attr: 'id',
+        table: 'villages',
+        column: 'id',
       },
     ],
   }

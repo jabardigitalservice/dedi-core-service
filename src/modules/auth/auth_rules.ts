@@ -1,8 +1,7 @@
-import Joi from 'joi';
-import { ValidationWithDB } from '../../helpers/validator';
+import Joi from 'joi'
+import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace Auth {
-
   const regexPassword = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9&*+?.,^|&]+)$/
 
   const emptyAllow = ['', null]
@@ -44,7 +43,10 @@ export namespace Auth {
   export const signUpWithDB: ValidationWithDB = {
     email: [
       {
-        type: 'unique', attr: 'email', table: 'users', column: 'email',
+        type: 'unique',
+        attr: 'email',
+        table: 'users',
+        column: 'email',
       },
     ],
   }

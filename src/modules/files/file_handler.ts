@@ -5,11 +5,7 @@ import { File as Entity } from './file_entity'
 import { File as Service } from './file_service'
 
 export namespace File {
-  export const upload = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const upload = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result: Entity.ResponseUpload = await Service.upload(req, res)
 
@@ -19,11 +15,7 @@ export namespace File {
     }
   }
 
-  export const download = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  export const download = async (req: Request, res: Response, next: NextFunction) => {
     const source = req.params.filename
 
     const result: Entity.ResponseUpload = {

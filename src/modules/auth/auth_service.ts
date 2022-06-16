@@ -60,7 +60,8 @@ export namespace Auth {
     const match = await bcrypt.compare(requestBody.password, user.password)
     if (!match) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.signin.failed'))
 
-    if (!user.verified_at) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.verified.failed'))
+    if (!user.verified_at)
+      throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.verified.failed'))
 
     if (!user.is_active) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.active.failed'))
 
@@ -87,7 +88,7 @@ export namespace Auth {
     try {
       verify(requestBody.refresh_token, config.get('jwt.refresh.public'), {
         algorithms: config.get('jwt.refresh.algorithm'),
-      });
+      })
     } catch (err) {
       await throwRefreshTokenFailed(requestBody)
     }
@@ -95,7 +96,8 @@ export namespace Auth {
 
   export const refreshToken = async (requestBody: Entity.RequestBodyRefreshToken) => {
     const user: any = await Repository.findByRefreshToken(requestBody)
-    if (!user) throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, lang.__('auth.refreshToken.failed'))
+    if (!user)
+      throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, lang.__('auth.refreshToken.failed'))
 
     if (!user.is_active) await throwRefreshTokenFailed(requestBody)
 
@@ -103,22 +105,20 @@ export namespace Auth {
 
     const responseJwt = generateJwtToken(user)
 
-    await Repository.updateRefreshToken(
-      requestBody.refresh_token,
-      {
-        user_id: user.id,
-        access_token: responseJwt.data.access_token,
-        refresh_token: responseJwt.data.refresh_token,
-        expired_in: responseJwt.data.expired_in,
-      },
-    )
+    await Repository.updateRefreshToken(requestBody.refresh_token, {
+      user_id: user.id,
+      access_token: responseJwt.data.access_token,
+      refresh_token: responseJwt.data.refresh_token,
+      expired_in: responseJwt.data.expired_in,
+    })
 
     return responseJwt
   }
 
   export const signOut = async (requestBody: Entity.RequestBodyRefreshToken) => {
     const user: any = await Repository.findByRefreshToken(requestBody)
-    if (!user) throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, lang.__('auth.refreshToken.failed'))
+    if (!user)
+      throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, lang.__('auth.refreshToken.failed'))
 
     return Repository.deleteOauthbyRefreshToken(requestBody)
   }
@@ -133,7 +133,10 @@ export namespace Auth {
 
     const result: Entity.ResponseMe = {
       data: {
-        name, email, avatar: getUrl(avatar), role,
+        name,
+        email,
+        avatar: getUrl(avatar),
+        role,
       },
       meta: {},
     }
@@ -141,7 +144,9 @@ export namespace Auth {
     return result
   }
 
-  export const forgotPassword = async (requestBody: Entity.RequestBodyForgotPassword): Promise<Entity.ResponseForgotPassword> => {
+  export const forgotPassword = async (
+    requestBody: Entity.RequestBodyForgotPassword
+  ): Promise<Entity.ResponseForgotPassword> => {
     const user: any = await Repository.findByEmail(requestBody)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.email.failed'))
 
@@ -162,10 +167,13 @@ export namespace Auth {
     return { message: lang.__('auth.email.forgot.password.success', { email: user.email }) }
   }
 
-  export const forgotPasswordVerify = async (requestQuery: Request): Promise<Entity.ResponseForgotPasswordVerify> => {
+  export const forgotPasswordVerify = async (
+    requestQuery: Request
+  ): Promise<Entity.ResponseForgotPasswordVerify> => {
     const decodeJwt: any = requestQuery.user
 
-    if (decodeJwt?.target !== 'password-verify') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.rejected'))
+    if (decodeJwt?.target !== 'password-verify')
+      throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.rejected'))
 
     const user = await Repository.findByUserId(decodeJwt.identifier)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
@@ -183,12 +191,15 @@ export namespace Auth {
     }
   }
 
-  export const resetPassword = async (requestQuery: Request, requestBody: Entity.RequestBodyResetPassword) => {
+  export const resetPassword = async (
+    requestQuery: Request,
+    requestBody: Entity.RequestBodyResetPassword
+  ) => {
     const decodeJwt: any = requestQuery.user
 
-    if (decodeJwt?.target !== 'reset-password') throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.rejected'))
+    if (decodeJwt?.target !== 'reset-password')
+      throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.rejected'))
 
     return Repository.updatePassword(decodeJwt.identifier, passwordHash(requestBody.password))
   }
-
 }

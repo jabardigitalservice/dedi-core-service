@@ -5,10 +5,8 @@ interface Bounds {
 
 const pointRegexRule = (point: string) => /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/.test(point)
 
-export const isRequestBounds = (bounds: Bounds) => bounds?.ne
-    && bounds.sw
-    && pointRegexRule(bounds.ne)
-    && pointRegexRule(bounds.sw)
+export const isRequestBounds = (bounds: Bounds) =>
+  bounds?.ne && bounds.sw && pointRegexRule(bounds.ne) && pointRegexRule(bounds.sw)
 
 export const getPolygon = (bounds: Bounds) => {
   const { ne, sw } = bounds

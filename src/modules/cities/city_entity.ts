@@ -1,5 +1,5 @@
-import database from '../../config/database';
-import { Query } from '../../helpers/types';
+import database from '../../config/database'
+import { Query } from '../../helpers/types'
 
 export namespace City {
   export interface Struct {
@@ -18,7 +18,7 @@ export namespace City {
     location: {
       lat: number
       lng: number
-    },
+    }
   }
 
   export interface Suggestion {

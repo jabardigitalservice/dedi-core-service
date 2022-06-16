@@ -79,71 +79,78 @@ const expectEmptyBodySuggestion = expect.objectContaining({
 })
 
 describe('tests partners', () => {
-  it('test success find all', async () => request(app)
-    .get('/v1/partners')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAll)
-    }))
+  it('test success find all', async () =>
+    request(app)
+      .get('/v1/partners')
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindAll)
+      }))
 })
 
 describe('tests partners', () => {
-  it('test success find all with query name', async () => request(app)
-    .get('/v1/partners')
-    .query({ name: 'test' })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodyFindAll)
-    }))
+  it('test success find all with query name', async () =>
+    request(app)
+      .get('/v1/partners')
+      .query({ name: 'test' })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindAll)
+      }))
 })
 
 describe('tests partners', () => {
-  it('test success find all with query name return data empty', async () => request(app)
-    .get('/v1/partners')
-    .query({ name: 'test2' })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectEmptyBodyFindAll)
-    }))
+  it('test success find all with query name return data empty', async () =>
+    request(app)
+      .get('/v1/partners')
+      .query({ name: 'test2' })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectEmptyBodyFindAll)
+      }))
 })
 
 describe('tests partners', () => {
-  it('returns partners that contain given substring', async () => request(app)
-    .get('/v1/partners/suggestion')
-    .query({ name: 'tes' })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodySuggestion)
-    }))
+  it('returns partners that contain given substring', async () =>
+    request(app)
+      .get('/v1/partners/suggestion')
+      .query({ name: 'tes' })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodySuggestion)
+      }))
 })
 
 describe('tests partners', () => {
-  it('test success suggestion with given query name length < 3 return data empty', async () => request(app)
-    .get('/v1/partners/suggestion')
-    .query({ name: 'te' })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodySuggestion)
-    }))
+  it('test success suggestion with given query name length < 3 return data empty', async () =>
+    request(app)
+      .get('/v1/partners/suggestion')
+      .query({ name: 'te' })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodySuggestion)
+      }))
 })
 
 describe('tests partners', () => {
-  it('test success suggestion with query name return data empty', async () => request(app)
-    .get('/v1/partners/suggestion')
-    .query({ name: 'test1' })
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectEmptyBodySuggestion)
-    }))
+  it('test success suggestion with query name return data empty', async () =>
+    request(app)
+      .get('/v1/partners/suggestion')
+      .query({ name: 'test1' })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectEmptyBodySuggestion)
+      }))
 })
 
 describe('tests partners', () => {
-  it('test success suggestion without query', async () => request(app)
-    .get('/v1/partners/suggestion')
-    .expect(httpStatus.OK)
-    .then((response) => {
-      expect(response.body).toEqual(expectBodySuggestion)
-    }))
+  it('test success suggestion without query', async () =>
+    request(app)
+      .get('/v1/partners/suggestion')
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodySuggestion)
+      }))
 })
 
 describe('tests partners', () => {

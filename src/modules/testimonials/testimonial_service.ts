@@ -39,7 +39,9 @@ export namespace Testimonial {
     return data
   }
 
-  export const findAll = async (requestQuery: Entity.RequestQuery): Promise<Entity.ResponseFindAll> => {
+  export const findAll = async (
+    requestQuery: Entity.RequestQuery
+  ): Promise<Entity.ResponseFindAll> => {
     const items: any = await Repository.findAll(requestQuery)
 
     const result: Entity.ResponseFindAll = {
@@ -74,26 +76,41 @@ export namespace Testimonial {
 
   export const update = async (requestBody: Entity.RequestBody, id: string) => {
     const item: any = await Repository.findById(id)
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'testimonial', id }))
+    if (!item)
+      throw new HttpError(
+        httpStatus.NOT_FOUND,
+        lang.__('error.exists', { entity: 'testimonial', id })
+      )
 
-    await Repository.updateFile({
-      source: requestBody.avatar,
-      name: requestBody.avatar_original_name,
-    }, item.file_id)
+    await Repository.updateFile(
+      {
+        source: requestBody.avatar,
+        name: requestBody.avatar_original_name,
+      },
+      item.file_id
+    )
 
     return Repository.update(getRequestBody(requestBody), id)
   }
 
   export const destroy = async (id: string) => {
     const item: any = await Repository.findById(id)
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'testimonial', id }))
+    if (!item)
+      throw new HttpError(
+        httpStatus.NOT_FOUND,
+        lang.__('error.exists', { entity: 'testimonial', id })
+      )
 
     return Repository.destroy(id)
   }
 
   export const findById = async (id: string) => {
     const item: any = await Repository.findById(id)
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'testimonial', id }))
+    if (!item)
+      throw new HttpError(
+        httpStatus.NOT_FOUND,
+        lang.__('error.exists', { entity: 'testimonial', id })
+      )
 
     const result: Entity.ResponseFindById = {
       data: response(item),

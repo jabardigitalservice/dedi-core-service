@@ -9,10 +9,30 @@ import { verifyAccessToken } from '../../middleware/jwt'
 
 const router = Router()
 
-router.get('/v1/testimonials', cache(), validate(Rules.findAll, 'query'), Log.findAll(), Handler.findAll)
+router.get(
+  '/v1/testimonials',
+  cache(),
+  validate(Rules.findAll, 'query'),
+  Log.findAll(),
+  Handler.findAll
+)
 router.get('/v1/testimonials/:id', verifyAccessToken, Access.findById(), Handler.findById)
-router.post('/v1/testimonials', verifyAccessToken, Access.store(), validate(Rules.store), validateWithDB(Rules.storeWithDB), Handler.store)
-router.put('/v1/testimonials/:id', verifyAccessToken, Access.update(), validate(Rules.update), validateWithDB(Rules.updateWithDB), Handler.update)
+router.post(
+  '/v1/testimonials',
+  verifyAccessToken,
+  Access.store(),
+  validate(Rules.store),
+  validateWithDB(Rules.storeWithDB),
+  Handler.store
+)
+router.put(
+  '/v1/testimonials/:id',
+  verifyAccessToken,
+  Access.update(),
+  validate(Rules.update),
+  validateWithDB(Rules.updateWithDB),
+  Handler.update
+)
 router.delete('/v1/testimonials/:id', verifyAccessToken, Access.destroy(), Handler.destroy)
 
 export default router

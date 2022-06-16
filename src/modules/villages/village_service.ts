@@ -44,8 +44,29 @@ export namespace Village {
     return data
   }
 
-  export const withLocation = async (requestQuery: Entity.RequestQueryWithLocation): Promise<Entity.ResponseWithLocation> => {
-    const items: any = isRequestBounds(requestQuery.bounds) ? await Repository.withLocation(requestQuery) : []
+  const responseFindById = (item: any) => ({
+    data: {
+      id: item.id,
+      name: item.name,
+      level: item.level,
+      city: {
+        id: item.city_id,
+        name: item.city_name,
+      },
+      category: {
+        id: item.category_id,
+        name: item.category_name,
+      },
+    },
+    meta: {},
+  })
+
+  export const withLocation = async (
+    requestQuery: Entity.RequestQueryWithLocation
+  ): Promise<Entity.ResponseWithLocation> => {
+    const items: any = isRequestBounds(requestQuery.bounds)
+      ? await Repository.withLocation(requestQuery)
+      : []
 
     const meta: any = Repository.metaWithLocation(requestQuery)
     const total: any = await meta.total
@@ -62,7 +83,9 @@ export namespace Village {
     return result
   }
 
-  export const listWithLocation = async (requestQuery: Entity.RequestQueryListWithLocation): Promise<Entity.ResponseListWithLocation> => {
+  export const listWithLocation = async (
+    requestQuery: Entity.RequestQueryListWithLocation
+  ): Promise<Entity.ResponseListWithLocation> => {
     const items: any = await Repository.listWithLocation(requestQuery)
 
     const result: Entity.ResponseListWithLocation = {
@@ -73,27 +96,18 @@ export namespace Village {
     return result
   }
 
-  export const findById = async ({ id }: Entity.RequestParamFindById): Promise<Entity.ResponseFindById> => {
-    const item: any = await Repository.findById(id)
+  export const findById = async (
+    request: Entity.RequestParamFindById
+  ): Promise<Entity.ResponseFindById> => {
+    const item: any = await Repository.findById(request.id)
 
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))
+    if (!item)
+      throw new HttpError(
+        httpStatus.NOT_FOUND,
+        lang.__('error.exists', { entity: 'Village', id: request.id })
+      )
 
-    const result: Entity.ResponseFindById = {
-      data: {
-        id: item.id,
-        name: item.name,
-        level: item.level,
-        city: {
-          id: item.city_id,
-          name: item.city_name,
-        },
-        category: {
-          id: item.category_id,
-          name: item.category_name,
-        },
-      },
-      meta: {},
-    };
+    const result: Entity.ResponseFindById = responseFindById(item)
 
     return result
   }
@@ -114,7 +128,9 @@ export namespace Village {
     return data
   }
 
-  export const suggestion = async (request: Entity.RequestQuerySuggestion): Promise<Entity.ResponseSuggestion> => {
+  export const suggestion = async (
+    request: Entity.RequestQuerySuggestion
+  ): Promise<Entity.ResponseSuggestion> => {
     const items: any = await Repository.suggestion(request)
 
     const result: Entity.ResponseSuggestion = {
@@ -122,7 +138,7 @@ export namespace Village {
       meta: {
         total: items.length,
       },
-    };
+    }
 
     return result
   }
@@ -139,8 +155,13 @@ export namespace Village {
   export const checkRegistered = async ({ id }: Entity.RequestParamFindById): Promise<void> => {
     const item: any = await Repository.findById(id)
 
-    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))
+    if (!item)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))
 
-    if (item.level === 4) throw new HttpError(httpStatus.BAD_REQUEST, lang.__('error.village.registered', { level: item.level }))
+    if (item.level === 4)
+      throw new HttpError(
+        httpStatus.BAD_REQUEST,
+        lang.__('error.village.registered', { level: item.level })
+      )
   }
 }

@@ -1,14 +1,12 @@
 import * as core from 'express-serve-static-core'
 import express from 'express'
 
-export interface Query extends core.Query { }
+export type Query = core.Query
 
-export interface Params extends core.ParamsDictionary { }
+export type Params = core.ParamsDictionary
 
-export interface Request<
-ReqBody = any,
-ReqQuery = Query,
-URLParams extends Params = core.ParamsDictionary,
->
-
-  extends express.Request<URLParams, any, ReqBody, ReqQuery> {}
+export type Request<
+  ReqBody = any,
+  ReqQuery = Query,
+  URLParams extends Params = core.ParamsDictionary
+> = express.Request<URLParams, any, ReqBody, ReqQuery>

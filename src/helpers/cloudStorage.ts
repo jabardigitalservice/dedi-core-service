@@ -1,3 +1,4 @@
+import { Express } from 'express'
 import config from '../config'
 import { isCloudStorageS3 } from './constant'
 import { uploadGCS } from './gcs'
@@ -9,6 +10,7 @@ export const getUrl = (path: string) => {
   return path ? `${cdn}/${config.get('node.env')}/${path}` : null
 }
 
-export const getOriginalName = (originalName: string) => (originalName || null)
+export const getOriginalName = (originalName: string) => originalName || null
 
-export const uploadFile = (file: Express.Multer.File) => (isCloudStorageS3() ? uploadS3(file) : uploadGCS(file))
+export const uploadFile = (file: Express.Multer.File) =>
+  isCloudStorageS3() ? uploadS3(file) : uploadGCS(file)

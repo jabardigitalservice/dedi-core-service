@@ -43,19 +43,20 @@ const validateError = (details: Joi.ValidationErrorItem[]) => {
   return rules
 }
 
-export const validate = (
-  schema: Schema,
-  property: string = 'body',
-) => (req: Request, res: Response, next: NextFunction) => {
-  const { error } = schema.validate(req[property], { abortEarly: false })
+export const validate =
+  (schema: Schema, property = 'body') =>
+  (req: Request, res: Response, next: NextFunction) => {
+    const { error } = schema.validate(req[property], { abortEarly: false })
 
-  if (!error) return next()
+    if (!error) return next()
 
-  const { details } = error
-  const errors = validateError(details)
+    const { details } = error
+    const errors = validateError(details)
 
-  Object.keys(errors).length ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
-}
+    Object.keys(errors).length
+      ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors })
+      : next()
+  }
 
 const Query = async (rule: PropertyWithDB, value: string, primaryKeyValue?: string) => {
   const query = database(rule.table).select(rule.column).where(rule.column, value)
@@ -98,9 +99,10 @@ const validateErrorWithDB = async (req: Request, validation: ValidationWithDB) =
   return errors
 }
 
-export const validateWithDB = (
-  validation: ValidationWithDB,
-) => async (req: Request, res: Response, next: NextFunction) => {
-  const errors = await validateErrorWithDB(req, validation)
-  Object.keys(errors).length ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors }) : next()
-}
+export const validateWithDB =
+  (validation: ValidationWithDB) => async (req: Request, res: Response, next: NextFunction) => {
+    const errors = await validateErrorWithDB(req, validation)
+    Object.keys(errors).length
+      ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors })
+      : next()
+  }

@@ -4,7 +4,8 @@ import { Request, Response, NextFunction } from 'express'
 import newrelic from 'newrelic'
 import { isNodeEnvProduction } from '../helpers/constant'
 
-const isErrorCodeNotNumber = (error: any) => typeof error.code === 'string' || typeof error.code === 'undefined'
+const isErrorCodeNotNumber = (error: any) =>
+  typeof error.code === 'string' || typeof error.code === 'undefined'
 const isErrorJwt = (error: any) => error.message === 'jwt malformed'
 const isErrorServer = (error: any) => error.code >= httpStatus.INTERNAL_SERVER_ERROR
 const isErrorProduction = (error: any) => isNodeEnvProduction() && isErrorServer(error)
@@ -35,7 +36,7 @@ export const onError = (error: any, req: Request, res: Response, next: NextFunct
       user: JSON.stringify(req.user),
     }
 
-    console.log(JSON.stringify(logger));
+    console.log(JSON.stringify(logger))
 
     newrelic.noticeError(error, logger)
   }
@@ -44,11 +45,7 @@ export const onError = (error: any, req: Request, res: Response, next: NextFunct
 }
 
 export class HttpError extends CustomError {
-  public constructor(
-    public code: number,
-    message?: string,
-    public isObject: boolean = false,
-  ) {
+  public constructor(public code: number, message?: string, public isObject: boolean = false) {
     super(message)
   }
 }
