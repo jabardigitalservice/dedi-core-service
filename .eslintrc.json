@@ -6,7 +6,10 @@
   },
   "extends": [
     "airbnb-base",
-    "airbnb-typescript/base"
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
+    "prettier"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -15,7 +18,8 @@
   },
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "prettier"
   ],
   "parserOptions": {
     "ecmaVersion": 2021,
@@ -44,6 +48,11 @@
     "camelcase": "off",
     "semi": "off",
     "eol-last": 2,
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/ban-types": "off",
     "max-lines-per-function": [
       "error", { "max": 25 }
     ]
