@@ -20,7 +20,7 @@ const messageError = (error: any) => {
   return { error: message }
 }
 
-export const onError = (error: any, req: Request, res: Response, next: NextFunction) => {
+export const onError = (error: any, req: Request, res: Response) => {
   const isErrorStatusEmpty = error.status || httpStatus.INTERNAL_SERVER_ERROR
 
   error.code = isErrorCodeNotNumber(error) ? isErrorStatusEmpty : error.code
