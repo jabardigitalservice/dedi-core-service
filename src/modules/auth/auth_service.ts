@@ -6,11 +6,7 @@ import { HttpError } from '../../handler/exception'
 import lang from '../../lang'
 import { AuthEntity } from './auth_entity'
 import { AuthRepository } from './auth_repository'
-import {
-  createAccessToken as CreateAccessToken,
-  createRefreshToken as CreateRefreshToken,
-  decodeToken,
-} from '../../middleware/jwt'
+import * as Jwt from '../../middleware/jwt'
 import { sendMail as SendMail } from '../../helpers/mail'
 import config from '../../config'
 import { getRole } from '../../helpers/rbac'
@@ -23,9 +19,7 @@ export class AuthService {
 
   private passwordHash: typeof PasswordHash
 
-  private createAccessToken: typeof CreateAccessToken
-
-  private createRefreshToken: typeof CreateRefreshToken
+  private jwt: typeof Jwt
 
   private compare: typeof Compare
 
@@ -34,15 +28,13 @@ export class AuthService {
   constructor(
     authRepository: AuthRepository = new AuthRepository(),
     passwordHash: typeof PasswordHash = PasswordHash,
-    createAccessToken: typeof CreateAccessToken = CreateAccessToken,
-    createRefreshToken: typeof CreateRefreshToken = CreateRefreshToken,
+    jwt: typeof Jwt = Jwt,
     compare: typeof Compare = Compare,
     sendMail: typeof SendMail = SendMail
   ) {
     this.passwordHash = passwordHash
     this.authRepository = authRepository
-    this.createAccessToken = createAccessToken
-    this.createRefreshToken = createRefreshToken
+    this.jwt = jwt
     this.compare = compare
     this.sendMail = sendMail
   }
@@ -62,13 +54,13 @@ export class AuthService {
 
   private generateJwtToken = (user: AuthEntity.StructUser): AuthEntity.ResponseJWT => {
     const identifier = user.id
-    const access_token = this.createAccessToken({
+    const access_token = this.jwt.createAccessToken({
       identifier,
       prtnr: !!user.partner_id,
       adm: convertToBoolean(user.is_admin),
     })
-    const refresh_token = this.createRefreshToken({ identifier })
-    const decodeJwt = decodeToken(access_token)
+    const refresh_token = this.jwt.createRefreshToken({ identifier })
+    const decodeJwt = this.jwt.decodeToken(access_token)
 
     return {
       data: {
@@ -182,7 +174,7 @@ export class AuthService {
     const user: any = await this.authRepository.findByEmail(request)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.email.failed'))
 
-    const token = this.createRefreshToken({
+    const token = this.jwt.createRefreshToken({
       identifier: user.id,
       target: 'password-verify',
     })
@@ -210,7 +202,7 @@ export class AuthService {
     const user = await this.authRepository.findByUserId(decodeJwt.identifier)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
 
-    const access_token = this.createRefreshToken({
+    const access_token = this.jwt.createRefreshToken({
       identifier: user.id,
       target: 'reset-password',
     })
