@@ -1,1 +1,1 @@
-export namespace Village {}
+export namespace VillageAccess {}

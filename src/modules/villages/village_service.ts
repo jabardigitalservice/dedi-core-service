@@ -4,11 +4,17 @@ import { getUrl } from '../../helpers/cloudStorage'
 import { metaPagination } from '../../helpers/paginate'
 import { isRequestBounds } from '../../helpers/polygon'
 import lang from '../../lang'
-import { Village as Entity } from './village_entity'
-import { Village as Repository } from './village_repository'
+import { VillageEntity } from './village_entity'
+import { VillageRepository } from './village_repository'
 
-export namespace Village {
-  const getImages = (image: any): string[] => {
+export class VillageService {
+  private villageRepository: VillageRepository
+
+  constructor(villageRepository: VillageRepository = new VillageRepository()) {
+    this.villageRepository = villageRepository
+  }
+
+  private getImages = (image: string): string[] => {
     const images: string[] = []
     const items = JSON.parse(image) || []
     for (const item of items) {
@@ -18,8 +24,8 @@ export namespace Village {
     return images
   }
 
-  const responseWithLocation = (items: any[]): Entity.WithLocation[] => {
-    const data: Entity.WithLocation[] = []
+  private responseWithLocation = (items: any[]): VillageEntity.WithLocation[] => {
+    const data: VillageEntity.WithLocation[] = []
     for (const item of items) {
       data.push({
         id: item.id,
@@ -37,14 +43,14 @@ export namespace Village {
           lat: item.location.y,
           lng: item.location.x,
         },
-        images: getImages(item.images),
+        images: this.getImages(item.images),
       })
     }
 
     return data
   }
 
-  const responseFindById = (item: any) => ({
+  private responseFindById = (item: any): VillageEntity.ResponseFindById => ({
     data: {
       id: item.id,
       name: item.name,
@@ -61,19 +67,19 @@ export namespace Village {
     meta: {},
   })
 
-  export const withLocation = async (
-    requestQuery: Entity.RequestQueryWithLocation
-  ): Promise<Entity.ResponseWithLocation> => {
+  public withLocation = async (
+    requestQuery: VillageEntity.RequestQueryWithLocation
+  ): Promise<VillageEntity.ResponseWithLocation> => {
     const items: any = isRequestBounds(requestQuery.bounds)
-      ? await Repository.withLocation(requestQuery)
+      ? await this.villageRepository.withLocation(requestQuery)
       : []
 
-    const meta: any = Repository.metaWithLocation(requestQuery)
+    const meta: any = this.villageRepository.metaWithLocation(requestQuery)
     const total: any = await meta.total
     const lastUpdate: any = await meta.lastUpdate
 
-    const result: Entity.ResponseWithLocation = {
-      data: responseWithLocation(items),
+    const result: VillageEntity.ResponseWithLocation = {
+      data: this.responseWithLocation(items),
       meta: {
         total: total.total,
         last_update: lastUpdate?.updated_at || null,
@@ -83,23 +89,23 @@ export namespace Village {
     return result
   }
 
-  export const listWithLocation = async (
-    requestQuery: Entity.RequestQueryListWithLocation
-  ): Promise<Entity.ResponseListWithLocation> => {
-    const items: any = await Repository.listWithLocation(requestQuery)
+  public listWithLocation = async (
+    requestQuery: VillageEntity.RequestQueryListWithLocation
+  ): Promise<VillageEntity.ResponseListWithLocation> => {
+    const items: any = await this.villageRepository.listWithLocation(requestQuery)
 
-    const result: Entity.ResponseListWithLocation = {
-      data: responseWithLocation(items.data),
+    const result: VillageEntity.ResponseListWithLocation = {
+      data: this.responseWithLocation(items.data),
       meta: metaPagination(items.pagination),
     }
 
     return result
   }
 
-  export const findById = async (
-    request: Entity.RequestParamFindById
-  ): Promise<Entity.ResponseFindById> => {
-    const item: any = await Repository.findById(request.id)
+  public findById = async (
+    request: VillageEntity.RequestParamFindById
+  ): Promise<VillageEntity.ResponseFindById> => {
+    const item: any = await this.villageRepository.findById(request.id)
 
     if (!item)
       throw new HttpError(
@@ -107,13 +113,13 @@ export namespace Village {
         lang.__('error.exists', { entity: 'Village', id: request.id })
       )
 
-    const result: Entity.ResponseFindById = responseFindById(item)
+    const result: VillageEntity.ResponseFindById = this.responseFindById(item)
 
     return result
   }
 
-  const responseSuggestion = (items: any[]): Entity.Suggestion[] => {
-    const data: Entity.Suggestion[] = []
+  private responseSuggestion = (items: any[]): VillageEntity.Suggestion[] => {
+    const data: VillageEntity.Suggestion[] = []
     for (const item of items) {
       data.push({
         id: item.id,
@@ -128,13 +134,13 @@ export namespace Village {
     return data
   }
 
-  export const suggestion = async (
-    request: Entity.RequestQuerySuggestion
-  ): Promise<Entity.ResponseSuggestion> => {
-    const items: any = await Repository.suggestion(request)
+  public suggestion = async (
+    request: VillageEntity.RequestQuerySuggestion
+  ): Promise<VillageEntity.ResponseSuggestion> => {
+    const items: any = await this.villageRepository.suggestion(request)
 
-    const result: Entity.ResponseSuggestion = {
-      data: responseSuggestion(items),
+    const result: VillageEntity.ResponseSuggestion = {
+      data: this.responseSuggestion(items),
       meta: {
         total: items.length,
       },
@@ -143,17 +149,19 @@ export namespace Village {
     return result
   }
 
-  export const questionnaire = async (requestBody: Entity.RequestBodyQuestionnaire) => {
+  public questionnaire = async (
+    requestBody: VillageEntity.RequestBodyQuestionnaire
+  ): Promise<number> => {
     const { id } = requestBody
 
-    return Repository.questionnaire(id, {
+    return this.villageRepository.questionnaire(id, {
       level: requestBody.level,
       properties: JSON.stringify(requestBody.properties),
     })
   }
 
-  export const checkRegistered = async ({ id }: Entity.RequestParamFindById): Promise<void> => {
-    const item: any = await Repository.findById(id)
+  public checkRegistered = async ({ id }: VillageEntity.RequestParamFindById): Promise<void> => {
+    const item: any = await this.villageRepository.findById(id)
 
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))

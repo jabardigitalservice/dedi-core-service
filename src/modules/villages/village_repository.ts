@@ -1,12 +1,13 @@
+import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
 import { getPolygon } from '../../helpers/polygon'
-import { Village as Entity } from './village_entity'
+import { VillageEntity } from './village_entity'
 
-export namespace Village {
-  const { Villages } = Entity
+export class VillageRepository {
+  private Villages = () => database<VillageEntity.Struct>('villages')
 
-  const getWherePolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
+  private getWherePolygon = (requestQuery: VillageEntity.RequestQueryWithLocation) => {
     const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(
       requestQuery.bounds
     )}'), villages.location)`
@@ -14,8 +15,8 @@ export namespace Village {
     return wherePolygon
   }
 
-  const Query = () => {
-    const query = Villages()
+  private Query = () => {
+    const query = this.Villages()
       .select(
         'villages.id as id',
         'villages.name as name',
@@ -35,19 +36,19 @@ export namespace Village {
     return query
   }
 
-  export const withLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
-    const query = Query()
+  public withLocation = (requestQuery: VillageEntity.RequestQueryWithLocation) => {
+    const query = this.Query()
 
     if (requestQuery.is_active)
       query.where('villages.is_active', convertToBoolean(requestQuery.is_active))
 
-    query.whereRaw(getWherePolygon(requestQuery))
+    query.whereRaw(this.getWherePolygon(requestQuery))
 
     return query
   }
 
-  export const suggestion = (requestQuery: Entity.RequestQuerySuggestion) => {
-    const query = Query()
+  public suggestion = (requestQuery: VillageEntity.RequestQuerySuggestion) => {
+    const query = this.Query()
 
     if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
     if (requestQuery.is_active)
@@ -57,8 +58,8 @@ export namespace Village {
     return query
   }
 
-  export const listWithLocation = (requestQuery: Entity.RequestQueryListWithLocation) => {
-    const query = Query()
+  public listWithLocation = (requestQuery: VillageEntity.RequestQueryListWithLocation) => {
+    const query = this.Query()
 
     if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
     if (requestQuery.level) query.where('villages.level', requestQuery.level)
@@ -68,8 +69,8 @@ export namespace Village {
     return query.paginate(pagination(requestQuery))
   }
 
-  export const findById = (id: string) => {
-    const query = Villages()
+  public findById = (id: string) => {
+    const query = this.Villages()
       .select(
         'villages.id as id',
         'villages.name as name',
@@ -89,10 +90,10 @@ export namespace Village {
     return query
   }
 
-  export const metaWithLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
-    const total = Villages().count('id', { as: 'total' })
+  public metaWithLocation = (requestQuery: VillageEntity.RequestQueryWithLocation) => {
+    const total = this.Villages().count('id', { as: 'total' })
 
-    const lastUpdate = Villages()
+    const lastUpdate = this.Villages()
       .select('updated_at')
       .whereNotNull('updated_at')
       .orderBy('updated_at', 'desc')
@@ -105,8 +106,8 @@ export namespace Village {
     return { total: total.first(), lastUpdate: lastUpdate.first() }
   }
 
-  export const questionnaire = (id: string, requestBody: Entity.RequestBodyQuestionnaire) =>
-    Villages()
+  public questionnaire = (id: string, requestBody: VillageEntity.RequestBodyQuestionnaire) =>
+    this.Villages()
       .where('id', id)
       .update({
         ...requestBody,
