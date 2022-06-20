@@ -68,13 +68,13 @@ export class VillageService {
   })
 
   public withLocation = async (
-    requestQuery: VillageEntity.RequestQueryWithLocation
+    request: VillageEntity.RequestQueryWithLocation
   ): Promise<VillageEntity.ResponseWithLocation> => {
-    const items: any = isRequestBounds(requestQuery.bounds)
-      ? await this.villageRepository.withLocation(requestQuery)
+    const items: any = isRequestBounds(request.bounds)
+      ? await this.villageRepository.withLocation(request)
       : []
 
-    const meta: any = this.villageRepository.metaWithLocation(requestQuery)
+    const meta: any = this.villageRepository.metaWithLocation(request)
     const total: any = await meta.total
     const lastUpdate: any = await meta.lastUpdate
 
@@ -90,9 +90,9 @@ export class VillageService {
   }
 
   public listWithLocation = async (
-    requestQuery: VillageEntity.RequestQueryListWithLocation
+    request: VillageEntity.RequestQueryListWithLocation
   ): Promise<VillageEntity.ResponseListWithLocation> => {
-    const items: any = await this.villageRepository.listWithLocation(requestQuery)
+    const items: any = await this.villageRepository.listWithLocation(request)
 
     const result: VillageEntity.ResponseListWithLocation = {
       data: this.responseWithLocation(items.data),
@@ -150,13 +150,13 @@ export class VillageService {
   }
 
   public questionnaire = async (
-    requestBody: VillageEntity.RequestBodyQuestionnaire
+    request: VillageEntity.RequestBodyQuestionnaire
   ): Promise<number> => {
-    const { id } = requestBody
+    const { id } = request
 
     return this.villageRepository.questionnaire(id, {
-      level: requestBody.level,
-      properties: JSON.stringify(requestBody.properties),
+      level: request.level,
+      properties: JSON.stringify(request.properties),
     })
   }
 

@@ -7,9 +7,9 @@ import { VillageEntity } from './village_entity'
 export class VillageRepository {
   private Villages = () => database<VillageEntity.Struct>('villages')
 
-  private getWherePolygon = (requestQuery: VillageEntity.RequestQueryWithLocation) => {
+  private getWherePolygon = (request: VillageEntity.RequestQueryWithLocation) => {
     const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(
-      requestQuery.bounds
+      request.bounds
     )}'), villages.location)`
 
     return wherePolygon
@@ -36,37 +36,37 @@ export class VillageRepository {
     return query
   }
 
-  public withLocation = (requestQuery: VillageEntity.RequestQueryWithLocation) => {
+  public withLocation = (request: VillageEntity.RequestQueryWithLocation) => {
     const query = this.Query()
 
-    if (requestQuery.is_active)
-      query.where('villages.is_active', convertToBoolean(requestQuery.is_active))
+    if (request.is_active)
+      query.where('villages.is_active', convertToBoolean(request.is_active))
 
-    query.whereRaw(this.getWherePolygon(requestQuery))
+    query.whereRaw(this.getWherePolygon(request))
 
     return query
   }
 
-  public suggestion = (requestQuery: VillageEntity.RequestQuerySuggestion) => {
+  public suggestion = (request: VillageEntity.RequestQuerySuggestion) => {
     const query = this.Query()
 
-    if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
-    if (requestQuery.is_active)
-      query.where('villages.is_active', convertToBoolean(requestQuery.is_active))
-    if (requestQuery.district_id) query.where('villages.district_id', requestQuery.district_id)
+    if (request.name) query.where('villages.name', 'LIKE', `%${request.name}%`)
+    if (request.is_active)
+      query.where('villages.is_active', convertToBoolean(request.is_active))
+    if (request.district_id) query.where('villages.district_id', request.district_id)
 
     return query
   }
 
-  public listWithLocation = (requestQuery: VillageEntity.RequestQueryListWithLocation) => {
+  public listWithLocation = (request: VillageEntity.RequestQueryListWithLocation) => {
     const query = this.Query()
 
-    if (requestQuery.name) query.where('villages.name', 'LIKE', `%${requestQuery.name}%`)
-    if (requestQuery.level) query.where('villages.level', requestQuery.level)
-    if (requestQuery.is_active)
-      query.where('villages.is_active', convertToBoolean(requestQuery.is_active))
+    if (request.name) query.where('villages.name', 'LIKE', `%${request.name}%`)
+    if (request.level) query.where('villages.level', request.level)
+    if (request.is_active)
+      query.where('villages.is_active', convertToBoolean(request.is_active))
 
-    return query.paginate(pagination(requestQuery))
+    return query.paginate(pagination(request))
   }
 
   public findById = (id: string) => {
@@ -90,7 +90,7 @@ export class VillageRepository {
     return query
   }
 
-  public metaWithLocation = (requestQuery: VillageEntity.RequestQueryWithLocation) => {
+  public metaWithLocation = (request: VillageEntity.RequestQueryWithLocation) => {
     const total = this.Villages().count('id', { as: 'total' })
 
     const lastUpdate = this.Villages()
@@ -98,19 +98,19 @@ export class VillageRepository {
       .whereNotNull('updated_at')
       .orderBy('updated_at', 'desc')
 
-    if (requestQuery.is_active) {
-      total.where('villages.is_active', convertToBoolean(requestQuery.is_active))
-      lastUpdate.where('villages.is_active', convertToBoolean(requestQuery.is_active))
+    if (request.is_active) {
+      total.where('villages.is_active', convertToBoolean(request.is_active))
+      lastUpdate.where('villages.is_active', convertToBoolean(request.is_active))
     }
 
     return { total: total.first(), lastUpdate: lastUpdate.first() }
   }
 
-  public questionnaire = (id: string, requestBody: VillageEntity.RequestBodyQuestionnaire) =>
+  public questionnaire = (id: string, request: VillageEntity.RequestBodyQuestionnaire) =>
     this.Villages()
       .where('id', id)
       .update({
-        ...requestBody,
+        ...request,
         is_active: true,
         updated_at: new Date(),
       })
