@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import logger from '../../helpers/logger'
 
-export namespace Village {
+export namespace VillageLog {
   const searchBy = (req: Request): string => {
     const result = []
 

@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import { ValidationWithDB } from '../../helpers/validator'
 
-export namespace Village {
+export namespace VillageRules {
   const file = Joi.object({
     path: Joi.string().uri().allow(null),
     original_name: Joi.string().allow(null),
