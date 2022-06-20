@@ -12,8 +12,7 @@ export class VillageHandler {
 
   public withLocation = async (
     req: Request<never, never, never, VillageEntity.RequestQueryWithLocation>,
-    res: Response,
-    next: NextFunction
+    res: Response
   ) => {
     const result: VillageEntity.ResponseWithLocation = await this.villageService.withLocation(
       req.query
@@ -24,8 +23,7 @@ export class VillageHandler {
 
   public listWithLocation = async (
     req: Request<never, never, never, VillageEntity.RequestQueryListWithLocation>,
-    res: Response,
-    next: NextFunction
+    res: Response
   ) => {
     const result: VillageEntity.ResponseListWithLocation =
       await this.villageService.listWithLocation(req.query)
@@ -47,15 +45,14 @@ export class VillageHandler {
     }
   }
 
-  public questionnaire = async (req: Request, res: Response, next: NextFunction) => {
+  public questionnaire = async (req: Request, res: Response) => {
     this.villageService.questionnaire(req.body)
     res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
   public suggestion = async (
     req: Request<VillageEntity.RequestParamFindById, never, never, never>,
-    res: Response,
-    next: NextFunction
+    res: Response
   ) => {
     const result: VillageEntity.ResponseSuggestion = await this.villageService.suggestion(req.query)
     res.status(httpStatus.OK).json(result)
