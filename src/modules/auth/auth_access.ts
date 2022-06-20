@@ -1,1 +1,1 @@
-export namespace Auth {}
+export namespace AuthAccess {}

@@ -1,80 +1,85 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Auth as Entity } from './auth_entity'
+import database from '../../config/database'
+import { AuthEntity } from './auth_entity'
 
-export namespace Auth {
-  const { Partners, Users, OauthTokens } = Entity
+export class AuthRepository {
+  private Users = () => database<AuthEntity.StructUser>('users')
 
-  export const createPartner = (partner: Entity.PartnerCreate) =>
-    Partners().insert({
+  private Partners = () => database<AuthEntity.StructPartner>('partners')
+
+  private OauthTokens = () => database<AuthEntity.StructOauthToken>('oauth_tokens')
+
+  public createPartner = (partner: AuthEntity.PartnerCreate) =>
+    this.Partners().insert({
       ...partner,
       created_at: new Date(),
     })
 
-  const isPartnerIdNotExist = async (requestBody: Entity.RequestBodySignUp) => {
-    const partner = Partners()
+  private isPartnerIdNotExist = async (request: AuthEntity.RequestBodySignUp) => {
+    const partner = this.Partners()
       .select('id')
-      .where('id', requestBody.partner_id)
-      .orWhere('name', requestBody.company)
+      .where('id', request.partner_id)
+      .orWhere('name', request.company)
       .whereNull('deleted_at')
       .first()
 
-    return !requestBody.partner_id || !(await partner)
+    return !request.partner_id || !(await partner)
   }
 
-  export const getPartnerId = async (requestBody: Entity.RequestBodySignUp) => {
-    const Partner: Entity.PartnerCreate = {
+  public getPartnerId = async (request: AuthEntity.RequestBodySignUp) => {
+    const Partner: AuthEntity.PartnerCreate = {
       id: uuidv4(),
-      name: requestBody.company,
+      name: request.company,
     }
 
-    if (requestBody.company && (await isPartnerIdNotExist(requestBody))) {
-      await createPartner(Partner)
+    if (request.company && (await this.isPartnerIdNotExist(request))) {
+      await this.createPartner(Partner)
       return Partner.id
     }
 
-    return requestBody.partner_id
+    return request.partner_id
   }
 
-  export const signUp = (requestBody: Entity.RequestBodySignUp) =>
-    Users().insert({
+  public signUp = (requestBody: AuthEntity.RequestBodySignUp) =>
+    this.Users().insert({
       id: uuidv4(),
       created_at: new Date(),
       ...requestBody,
     })
 
-  export const findByEmail = (requestBody: Entity.FindByEmail) =>
-    Users().where('email', requestBody.email).first()
+  public findByEmail = (requestBody: AuthEntity.FindByEmail) =>
+    this.Users().where('email', requestBody.email).first()
 
-  export const findByUserId = (id: string) => Users().where('id', id).first()
+  public findByUserId = (id: string) => this.Users().where('id', id).first()
 
-  export const findByRefreshToken = (requestBody: Entity.RequestBodyRefreshToken) =>
-    OauthTokens()
+  public findByRefreshToken = (requestBody: AuthEntity.RequestBodyRefreshToken) =>
+    this.OauthTokens()
       .select('users.id', 'partner_id', 'is_admin', 'users.is_active')
       .join('users', 'users.id', 'oauth_tokens.user_id')
       .where('refresh_token', requestBody.refresh_token)
       .first()
 
-  export const deleteOauthbyRefreshToken = (requestBody: Entity.RequestBodyRefreshToken) =>
-    OauthTokens().where('refresh_token', requestBody.refresh_token).delete()
+  public deleteOauthbyRefreshToken = (requestBody: AuthEntity.RequestBodyRefreshToken) =>
+    this.OauthTokens().where('refresh_token', requestBody.refresh_token).delete()
 
-  export const createOauthToken = (oauthToken: Entity.StructOauthToken) =>
-    OauthTokens().insert({
+  public createOauthToken = (oauthToken: AuthEntity.StructOauthToken) =>
+    this.OauthTokens().insert({
       id: uuidv4(),
       created_at: new Date(),
       ...oauthToken,
     })
 
-  export const updateRefreshToken = (refreshToken: string, oauthToken: Entity.StructOauthToken) =>
-    OauthTokens()
+  public updateRefreshToken = (refreshToken: string, oauthToken: AuthEntity.StructOauthToken) =>
+    this.OauthTokens()
       .where('refresh_token', '=', refreshToken)
       .update({
         ...oauthToken,
         updated_at: new Date(),
       })
 
-  export const updatePassword = (id: string, password: string) =>
-    Users().where('id', id).update({ password })
+  public updatePassword = (id: string, password: string) =>
+    this.Users().where('id', id).update({ password })
 
-  export const updateLastLoginAt = (id: string) =>
-    Users().where('id', id).update({ last_login_at: new Date() })
+  public updateLastLoginAt = (id: string) =>
+    this.Users().where('id', id).update({ last_login_at: new Date() })
 }

@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import { ValidationWithDB } from '../../helpers/validator'
 
-export namespace Auth {
+export namespace AuthRules {
   const regexPassword = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9&*+?.,^|&]+)$/
 
   const emptyAllow = ['', null]

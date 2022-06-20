@@ -1,8 +1,8 @@
 import logger from '../../helpers/logger'
-import { Auth as Entity } from './auth_entity'
+import { AuthEntity } from './auth_entity'
 
-export namespace Auth {
-  export const signIn = (requestBody: Entity.RequestBodySignIn) => {
+export namespace AuthLog {
+  export const signIn = (requestBody: AuthEntity.RequestBodySignIn) => {
     logger({
       level: 'info',
       message: 'user sign in',

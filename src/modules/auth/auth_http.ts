@@ -3,8 +3,8 @@ import rateLimit from 'express-rate-limit'
 import httpStatus from 'http-status'
 import { validate, validateWithDB } from '../../helpers/validator'
 import { verifyAccessToken, verifyRefreshToken } from '../../middleware/jwt'
-import { Auth as Rules } from './auth_rules'
-import { Auth as Handler } from './auth_handler'
+import { AuthRules } from './auth_rules'
+import { AuthHandler } from './auth_handler'
 import config from '../../config'
 import lang from '../../lang'
 
@@ -21,43 +21,50 @@ const apiLimiterSignIn = rateLimit({
   skipSuccessfulRequests: true,
 })
 
+const authHandler = new AuthHandler()
+
 const router = Router()
 
 router.post(
   '/v1/auth/users/sign-up',
-  validate(Rules.signUp),
-  validateWithDB(Rules.signUpWithDB),
-  Handler.signUp
+  validate(AuthRules.signUp),
+  validateWithDB(AuthRules.signUpWithDB),
+  authHandler.signUp
 )
-router.post('/v1/auth/users/sign-in', apiLimiterSignIn, validate(Rules.signIn), Handler.signIn)
+router.post(
+  '/v1/auth/users/sign-in',
+  apiLimiterSignIn,
+  validate(AuthRules.signIn),
+  authHandler.signIn
+)
 router.post(
   '/v1/auth/users/sign-out',
   verifyAccessToken,
-  validate(Rules.refreshToken),
-  Handler.signOut
+  validate(AuthRules.refreshToken),
+  authHandler.signOut
 )
-router.post('/v1/auth/users/me', verifyAccessToken, Handler.me)
+router.post('/v1/auth/users/me', verifyAccessToken, authHandler.me)
 router.post(
   '/v1/auth/users/refresh-token',
   verifyAccessToken,
-  validate(Rules.refreshToken),
-  Handler.refreshToken
+  validate(AuthRules.refreshToken),
+  authHandler.refreshToken
 )
 router.post(
   '/v1/auth/users/forgot-password',
-  validate(Rules.forgotPassword),
-  Handler.forgotPassword
+  validate(AuthRules.forgotPassword),
+  authHandler.forgotPassword
 )
 router.post(
   '/v1/auth/users/forgot-password/verify',
   verifyRefreshToken,
-  Handler.forgotPasswordVerify
+  authHandler.forgotPasswordVerify
 )
 router.post(
   '/v1/auth/users/reset-password',
   verifyRefreshToken,
-  validate(Rules.resetPassword),
-  Handler.resetPassword
+  validate(AuthRules.resetPassword),
+  authHandler.resetPassword
 )
 
 export default router
