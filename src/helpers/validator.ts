@@ -19,12 +19,20 @@ export interface ValidationWithDB {
 
 const isTypeUnique = (type: string) => type === 'unique'
 
-const message = (type: string, label: string, limit?: string, valids?: string[]) => {
+const message = (
+  type: string,
+  label: string,
+  limit?: string,
+  valids?: string[],
+  messageDefault?: string
+) => {
   const valid = valids?.filter((e) => e)?.join(', ')
 
   if (label === 'password_confirm' && type === 'any.only') type = `${type}.confirmed`
 
-  return lang.__(`validation.${type}`, { attribute: label, limit, valid })
+  if (type === 'any.only' && valids[0] === null) type = `${type}.null`
+
+  return lang.__(`validation.${type}`, { attribute: label, limit, valid, message: messageDefault })
 }
 
 const validateError = (details: Joi.ValidationErrorItem[]) => {
@@ -32,12 +40,11 @@ const validateError = (details: Joi.ValidationErrorItem[]) => {
 
   for (const item of details) {
     const { context, type, path } = item
+
     const key = path.join('.')
     const label = path[path.length - 1].toString()
 
-    if (type === 'object.unknown') continue
-
-    rules[key] = message(type, label, context?.limit, context?.valids)
+    rules[key] = message(type, label, context?.limit, context?.valids, item.message)
   }
 
   return rules
@@ -46,9 +53,16 @@ const validateError = (details: Joi.ValidationErrorItem[]) => {
 export const validate =
   (schema: Schema, property = 'body') =>
   (req: Request, res: Response, next: NextFunction) => {
-    const { error } = schema.validate(req[property], { abortEarly: false })
+    const { error, value } = schema.validate(req[property], {
+      abortEarly: false,
+      allowUnknown: true,
+      stripUnknown: true,
+    })
 
-    if (!error) return next()
+    if (!error) {
+      req.body = value
+      return next()
+    }
 
     const { details } = error
     const errors = validateError(details)

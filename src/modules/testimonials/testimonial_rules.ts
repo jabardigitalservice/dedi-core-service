@@ -1,5 +1,6 @@
 import Joi from 'joi'
 import config from '../../config'
+import { regexAlphanumeric, regexCodeRegion, regexExtFile } from '../../helpers/regex'
 import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace Testimonial {
@@ -15,23 +16,23 @@ export namespace Testimonial {
   })
 
   const validate = Joi.object({
-    name: Joi.string().max(100).required(),
-    description: Joi.string().required(),
-    avatar: Joi.string().max(255).required(),
-    avatar_original_name: Joi.string().max(255).required(),
+    name: Joi.string().regex(regexAlphanumeric).max(100).required(),
+    description: Joi.string().regex(regexAlphanumeric).required(),
+    avatar: Joi.string().regex(regexExtFile).max(255).required(),
+    avatar_original_name: Joi.string().regex(regexExtFile).max(255).required(),
     type: Joi.string()
       .valid(...typeValid)
       .required(),
     is_active: Joi.boolean().required(),
     partner_id: Joi.alternatives().conditional('type', {
       is: config.get('role.1'),
-      then: Joi.string().max(36).required(),
-      otherwise: Joi.optional(),
+      then: Joi.string().uuid().max(36).required(),
+      otherwise: Joi.string().valid(null),
     }),
     village_id: Joi.alternatives().conditional('type', {
       is: config.get('role.2'),
-      then: Joi.string().max(14).required(),
-      otherwise: Joi.optional(),
+      then: Joi.string().regex(regexCodeRegion).max(14).required(),
+      otherwise: Joi.string().valid(null),
     }),
   })
 

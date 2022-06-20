@@ -1,4 +1,5 @@
 import Joi from 'joi'
+import { regexAlphanumeric, regexExtFile } from '../../helpers/regex'
 import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace User {
@@ -16,15 +17,15 @@ export namespace User {
   const email = Joi.string().email().max(150).required()
 
   const validate = {
-    name: Joi.string().min(3).max(100).required(),
+    name: Joi.string().regex(regexAlphanumeric).min(3).max(100).required(),
     email,
-    avatar: Joi.string().max(255).required(),
-    avatar_original_name: Joi.string().max(255).required(),
+    avatar: Joi.string().regex(regexExtFile).max(255).required(),
+    avatar_original_name: Joi.string().regex(regexExtFile).max(255).required(),
   }
 
   export const store = Joi.object({
     ...validate,
-    password: Joi.string().min(8).required(),
+    password: Joi.string().regex(regexAlphanumeric).min(8).required(),
   })
 
   export const update = Joi.object({

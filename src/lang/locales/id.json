@@ -5,6 +5,7 @@
   "validation.string.max": "Isian {{ attribute }} sudah melebihi {{ limit }} karakter.",
   "validation.any.only": "Isian {{ attribute }} tidak terdapat dalam {{ valid }}.",
   "validation.any.only.confirmed": "Isian {{ attribute }} tidak cocok dengan password.",
+  "validation.any.only.null": "Isian {{ attribute }} harus di set null.",
   "validation.string.pattern.base": "Format isian {{ attribute }} tidak valid.",
   "validation.string.base": "Isian {{ attribute }} harus berupa string.",
   "validation.number.base": "Isian {{ attribute }} harus berupa number.",
