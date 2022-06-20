@@ -39,8 +39,7 @@ export class VillageRepository {
   public withLocation = (request: VillageEntity.RequestQueryWithLocation) => {
     const query = this.Query()
 
-    if (request.is_active)
-      query.where('villages.is_active', convertToBoolean(request.is_active))
+    if (request.is_active) query.where('villages.is_active', convertToBoolean(request.is_active))
 
     query.whereRaw(this.getWherePolygon(request))
 
@@ -51,8 +50,7 @@ export class VillageRepository {
     const query = this.Query()
 
     if (request.name) query.where('villages.name', 'LIKE', `%${request.name}%`)
-    if (request.is_active)
-      query.where('villages.is_active', convertToBoolean(request.is_active))
+    if (request.is_active) query.where('villages.is_active', convertToBoolean(request.is_active))
     if (request.district_id) query.where('villages.district_id', request.district_id)
 
     return query
@@ -63,8 +61,7 @@ export class VillageRepository {
 
     if (request.name) query.where('villages.name', 'LIKE', `%${request.name}%`)
     if (request.level) query.where('villages.level', request.level)
-    if (request.is_active)
-      query.where('villages.is_active', convertToBoolean(request.is_active))
+    if (request.is_active) query.where('villages.is_active', convertToBoolean(request.is_active))
 
     return query.paginate(pagination(request))
   }
