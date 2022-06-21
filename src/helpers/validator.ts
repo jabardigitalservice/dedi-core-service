@@ -57,6 +57,7 @@ export const validate =
       abortEarly: false,
       allowUnknown: true,
       stripUnknown: true,
+      cache: true,
     })
 
     if (req[property] === 'body') {
