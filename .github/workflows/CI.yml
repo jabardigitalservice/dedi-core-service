@@ -4,12 +4,12 @@ name: CI
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
       - 'src/**'
 
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
       - 'src/**'
 
@@ -23,45 +23,45 @@ jobs:
         ports:
           - 33306:3306
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: setup Redis
-      uses: shogo82148/actions-setup-redis@v1
-      with:
-        redis-version: '6.2.6'
+      - name: setup Redis
+        uses: shogo82148/actions-setup-redis@v1
+        with:
+          redis-version: '6.2.6'
 
-    - name: Set up Node
-      uses: actions/setup-node@master
-      with:
-        node-version: '14'
+      - name: Set up Node
+        uses: actions/setup-node@master
+        with:
+          node-version: '14'
 
-    - name: Run Npm Install
-      run: npm install
+      - name: Run Npm Install
+        run: npm install
 
-    - name: Create env file
-      run: |
-        touch .env
-        echo NODE_ENV=test >> .env
-        echo TEST_DB_HOST=0.0.0.0 >> .env
-        echo TEST_DB_PORT=33306 >> .env
-        echo TEST_DB_USER='dedi_test' >> .env
-        echo TEST_DB_PASSWORD='dedi_test' >> .env
-        echo TEST_DB_DATABASE='dedi_test' >> .env
-        cat .env
+      - name: Create env file
+        run: |
+          touch .env
+          echo NODE_ENV=test >> .env
+          echo TEST_DB_HOST=0.0.0.0 >> .env
+          echo TEST_DB_PORT=33306 >> .env
+          echo TEST_DB_USER='dedi_test' >> .env
+          echo TEST_DB_PASSWORD='dedi_test' >> .env
+          echo TEST_DB_DATABASE='dedi_test' >> .env
+          cat .env
 
-    - name: Run Testing
-      run: npm run test
+      - name: Run Testing
+        run: npm run test
 
-    - name: Run Lint
-      run: npm run lint
+      - name: Run Lint
+        run: npm run lint
 
-    - name: Run Build
-      run: npm run build
+      - name: Run Build
+        run: npm run build
 
-    - name: Set Up Codeclimate and Send Report Codeclimate
-      uses: paambaati/codeclimate-action@v2.7.5
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORT_ID }}
-      with:
-        coverageLocations: coverage/lcov.info:lcov
+      - name: Set Up Codeclimate and Send Report Codeclimate
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORT_ID }}
+        with:
+          coverageLocations: coverage/lcov.info:lcov

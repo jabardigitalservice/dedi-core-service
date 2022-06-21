@@ -45,7 +45,7 @@ describe('seed data', () => {
 
 const data = (): Entity.RequestBody => ({
   name,
-  description: faker.lorem.paragraph(),
+  description: name,
   avatar: faker.image.avatar(),
   avatar_original_name: faker.image.avatar(),
   type,
@@ -54,8 +54,16 @@ const data = (): Entity.RequestBody => ({
   village_id: villageId,
 })
 
-const dataTypeRole1 = (): Entity.RequestBody => ({ ...data(), type: config.get('role.1') })
-const dataTypeRole2 = (): Entity.RequestBody => ({ ...data(), type: config.get('role.2') })
+const dataTypeRole1 = (): Entity.RequestBody => ({
+  ...data(),
+  type: config.get('role.1'),
+  village_id: null,
+})
+const dataTypeRole2 = (): Entity.RequestBody => ({
+  ...data(),
+  type: config.get('role.2'),
+  partner_id: null,
+})
 
 const identifier = uuidv4()
 

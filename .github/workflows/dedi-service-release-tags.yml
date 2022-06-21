@@ -12,53 +12,53 @@ jobs:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v1
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-    # Configure Docker with Credentials
-    - name: Configure Docker
-      run: |
-        docker login ${{ secrets.REGISTRY_URL }} -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
+      # Configure Docker with Credentials
+      - name: Configure Docker
+        run: |
+          docker login ${{ secrets.REGISTRY_URL }} -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
 
-     # Build the Docker image
-    - name: Get the version
-      id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        # Build the Docker image
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
-    - name: Build and push
-      id: docker_build
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: docker/Dockerfile
-        push: true
-        tags: ${{ secrets.SERVICE_TAGNAME }}:${{ steps.get_version.outputs.VERSION }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: true
+          tags: ${{ secrets.SERVICE_TAGNAME }}:${{ steps.get_version.outputs.VERSION }}
 
-    # GitOps
-    - name: GitOps ArgoCD Setup
-      run: |
-        echo "${{ secrets.GITLAB_ARGOCD_KEY }}" > /tmp/gitlab-deploy-ssh-key
-        chmod 600 /tmp/gitlab-deploy-ssh-key
-        export GIT_SSH_COMMAND="ssh -i /tmp/gitlab-deploy-ssh-key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-        git clone ${{ secrets.GITLAB_ARGOCD_REPOSITORY }}
-    - name: GitOps ArgoCD Update Image Tag
-      uses: mikefarah/yq@master
-      with:
-        cmd: yq -i '.spec.template.spec.containers[0].image = "${{ secrets.SERVICE_TAGNAME }}:${{ steps.get_version.outputs.VERSION }}"' 'jds-terraform-gke/k8s/desa-digital/production/deployment.yaml'
+      # GitOps
+      - name: GitOps ArgoCD Setup
+        run: |
+          echo "${{ secrets.GITLAB_ARGOCD_KEY }}" > /tmp/gitlab-deploy-ssh-key
+          chmod 600 /tmp/gitlab-deploy-ssh-key
+          export GIT_SSH_COMMAND="ssh -i /tmp/gitlab-deploy-ssh-key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+          git clone ${{ secrets.GITLAB_ARGOCD_REPOSITORY }}
+      - name: GitOps ArgoCD Update Image Tag
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -i '.spec.template.spec.containers[0].image = "${{ secrets.SERVICE_TAGNAME }}:${{ steps.get_version.outputs.VERSION }}"' 'jds-terraform-gke/k8s/desa-digital/production/deployment.yaml'
 
-    - name: GitOps ArgoCD Create Branch, Commit, Push
-      run: |
-        export GIT_SSH_COMMAND="ssh -i /tmp/gitlab-deploy-ssh-key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-        cd jds-terraform-gke/k8s/desa-digital/production
-        git config user.email "github-action@github.com"
-        git config user.name "Github Action"
-        git checkout -b desa-digital-release-${{ steps.get_version.outputs.VERSION }}-production
-        git add deployment.yaml
-        git commit -m "Desa Digital Release ${{ steps.get_version.outputs.VERSION }} to production"
-        git push origin desa-digital-release-${{ steps.get_version.outputs.VERSION }}-production -o merge_request.description="# Overview \n\n - Desa Digital Release ${{ steps.get_version.outputs.VERSION }} to production \n\n ## Evidence \n\n - title: Desa Digital Release ${{ steps.get_version.outputs.VERSION }} to production \n - project: Desa Digital \n - participants:  " -o merge_request.create
+      - name: GitOps ArgoCD Create Branch, Commit, Push
+        run: |
+          export GIT_SSH_COMMAND="ssh -i /tmp/gitlab-deploy-ssh-key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+          cd jds-terraform-gke/k8s/desa-digital/production
+          git config user.email "github-action@github.com"
+          git config user.name "Github Action"
+          git checkout -b desa-digital-release-${{ steps.get_version.outputs.VERSION }}-production
+          git add deployment.yaml
+          git commit -m "Desa Digital Release ${{ steps.get_version.outputs.VERSION }} to production"
+          git push origin desa-digital-release-${{ steps.get_version.outputs.VERSION }}-production -o merge_request.description="# Overview \n\n - Desa Digital Release ${{ steps.get_version.outputs.VERSION }} to production \n\n ## Evidence \n\n - title: Desa Digital Release ${{ steps.get_version.outputs.VERSION }} to production \n - project: Desa Digital \n - participants:  " -o merge_request.create

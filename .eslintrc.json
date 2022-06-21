@@ -17,10 +17,7 @@
     "use": true
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "prettier"
-  ],
+  "plugins": ["@typescript-eslint", "prettier"],
   "parserOptions": {
     "ecmaVersion": 2021,
     "sourceType": "module",
@@ -51,9 +48,7 @@
     "no-unused-vars": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/ban-types": "off",
-    "max-lines-per-function": [
-      "error", { "max": 25 }
-    ]
+    "max-lines-per-function": ["error", { "max": 25 }]
   },
   "overrides": [
     {
