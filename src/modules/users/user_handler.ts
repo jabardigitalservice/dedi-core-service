@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
+import { getUser, User } from '../../helpers/rbac'
 import { UserEntity } from './user_entity'
 import { UserService } from './user_service'
 
@@ -33,7 +34,8 @@ export class UserHandler {
   public destroy = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
-      await this.userService.destroy(id)
+      const user: User = getUser(req)
+      await this.userService.destroy(id, user)
       res.status(httpStatus.OK).json({ message: 'DELETED' })
     } catch (error) {
       next(error)

@@ -9,7 +9,7 @@ import { AuthRepository } from './auth_repository'
 import * as jwt from '../../middleware/jwt'
 import { sendMail as SendMail } from '../../helpers/mail'
 import config from '../../config'
-import { getRole } from '../../helpers/rbac'
+import { getRole, User } from '../../helpers/rbac'
 import { convertToBoolean } from '../../helpers/constant'
 import { passwordHash } from '../../helpers/passwordHash'
 import { getUrl } from '../../helpers/cloudStorage'
@@ -135,13 +135,12 @@ export class AuthService {
     return this.authRepository.deleteOauthbyRefreshToken(request)
   }
 
-  public me = async (req: Request) => {
-    const decodeJwt: any = req.user
-    const user: any = await this.authRepository.findByUserId(decodeJwt.identifier)
-    if (!user) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.user.not.found'))
+  public me = async (user: User) => {
+    const item: any = await this.authRepository.findByUserId(user.identifier)
+    if (!item) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.user.not.found'))
 
-    const { name, email, avatar } = user
-    const role = getRole(req.user)
+    const { name, email, avatar } = item
+    const role = getRole(user)
 
     const result: AuthEntity.ResponseMe = {
       data: {
