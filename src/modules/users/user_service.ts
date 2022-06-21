@@ -2,7 +2,7 @@ import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
 import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
-import { metaPagination as MetaPagination } from '../../helpers/paginate'
+import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
 import { getRole } from '../../helpers/rbac'
 import lang from '../../lang'
@@ -12,14 +12,8 @@ import { UserRepository } from './user_repository'
 export class UserService {
   private userRepository: UserRepository
 
-  private metaPagination: typeof MetaPagination
-
-  constructor(
-    userRepository: UserRepository = new UserRepository(),
-    metaPagination: typeof MetaPagination = MetaPagination
-  ) {
+  constructor(userRepository: UserRepository = new UserRepository()) {
     this.userRepository = userRepository
-    this.metaPagination = metaPagination
   }
 
   private response = (item: any): UserEntity.Response => ({
@@ -54,7 +48,7 @@ export class UserService {
 
     const result: UserEntity.ResponseFindAll = {
       data: this.responseFindAll(items.data),
-      meta: this.metaPagination(items.pagination),
+      meta: metaPagination(items.pagination),
     }
 
     return result
@@ -81,50 +75,47 @@ export class UserService {
     return this.userRepository.destroy(item.id)
   }
 
-  private getRequestBody = (requestBody: UserEntity.RequestBody) => ({
-    name: requestBody.name,
-    email: requestBody.email,
-    avatar: requestBody.avatar,
+  private getRequestBody = (request: UserEntity.RequestBody) => ({
+    name: request.name,
+    email: request.email,
+    avatar: request.avatar,
   })
 
-  public store = async (requestBody: UserEntity.RequestBody) => {
+  public store = async (request: UserEntity.RequestBody) => {
     await this.userRepository.createFile({
-      source: requestBody.avatar,
-      name: requestBody.avatar_original_name,
+      source: request.avatar,
+      name: request.avatar_original_name,
     })
 
     return this.userRepository.store({
-      ...this.getRequestBody(requestBody),
-      password: passwordHash(requestBody.password),
+      ...this.getRequestBody(request),
+      password: passwordHash(request.password),
       is_admin: true,
       is_active: true,
     })
   }
 
-  public update = async (requestBody: UserEntity.RequestBody, id: string) => {
+  public update = async (request: UserEntity.RequestBody, id: string) => {
     const item: any = await this.userRepository.findById(id)
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
     await this.userRepository.updateFile(
       {
-        source: requestBody.avatar,
-        name: requestBody.avatar_original_name,
+        source: request.avatar,
+        name: request.avatar_original_name,
       },
       item.file_id
     )
 
-    return this.userRepository.update(this.getRequestBody(requestBody), id)
+    return this.userRepository.update(this.getRequestBody(request), id)
   }
 
-  public updateStatus = async (requestBody: UserEntity.RequestBodyUpdateStatus, id: string) => {
+  public updateStatus = async (request: UserEntity.RequestBodyUpdateStatus, id: string) => {
     const item: any = await this.userRepository.findById(id)
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
-    return this.userRepository.updateStatus(
-      { is_active: convertToBoolean(requestBody.is_active) },
-      id
-    )
+    return this.userRepository.updateStatus({ is_active: convertToBoolean(request.is_active) }, id)
   }
 }
