@@ -53,10 +53,13 @@ export namespace Page {
       })
 
   export const createFile = (requestBody: Entity.StructFile) =>
-    Files().insert({
-      ...requestBody,
-      created_at: new Date(),
-    })
+    Files()
+      .insert({
+        ...requestBody,
+        created_at: new Date(),
+      })
+      .onConflict('source')
+      .merge(['name', 'created_at'])
 
   export const updateFile = (requestBody: Entity.StructFile, id: number) =>
     Files()

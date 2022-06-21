@@ -56,10 +56,13 @@ export class UserRepository {
     })
 
   public createFile = (request: UserEntity.StructFile) =>
-    this.Files().insert({
-      ...request,
-      created_at: new Date(),
-    })
+    this.Files()
+      .insert({
+        ...request,
+        created_at: new Date(),
+      })
+      .onConflict('source')
+      .merge(['name', 'created_at'])
 
   public updateFile = (request: UserEntity.StructFile, id: number) =>
     this.Files()
