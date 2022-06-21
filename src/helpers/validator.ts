@@ -59,8 +59,11 @@ export const validate =
       stripUnknown: true,
     })
 
-    if (!error) {
+    if (req[property] === 'body') {
       req.body = value
+    }
+
+    if (!error) {
       return next()
     }
 
