@@ -172,7 +172,7 @@ export class AuthService {
     request: AuthEntity.RequestBodyForgotPassword
   ): Promise<AuthEntity.ResponseForgotPassword> => {
     const user: any = await this.authRepository.findByEmail(request)
-    if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.email.failed'))
+    if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.verified.failed'))
 
     const token = this.jwt.createRefreshToken({
       identifier: user.id,
