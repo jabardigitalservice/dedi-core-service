@@ -60,7 +60,7 @@ export const validate =
     })
 
     if (!error) {
-      req.body = value
+      req[property] = value
       return next()
     }
 

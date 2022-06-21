@@ -1,5 +1,5 @@
-import Joi, { allow } from 'joi'
-import { regexAlphanumeric, regexExtFile } from '../../helpers/regex'
+import Joi from 'joi'
+import { regexAlphanumeric } from '../../helpers/regex'
 import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace AuthRules {
