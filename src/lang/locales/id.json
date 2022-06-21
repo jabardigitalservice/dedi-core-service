@@ -1,6 +1,7 @@
 {
   "validation.any.required": "Isian {{ attribute }} wajib diisi.",
   "validation.string.email": "Isian {{ attribute }} harus berupa alamat surel yang valid.",
+  "validation.string.guid": "Isian {{ attribute }} harus berupa UUID yang valid.",
   "validation.string.min": "Isian {{ attribute }} harus minimal {{ limit }} karakter.",
   "validation.string.max": "Isian {{ attribute }} sudah melebihi {{ limit }} karakter.",
   "validation.any.only": "Isian {{ attribute }} tidak terdapat dalam {{ valid }}.",

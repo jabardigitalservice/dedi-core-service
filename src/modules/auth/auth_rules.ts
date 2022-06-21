@@ -1,10 +1,8 @@
 import Joi from 'joi'
-import { regexAlphanumeric } from '../../helpers/regex'
+import { regexAlphanumeric, regexPassword } from '../../helpers/regex'
 import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace AuthRules {
-  const regexPassword = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9&*+?.,^|&]+)$/
-
   const password = () => Joi.string().min(6).max(72).regex(regexPassword)
 
   const rulesPassword = {
@@ -17,7 +15,7 @@ export namespace AuthRules {
   export const signUp = Joi.object({
     name: Joi.string().regex(regexAlphanumeric).max(100).required(),
     company: Joi.string().regex(regexAlphanumeric).allow(null).default(null),
-    partner_id: Joi.string().allow(null).default(null),
+    partner_id: Joi.string().uuid().allow(null).default(null),
     email,
     ...rulesPassword,
   })
