@@ -1,61 +1,67 @@
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
-import { User as Entity } from './user_entity'
-import { User as Service } from './user_service'
+import { UserEntity } from './user_entity'
+import { UserService } from './user_service'
 
-export namespace User {
-  export const findAll = async (
-    req: Request<never, never, never, Entity.RequestQuery>,
+export class UserHandler {
+  private userService: UserService
+
+  constructor(userService: UserService = new UserService()) {
+    this.userService = userService
+  }
+
+  public findAll = async (
+    req: Request<never, never, never, UserEntity.RequestQuery>,
     res: Response,
     next: NextFunction
   ) => {
-    const result: Entity.ResponseFindAll = await Service.findAll(req.query)
+    const result: UserEntity.ResponseFindAll = await this.userService.findAll(req.query)
 
     res.status(httpStatus.OK).json(result)
   }
 
-  export const findById = async (req: Request, res: Response, next: NextFunction) => {
+  public findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
-      const result: Entity.ResponseFindById = await Service.findById(id)
+      const result: UserEntity.ResponseFindById = await this.userService.findById(id)
       res.status(httpStatus.OK).json(result)
     } catch (error) {
       next(error)
     }
   }
 
-  export const destroy = async (req: Request, res: Response, next: NextFunction) => {
+  public destroy = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
-      await Service.destroy(id)
+      await this.userService.destroy(id)
       res.status(httpStatus.OK).json({ message: 'DELETED' })
     } catch (error) {
       next(error)
     }
   }
 
-  export const store = async (req: Request, res: Response, next: NextFunction) => {
+  public store = async (req: Request, res: Response, next: NextFunction) => {
     const { body } = req
-    await Service.store(body)
+    await this.userService.store(body)
     res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
-  export const update = async (req: Request, res: Response, next: NextFunction) => {
+  public update = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
       const { id } = req.params
-      await Service.update(body, id)
+      await this.userService.update(body, id)
       res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
       next(error)
     }
   }
 
-  export const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
+  public updateStatus = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req
       const { id } = req.params
-      await Service.updateStatus(body, id)
+      await this.userService.updateStatus(body, id)
       res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
       next(error)

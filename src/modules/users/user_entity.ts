@@ -1,8 +1,7 @@
-import database from '../../config/database'
 import { metaPaginate } from '../../helpers/paginate'
 import { Query } from '../../helpers/types'
 
-export namespace User {
+export namespace UserEntity {
   export interface Struct {
     id?: string
     name: string
@@ -25,9 +24,6 @@ export namespace User {
     source: string
     created_at?: Date
   }
-
-  export const Users = () => database<Struct>('users')
-  export const Files = () => database<StructFile>('files')
 
   export interface Response {
     id: string

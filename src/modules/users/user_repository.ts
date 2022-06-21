@@ -1,13 +1,16 @@
 import { v4 as uuidv4 } from 'uuid'
+import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
-import { User as Entity } from './user_entity'
+import { UserEntity } from './user_entity'
 
-export namespace User {
-  const { Users, Files } = Entity
+export class UserRepository {
+  private Users = () => database<UserEntity.Struct>('users')
 
-  const Query = () =>
-    Users()
+  private Files = () => database<UserEntity.StructFile>('files')
+
+  private Query = () =>
+    this.Users()
       .select(
         'users.id',
         'users.name',
@@ -24,29 +27,27 @@ export namespace User {
       )
       .leftJoin('files', 'files.source', '=', 'users.avatar')
 
-  export const findAll = (requestQuery: Entity.RequestQuery) => {
-    const orderBy: string = requestQuery.order_by || 'updated_at'
-    const sortBy: string = requestQuery.sort_by || 'desc'
+  public findAll = (request: UserEntity.RequestQuery) => {
+    const orderBy: string = request.order_by || 'updated_at'
+    const sortBy: string = request.sort_by || 'desc'
 
-    const query = Query().orderBy(orderBy, sortBy)
+    const query = this.Query().orderBy(orderBy, sortBy)
 
-    if (requestQuery.is_active)
-      query.where('users.is_active', convertToBoolean(requestQuery.is_active))
+    if (request.is_active) query.where('users.is_active', convertToBoolean(request.is_active))
 
-    if (requestQuery.is_admin)
-      query.where('users.is_admin', convertToBoolean(requestQuery.is_admin))
+    if (request.is_admin) query.where('users.is_admin', convertToBoolean(request.is_admin))
 
-    if (requestQuery.q) query.where('users.name', 'like', `%${requestQuery.q}%`)
+    if (request.q) query.where('users.name', 'like', `%${request.q}%`)
 
-    return query.paginate(pagination(requestQuery))
+    return query.paginate(pagination(request))
   }
 
-  export const findById = (id: string) => Query().where('users.id', id).first()
+  public findById = (id: string) => this.Query().where('users.id', id).first()
 
-  export const destroy = (id: number) => Users().where('id', id).delete()
+  public destroy = (id: number) => this.Users().where('id', id).delete()
 
-  export const store = (requestBody: Entity.Struct) =>
-    Users().insert({
+  public store = (requestBody: UserEntity.Struct) =>
+    this.Users().insert({
       id: uuidv4(),
       ...requestBody,
       verified_at: new Date(),
@@ -54,29 +55,29 @@ export namespace User {
       updated_at: new Date(),
     })
 
-  export const createFile = (requestBody: Entity.StructFile) =>
-    Files().insert({
+  public createFile = (requestBody: UserEntity.StructFile) =>
+    this.Files().insert({
       ...requestBody,
       created_at: new Date(),
     })
 
-  export const updateFile = (requestBody: Entity.StructFile, id: number) =>
-    Files()
+  public updateFile = (requestBody: UserEntity.StructFile, id: number) =>
+    this.Files()
       .where('id', id)
       .update({
         ...requestBody,
       })
 
-  export const update = (requestBody: Entity.Struct, id: string) =>
-    Users()
+  public update = (requestBody: UserEntity.Struct, id: string) =>
+    this.Users()
       .where('id', id)
       .update({
         ...requestBody,
         updated_at: new Date(),
       })
 
-  export const updateStatus = (requestBody: Entity.RequestBodyUpdateStatus, id: string) =>
-    Users()
+  public updateStatus = (requestBody: UserEntity.RequestBodyUpdateStatus, id: string) =>
+    this.Users()
       .where('id', id)
       .update({
         ...requestBody,
