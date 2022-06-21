@@ -70,9 +70,7 @@ export const validate =
     const { details } = error
     const errors = validateError(details)
 
-    Object.keys(errors).length
-      ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors })
-      : next()
+    res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors })
   }
 
 const Query = async (rule: PropertyWithDB, value: string, primaryKeyValue?: string) => {
