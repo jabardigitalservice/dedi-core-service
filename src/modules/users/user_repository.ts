@@ -46,41 +46,41 @@ export class UserRepository {
 
   public destroy = (id: number) => this.Users().where('id', id).delete()
 
-  public store = (requestBody: UserEntity.Struct) =>
+  public store = (request: UserEntity.Struct) =>
     this.Users().insert({
+      ...request,
       id: uuidv4(),
-      ...requestBody,
       verified_at: new Date(),
       created_at: new Date(),
       updated_at: new Date(),
     })
 
-  public createFile = (requestBody: UserEntity.StructFile) =>
+  public createFile = (request: UserEntity.StructFile) =>
     this.Files().insert({
-      ...requestBody,
+      ...request,
       created_at: new Date(),
     })
 
-  public updateFile = (requestBody: UserEntity.StructFile, id: number) =>
+  public updateFile = (request: UserEntity.StructFile, id: number) =>
     this.Files()
       .where('id', id)
       .update({
-        ...requestBody,
+        ...request,
       })
 
-  public update = (requestBody: UserEntity.Struct, id: string) =>
+  public update = (request: UserEntity.Struct, id: string) =>
     this.Users()
       .where('id', id)
       .update({
-        ...requestBody,
+        ...request,
         updated_at: new Date(),
       })
 
-  public updateStatus = (requestBody: UserEntity.RequestBodyUpdateStatus, id: string) =>
+  public updateStatus = (request: UserEntity.RequestBodyUpdateStatus, id: string) =>
     this.Users()
       .where('id', id)
       .update({
-        ...requestBody,
+        ...request,
         updated_at: new Date(),
       })
 }

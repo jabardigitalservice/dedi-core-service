@@ -1,41 +1,29 @@
 import httpStatus from 'http-status'
-import { compare as Compare } from 'bcryptjs'
+import { compare } from 'bcryptjs'
 import { Request } from 'express'
 import { verify } from 'jsonwebtoken'
 import { HttpError } from '../../handler/exception'
 import lang from '../../lang'
 import { AuthEntity } from './auth_entity'
 import { AuthRepository } from './auth_repository'
-import * as Jwt from '../../middleware/jwt'
+import * as jwt from '../../middleware/jwt'
 import { sendMail as SendMail } from '../../helpers/mail'
 import config from '../../config'
 import { getRole } from '../../helpers/rbac'
 import { convertToBoolean } from '../../helpers/constant'
-import { passwordHash as PasswordHash } from '../../helpers/passwordHash'
+import { passwordHash } from '../../helpers/passwordHash'
 import { getUrl } from '../../helpers/cloudStorage'
 
 export class AuthService {
   private authRepository: AuthRepository
 
-  private passwordHash: typeof PasswordHash
-
-  private jwt: typeof Jwt
-
-  private compare: typeof Compare
-
   private sendMail: typeof SendMail
 
   constructor(
     authRepository: AuthRepository = new AuthRepository(),
-    passwordHash: typeof PasswordHash = PasswordHash,
-    jwt: typeof Jwt = Jwt,
-    compare: typeof Compare = Compare,
     sendMail: typeof SendMail = SendMail
   ) {
-    this.passwordHash = passwordHash
     this.authRepository = authRepository
-    this.jwt = jwt
-    this.compare = compare
     this.sendMail = sendMail
   }
 
@@ -43,7 +31,7 @@ export class AuthService {
     const user: AuthEntity.RequestBodySignUp = {
       name: request.name,
       email: request.email,
-      password: this.passwordHash(request.password),
+      password: passwordHash(request.password),
       google_id: request.google_id,
     }
 
@@ -54,13 +42,13 @@ export class AuthService {
 
   private generateJwtToken = (user: AuthEntity.StructUser): AuthEntity.ResponseJWT => {
     const identifier = user.id
-    const access_token = this.jwt.createAccessToken({
+    const access_token = jwt.createAccessToken({
       identifier,
       prtnr: !!user.partner_id,
       adm: convertToBoolean(user.is_admin),
     })
-    const refresh_token = this.jwt.createRefreshToken({ identifier })
-    const decodeJwt = this.jwt.decodeToken(access_token)
+    const refresh_token = jwt.createRefreshToken({ identifier })
+    const decodeJwt = jwt.decodeToken(access_token)
 
     return {
       data: {
@@ -81,7 +69,7 @@ export class AuthService {
     const user = await this.authRepository.findByEmail(request)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.signin.failed'))
 
-    const match = await this.compare(request.password, user.password)
+    const match = await compare(request.password, user.password)
     if (!match) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.signin.failed'))
 
     if (!user.verified_at)
@@ -174,7 +162,7 @@ export class AuthService {
     const user: any = await this.authRepository.findByEmail(request)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.verified.failed'))
 
-    const token = this.jwt.createRefreshToken({
+    const token = jwt.createRefreshToken({
       identifier: user.id,
       target: 'password-verify',
     })
@@ -202,7 +190,7 @@ export class AuthService {
     const user = await this.authRepository.findByUserId(decodeJwt.identifier)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
 
-    const access_token = this.jwt.createRefreshToken({
+    const access_token = jwt.createRefreshToken({
       identifier: user.id,
       target: 'reset-password',
     })
@@ -226,7 +214,7 @@ export class AuthService {
 
     return this.authRepository.updatePassword(
       decodeJwt.identifier,
-      this.passwordHash(requestBody.password)
+      passwordHash(requestBody.password)
     )
   }
 }

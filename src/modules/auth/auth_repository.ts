@@ -40,38 +40,38 @@ export class AuthRepository {
     return request.partner_id
   }
 
-  public signUp = (requestBody: AuthEntity.RequestBodySignUp) =>
+  public signUp = (request: AuthEntity.RequestBodySignUp) =>
     this.Users().insert({
+      ...request,
       id: uuidv4(),
       created_at: new Date(),
-      ...requestBody,
     })
 
-  public findByEmail = (requestBody: AuthEntity.FindByEmail) =>
-    this.Users().where('email', requestBody.email).first()
+  public findByEmail = (request: AuthEntity.FindByEmail) =>
+    this.Users().where('email', request.email).first()
 
   public findByUserId = (id: string) => this.Users().where('id', id).first()
 
-  public findByRefreshToken = (requestBody: AuthEntity.RequestBodyRefreshToken) =>
+  public findByRefreshToken = (request: AuthEntity.RequestBodyRefreshToken) =>
     this.OauthTokens()
       .select('users.id', 'partner_id', 'is_admin', 'users.is_active')
       .join('users', 'users.id', 'oauth_tokens.user_id')
-      .where('refresh_token', requestBody.refresh_token)
+      .where('refresh_token', request.refresh_token)
       .first()
 
-  public deleteOauthbyRefreshToken = (requestBody: AuthEntity.RequestBodyRefreshToken) =>
-    this.OauthTokens().where('refresh_token', requestBody.refresh_token).delete()
+  public deleteOauthbyRefreshToken = (request: AuthEntity.RequestBodyRefreshToken) =>
+    this.OauthTokens().where('refresh_token', request.refresh_token).delete()
 
   public createOauthToken = (oauthToken: AuthEntity.StructOauthToken) =>
     this.OauthTokens().insert({
+      ...oauthToken,
       id: uuidv4(),
       created_at: new Date(),
-      ...oauthToken,
     })
 
   public updateRefreshToken = (refreshToken: string, oauthToken: AuthEntity.StructOauthToken) =>
     this.OauthTokens()
-      .where('refresh_token', '=', refreshToken)
+      .where('refresh_token', refreshToken)
       .update({
         ...oauthToken,
         updated_at: new Date(),
