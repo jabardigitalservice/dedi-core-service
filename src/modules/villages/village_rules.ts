@@ -12,10 +12,10 @@ export namespace VillageRules {
   const ruleArrayString = Joi.array().items(Joi.string().regex(regexAlphanumeric)).required()
 
   const ruleApplicant = Joi.object({
-    nama: Joi.string().required(),
-    posisi: Joi.string().required(),
+    nama: Joi.string().regex(regexExtFile).required(),
+    posisi: Joi.string().regex(regexExtFile).required(),
     file,
-    nomor_telepon: Joi.string().required(),
+    nomor_telepon: Joi.string().regex(regexExtFile).required(),
     email: Joi.string().email().required(),
   }).required()
 
