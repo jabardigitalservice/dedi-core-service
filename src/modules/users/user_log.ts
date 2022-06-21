@@ -1,1 +1,1 @@
-export namespace User {}
+export namespace UserLog {}

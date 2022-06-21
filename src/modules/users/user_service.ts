@@ -6,11 +6,17 @@ import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
 import { getRole } from '../../helpers/rbac'
 import lang from '../../lang'
-import { User as Entity } from './user_entity'
-import { User as Repository } from './user_repository'
+import { UserEntity } from './user_entity'
+import { UserRepository } from './user_repository'
 
-export namespace User {
-  const response = (item: any): Entity.Response => ({
+export class UserService {
+  private userRepository: UserRepository
+
+  constructor(userRepository: UserRepository = new UserRepository()) {
+    this.userRepository = userRepository
+  }
+
+  private response = (item: any): UserEntity.Response => ({
     id: item.id,
     name: item.name,
     email: item.email,
@@ -26,90 +32,90 @@ export namespace User {
     last_login_at: item.last_login_at,
   })
 
-  const responseFindAll = (items: any[]): Entity.Response[] => {
-    const data: Entity.Response[] = []
+  private responseFindAll = (items: any[]): UserEntity.Response[] => {
+    const data: UserEntity.Response[] = []
     for (const item of items) {
-      data.push(response(item))
+      data.push(this.response(item))
     }
 
     return data
   }
 
-  export const findAll = async (
-    requestQuery: Entity.RequestQuery
-  ): Promise<Entity.ResponseFindAll> => {
-    const items: any = await Repository.findAll(requestQuery)
+  public findAll = async (
+    requestQuery: UserEntity.RequestQuery
+  ): Promise<UserEntity.ResponseFindAll> => {
+    const items: any = await this.userRepository.findAll(requestQuery)
 
-    const result: Entity.ResponseFindAll = {
-      data: responseFindAll(items.data),
+    const result: UserEntity.ResponseFindAll = {
+      data: this.responseFindAll(items.data),
       meta: metaPagination(items.pagination),
     }
 
     return result
   }
 
-  export const findById = async (id: string) => {
-    const item: any = await Repository.findById(id)
+  public findById = async (id: string) => {
+    const item: any = await this.userRepository.findById(id)
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
-    const result: Entity.ResponseFindById = {
-      data: response(item),
+    const result: UserEntity.ResponseFindById = {
+      data: this.response(item),
       meta: {},
     }
 
     return result
   }
 
-  export const destroy = async (id: string) => {
-    const item: any = await Repository.findById(id)
+  public destroy = async (id: string) => {
+    const item: any = await this.userRepository.findById(id)
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
-    return Repository.destroy(item.id)
+    return this.userRepository.destroy(item.id)
   }
 
-  const getRequestBody = (requestBody: Entity.RequestBody) => ({
-    name: requestBody.name,
-    email: requestBody.email,
-    avatar: requestBody.avatar,
+  private getRequestBody = (request: UserEntity.RequestBody) => ({
+    name: request.name,
+    email: request.email,
+    avatar: request.avatar,
   })
 
-  export const store = async (requestBody: Entity.RequestBody) => {
-    await Repository.createFile({
-      source: requestBody.avatar,
-      name: requestBody.avatar_original_name,
+  public store = async (request: UserEntity.RequestBody) => {
+    await this.userRepository.createFile({
+      source: request.avatar,
+      name: request.avatar_original_name,
     })
 
-    return Repository.store({
-      ...getRequestBody(requestBody),
-      password: passwordHash(requestBody.password),
+    return this.userRepository.store({
+      ...this.getRequestBody(request),
+      password: passwordHash(request.password),
       is_admin: true,
       is_active: true,
     })
   }
 
-  export const update = async (requestBody: Entity.RequestBody, id: string) => {
-    const item: any = await Repository.findById(id)
+  public update = async (request: UserEntity.RequestBody, id: string) => {
+    const item: any = await this.userRepository.findById(id)
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
-    await Repository.updateFile(
+    await this.userRepository.updateFile(
       {
-        source: requestBody.avatar,
-        name: requestBody.avatar_original_name,
+        source: request.avatar,
+        name: request.avatar_original_name,
       },
       item.file_id
     )
 
-    return Repository.update(getRequestBody(requestBody), id)
+    return this.userRepository.update(this.getRequestBody(request), id)
   }
 
-  export const updateStatus = async (requestBody: Entity.RequestBodyUpdateStatus, id: string) => {
-    const item: any = await Repository.findById(id)
+  public updateStatus = async (request: UserEntity.RequestBodyUpdateStatus, id: string) => {
+    const item: any = await this.userRepository.findById(id)
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
-    return Repository.updateStatus({ is_active: convertToBoolean(requestBody.is_active) }, id)
+    return this.userRepository.updateStatus({ is_active: convertToBoolean(request.is_active) }, id)
   }
 }

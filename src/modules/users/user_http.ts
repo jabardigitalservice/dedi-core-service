@@ -1,43 +1,45 @@
 import { Router } from 'express'
-import { User as Handler } from './user_handler'
-import { User as Rules } from './user_rules'
-import { User as Access } from './user_access'
+import { UserHandler } from './user_handler'
+import { UserRules } from './user_rules'
+import { UserAccess } from './user_access'
 import { validate, validateWithDB } from '../../helpers/validator'
 import { verifyAccessToken } from '../../middleware/jwt'
+
+const userHandler = new UserHandler()
 
 const router = Router()
 
 router.get(
   '/v1/users',
   verifyAccessToken,
-  Access.findAll(),
-  validate(Rules.findAll, 'query'),
-  Handler.findAll
+  UserAccess.findAll(),
+  validate(UserRules.findAll, 'query'),
+  userHandler.findAll
 )
-router.get('/v1/users/:id', verifyAccessToken, Access.findById(), Handler.findById)
+router.get('/v1/users/:id', verifyAccessToken, UserAccess.findById(), userHandler.findById)
 router.post(
   '/v1/users',
   verifyAccessToken,
-  Access.store(),
-  validate(Rules.store),
-  validateWithDB(Rules.storeWithDB),
-  Handler.store
+  UserAccess.store(),
+  validate(UserRules.store),
+  validateWithDB(UserRules.storeWithDB),
+  userHandler.store
 )
 router.put(
   '/v1/users/:id',
   verifyAccessToken,
-  Access.update(),
-  validate(Rules.update),
-  validateWithDB(Rules.updateWithDB),
-  Handler.update
+  UserAccess.update(),
+  validate(UserRules.update),
+  validateWithDB(UserRules.updateWithDB),
+  userHandler.update
 )
 router.patch(
   '/v1/users/:id/status',
   verifyAccessToken,
-  Access.updateStatus(),
-  validate(Rules.updateStatus),
-  Handler.updateStatus
+  UserAccess.updateStatus(),
+  validate(UserRules.updateStatus),
+  userHandler.updateStatus
 )
-router.delete('/v1/users/:id', verifyAccessToken, Access.destroy(), Handler.destroy)
+router.delete('/v1/users/:id', verifyAccessToken, UserAccess.destroy(), userHandler.destroy)
 
 export default router

@@ -5,11 +5,11 @@ import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
 import { createAccessToken } from '../../middleware/jwt'
 import app from '../../server'
-import { User as Entity } from './user_entity'
+import { UserEntity } from './user_entity'
 
 const name = faker.name.firstName()
 
-const data = (): Entity.RequestBody => ({
+const data = (): UserEntity.RequestBody => ({
   name,
   email: faker.internet.email(),
   avatar: faker.image.avatar(),
