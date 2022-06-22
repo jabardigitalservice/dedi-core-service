@@ -60,6 +60,7 @@ const expectFindById = expect.objectContaining({
 })
 
 let userId: string
+let accessTokenByUser: string
 
 describe('test users', () => {
   it('test success store', async () =>
@@ -82,6 +83,11 @@ describe('test users', () => {
       .then((response) => {
         const [item] = response.body.data
         userId = item.id
+        accessTokenByUser = createAccessToken({
+          identifier: userId,
+          prtnr: false,
+          adm: true,
+        })
         expect(response.body).toEqual(expectFindAll)
       }))
 })
@@ -156,6 +162,14 @@ describe('test users', () => {
       .delete('/v1/users/9999')
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(httpStatus.NOT_FOUND))
+})
+
+describe('test users', () => {
+  it('test failed destroy self remove', async () =>
+    request(app)
+      .delete(`/v1/users/${userId}`)
+      .set('Authorization', `Bearer ${accessTokenByUser}`)
+      .expect(httpStatus.FORBIDDEN))
 })
 
 describe('test users', () => {

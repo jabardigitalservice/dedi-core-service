@@ -71,6 +71,7 @@ export class UserService {
     const item: any = await this.userRepository.findById(id)
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
+    console.log(item, user)
 
     if (item.id === user.identifier)
       throw new HttpError(httpStatus.FORBIDDEN, lang.__('auth.grant.access'))
