@@ -96,7 +96,7 @@ const requestBodyQuestionnaire = {
       nama: faker.name.firstName(),
       posisi: faker.name.jobTitle(),
       file: file(),
-      nomor_telepon: faker.phone.phoneNumber(),
+      nomor_telepon: '023445354',
       email: faker.internet.email(),
     },
     fasilitas_desa: {

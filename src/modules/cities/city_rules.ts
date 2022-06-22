@@ -1,1 +1,1 @@
-export namespace City {}
+export namespace CityRules {}

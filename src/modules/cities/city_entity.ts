@@ -1,7 +1,6 @@
-import database from '../../config/database'
 import { Query } from '../../helpers/types'
 
-export namespace City {
+export namespace CityEntity {
   export interface Struct {
     id: string
     name: string
@@ -9,8 +8,6 @@ export namespace City {
     area_id?: string
     location: any
   }
-
-  export const Cities = () => database<Struct>('cities')
 
   export interface WithLocation {
     id: string
