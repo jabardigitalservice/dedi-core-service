@@ -3,6 +3,7 @@ import httpStatus from 'http-status'
 import { AuthEntity } from './auth_entity'
 import { AuthService } from './auth_service'
 import { AuthLog } from './auth_log'
+import { getUser, User } from '../../helpers/rbac'
 
 export class AuthHandler {
   private authService: AuthService
@@ -54,7 +55,8 @@ export class AuthHandler {
 
   public me = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result: AuthEntity.ResponseMe = await this.authService.me(req)
+      const user: User = getUser(req)
+      const result: AuthEntity.ResponseMe = await this.authService.me(user)
       res.status(httpStatus.OK).json(result)
     } catch (error) {
       next(error)

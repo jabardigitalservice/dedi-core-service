@@ -4,7 +4,7 @@ import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
-import { getRole } from '../../helpers/rbac'
+import { getRole, User } from '../../helpers/rbac'
 import lang from '../../lang'
 import { UserEntity } from './user_entity'
 import { UserRepository } from './user_repository'
@@ -67,10 +67,13 @@ export class UserService {
     return result
   }
 
-  public destroy = async (id: string) => {
+  public destroy = async (id: string, user: User) => {
     const item: any = await this.userRepository.findById(id)
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
+
+    if (item.id === user.identifier)
+      throw new HttpError(httpStatus.FORBIDDEN, lang.__('auth.grant.access'))
 
     return this.userRepository.destroy(item.id)
   }
