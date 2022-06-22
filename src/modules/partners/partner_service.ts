@@ -1,10 +1,16 @@
 import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { metaPagination } from '../../helpers/paginate'
-import { Partner as Entity } from './partner_entity'
-import { Partner as Repository } from './partner_repository'
+import { PartnerEntity } from './partner_entity'
+import { PartnerRepository } from './partner_repository'
 
-export namespace Partner {
-  const response = (item: any): Entity.Response => ({
+export class PartnerService {
+  private partnerRepository: PartnerRepository
+
+  constructor(partnerRepository: PartnerRepository = new PartnerRepository()) {
+    this.partnerRepository = partnerRepository
+  }
+
+  private response = (item: any): PartnerEntity.Response => ({
     id: item.id,
     name: item.name,
     total_village: item.total_village,
@@ -18,24 +24,24 @@ export namespace Partner {
     join_year: item.join_year,
   })
 
-  const responseFindAll = (items: any[]): Entity.Response[] => {
-    const data: Entity.Response[] = []
+  private responseFindAll = (items: any[]): PartnerEntity.Response[] => {
+    const data: PartnerEntity.Response[] = []
     for (const item of items) {
-      data.push(response(item))
+      data.push(this.response(item))
     }
 
     return data
   }
 
-  export const findAll = async (
-    requestQuery: Entity.RequestQuery
-  ): Promise<Entity.ResponseFindAll> => {
-    const items: any = await Repository.findAll(requestQuery)
+  public findAll = async (
+    request: PartnerEntity.RequestQuery
+  ): Promise<PartnerEntity.ResponseFindAll> => {
+    const items: any = await this.partnerRepository.findAll(request)
 
-    const lastUpdate = await Repository.getLastUpdate()
+    const lastUpdate = await this.partnerRepository.getLastUpdate()
 
-    const result: Entity.ResponseFindAll = {
-      data: responseFindAll(items.data),
+    const result: PartnerEntity.ResponseFindAll = {
+      data: this.responseFindAll(items.data),
       meta: {
         ...metaPagination(items.pagination),
         last_update: lastUpdate?.created_at || null,
@@ -45,12 +51,14 @@ export namespace Partner {
     return result
   }
 
-  export const suggestion = async (
-    requestQuery: Entity.RequestQuerySuggestion
-  ): Promise<Entity.ResponseSuggestion> => {
-    const partners: Entity.PartnerSuggestion[] = await Repository.suggestion(requestQuery)
+  public suggestion = async (
+    request: PartnerEntity.RequestQuerySuggestion
+  ): Promise<PartnerEntity.ResponseSuggestion> => {
+    const partners: PartnerEntity.PartnerSuggestion[] = await this.partnerRepository.suggestion(
+      request
+    )
 
-    const result: Entity.ResponseSuggestion = {
+    const result: PartnerEntity.ResponseSuggestion = {
       data: partners,
       meta: {
         total: partners.length,

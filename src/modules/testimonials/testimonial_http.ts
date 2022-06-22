@@ -1,38 +1,50 @@
 import { Router } from 'express'
 import cache from '../../config/cache'
-import { Testimonial as Log } from './testimonial_log'
-import { Testimonial as Handler } from './testimonial_handler'
-import { Testimonial as Rules } from './testimonial_rules'
-import { Testimonial as Access } from './testimonial_access'
+import { TestimonialLog } from './testimonial_log'
+import { TestimonialHandler } from './testimonial_handler'
+import { TestimonialRules } from './testimonial_rules'
+import { TestimonialAccess } from './testimonial_access'
 import { validate, validateWithDB } from '../../helpers/validator'
 import { verifyAccessToken } from '../../middleware/jwt'
+
+const testimonialHandler = new TestimonialHandler()
 
 const router = Router()
 
 router.get(
   '/v1/testimonials',
   cache(),
-  validate(Rules.findAll, 'query'),
-  Log.findAll(),
-  Handler.findAll
+  validate(TestimonialRules.findAll, 'query'),
+  TestimonialLog.findAll(),
+  testimonialHandler.findAll
 )
-router.get('/v1/testimonials/:id', verifyAccessToken, Access.findById(), Handler.findById)
+router.get(
+  '/v1/testimonials/:id',
+  verifyAccessToken,
+  TestimonialAccess.findById(),
+  testimonialHandler.findById
+)
 router.post(
   '/v1/testimonials',
   verifyAccessToken,
-  Access.store(),
-  validate(Rules.store),
-  validateWithDB(Rules.storeWithDB),
-  Handler.store
+  TestimonialAccess.store(),
+  validate(TestimonialRules.store),
+  validateWithDB(TestimonialRules.storeWithDB),
+  testimonialHandler.store
 )
 router.put(
   '/v1/testimonials/:id',
   verifyAccessToken,
-  Access.update(),
-  validate(Rules.update),
-  validateWithDB(Rules.updateWithDB),
-  Handler.update
+  TestimonialAccess.update(),
+  validate(TestimonialRules.update),
+  validateWithDB(TestimonialRules.updateWithDB),
+  testimonialHandler.update
 )
-router.delete('/v1/testimonials/:id', verifyAccessToken, Access.destroy(), Handler.destroy)
+router.delete(
+  '/v1/testimonials/:id',
+  verifyAccessToken,
+  TestimonialAccess.destroy(),
+  testimonialHandler.destroy
+)
 
 export default router

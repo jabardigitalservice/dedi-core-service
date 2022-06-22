@@ -1,11 +1,12 @@
+import database from '../../config/database'
 import { pagination } from '../../helpers/paginate'
-import { Partner as Entity } from './partner_entity'
+import { PartnerEntity } from './partner_entity'
 
-export namespace Partner {
-  const { Partners } = Entity
+export class PartnerRepository {
+  private Partners = () => database<PartnerEntity.Struct>('partners')
 
-  export const findAll = (requestQuery: Entity.RequestQuery) => {
-    const query = Partners()
+  public findAll = (request: PartnerEntity.RequestQuery) => {
+    const query = this.Partners()
       .select(
         'partners.id',
         'partners.name',
@@ -19,13 +20,13 @@ export namespace Partner {
       .orderBy('created_at', 'desc')
       .leftJoin('files', 'files.source', '=', 'logo')
 
-    if (requestQuery.name) query.where('partners.name', 'LIKE', `%${requestQuery.name}%`)
+    if (request.name) query.where('partners.name', 'LIKE', `%${request.name}%`)
 
-    return query.paginate(pagination(requestQuery))
+    return query.paginate(pagination(request))
   }
 
-  export const getLastUpdate = () => {
-    const query = Partners()
+  public getLastUpdate = () => {
+    const query = this.Partners()
       .select('created_at')
       .whereNull('deleted_at')
       .orderBy('created_at', 'desc')
@@ -34,10 +35,13 @@ export namespace Partner {
     return query
   }
 
-  export const suggestion = (requestQuery: Entity.RequestQuerySuggestion) => {
-    const query = Partners().select('id', 'name').whereNull('deleted_at').orderBy('name', 'asc')
+  public suggestion = (request: PartnerEntity.RequestQuerySuggestion) => {
+    const query = this.Partners()
+      .select('id', 'name')
+      .whereNull('deleted_at')
+      .orderBy('name', 'asc')
 
-    if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
+    if (request.name) query.where('name', 'LIKE', `%${request.name}%`)
 
     return query
   }

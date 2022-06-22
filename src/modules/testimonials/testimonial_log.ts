@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import logger from '../../helpers/logger'
 
-export namespace Testimonial {
+export namespace TestimonialLog {
   export const findAll = () => (req: Request, res: Response, next: NextFunction) => {
     if (req.query.type) {
       logger({

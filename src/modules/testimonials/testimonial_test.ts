@@ -7,7 +7,7 @@ import config from '../../config'
 import database from '../../config/database'
 import { createAccessToken } from '../../middleware/jwt'
 import app from '../../server'
-import { Testimonial as Entity } from './testimonial_entity'
+import { TestimonialEntity } from './testimonial_entity'
 
 const isActive = faker.random.arrayElement(['true', 'false'])
 const type = faker.random.arrayElement([config.get('role.1'), config.get('role.2')])
@@ -43,7 +43,7 @@ describe('seed data', () => {
   })
 })
 
-const data = (): Entity.RequestBody => ({
+const data = (): TestimonialEntity.RequestBody => ({
   name,
   description: name,
   avatar: faker.image.avatar(),
@@ -54,12 +54,12 @@ const data = (): Entity.RequestBody => ({
   village_id: villageId,
 })
 
-const dataTypeRole1 = (): Entity.RequestBody => ({
+const dataTypeRole1 = (): TestimonialEntity.RequestBody => ({
   ...data(),
   type: config.get('role.1'),
   village_id: null,
 })
-const dataTypeRole2 = (): Entity.RequestBody => ({
+const dataTypeRole2 = (): TestimonialEntity.RequestBody => ({
   ...data(),
   type: config.get('role.2'),
   partner_id: null,

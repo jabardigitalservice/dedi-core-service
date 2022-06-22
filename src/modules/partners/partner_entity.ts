@@ -1,8 +1,7 @@
-import database from '../../config/database'
 import { metaPaginate } from '../../helpers/paginate'
 import { Query } from '../../helpers/types'
 
-export namespace Partner {
+export namespace PartnerEntity {
   export interface Struct {
     id?: string
     name: string
@@ -30,8 +29,6 @@ export namespace Partner {
     website: string
     join_year: string
   }
-
-  export const Partners = () => database<Struct>('partners')
 
   export interface RequestQuery extends Query {
     name: string

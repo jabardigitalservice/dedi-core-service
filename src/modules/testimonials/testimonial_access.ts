@@ -2,7 +2,7 @@ import config from '../../config'
 import { accessControl, AccessControlStruct } from '../../helpers/rbac'
 import grantAccess from '../../middleware/grantAccess'
 
-export namespace Testimonial {
+export namespace TestimonialAccess {
   const flatList: AccessControlStruct[] = [
     {
       role: config.get('role.0'),

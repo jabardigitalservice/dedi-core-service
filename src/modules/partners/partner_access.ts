@@ -1,1 +1,1 @@
-export namespace Partner {}
+export namespace PartnerAccess {}

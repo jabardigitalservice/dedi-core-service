@@ -1,25 +1,29 @@
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import httpStatus from 'http-status'
-import { Partner as Entity } from './partner_entity'
-import { Partner as Service } from './partner_service'
+import { PartnerEntity } from './partner_entity'
+import { PartnerService } from './partner_service'
 
-export namespace Partner {
-  export const findAll = async (
-    req: Request<never, never, never, Entity.RequestQuery>,
-    res: Response,
-    next: NextFunction
+export class PartnerHandler {
+  private partnerService: PartnerService
+
+  constructor(partnerService: PartnerService = new PartnerService()) {
+    this.partnerService = partnerService
+  }
+
+  public findAll = async (
+    req: Request<never, never, never, PartnerEntity.RequestQuery>,
+    res: Response
   ) => {
-    const result: Entity.ResponseFindAll = await Service.findAll(req.query)
+    const result: PartnerEntity.ResponseFindAll = await this.partnerService.findAll(req.query)
 
     res.status(httpStatus.OK).json(result)
   }
 
-  export const suggestion = async (
-    req: Request<never, never, never, Entity.RequestQuerySuggestion>,
-    res: Response,
-    next: NextFunction
+  public suggestion = async (
+    req: Request<never, never, never, PartnerEntity.RequestQuerySuggestion>,
+    res: Response
   ) => {
-    const result: Entity.ResponseSuggestion = await Service.suggestion(req.query)
+    const result: PartnerEntity.ResponseSuggestion = await this.partnerService.suggestion(req.query)
 
     res.status(httpStatus.OK).json(result)
   }

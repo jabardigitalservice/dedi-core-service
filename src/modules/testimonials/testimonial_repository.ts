@@ -1,13 +1,16 @@
 import { v4 as uuidv4 } from 'uuid'
+import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
-import { Testimonial as Entity } from './testimonial_entity'
+import { TestimonialEntity } from './testimonial_entity'
 
-export namespace Testimonial {
-  const { Testimonials, Files } = Entity
+export class TestimonialRepository {
+  private Testimonials = () => database<TestimonialEntity.Struct>('testimonials')
 
-  const Query = () =>
-    Testimonials()
+  private Files = () => database<TestimonialEntity.StructFile>('files')
+
+  private Query = () =>
+    this.Testimonials()
       .select(
         'testimonials.id',
         'testimonials.name',
@@ -28,53 +31,53 @@ export namespace Testimonial {
       .leftJoin('villages', 'villages.id', '=', 'testimonials.village_id')
       .leftJoin('files', 'files.source', '=', 'testimonials.avatar')
 
-  export const findAll = (requestQuery: Entity.RequestQuery) => {
-    const orderBy: string = requestQuery.order_by || 'created_at'
-    const sortBy: string = requestQuery.sort_by || 'desc'
+  public findAll = (request: TestimonialEntity.RequestQuery) => {
+    const orderBy: string = request.order_by || 'created_at'
+    const sortBy: string = request.sort_by || 'desc'
 
-    const query = Query().orderBy(orderBy, sortBy)
+    const query = this.Query().orderBy(orderBy, sortBy)
 
-    if (requestQuery.is_active)
-      query.where('testimonials.is_active', convertToBoolean(requestQuery.is_active))
+    if (request.is_active)
+      query.where('testimonials.is_active', convertToBoolean(request.is_active))
 
-    if (requestQuery.type) query.where('type', requestQuery.type)
+    if (request.type) query.where('type', request.type)
 
-    if (requestQuery.q) query.where('testimonials.name', 'like', `%${requestQuery.q}%`)
+    if (request.q) query.where('testimonials.name', 'like', `%${request.q}%`)
 
-    return query.paginate(pagination(requestQuery))
+    return query.paginate(pagination(request))
   }
 
-  export const store = (requestBody: Entity.Struct) =>
-    Testimonials().insert({
+  public store = (request: TestimonialEntity.Struct) =>
+    this.Testimonials().insert({
       id: uuidv4(),
-      ...requestBody,
+      ...request,
       created_at: new Date(),
     })
 
-  export const update = (requestBody: Entity.Struct, id: string) =>
-    Testimonials()
+  public update = (request: TestimonialEntity.Struct, id: string) =>
+    this.Testimonials()
       .where('id', id)
       .update({
-        ...requestBody,
+        ...request,
       })
 
-  export const findById = (id: string) => Query().where('testimonials.id', id).first()
+  public findById = (id: string) => this.Query().where('testimonials.id', id).first()
 
-  export const destroy = (id: string) => Testimonials().where('id', id).delete()
+  public destroy = (id: string) => this.Testimonials().where('id', id).delete()
 
-  export const createFile = (requestBody: Entity.StructFile) =>
-    Files()
+  public createFile = (request: TestimonialEntity.StructFile) =>
+    this.Files()
       .insert({
-        ...requestBody,
+        ...request,
         created_at: new Date(),
       })
       .onConflict('source')
       .merge(['name', 'created_at'])
 
-  export const updateFile = (requestBody: Entity.StructFile, id: number) =>
-    Files()
+  public updateFile = (request: TestimonialEntity.StructFile, id: number) =>
+    this.Files()
       .where('id', id)
       .update({
-        ...requestBody,
+        ...request,
       })
 }

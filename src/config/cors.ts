@@ -19,7 +19,7 @@ const whitelist = () => {
 
 const originOptions: CorsOptions = {
   origin(origin, callback) {
-    if (origin && (isNodeEnvTest() || whitelist().find((value) => origin.includes(value)))) {
+    if (isNodeEnvTest() || (origin && whitelist().find((value) => origin.includes(value)))) {
       callback(null, true)
     } else {
       callback(new HttpError(httpStatus.FORBIDDEN, lang.__('error.cors')))

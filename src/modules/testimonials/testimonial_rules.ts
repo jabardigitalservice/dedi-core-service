@@ -3,7 +3,7 @@ import config from '../../config'
 import { regexAlphanumeric, regexCodeRegion, regexExtFile } from '../../helpers/regex'
 import { ValidationWithDB } from '../../helpers/validator'
 
-export namespace Testimonial {
+export namespace TestimonialRules {
   const orderByValid = ['type', 'is_active', 'created_at']
   const emptyAllow = ['', null]
   const typeValid = [config.get('role.1'), config.get('role.2')]

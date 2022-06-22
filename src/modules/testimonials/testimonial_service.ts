@@ -4,12 +4,19 @@ import { HttpError } from '../../handler/exception'
 import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
+import { User } from '../../helpers/rbac'
 import lang from '../../lang'
-import { Testimonial as Entity } from './testimonial_entity'
-import { Testimonial as Repository } from './testimonial_repository'
+import { TestimonialEntity } from './testimonial_entity'
+import { TestimonialRepository } from './testimonial_repository'
 
-export namespace Testimonial {
-  const response = (item: any): Entity.Response => ({
+export class TestimonialService {
+  private testimonialRepository: TestimonialRepository
+
+  constructor(testimonialRepository: TestimonialRepository = new TestimonialRepository()) {
+    this.testimonialRepository = testimonialRepository
+  }
+
+  private response = (item: any): TestimonialEntity.Response => ({
     id: item.id,
     name: item.name,
     description: item.description,
@@ -30,90 +37,90 @@ export namespace Testimonial {
     },
   })
 
-  const responseFindAll = (items: any[]): Entity.Response[] => {
-    const data: Entity.Response[] = []
+  private responseFindAll = (items: any[]): TestimonialEntity.Response[] => {
+    const data: TestimonialEntity.Response[] = []
     for (const item of items) {
-      data.push(response(item))
+      data.push(this.response(item))
     }
 
     return data
   }
 
-  export const findAll = async (
-    requestQuery: Entity.RequestQuery
-  ): Promise<Entity.ResponseFindAll> => {
-    const items: any = await Repository.findAll(requestQuery)
+  public findAll = async (
+    request: TestimonialEntity.RequestQuery
+  ): Promise<TestimonialEntity.ResponseFindAll> => {
+    const items: any = await this.testimonialRepository.findAll(request)
 
-    const result: Entity.ResponseFindAll = {
-      data: responseFindAll(items.data),
+    const result: TestimonialEntity.ResponseFindAll = {
+      data: this.responseFindAll(items.data),
       meta: metaPagination(items.pagination),
     }
 
     return result
   }
 
-  export const getRequestBody = (requestBody: Entity.RequestBody) => ({
-    name: requestBody.name,
-    description: requestBody.description,
-    avatar: requestBody.avatar,
-    type: requestBody.type,
-    is_active: convertToBoolean(requestBody.is_active),
-    partner_id: requestBody.type === config.get('role.1') ? requestBody.partner_id : null,
-    village_id: requestBody.type === config.get('role.2') ? requestBody.village_id : null,
+  public getRequestBody = (request: TestimonialEntity.RequestBody) => ({
+    name: request.name,
+    description: request.description,
+    avatar: request.avatar,
+    type: request.type,
+    is_active: convertToBoolean(request.is_active),
+    partner_id: request.type === config.get('role.1') ? request.partner_id : null,
+    village_id: request.type === config.get('role.2') ? request.village_id : null,
   })
 
-  export const store = async (requestBody: Entity.RequestBody, user: any) => {
-    await Repository.createFile({
-      source: requestBody.avatar,
-      name: requestBody.avatar_original_name,
+  public store = async (request: TestimonialEntity.RequestBody, user: User) => {
+    await this.testimonialRepository.createFile({
+      source: request.avatar,
+      name: request.avatar_original_name,
     })
 
-    return Repository.store({
+    return this.testimonialRepository.store({
+      ...this.getRequestBody(request),
       created_by: user.identifier,
-      ...getRequestBody(requestBody),
     })
   }
 
-  export const update = async (requestBody: Entity.RequestBody, id: string) => {
-    const item: any = await Repository.findById(id)
+  public update = async (request: TestimonialEntity.RequestBody, id: string) => {
+    const item: any = await this.testimonialRepository.findById(id)
     if (!item)
       throw new HttpError(
         httpStatus.NOT_FOUND,
         lang.__('error.exists', { entity: 'testimonial', id })
       )
 
-    await Repository.updateFile(
+    await this.testimonialRepository.updateFile(
       {
-        source: requestBody.avatar,
-        name: requestBody.avatar_original_name,
+        source: request.avatar,
+        name: request.avatar_original_name,
       },
       item.file_id
     )
 
-    return Repository.update(getRequestBody(requestBody), id)
+    return this.testimonialRepository.update(this.getRequestBody(request), id)
   }
 
-  export const destroy = async (id: string) => {
-    const item: any = await Repository.findById(id)
+  public destroy = async (id: string) => {
+    const item: any = await this.testimonialRepository.findById(id)
     if (!item)
       throw new HttpError(
         httpStatus.NOT_FOUND,
         lang.__('error.exists', { entity: 'testimonial', id })
       )
 
-    return Repository.destroy(id)
+    return this.testimonialRepository.destroy(id)
   }
 
-  export const findById = async (id: string) => {
-    const item: any = await Repository.findById(id)
+  public findById = async (id: string) => {
+    const item: any = await this.testimonialRepository.findById(id)
     if (!item)
       throw new HttpError(
         httpStatus.NOT_FOUND,
         lang.__('error.exists', { entity: 'testimonial', id })
       )
 
-    const result: Entity.ResponseFindById = {
-      data: response(item),
+    const result: TestimonialEntity.ResponseFindById = {
+      data: this.response(item),
       meta: {},
     }
 
