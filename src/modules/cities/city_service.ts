@@ -3,7 +3,7 @@ import { CityEntity } from './city_entity'
 import { CityRepository } from './city_repository'
 
 export class CityService {
-  cityRepository: CityRepository
+  private cityRepository: CityRepository
 
   constructor(cityRepository: CityRepository = new CityRepository()) {
     this.cityRepository = cityRepository

@@ -4,7 +4,7 @@ import { CityEntity } from './city_entity'
 import { CityService } from './city_service'
 
 export class CityHandler {
-  cityService: CityService
+  private cityService: CityService
 
   constructor(cityService: CityService = new CityService()) {
     this.cityService = cityService
