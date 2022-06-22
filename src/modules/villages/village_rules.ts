@@ -9,7 +9,12 @@ export namespace VillageRules {
     source: Joi.string().regex(regexExtFile).allow(null),
   }).required()
 
-  export const vehicles = ['Motor', 'Mobil', 'Kendaraan Umum (Bus/Elf)', 'Belum ada akses kendaraan']
+  export const vehicles = [
+    'Motor',
+    'Mobil',
+    'Kendaraan Umum (Bus/Elf)',
+    'Belum ada akses kendaraan',
+  ]
 
   const ruleArrayString = Joi.array().items(Joi.string().regex(regexAlphanumeric)).required()
 
@@ -23,7 +28,10 @@ export namespace VillageRules {
 
   const ruleLevel1 = Joi.object({
     akses_kendaraan: Joi.object({
-      data: Joi.array().items(Joi.string().valid(...vehicles)).required().min(1),
+      data: Joi.array()
+        .items(Joi.string().valid(...vehicles))
+        .required()
+        .min(1),
       photo: file,
     }).required(),
     suplai_listrik: Joi.object({
