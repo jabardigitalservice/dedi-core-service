@@ -1,10 +1,16 @@
 import { isRequestBounds } from '../../helpers/polygon'
-import { City as Entity } from './city_entity'
-import { City as Repository } from './city_repository'
+import { CityEntity } from './city_entity'
+import { CityRepository } from './city_repository'
 
-export namespace City {
-  const responseWithLocation = (items: any[]): Entity.WithLocation[] => {
-    const data: Entity.WithLocation[] = []
+export class CityService {
+  private cityRepository: CityRepository
+
+  constructor(cityRepository: CityRepository = new CityRepository()) {
+    this.cityRepository = cityRepository
+  }
+
+  private responseWithLocation = (items: any[]): CityEntity.WithLocation[] => {
+    const data: CityEntity.WithLocation[] = []
     for (const item of items) {
       data.push({
         id: item.id,
@@ -19,16 +25,16 @@ export namespace City {
     return data
   }
 
-  export const withLocation = async (
-    requestQuery: Entity.RequestQueryWithLocation
-  ): Promise<Entity.ResponseWithLocation> => {
-    const items: any = isRequestBounds(requestQuery.bounds)
-      ? await Repository.withLocation(requestQuery)
+  public withLocation = async (
+    request: CityEntity.RequestQueryWithLocation
+  ): Promise<CityEntity.ResponseWithLocation> => {
+    const items: any = isRequestBounds(request.bounds)
+      ? await this.cityRepository.withLocation(request)
       : []
-    const total: any = await Repository.getTotalWithLocation()
+    const total: any = await this.cityRepository.getTotalWithLocation()
 
-    const result: Entity.ResponseWithLocation = {
-      data: responseWithLocation(items),
+    const result: CityEntity.ResponseWithLocation = {
+      data: this.responseWithLocation(items),
       meta: {
         total: total.total,
       },
@@ -37,12 +43,12 @@ export namespace City {
     return result
   }
 
-  export const suggestion = async (
-    requestQuery: Entity.RequestQuerySuggestion
-  ): Promise<Entity.ResponseSuggestion> => {
-    const items: any = await Repository.suggestion(requestQuery)
+  public suggestion = async (
+    request: CityEntity.RequestQuerySuggestion
+  ): Promise<CityEntity.ResponseSuggestion> => {
+    const items: any = await this.cityRepository.suggestion(request)
 
-    const result: Entity.ResponseSuggestion = {
+    const result: CityEntity.ResponseSuggestion = {
       data: items,
       meta: {
         total: items.length,

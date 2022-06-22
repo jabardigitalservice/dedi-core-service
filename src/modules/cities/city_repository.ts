@@ -1,40 +1,39 @@
+import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { getPolygon } from '../../helpers/polygon'
-import { City as Entity } from './city_entity'
+import { CityEntity } from './city_entity'
 
-export namespace City {
-  const { Cities } = Entity
+export class CityRepository {
+  private Cities = () => database<CityEntity.Struct>('cities')
 
-  const getWherePolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
-    const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(
-      requestQuery.bounds
-    )}'), location)`
+  private getWherePolygon = (request: CityEntity.RequestQueryWithLocation) => {
+    const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(request.bounds)}'), location)`
 
     return wherePolygon
   }
 
-  export const withLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
-    const query = Cities()
+  public withLocation = (request: CityEntity.RequestQueryWithLocation) => {
+    const query = this.Cities()
       .select('id', 'name', 'location')
       .where('is_active', true)
       .orderBy('name', 'asc')
 
-    query.whereRaw(getWherePolygon(requestQuery))
+    query.whereRaw(this.getWherePolygon(request))
 
     return query
   }
 
-  export const suggestion = (requestQuery: Entity.RequestQuerySuggestion) => {
-    const query = Cities().select('id', 'name').orderBy('name', 'asc')
+  public suggestion = (request: CityEntity.RequestQuerySuggestion) => {
+    const query = this.Cities().select('id', 'name').orderBy('name', 'asc')
 
-    if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
-    if (requestQuery.is_active) query.where('is_active', convertToBoolean(requestQuery.is_active))
+    if (request.name) query.where('name', 'LIKE', `%${request.name}%`)
+    if (request.is_active) query.where('is_active', convertToBoolean(request.is_active))
 
     return query
   }
 
-  export const getTotalWithLocation = () => {
-    const query = Cities().count('id', { as: 'total' }).where('is_active', true).first()
+  public getTotalWithLocation = () => {
+    const query = this.Cities().count('id', { as: 'total' }).where('is_active', true).first()
 
     return query
   }
