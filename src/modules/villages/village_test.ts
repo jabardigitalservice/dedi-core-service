@@ -4,6 +4,7 @@ import request from 'supertest'
 import httpStatus from 'http-status'
 import app from '../../server'
 import database from '../../config/database'
+import { VillageRules } from './village_rules'
 
 const expectMetaBounds = expect.objectContaining({
   total: expect.any(Number),
@@ -100,7 +101,7 @@ const requestBodyQuestionnaire = {
     },
     fasilitas_desa: {
       akses_kendaraan: {
-        data: [faker.name.firstName()],
+        data: [faker.random.arrayElement(VillageRules.vehicles)],
         photo: file(),
       },
       suplai_listrik: {

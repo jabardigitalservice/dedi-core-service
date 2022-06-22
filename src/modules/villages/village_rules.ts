@@ -9,7 +9,7 @@ export namespace VillageRules {
     source: Joi.string().regex(regexExtFile).allow(null),
   }).required()
 
-  const vehicles = ['Motor', 'Mobil', 'Kendaraan Umum (Bus/Elf)', 'Belum ada akses kendaraan']
+  export const vehicles = ['Motor', 'Mobil', 'Kendaraan Umum (Bus/Elf)', 'Belum ada akses kendaraan']
 
   const ruleArrayString = Joi.array().items(Joi.string().regex(regexAlphanumeric)).required()
 
