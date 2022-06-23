@@ -12,21 +12,19 @@ export class CityHandler {
 
   public withLocation = async (
     req: Request<never, never, never, CityEntity.RequestQueryWithLocation>,
-    res: Response,
-    next: NextFunction
+    res: Response
   ) => {
     const result: CityEntity.ResponseWithLocation = await this.cityService.withLocation(req.query)
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 
   public suggestion = async (
     req: Request<never, never, never, CityEntity.RequestQuerySuggestion>,
-    res: Response,
-    next: NextFunction
+    res: Response
   ) => {
     const result: CityEntity.ResponseSuggestion = await this.cityService.suggestion(req.query)
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 }

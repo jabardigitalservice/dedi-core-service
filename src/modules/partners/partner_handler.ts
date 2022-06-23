@@ -16,7 +16,7 @@ export class PartnerHandler {
   ) => {
     const result: PartnerEntity.ResponseFindAll = await this.partnerService.findAll(req.query)
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 
   public suggestion = async (
@@ -25,6 +25,6 @@ export class PartnerHandler {
   ) => {
     const result: PartnerEntity.ResponseSuggestion = await this.partnerService.suggestion(req.query)
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 }

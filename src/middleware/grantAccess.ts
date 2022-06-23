@@ -14,8 +14,8 @@ export default (accessControl: AccessControl, action: string, resource: string) 
 
       if (!permission.granted) throw new Error()
 
-      next()
+      return next()
     } catch (error) {
-      next(new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.grant.access')))
+      return next(new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.grant.access')))
     }
   }

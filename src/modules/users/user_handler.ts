@@ -13,21 +13,20 @@ export class UserHandler {
 
   public findAll = async (
     req: Request<never, never, never, UserEntity.RequestQuery>,
-    res: Response,
-    next: NextFunction
+    res: Response
   ) => {
     const result: UserEntity.ResponseFindAll = await this.userService.findAll(req.query)
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 
   public findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
       const result: UserEntity.ResponseFindById = await this.userService.findById(id)
-      res.status(httpStatus.OK).json(result)
+      return res.status(httpStatus.OK).json(result)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -36,16 +35,16 @@ export class UserHandler {
       const { id } = req.params
       const user: User = getUser(req)
       await this.userService.destroy(id, user)
-      res.status(httpStatus.OK).json({ message: 'DELETED' })
+      return res.status(httpStatus.OK).json({ message: 'DELETED' })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
   public store = async (req: Request, res: Response, next: NextFunction) => {
     const { body } = req
     await this.userService.store(body)
-    res.status(httpStatus.CREATED).json({ message: 'CREATED' })
+    return res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
   public update = async (req: Request, res: Response, next: NextFunction) => {
@@ -53,9 +52,9 @@ export class UserHandler {
       const { body } = req
       const { id } = req.params
       await this.userService.update(body, id)
-      res.status(httpStatus.OK).json({ message: 'UPDATED' })
+      return res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -64,9 +63,9 @@ export class UserHandler {
       const { body } = req
       const { id } = req.params
       await this.userService.updateStatus(body, id)
-      res.status(httpStatus.OK).json({ message: 'UPDATED' })
+      return res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 }

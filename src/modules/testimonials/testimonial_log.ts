@@ -15,6 +15,6 @@ export namespace TestimonialLog {
       })
     }
 
-    next()
+    return next()
   }
 }

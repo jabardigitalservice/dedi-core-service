@@ -13,21 +13,20 @@ export class PageHandler {
 
   public findAll = async (
     req: Request<never, never, never, PageEntity.RequestQuery>,
-    res: Response,
-    next: NextFunction
+    res: Response
   ) => {
     const result: PageEntity.ResponseFindAll = await this.pageService.findAll(req.query)
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 
   public findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
       const result: PageEntity.ResponseFindById = await this.pageService.findById(id)
-      res.status(httpStatus.OK).json(result)
+      return res.status(httpStatus.OK).json(result)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -35,16 +34,16 @@ export class PageHandler {
     const user: User = getUser(req)
     const { body } = req
     await this.pageService.store(body, user)
-    res.status(httpStatus.CREATED).json({ message: 'CREATED' })
+    return res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
   public destroy = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
       await this.pageService.destroy(id)
-      res.status(httpStatus.OK).json({ message: 'DELETED' })
+      return res.status(httpStatus.OK).json({ message: 'DELETED' })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -53,9 +52,9 @@ export class PageHandler {
       const { id } = req.params
       const { body } = req
       await this.pageService.update(body, id)
-      res.status(httpStatus.OK).json({ message: 'UPDATED' })
+      return res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 }

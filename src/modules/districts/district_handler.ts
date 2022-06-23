@@ -16,7 +16,7 @@ export class DistrictHandler {
   ) => {
     const result: Entity.ResponseWithLocation = await this.districtService.withLocation(req.query)
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 
   public suggestion = async (
@@ -25,6 +25,6 @@ export class DistrictHandler {
   ) => {
     const result: Entity.ResponseSuggestion = await this.districtService.suggestion(req.query)
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 }

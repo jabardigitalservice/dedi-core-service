@@ -18,7 +18,7 @@ export class VillageHandler {
       req.query
     )
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 
   public listWithLocation = async (
@@ -28,7 +28,7 @@ export class VillageHandler {
     const result: VillageEntity.ResponseListWithLocation =
       await this.villageService.listWithLocation(req.query)
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 
   public findById = async (
@@ -39,15 +39,15 @@ export class VillageHandler {
     try {
       const result: VillageEntity.ResponseFindById = await this.villageService.findById(req.params)
 
-      res.status(httpStatus.OK).json(result)
+      return res.status(httpStatus.OK).json(result)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
   public questionnaire = async (req: Request, res: Response) => {
     this.villageService.questionnaire(req.body)
-    res.status(httpStatus.CREATED).json({ message: 'CREATED' })
+    return res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
   public suggestion = async (
@@ -55,7 +55,7 @@ export class VillageHandler {
     res: Response
   ) => {
     const result: VillageEntity.ResponseSuggestion = await this.villageService.suggestion(req.query)
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 
   public checkRegistered = async (
@@ -65,9 +65,9 @@ export class VillageHandler {
   ) => {
     try {
       await this.villageService.checkRegistered(req.params)
-      res.status(httpStatus.OK).json({ message: 'Available' })
+      return res.status(httpStatus.OK).json({ message: 'Available' })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 }
