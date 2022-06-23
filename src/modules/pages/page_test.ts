@@ -3,7 +3,7 @@ import faker from 'faker'
 import httpStatus from 'http-status'
 import { v4 as uuidv4 } from 'uuid'
 import app from '../../server'
-import { Page as Entity } from './page_entity'
+import { PageEntity } from './page_entity'
 import { createAccessToken } from '../../middleware/jwt'
 
 const expectMeta = expect.objectContaining({
@@ -48,7 +48,7 @@ const accessToken = createAccessToken({
 
 const title = faker.lorem.slug(2)
 
-const data = (): Entity.RequestBody => ({
+const data = (): PageEntity.RequestBody => ({
   title,
   link: faker.internet.url(),
   is_active: true,
@@ -57,7 +57,7 @@ const data = (): Entity.RequestBody => ({
   image_original_name: faker.image.avatar(),
 })
 
-const dataRandomTitle = (): Entity.RequestBody => ({ ...data(), title: faker.lorem.slug(2) })
+const dataRandomTitle = (): PageEntity.RequestBody => ({ ...data(), title: faker.lorem.slug(2) })
 
 let pagesId: number
 

@@ -1,1 +1,1 @@
-export namespace Page {}
+export namespace PageLog {}

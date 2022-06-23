@@ -1,1 +1,1 @@
-export namespace District {}
+export namespace DistrictAccess {}
