@@ -2,7 +2,7 @@ import Joi from 'joi'
 import { regexAlphanumeric, regexExtFile } from '../../helpers/regex'
 import { ValidationWithDB } from '../../helpers/validator'
 
-export namespace Page {
+export namespace PageRules {
   const orderByValid = ['title', 'is_active', 'updated_at', 'order', 'created_at']
   const emptyAllow = ['', null]
 

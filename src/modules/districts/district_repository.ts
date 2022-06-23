@@ -1,20 +1,21 @@
+import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { getPolygon } from '../../helpers/polygon'
 import { District as Entity } from './district_entity'
 
-export namespace District {
-  const { Districts } = Entity
+export class DistrictRepository {
+  private Districts = () => database<Entity.Struct>('districts')
 
-  const getWherePolygon = (requestQuery: Entity.RequestQueryWithLocation) => {
+  private getWherePolygon = (request: Entity.RequestQueryWithLocation) => {
     const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(
-      requestQuery.bounds
+      request.bounds
     )}'), districts.location)`
 
     return wherePolygon
   }
 
-  export const withLocation = (requestQuery: Entity.RequestQueryWithLocation) => {
-    const query = Districts()
+  public withLocation = (request: Entity.RequestQueryWithLocation) => {
+    const query = this.Districts()
       .select(
         'districts.id',
         'districts.name',
@@ -26,23 +27,23 @@ export namespace District {
       .where('districts.is_active', true)
       .orderBy('districts.name', 'asc')
 
-    query.whereRaw(getWherePolygon(requestQuery))
+    query.whereRaw(this.getWherePolygon(request))
 
     return query
   }
 
-  export const suggestion = (requestQuery: Entity.RequestQuerySuggestion) => {
-    const query = Districts().select('id', 'name').orderBy('name', 'asc')
+  public suggestion = (request: Entity.RequestQuerySuggestion) => {
+    const query = this.Districts().select('id', 'name').orderBy('name', 'asc')
 
-    if (requestQuery.name) query.where('name', 'LIKE', `%${requestQuery.name}%`)
-    if (requestQuery.is_active) query.where('is_active', convertToBoolean(requestQuery.is_active))
-    if (requestQuery.city_id) query.where('city_id', requestQuery.city_id)
+    if (request.name) query.where('name', 'LIKE', `%${request.name}%`)
+    if (request.is_active) query.where('is_active', convertToBoolean(request.is_active))
+    if (request.city_id) query.where('city_id', request.city_id)
 
     return query
   }
 
-  export const getTotalWithLocation = () => {
-    const query = Districts().count('id', { as: 'total' }).where('is_active', true).first()
+  public getTotalWithLocation = () => {
+    const query = this.Districts().count('id', { as: 'total' }).where('is_active', true).first()
 
     return query
   }

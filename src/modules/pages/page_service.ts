@@ -3,12 +3,19 @@ import { HttpError } from '../../handler/exception'
 import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
+import { User } from '../../helpers/rbac'
 import lang from '../../lang'
-import { Page as Entity } from './page_entity'
-import { Page as Repository } from './page_repository'
+import { PageEntity } from './page_entity'
+import { PageRepository } from './page_repository'
 
-export namespace Page {
-  const response = (item: any): Entity.Response => ({
+export class PageService {
+  private pageRepository: PageRepository
+
+  constructor(pageRepository: PageRepository = new PageRepository()) {
+    this.pageRepository = pageRepository
+  }
+
+  private response = (item: any): PageEntity.Response => ({
     id: item.id,
     title: item.title,
     link: item.link,
@@ -21,83 +28,83 @@ export namespace Page {
     },
   })
 
-  const responseFindAll = (items: any[]): Entity.Response[] => {
-    const data: Entity.Response[] = []
+  private responseFindAll = (items: any[]): PageEntity.Response[] => {
+    const data: PageEntity.Response[] = []
     for (const item of items) {
-      data.push(response(item))
+      data.push(this.response(item))
     }
 
     return data
   }
 
-  export const findAll = async (requestQuery: Entity.RequestQuery) => {
-    const items: any = await Repository.findAll(requestQuery)
+  public findAll = async (request: PageEntity.RequestQuery) => {
+    const items: any = await this.pageRepository.findAll(request)
 
-    const result: Entity.ResponseFindAll = {
-      data: responseFindAll(items.data),
+    const result: PageEntity.ResponseFindAll = {
+      data: this.responseFindAll(items.data),
       meta: metaPagination(items.pagination),
     }
 
     return result
   }
 
-  export const findById = async (id: string) => {
-    const item: any = await Repository.findById(id)
+  public findById = async (id: string) => {
+    const item: any = await this.pageRepository.findById(id)
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
 
-    const result: Entity.ResponseFindById = {
-      data: response(item),
+    const result: PageEntity.ResponseFindById = {
+      data: this.response(item),
       meta: {},
     }
 
     return result
   }
 
-  export const store = async (requestBody: Entity.RequestBody, user: any) => {
-    await Repository.createFile({
-      source: requestBody.image,
-      name: requestBody.image_original_name,
+  public store = async (request: PageEntity.RequestBody, user: User) => {
+    await this.pageRepository.createFile({
+      source: request.image,
+      name: request.image_original_name,
     })
 
-    return Repository.store({
+    return this.pageRepository.store({
       created_by: user.identifier,
-      title: requestBody.title,
-      order: requestBody.order,
-      link: requestBody.link,
-      is_active: convertToBoolean(requestBody.is_active),
-      image: requestBody.image,
+      title: request.title,
+      order: request.order,
+      link: request.link,
+      is_active: convertToBoolean(request.is_active),
+      image: request.image,
     })
   }
 
-  export const destroy = async (id: string) => {
-    const item: any = await Repository.findById(id)
+  public destroy = async (id: string) => {
+    const item: any = await this.pageRepository.findById(id)
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
 
-    return Repository.destroy(item.id)
+    return this.pageRepository.destroy(item.id)
   }
 
-  export const update = async (requestBody: Entity.RequestBody, id: string) => {
-    const item: any = await Repository.findById(id)
+  public update = async (request: PageEntity.RequestBody, id: string) => {
+    const item: any = await this.pageRepository.findById(id)
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
 
-    await Repository.updateFile(
+    await this.pageRepository.updateFile(
       {
-        source: requestBody.image,
-        name: requestBody.image_original_name,
+        source: request.image,
+        name: request.image_original_name,
       },
       item.file_id
     )
 
-    return Repository.update(
+    return this.pageRepository.update(
       {
-        title: requestBody.title,
-        link: requestBody.link,
-        order: requestBody.order,
-        is_active: convertToBoolean(requestBody.is_active),
-        image: requestBody.image,
+        title: request.title,
+        link: request.link,
+        order: request.order,
+        is_active: convertToBoolean(request.is_active),
+        image: request.image,
       },
       item.id
     )

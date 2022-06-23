@@ -1,12 +1,15 @@
+import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
-import { Page as Entity } from './page_entity'
+import { PageEntity } from './page_entity'
 
-export namespace Page {
-  const { Pages, Files } = Entity
+export class PageRepository {
+  private Pages = () => database<PageEntity.Struct>('pages')
 
-  const Query = () =>
-    Pages()
+  private Files = () => database<PageEntity.StructFile>('files')
+
+  private Query = () =>
+    this.Pages()
       .select(
         'pages.id',
         'title',
@@ -21,50 +24,50 @@ export namespace Page {
       )
       .leftJoin('files', 'files.source', '=', 'pages.image')
 
-  export const findAll = (requestQuery: Entity.RequestQuery) => {
-    const orderBy: string = requestQuery.order_by || 'created_at'
-    const sortBy: string = requestQuery.sort_by || 'desc'
+  public findAll = (request: PageEntity.RequestQuery) => {
+    const orderBy: string = request.order_by || 'created_at'
+    const sortBy: string = request.sort_by || 'desc'
 
-    const query = Query().orderBy(orderBy, sortBy)
+    const query = this.Query().orderBy(orderBy, sortBy)
 
-    if (requestQuery.q) query.where('title', 'like', `%${requestQuery.q}%`)
+    if (request.q) query.where('title', 'like', `%${request.q}%`)
 
-    if (requestQuery.is_active) query.where('is_active', convertToBoolean(requestQuery.is_active))
+    if (request.is_active) query.where('is_active', convertToBoolean(request.is_active))
 
-    return query.paginate(pagination(requestQuery))
+    return query.paginate(pagination(request))
   }
 
-  export const findById = (id: string) => Query().where('pages.id', Number(id)).first()
+  public findById = (id: string) => this.Query().where('pages.id', Number(id)).first()
 
-  export const store = (requestBody: Entity.Struct) =>
-    Pages().insert({
-      ...requestBody,
+  public store = (request: PageEntity.Struct) =>
+    this.Pages().insert({
+      ...request,
       created_at: new Date(),
     })
 
-  export const destroy = (id: number) => Pages().where('id', id).delete()
+  public destroy = (id: number) => this.Pages().where('id', id).delete()
 
-  export const update = (requestBody: Entity.Struct, id: number) =>
-    Pages()
+  public update = (request: PageEntity.Struct, id: number) =>
+    this.Pages()
       .where('id', id)
       .update({
-        ...requestBody,
+        ...request,
         updated_at: new Date(),
       })
 
-  export const createFile = (requestBody: Entity.StructFile) =>
-    Files()
+  public createFile = (request: PageEntity.StructFile) =>
+    this.Files()
       .insert({
-        ...requestBody,
+        ...request,
         created_at: new Date(),
       })
       .onConflict('source')
       .merge(['name', 'created_at'])
 
-  export const updateFile = (requestBody: Entity.StructFile, id: number) =>
-    Files()
+  public updateFile = (request: PageEntity.StructFile, id: number) =>
+    this.Files()
       .where('id', id)
       .update({
-        ...requestBody,
+        ...request,
       })
 }

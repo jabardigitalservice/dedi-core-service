@@ -1,50 +1,58 @@
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
-import { Page as Entity } from './page_entity'
-import { Page as Service } from './page_service'
+import { getUser, User } from '../../helpers/rbac'
+import { PageEntity } from './page_entity'
+import { PageService } from './page_service'
 
-export namespace Page {
-  export const findAll = async (
-    req: Request<never, never, never, Entity.RequestQuery>,
+export class PageHandler {
+  private pageService: PageService
+
+  constructor(pageService: PageService = new PageService()) {
+    this.pageService = pageService
+  }
+
+  public findAll = async (
+    req: Request<never, never, never, PageEntity.RequestQuery>,
     res: Response,
     next: NextFunction
   ) => {
-    const result: Entity.ResponseFindAll = await Service.findAll(req.query)
+    const result: PageEntity.ResponseFindAll = await this.pageService.findAll(req.query)
 
     res.status(httpStatus.OK).json(result)
   }
 
-  export const findById = async (req: Request, res: Response, next: NextFunction) => {
+  public findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
-      const result: Entity.ResponseFindById = await Service.findById(id)
+      const result: PageEntity.ResponseFindById = await this.pageService.findById(id)
       res.status(httpStatus.OK).json(result)
     } catch (error) {
       next(error)
     }
   }
 
-  export const store = async (req: Request, res: Response, next: NextFunction) => {
-    const { body, user } = req
-    await Service.store(body, user)
+  public store = async (req: Request, res: Response) => {
+    const user: User = getUser(req)
+    const { body } = req
+    await this.pageService.store(body, user)
     res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
-  export const destroy = async (req: Request, res: Response, next: NextFunction) => {
+  public destroy = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
-      await Service.destroy(id)
+      await this.pageService.destroy(id)
       res.status(httpStatus.OK).json({ message: 'DELETED' })
     } catch (error) {
       next(error)
     }
   }
 
-  export const update = async (req: Request, res: Response, next: NextFunction) => {
+  public update = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
       const { body } = req
-      await Service.update(body, id)
+      await this.pageService.update(body, id)
       res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
       next(error)

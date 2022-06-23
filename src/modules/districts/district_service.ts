@@ -1,9 +1,15 @@
 import { isRequestBounds } from '../../helpers/polygon'
 import { District as Entity } from './district_entity'
-import { District as Repository } from './district_repository'
+import { DistrictRepository } from './district_repository'
 
-export namespace District {
-  const responseWithLocation = (items: any[]): Entity.WithLocation[] => {
+export class DistrictService {
+  private districtRepository: DistrictRepository
+
+  constructor(districtRepository: DistrictRepository = new DistrictRepository()) {
+    this.districtRepository = districtRepository
+  }
+
+  private responseWithLocation = (items: any[]): Entity.WithLocation[] => {
     const data: Entity.WithLocation[] = []
     for (const item of items) {
       data.push({
@@ -23,16 +29,16 @@ export namespace District {
     return data
   }
 
-  export const withLocation = async (
-    requestQuery: Entity.RequestQueryWithLocation
+  public withLocation = async (
+    request: Entity.RequestQueryWithLocation
   ): Promise<Entity.ResponseWithLocation> => {
-    const items: any = isRequestBounds(requestQuery.bounds)
-      ? await Repository.withLocation(requestQuery)
+    const items: any = isRequestBounds(request.bounds)
+      ? await this.districtRepository.withLocation(request)
       : []
-    const total: any = await Repository.getTotalWithLocation()
+    const total: any = await this.districtRepository.getTotalWithLocation()
 
     const result: Entity.ResponseWithLocation = {
-      data: responseWithLocation(items),
+      data: this.responseWithLocation(items),
       meta: {
         total: total.total,
       },
@@ -41,10 +47,10 @@ export namespace District {
     return result
   }
 
-  export const suggestion = async (
-    requestQuery: Entity.RequestQuerySuggestion
+  public suggestion = async (
+    request: Entity.RequestQuerySuggestion
   ): Promise<Entity.ResponseSuggestion> => {
-    const items: any = await Repository.suggestion(requestQuery)
+    const items: any = await this.districtRepository.suggestion(request)
 
     const result: Entity.ResponseSuggestion = {
       data: items,
