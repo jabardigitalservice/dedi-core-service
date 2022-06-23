@@ -19,14 +19,14 @@ export class TestimonialHandler {
       req.query
     )
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 
   public store = async (req: Request, res: Response) => {
     const user: User = getUser(req)
     const { body } = req
     await this.testimonialService.store(body, user)
-    res.status(httpStatus.CREATED).json({ message: 'CREATED' })
+    return res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 
   public update = async (req: Request, res: Response, next: NextFunction) => {
@@ -34,9 +34,9 @@ export class TestimonialHandler {
       const { body } = req
       const { id } = req.params
       await this.testimonialService.update(body, id)
-      res.status(httpStatus.OK).json({ message: 'UPDATED' })
+      return res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -44,9 +44,9 @@ export class TestimonialHandler {
     try {
       const { id } = req.params
       await this.testimonialService.destroy(id)
-      res.status(httpStatus.OK).json({ message: 'DELETED' })
+      return res.status(httpStatus.OK).json({ message: 'DELETED' })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -54,9 +54,9 @@ export class TestimonialHandler {
     try {
       const { id } = req.params
       const result: TestimonialEntity.ResponseFindById = await this.testimonialService.findById(id)
-      res.status(httpStatus.OK).json(result)
+      return res.status(httpStatus.OK).json(result)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 }

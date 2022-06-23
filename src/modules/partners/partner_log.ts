@@ -15,6 +15,6 @@ export namespace PartnerLog {
       })
     }
 
-    next()
+    return next()
   }
 }

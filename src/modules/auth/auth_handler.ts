@@ -16,9 +16,9 @@ export class AuthHandler {
     try {
       const { body } = req
       await this.authService.signUp(body)
-      res.status(httpStatus.CREATED).json({ message: 'CREATED' })
+      return res.status(httpStatus.CREATED).json({ message: 'CREATED' })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -27,9 +27,9 @@ export class AuthHandler {
       const { body } = req
       const result: AuthEntity.ResponseJWT = await this.authService.signIn(body)
       AuthLog.signIn(body)
-      res.status(httpStatus.OK).json(result)
+      return res.status(httpStatus.OK).json(result)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -37,9 +37,9 @@ export class AuthHandler {
     try {
       const { body } = req
       const result: AuthEntity.ResponseJWT = await this.authService.refreshToken(body)
-      res.status(httpStatus.OK).json(result)
+      return res.status(httpStatus.OK).json(result)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -47,9 +47,9 @@ export class AuthHandler {
     try {
       const { body } = req
       await this.authService.signOut(body)
-      res.status(httpStatus.OK).json({ message: 'LOGOUT' })
+      return res.status(httpStatus.OK).json({ message: 'LOGOUT' })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -57,9 +57,9 @@ export class AuthHandler {
     try {
       const user: User = getUser(req)
       const result: AuthEntity.ResponseMe = await this.authService.me(user)
-      res.status(httpStatus.OK).json(result)
+      return res.status(httpStatus.OK).json(result)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -67,9 +67,9 @@ export class AuthHandler {
     try {
       const { body } = req
       const result: AuthEntity.ResponseForgotPassword = await this.authService.forgotPassword(body)
-      res.status(httpStatus.OK).json(result)
+      return res.status(httpStatus.OK).json(result)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -77,9 +77,9 @@ export class AuthHandler {
     try {
       const result: AuthEntity.ResponseForgotPasswordVerify =
         await this.authService.forgotPasswordVerify(req)
-      res.status(httpStatus.OK).json(result)
+      return res.status(httpStatus.OK).json(result)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -87,9 +87,9 @@ export class AuthHandler {
     try {
       const { body } = req
       await this.authService.resetPassword(req, body)
-      res.status(httpStatus.OK).json({ message: 'UPDATED' })
+      return res.status(httpStatus.OK).json({ message: 'UPDATED' })
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 }

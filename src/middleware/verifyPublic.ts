@@ -9,12 +9,12 @@ export default (req: Request, res: Response, next: NextFunction) => {
   const { authorization, 'x-api-key': xApiKey } = req.headers
 
   if (!authorization && xApiKey !== config.get('app.secret')) {
-    next(new HttpError(httpStatus.FORBIDDEN, lang.__('auth.grant.access')))
+    return next(new HttpError(httpStatus.FORBIDDEN, lang.__('auth.grant.access')))
   }
 
   if (authorization) {
     return verifyAccessToken(req, res, next)
   }
 
-  next()
+  return next()
 }

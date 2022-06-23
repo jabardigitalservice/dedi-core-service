@@ -25,6 +25,6 @@ export namespace VillageLog {
       })
     }
 
-    next()
+    return next()
   }
 }

@@ -9,9 +9,9 @@ export namespace File {
     try {
       const result: Entity.ResponseUpload = await Service.upload(req, res)
 
-      res.status(httpStatus.OK).json(result)
+      return res.status(httpStatus.OK).json(result)
     } catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
@@ -27,6 +27,6 @@ export namespace File {
       meta: {},
     }
 
-    res.status(httpStatus.OK).json(result)
+    return res.status(httpStatus.OK).json(result)
   }
 }
