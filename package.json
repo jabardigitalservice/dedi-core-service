@@ -81,7 +81,7 @@
     "typescript": "^4.4.3"
   },
   "scripts": {
-    "start": "node build/src/server.js",
+    "start": "NEW_RELIC_NO_CONFIG_FILE=true NEW_RELIC_LOG_ENABLED=false dotenv -e .env node build/src/server.js",
     "dev": "concurrently --kill-others \"npm run ts\" \"nodemon build/src/server.js\"",
     "ts": "rm -rf build && tsc -w",
     "build": "rm -rf build && tsc --project .",

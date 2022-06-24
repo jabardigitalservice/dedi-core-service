@@ -38,8 +38,4 @@ config.set('gcloud.key', decodeBase64(config.get('gcloud.key')))
 
 config.set('file.type', config.get('file.type', 'jpg|png|svg|jpeg|pdf'))
 
-config.set('new.relic.no.config.file', true)
-config.set('new.relic.log.enabled', true)
-config.set('new.relic.slow.sql.enabled', true)
-
 export default config
