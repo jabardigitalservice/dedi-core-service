@@ -108,7 +108,6 @@ export class VillageRepository {
       .where('id', id)
       .update({
         ...request,
-        is_active: true,
         updated_at: new Date(),
       })
 }

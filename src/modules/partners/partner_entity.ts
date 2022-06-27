@@ -32,6 +32,7 @@ export namespace PartnerEntity {
 
   export interface RequestQuery extends Query {
     name: string
+    is_verified: string
     per_page: string
     current_page: string
   }
