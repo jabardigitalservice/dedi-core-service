@@ -1,4 +1,5 @@
 import database from '../../config/database'
+import { convertToBoolean } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
 import { PartnerEntity } from './partner_entity'
 
@@ -21,16 +22,19 @@ export class PartnerRepository {
       .leftJoin('files', 'files.source', '=', 'logo')
 
     if (request.name) query.where('partners.name', 'LIKE', `%${request.name}%`)
+    if (convertToBoolean(request.is_verified)) query.whereNotNull('partners.verified_at')
 
     return query.paginate(pagination(request))
   }
 
-  public getLastUpdate = () => {
+  public getLastUpdate = (request: PartnerEntity.RequestQuery) => {
     const query = this.Partners()
       .select('created_at')
       .whereNull('deleted_at')
       .orderBy('created_at', 'desc')
       .first()
+
+    if (convertToBoolean(request.is_verified)) query.whereNotNull('partners.verified_at')
 
     return query
   }

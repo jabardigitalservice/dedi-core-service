@@ -17,6 +17,7 @@ describe('seed data', () => {
       website: 'https://test.com',
       created_at: timestamp,
       updated_at: timestamp,
+      verified_at: timestamp,
     })
   })
 })
@@ -92,7 +93,7 @@ describe('tests partners', () => {
   it('test success find all with query name', async () =>
     request(app)
       .get('/v1/partners')
-      .query({ name: 'test' })
+      .query({ name: 'test', is_verified: true })
       .expect(httpStatus.OK)
       .then((response) => {
         expect(response.body).toEqual(expectBodyFindAll)

@@ -38,7 +38,7 @@ export class PartnerService {
   ): Promise<PartnerEntity.ResponseFindAll> => {
     const items: any = await this.partnerRepository.findAll(request)
 
-    const lastUpdate = await this.partnerRepository.getLastUpdate()
+    const lastUpdate = await this.partnerRepository.getLastUpdate(request)
 
     const result: PartnerEntity.ResponseFindAll = {
       data: this.responseFindAll(items.data),
