@@ -163,6 +163,22 @@ describe('tests villages', () => {
 })
 
 describe('tests villages', () => {
+  it('test success with location find all', async () =>
+    request(app)
+      .get('/v1/villages/with-location')
+      .query({
+        bounds: {
+          sw: '107.4312207548229,-7.044551821267334',
+          ne: '107.78594184930455,-6.79575221317816',
+        },
+      })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectBodyFindAllBounds)
+      }))
+})
+
+describe('tests villages', () => {
   it('test success questionnaire', async () =>
     request(app)
       .post('/v1/villages/questionnaire')
