@@ -1,3 +1,4 @@
+import 'jest-extended'
 import request from 'supertest'
 import faker from 'faker'
 import httpStatus from 'http-status'
@@ -46,7 +47,7 @@ const accessToken = createAccessToken({
   adm: true,
 })
 
-const title = faker.lorem.slug(2)
+const title = faker.name.firstName()
 
 const data = (): PageEntity.RequestBody => ({
   title,
@@ -57,7 +58,7 @@ const data = (): PageEntity.RequestBody => ({
   image_original_name: faker.image.avatar(),
 })
 
-const dataRandomTitle = (): PageEntity.RequestBody => ({ ...data(), title: faker.lorem.slug(2) })
+const dataRandomTitle = (): PageEntity.RequestBody => ({ ...data(), title: faker.name.firstName() })
 
 let pagesId: number
 
