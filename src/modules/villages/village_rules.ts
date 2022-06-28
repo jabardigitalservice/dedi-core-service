@@ -9,11 +9,28 @@ export namespace VillageRules {
     source: Joi.string().regex(regexExtFile).allow(null),
   }).required()
 
-  export const vehicles = [
+  export const optionsVehicles = [
     'Motor',
     'Mobil',
     'Kendaraan Umum (Bus/Elf)',
     'Belum ada akses kendaraan',
+  ]
+
+  export const optionsTraining = ['Belum pernah', 'Pernah, 1-2 kali', 'Pernah, lebih dari 2 kali']
+
+  export const optionsDistribusi = [
+    'Ya, sudah tergabung dengan e-commerce',
+    'Tidak, saat ini belum tergabung dengan e-commerce',
+  ]
+
+  export const optionsPotency = [
+    'Pertanian',
+    'Perikanan',
+    'Kesehatan',
+    'Pendidikan',
+    'Pengelolaan Sampah (Waste Management)',
+    'Multimedia',
+    'Lainnya',
   ]
 
   const ruleArrayString = Joi.array().items(Joi.string().regex(regexAlphanumeric).trim()).required()
@@ -29,7 +46,7 @@ export namespace VillageRules {
   const ruleLevel1 = Joi.object({
     akses_kendaraan: Joi.object({
       data: Joi.array()
-        .items(Joi.string().valid(...vehicles))
+        .items(Joi.string().valid(...optionsVehicles))
         .required()
         .min(1),
       photo: file,
@@ -73,12 +90,18 @@ export namespace VillageRules {
       bumdes: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
     komoditas: Joi.object({
-      data: Joi.string().regex(regexAlphanumeric).trim().allow(null),
+      data: Joi.string()
+        .valid(...optionsTraining)
+        .trim()
+        .allow(null),
       photo: file,
       produktivitas: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
     ecommerce: Joi.object({
-      data: ruleArrayString,
+      data: Joi.array()
+        .items(Joi.string().valid(...optionsDistribusi))
+        .required()
+        .min(1),
       ecommerce_lainnya: Joi.string().regex(regexAlphanumeric).trim().allow(null),
       distribusi: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }),
@@ -86,7 +109,11 @@ export namespace VillageRules {
   }).required()
 
   const ruleLevel4 = Joi.object({
-    data: ruleArrayString.max(3),
+    data: Joi.array()
+      .items(Joi.string().valid(...optionsPotency))
+      .required()
+      .min(1)
+      .max(3),
     photo: file,
     potensi_lainnya: Joi.string().regex(regexAlphanumeric).allow(null),
     potensi_dapat_dikembangkan: Joi.string().regex(regexAlphanumeric).trim().allow(null),
