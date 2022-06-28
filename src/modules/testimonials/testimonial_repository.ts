@@ -37,7 +37,7 @@ export class TestimonialRepository {
 
     const query = this.Query().orderBy(orderBy, sortBy)
 
-    if (request.is_active)
+    if (convertToBoolean(request.is_active))
       query.where('testimonials.is_active', convertToBoolean(request.is_active))
 
     if (request.type) query.where('type', request.type)

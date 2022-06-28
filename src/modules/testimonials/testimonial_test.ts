@@ -9,7 +9,7 @@ import { createAccessToken } from '../../middleware/jwt'
 import app from '../../server'
 import { TestimonialEntity } from './testimonial_entity'
 
-const isActive = faker.random.arrayElement(['true', 'false'])
+const isActive = true
 const type = faker.random.arrayElement([config.get('role.1'), config.get('role.2')])
 const name = faker.name.firstName()
 const partnerId = uuidv4()

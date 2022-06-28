@@ -33,7 +33,8 @@ export class UserRepository {
 
     const query = this.Query().orderBy(orderBy, sortBy)
 
-    if (request.is_active) query.where('users.is_active', convertToBoolean(request.is_active))
+    if (convertToBoolean(request.is_active))
+      query.where('users.is_active', convertToBoolean(request.is_active))
 
     if (request.is_admin) query.where('users.is_admin', convertToBoolean(request.is_admin))
 

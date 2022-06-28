@@ -16,13 +16,13 @@ export namespace VillageRules {
     'Belum ada akses kendaraan',
   ]
 
-  const ruleArrayString = Joi.array().items(Joi.string().regex(regexAlphanumeric)).required()
+  const ruleArrayString = Joi.array().items(Joi.string().regex(regexAlphanumeric).trim()).required()
 
   const ruleApplicant = Joi.object({
-    nama: Joi.string().regex(regexAlphanumeric).required(),
-    posisi: Joi.string().regex(regexAlphanumeric).required(),
+    nama: Joi.string().regex(regexAlphanumeric).trim().required(),
+    posisi: Joi.string().regex(regexAlphanumeric).trim().required(),
     file,
-    nomor_telepon: Joi.string().regex(regexAlphanumeric).required(),
+    nomor_telepon: Joi.string().regex(regexAlphanumeric).trim().required(),
     email: Joi.string().email().required(),
   }).required()
 
@@ -35,18 +35,18 @@ export namespace VillageRules {
       photo: file,
     }).required(),
     suplai_listrik: Joi.object({
-      data: Joi.string().regex(regexAlphanumeric).required(),
+      data: Joi.string().regex(regexAlphanumeric).trim().required(),
       photo: file,
     }).required(),
     jaringan_telepon: Joi.object({
-      data: Joi.string().regex(regexAlphanumeric).required(),
+      data: Joi.string().regex(regexAlphanumeric).trim().required(),
       photo: file,
-      operator: Joi.string().regex(regexAlphanumeric).allow(null),
+      operator: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
     jaringan_internet: Joi.object({
-      data: Joi.string().regex(regexAlphanumeric).required(),
+      data: Joi.string().regex(regexAlphanumeric).trim().required(),
       photo: file,
-      website: Joi.string().regex(regexAlphanumeric).allow(null),
+      website: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
   }).required()
 
@@ -56,9 +56,9 @@ export namespace VillageRules {
       photo: file,
     }).required(),
     pelatihan: Joi.object({
-      data: Joi.string().regex(regexAlphanumeric).required(),
+      data: Joi.string().regex(regexAlphanumeric).trim().required(),
       photo: file,
-      pelatihan: Joi.string().regex(regexAlphanumeric).allow(null),
+      pelatihan: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
   }).required()
 
@@ -68,28 +68,28 @@ export namespace VillageRules {
       photo: file,
     }).required(),
     bumdes: Joi.object({
-      data: Joi.string().regex(regexAlphanumeric).required(),
+      data: Joi.string().regex(regexAlphanumeric).trim().required(),
       photo: file,
-      bumdes: Joi.string().regex(regexAlphanumeric).allow(null),
+      bumdes: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
     komoditas: Joi.object({
-      data: Joi.string().regex(regexAlphanumeric).allow(null),
+      data: Joi.string().regex(regexAlphanumeric).trim().allow(null),
       photo: file,
-      produktivitas: Joi.string().regex(regexAlphanumeric).allow(null),
+      produktivitas: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
     ecommerce: Joi.object({
       data: ruleArrayString,
-      ecommerce_lainnya: Joi.string().regex(regexAlphanumeric).allow(null),
-      distribusi: Joi.string().regex(regexAlphanumeric).allow(null),
+      ecommerce_lainnya: Joi.string().regex(regexAlphanumeric).trim().allow(null),
+      distribusi: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }),
-    logistik: Joi.string().regex(regexAlphanumeric).allow(null),
+    logistik: Joi.string().regex(regexAlphanumeric).trim().allow(null),
   }).required()
 
   const ruleLevel4 = Joi.object({
     data: ruleArrayString.max(3),
     photo: file,
     potensi_lainnya: Joi.string().regex(regexAlphanumeric).allow(null),
-    potensi_dapat_dikembangkan: Joi.string().regex(regexAlphanumeric).allow(null),
+    potensi_dapat_dikembangkan: Joi.string().regex(regexAlphanumeric).trim().allow(null),
   }).required()
 
   const getRuleLevel = (ruleLevelSchema: Joi.Schema, ruleLevelValid: number[]) =>

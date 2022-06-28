@@ -32,11 +32,10 @@ export class PartnerRepository {
       .select('created_at')
       .whereNull('deleted_at')
       .orderBy('created_at', 'desc')
-      .first()
 
     if (convertToBoolean(request.is_verified)) query.whereNotNull('partners.verified_at')
 
-    return query
+    return query.first()
   }
 
   public suggestion = (request: PartnerEntity.RequestQuerySuggestion) => {

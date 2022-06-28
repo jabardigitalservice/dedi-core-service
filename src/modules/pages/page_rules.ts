@@ -14,7 +14,7 @@ export namespace PageRules {
   })
 
   const validate = Joi.object({
-    title: Joi.string().regex(regexAlphanumeric).max(70).required(),
+    title: Joi.string().regex(regexAlphanumeric).trim().max(70).required(),
     link: Joi.string().uri().max(255).required(),
     order: Joi.number().required(),
     is_active: Joi.boolean().required(),

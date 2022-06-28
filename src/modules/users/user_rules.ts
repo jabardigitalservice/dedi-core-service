@@ -17,7 +17,7 @@ export namespace UserRules {
   const email = Joi.string().email().max(150).required()
 
   const validate = {
-    name: Joi.string().regex(regexAlphanumeric).min(3).max(100).required(),
+    name: Joi.string().regex(regexAlphanumeric).trim().min(3).max(100).required(),
     email,
     avatar: Joi.string().regex(regexExtFile).max(255).required(),
     avatar_original_name: Joi.string().regex(regexExtFile).max(255).required(),
