@@ -101,7 +101,7 @@ const requestBodyQuestionnaire = {
     },
     fasilitas_desa: {
       akses_kendaraan: {
-        data: [faker.random.arrayElement(VillageRules.vehicles)],
+        data: [faker.random.arrayElement(VillageRules.optionsVehicles)],
         photo: file(),
       },
       suplai_listrik: {
