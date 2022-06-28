@@ -73,7 +73,10 @@ export namespace VillageRules {
       photo: file,
     }).required(),
     pelatihan: Joi.object({
-      data: Joi.string().valid(...optionsTraining).trim().required(),
+      data: Joi.string()
+        .valid(...optionsTraining)
+        .trim()
+        .required(),
       photo: file,
       pelatihan: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
@@ -92,7 +95,10 @@ export namespace VillageRules {
     komoditas: Joi.object({
       data: Joi.string().regex(regexAlphanumeric).trim().allow(null),
       photo: file,
-      produktivitas: Joi.string().valid(...optionsDistribusi).trim().allow(null),
+      produktivitas: Joi.string()
+        .valid(...optionsDistribusi)
+        .trim()
+        .allow(null),
     }).required(),
     ecommerce: Joi.object({
       data: ruleArrayString.min(1),
