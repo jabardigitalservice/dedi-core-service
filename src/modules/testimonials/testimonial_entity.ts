@@ -59,7 +59,7 @@ export namespace TestimonialEntity {
     avatar: string
     avatar_original_name: string
     type: string
-    is_active: string
+    is_active: boolean
     partner_id?: string
     village_id?: string
   }
