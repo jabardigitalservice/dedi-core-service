@@ -95,15 +95,15 @@ export namespace VillageRules {
     komoditas: Joi.object({
       data: Joi.string().regex(regexAlphanumeric).trim().allow(null),
       photo: file,
-      produktivitas: Joi.string()
-        .valid(...optionsDistribusi)
-        .trim()
-        .allow(null),
+      produktivitas: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
     ecommerce: Joi.object({
       data: ruleArrayString.min(1),
       ecommerce_lainnya: Joi.string().regex(regexAlphanumeric).trim().allow(null),
-      distribusi: Joi.string().regex(regexAlphanumeric).trim().allow(null),
+      distribusi: Joi.string()
+        .valid(...optionsDistribusi)
+        .trim()
+        .allow(null),
     }),
     logistik: Joi.string().regex(regexAlphanumeric).trim().allow(null),
   }).required()
