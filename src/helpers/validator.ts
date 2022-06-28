@@ -60,7 +60,7 @@ export const validate =
       cache: true,
     })
 
-    if (req[property] === 'body') {
+    if (property === 'body') {
       req.body = value
     }
 

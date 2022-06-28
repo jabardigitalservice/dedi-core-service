@@ -13,8 +13,8 @@ export namespace AuthRules {
   const email = Joi.string().email().max(150).required()
 
   export const signUp = Joi.object({
-    name: Joi.string().regex(regexAlphanumeric).max(100).required(),
-    company: Joi.string().regex(regexAlphanumeric).allow(null).default(null),
+    name: Joi.string().regex(regexAlphanumeric).trim().max(100).required(),
+    company: Joi.string().regex(regexAlphanumeric).trim().allow(null).default(null),
     partner_id: Joi.string().uuid().allow(null).default(null),
     email,
     ...rulesPassword,

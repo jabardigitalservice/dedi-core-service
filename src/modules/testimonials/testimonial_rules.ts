@@ -16,8 +16,8 @@ export namespace TestimonialRules {
   })
 
   const validate = Joi.object({
-    name: Joi.string().regex(regexAlphanumeric).max(100).required(),
-    description: Joi.string().regex(regexAlphanumeric).required(),
+    name: Joi.string().regex(regexAlphanumeric).trim().max(100).required(),
+    description: Joi.string().regex(regexAlphanumeric).trim().required(),
     avatar: Joi.string().regex(regexExtFile).max(255).required(),
     avatar_original_name: Joi.string().regex(regexExtFile).max(255).required(),
     type: Joi.string()
