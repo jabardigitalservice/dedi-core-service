@@ -27,7 +27,8 @@ export class CityRepository {
     const query = this.Cities().select('id', 'name').orderBy('name', 'asc')
 
     if (request.name) query.where('name', 'LIKE', `%${request.name}%`)
-    if (request.is_active) query.where('is_active', convertToBoolean(request.is_active))
+    if (convertToBoolean(request.is_active))
+      query.where('is_active', convertToBoolean(request.is_active))
 
     return query
   }

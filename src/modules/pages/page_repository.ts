@@ -32,7 +32,8 @@ export class PageRepository {
 
     if (request.q) query.where('title', 'like', `%${request.q}%`)
 
-    if (request.is_active) query.where('is_active', convertToBoolean(request.is_active))
+    if (convertToBoolean(request.is_active))
+      query.where('is_active', convertToBoolean(request.is_active))
 
     return query.paginate(pagination(request))
   }

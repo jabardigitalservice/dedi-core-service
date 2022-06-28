@@ -36,7 +36,8 @@ export class DistrictRepository {
     const query = this.Districts().select('id', 'name').orderBy('name', 'asc')
 
     if (request.name) query.where('name', 'LIKE', `%${request.name}%`)
-    if (request.is_active) query.where('is_active', convertToBoolean(request.is_active))
+    if (convertToBoolean(request.is_active))
+      query.where('is_active', convertToBoolean(request.is_active))
     if (request.city_id) query.where('city_id', request.city_id)
 
     return query
