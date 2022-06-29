@@ -1,16 +1,7 @@
 import { S3 } from 'aws-sdk'
 import { Storage } from '@google-cloud/storage'
 import config from '.'
-
-const IsJsonString = (str: string) => {
-  let isJsonString = true
-  try {
-    JSON.parse(str)
-  } catch (e) {
-    isJsonString = false
-  }
-  return isJsonString
-}
+import { IsJsonString } from '../helpers/constant'
 
 export const s3 = new S3({
   accessKeyId: config.get('aws.access.key.id'),
