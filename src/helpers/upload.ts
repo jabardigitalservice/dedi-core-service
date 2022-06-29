@@ -52,6 +52,8 @@ const checkFileType = (file: Express.Multer.File, cb: FileFilterCallback) => {
   cb(formatError(file.fieldname, lang.__('validation.file.mimetypes', customMessage)))
 }
 
+const getErrorMessage = (err: any) => IsJsonString(err.message) ? JSON.parse(err.message).file : err.message
+
 const getError = (err: any, requestFile: RequestFile, fileSize: number): HttpError => {
   let message: string
 
@@ -60,11 +62,10 @@ const getError = (err: any, requestFile: RequestFile, fileSize: number): HttpErr
     max: fileSize.toString(),
   }
 
-
   if (err && err.code === 'LIMIT_FILE_SIZE') {
     message = lang.__('validation.file.size', customMessage)
   } else if (err && typeof err.code !== 'string') {
-    message = IsJsonString(err.message) ? JSON.parse(err.message).file : err.message
+    message = getErrorMessage(err)
   } else if (!err && requestFile.req.file === undefined) {
     message = lang.__('validation.any.required', customMessage)
   }
