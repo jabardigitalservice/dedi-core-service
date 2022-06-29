@@ -6,6 +6,7 @@ import { ParamsDictionary } from 'express-serve-static-core'
 import { HttpError } from '../handler/exception'
 import lang from '../lang'
 import config from '../config'
+import { IsJsonString } from './constant'
 
 interface StructErrors {
   [key: string]: string
@@ -59,12 +60,11 @@ const getError = (err: any, requestFile: RequestFile, fileSize: number): HttpErr
     max: fileSize.toString(),
   }
 
+
   if (err && err.code === 'LIMIT_FILE_SIZE') {
     message = lang.__('validation.file.size', customMessage)
   } else if (err && typeof err.code !== 'string') {
-    const parseError = JSON.parse(err.message)
-    const error = parseError.file
-    message = error
+    message = IsJsonString(err.message) ? JSON.parse(err.message).file : err.message
   } else if (!err && requestFile.req.file === undefined) {
     message = lang.__('validation.any.required', customMessage)
   }
