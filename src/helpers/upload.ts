@@ -52,7 +52,8 @@ const checkFileType = (file: Express.Multer.File, cb: FileFilterCallback) => {
   cb(formatError(file.fieldname, lang.__('validation.file.mimetypes', customMessage)))
 }
 
-const getErrorMessage = (err: any) => IsJsonString(err.message) ? JSON.parse(err.message).file : err.message
+const getErrorMessage = (err: any) =>
+  IsJsonString(err.message) ? JSON.parse(err.message).file : err.message
 
 const getError = (err: any, requestFile: RequestFile, fileSize: number): HttpError => {
   let message: string
