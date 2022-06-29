@@ -98,7 +98,7 @@ export namespace VillageRules {
       produktivitas: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
     ecommerce: Joi.object({
-      data: ruleArrayString.min(1),
+      data: ruleArrayString,
       ecommerce_lainnya: Joi.string().regex(regexAlphanumeric).trim().allow(null),
       distribusi: Joi.string()
         .valid(...optionsDistribusi)
