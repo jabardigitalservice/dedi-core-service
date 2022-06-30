@@ -27,7 +27,7 @@ interface UploadPromise {
 type MulterFile = Express.Multer.File | null
 
 const fileType = config.get('file.type')
-const fileSize = Number(config.get('file.max', 10)) * 1000000 // set default size max 10 mb
+const fileSize = Number(config.get('file.max')) * 1024 * 1024
 
 const formatError = (fieldName: string, message: string): HttpError => {
   const errors: StructErrors = {
@@ -55,12 +55,12 @@ const checkFileType = (file: Express.Multer.File, cb: FileFilterCallback) => {
 const getErrorMessage = (err: any) =>
   IsJsonString(err.message) ? JSON.parse(err.message).file : err.message
 
-const getError = (err: any, requestFile: RequestFile, fileSize: number): HttpError => {
+const getError = (err: any, requestFile: RequestFile): HttpError => {
   let message: string
 
   const customMessage = {
     attribute: requestFile.fieldName,
-    max: fileSize.toString(),
+    max: config.get('file.max'),
   }
 
   if (err && err.code === 'LIMIT_FILE_SIZE') {
@@ -77,7 +77,7 @@ const getError = (err: any, requestFile: RequestFile, fileSize: number): HttpErr
 const uploadFile = async (file: UploadPromise): Promise<MulterFile> =>
   new Promise((resolve, reject) => {
     file.upload(file.requestFile.req, file.requestFile.res, (err: any) => {
-      const error = getError(err, file.requestFile, file.fileSize)
+      const error = getError(err, file.requestFile)
       if (error) return reject(error)
       resolve(file.requestFile.req.file || null)
     })
