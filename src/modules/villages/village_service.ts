@@ -154,10 +154,12 @@ export class VillageService {
   ): Promise<number> => {
     const { id } = request
 
-    return this.villageRepository.questionnaire(id, {
+    const properties = {
       level: request.level,
-      properties: JSON.stringify(request.properties),
-    })
+      properties: request.properties,
+    }
+
+    return this.villageRepository.questionnaire(id, JSON.stringify(properties))
   }
 
   public checkRegistered = async ({ id }: VillageEntity.RequestParamFindById): Promise<void> => {
