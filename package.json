@@ -78,8 +78,7 @@
     "supertest": "^6.1.6",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
-    "typescript": "^4.4.3",
-    "typescript-coverage-report": "^0.6.4"
+    "typescript": "^4.4.3"
   },
   "scripts": {
     "start": "node build/src/server.js",
@@ -97,8 +96,7 @@
     "migrate:test": "knex migrate:latest --cwd=src",
     "rollback:test": "knex migrate:rollback --cwd=src",
     "refresh:test": "npm run rollback:test && npm run migrate:test",
-    "test": "NODE_ENV=test dotenv -e .env npm run refresh:test && NODE_ENV=test NEW_RELIC_ENABLED=false dotenv -e .env jest",
-    "ts-coverage": "typescript-coverage-report -p ./src"
+    "test": "NODE_ENV=test dotenv -e .env npm run refresh:test && NODE_ENV=test NEW_RELIC_ENABLED=false dotenv -e .env jest"
   },
   "author": "ayocodingit",
   "license": "MIT"
