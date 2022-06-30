@@ -37,5 +37,6 @@ config.set('role.2', config.get('role.2', 'role.2'))
 config.set('gcloud.key', decodeBase64(config.get('gcloud.key')))
 
 config.set('file.type', config.get('file.type', 'jpg|png|svg|jpeg|pdf'))
+config.set('file.max', config.get('file.max', 10)) // Unit MB
 
 export default config
