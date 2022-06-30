@@ -48,4 +48,19 @@ export namespace CityEntity {
       total: number
     }
   }
+
+  export interface Repository {
+    GetTotalWithLocation: {
+      total: number
+    }
+    WithLocation: {
+      id: string
+      name: string
+      location: {
+        x: number
+        y: number
+      }
+    }[]
+    Suggestion: Suggestion[]
+  }
 }

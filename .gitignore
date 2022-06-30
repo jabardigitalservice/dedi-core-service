@@ -4,7 +4,7 @@ redis
 node_modules
 build
 *.sqlite
-coverage
+coverage*
 mongodb
 tmp
 newrelic_agent.log

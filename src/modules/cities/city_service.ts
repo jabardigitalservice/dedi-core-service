@@ -9,7 +9,9 @@ export class CityService {
     this.cityRepository = cityRepository
   }
 
-  private responseWithLocation = (items: any[]): CityEntity.WithLocation[] => {
+  private responseWithLocation = (
+    items: CityEntity.Repository['WithLocation']
+  ): CityEntity.WithLocation[] => {
     const data: CityEntity.WithLocation[] = []
     for (const item of items) {
       data.push({
@@ -28,10 +30,11 @@ export class CityService {
   public withLocation = async (
     request: CityEntity.RequestQueryWithLocation
   ): Promise<CityEntity.ResponseWithLocation> => {
-    const items: any = isRequestBounds(request.bounds)
-      ? await this.cityRepository.withLocation(request)
+    const items = isRequestBounds(request.bounds)
+      ? ((await this.cityRepository.withLocation(request)) as CityEntity.Repository['WithLocation'])
       : []
-    const total: any = await this.cityRepository.getTotalWithLocation()
+    const total =
+      (await this.cityRepository.getTotalWithLocation()) as CityEntity.Repository['GetTotalWithLocation']
 
     const result: CityEntity.ResponseWithLocation = {
       data: this.responseWithLocation(items),
@@ -46,7 +49,9 @@ export class CityService {
   public suggestion = async (
     request: CityEntity.RequestQuerySuggestion
   ): Promise<CityEntity.ResponseSuggestion> => {
-    const items: any = await this.cityRepository.suggestion(request)
+    const items = (await this.cityRepository.suggestion(
+      request
+    )) as CityEntity.Repository['Suggestion']
 
     const result: CityEntity.ResponseSuggestion = {
       data: items,

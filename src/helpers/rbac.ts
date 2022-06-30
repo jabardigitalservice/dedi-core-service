@@ -16,14 +16,14 @@ export interface User {
 }
 
 export const getRole = (user: User) => {
-  const partner = user.prtnr ? config.get('role.1') : config.get('role.2')
-  const role = user.adm ? config.get('role.0') : partner
+  const partner: string = user.prtnr ? config.get('role.1') : config.get('role.2')
+  const role: string = user.adm ? config.get('role.0') : partner
 
   return role
 }
 
 export const getUser = (req: Request): User => {
-  const decodeUser: any = req.user
+  const decodeUser = req.user as User
 
   return {
     identifier: decodeUser.identifier,
