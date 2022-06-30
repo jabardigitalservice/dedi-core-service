@@ -1,5 +1,10 @@
 <a href="https://codeclimate.com/github/jabardigitalservice/dedi-core-service/maintainability"><img src="https://api.codeclimate.com/v1/badges/cf5648a807905bcc3467/maintainability" /></a>
 <a href="https://codeclimate.com/github/jabardigitalservice/dedi-core-service/test_coverage"><img src="https://api.codeclimate.com/v1/badges/cf5648a807905bcc3467/test_coverage" /></a>
+<br>
+[![GitHub issues](https://img.shields.io/github/issues/jabardigitalservice/dedi-core-service)](https://github.com/jabardigitalservice/dedi-core-service/issues)
+[![GitHub forks](https://img.shields.io/github/forks/jabardigitalservice/dedi-core-service)](https://github.com/jabardigitalservice/dedi-core-service/network)
+[![GitHub stars](https://img.shields.io/github/stars/jabardigitalservice/dedi-core-service)](https://github.com/jabardigitalservice/dedi-core-service/stargazers)
+[![GitHub license](https://img.shields.io/github/license/jabardigitalservice/dedi-core-service)](https://github.com/jabardigitalservice/dedi-core-service/blob/main/LICENSE)
 
 
 # Desa Digital App
