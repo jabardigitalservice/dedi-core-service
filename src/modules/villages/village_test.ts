@@ -137,7 +137,7 @@ describe('seed data', () => {
       id: '123456789',
       name: 'test3',
       district_id: '1',
-      level: null,
+      level: 1,
       location: database.raw("ST_GeomFromText('POINT(107.5090974 -6.8342172)')"),
       images: JSON.stringify([faker.image.image(), faker.image.image()]),
       is_active: false,
