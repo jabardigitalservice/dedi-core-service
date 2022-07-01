@@ -3,6 +3,7 @@ import httpStatus from 'http-status'
 import { Request, Response, NextFunction } from 'express'
 import newrelic from 'newrelic'
 import { isNodeEnvProduction } from '../helpers/constant'
+import { logger } from '../helpers/logger'
 
 const isErrorCodeNotNumber = (error: any) =>
   typeof error.code === 'string' || typeof error.code === 'undefined'
@@ -26,7 +27,7 @@ export const onError = (error: any, req: Request, res: Response, next: NextFunct
   error.code = isErrorCodeNotNumber(error) ? isErrorStatusEmpty : error.code
 
   if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
-    const logger = {
+    const payloadError = {
       level: 'error',
       message: error.message,
       method: req.method,
@@ -36,9 +37,9 @@ export const onError = (error: any, req: Request, res: Response, next: NextFunct
       user: JSON.stringify(req.user),
     }
 
-    console.log(JSON.stringify(logger))
+    logger.info(payloadError)
 
-    newrelic.noticeError(error, logger)
+    newrelic.noticeError(error, payloadError)
   }
 
   return res.status(error.code).json(messageError(error))

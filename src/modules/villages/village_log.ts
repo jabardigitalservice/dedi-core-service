@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import logger from '../../helpers/logger'
+import { customLogger } from '../../helpers/logger'
 
 export namespace VillageLog {
   const searchBy = (req: Request): string => {
@@ -13,15 +13,15 @@ export namespace VillageLog {
 
   export const listWithLocation = () => (req: Request, res: Response, next: NextFunction) => {
     if (req.query.name || req.query.level) {
-      logger({
+      customLogger({
         level: 'info',
         message: `search by ${searchBy(req)}`,
         data: {
           name: req.query.name,
           level: req.query.level,
         },
-        service: 'list with location',
-        activity: 'search',
+        service: 'villages',
+        activity: 'search on list with location',
       })
     }
 
