@@ -153,11 +153,6 @@ describe('tests villages', () => {
 })
 
 describe('tests villages', () => {
-  it('test failed bad request check registered', async () =>
-    request(app).get('/v1/villages/123456785/check-registered').expect(httpStatus.BAD_REQUEST))
-})
-
-describe('tests villages', () => {
   it('test success check registered', async () =>
     request(app).get('/v1/villages/123456789/check-registered').expect(httpStatus.OK))
 })

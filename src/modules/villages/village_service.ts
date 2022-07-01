@@ -167,11 +167,5 @@ export class VillageService {
 
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))
-
-    if (item.level === 4)
-      throw new HttpError(
-        httpStatus.BAD_REQUEST,
-        lang.__('error.village.registered', { level: item.level })
-      )
   }
 }
