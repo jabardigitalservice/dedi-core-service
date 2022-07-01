@@ -37,7 +37,7 @@ export const onError = (error: any, req: Request, res: Response, next: NextFunct
       user: JSON.stringify(req.user),
     }
 
-    logger.info(JSON.stringify(payloadError))
+    logger.info(payloadError)
 
     newrelic.noticeError(error, payloadError)
   }
