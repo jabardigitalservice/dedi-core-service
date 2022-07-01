@@ -1,6 +1,9 @@
 import winston from 'winston'
 import { MongoDBConnectionOptions } from 'winston-mongodb'
+import newrelicFormatter from '@newrelic/winston-enricher'
 import config from '../config'
+
+const newrelicWinstonFormatter = newrelicFormatter(winston)
 
 interface Log {
   level: string
@@ -10,7 +13,9 @@ interface Log {
   activity: string
 }
 
-const logger = winston.createLogger()
+const logger = winston.createLogger({
+  format: winston.format.combine(newrelicWinstonFormatter()),
+})
 
 logger.add(new winston.transports.Console())
 
@@ -27,7 +32,7 @@ if (config.get('mongo.connection')) {
   logger.add(new winston.transports.MongoDB(configMongo))
 }
 
-export default (log: Log) => {
+const customLogger = (log: Log) => {
   logger[log.level]({
     message: log.message,
     meta: {
@@ -37,3 +42,5 @@ export default (log: Log) => {
     },
   })
 }
+
+export { customLogger, logger }

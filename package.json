@@ -5,6 +5,7 @@
   "main": "src/server.ts",
   "dependencies": {
     "@google-cloud/storage": "^5.18.1",
+    "@newrelic/winston-enricher": "^3.2.0",
     "accesscontrol": "^2.2.1",
     "apicache": "^1.6.2",
     "aws-sdk": "^2.1136.0",
