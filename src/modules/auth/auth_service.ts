@@ -40,7 +40,7 @@ export class AuthService {
     return this.authRepository.signUp(user)
   }
 
-  private generateJwtToken = (user: AuthEntity.StructUser): AuthEntity.ResponseJWT => {
+  private generateJwtToken = (user: AuthEntity.User): AuthEntity.ResponseJWT => {
     const identifier = user.id
     const access_token = jwt.createAccessToken({
       identifier,
