@@ -2,7 +2,7 @@ import { metaPaginate } from '../../helpers/paginate'
 import { Query } from '../../helpers/types'
 
 export namespace PartnerEntity {
-  export interface Struct {
+  export interface Partner {
     id?: string
     name: string
     category_id?: number

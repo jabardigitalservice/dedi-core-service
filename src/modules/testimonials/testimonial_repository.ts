@@ -5,9 +5,9 @@ import { pagination } from '../../helpers/paginate'
 import { TestimonialEntity } from './testimonial_entity'
 
 export class TestimonialRepository {
-  private Testimonials = () => database<TestimonialEntity.Struct>('testimonials')
+  private Testimonials = () => database<TestimonialEntity.Testimonial>('testimonials')
 
-  private Files = () => database<TestimonialEntity.StructFile>('files')
+  private Files = () => database<TestimonialEntity.File>('files')
 
   private Query = () =>
     this.Testimonials()
@@ -47,14 +47,14 @@ export class TestimonialRepository {
     return query.paginate(pagination(request))
   }
 
-  public store = (request: TestimonialEntity.Struct) =>
+  public store = (request: TestimonialEntity.Testimonial) =>
     this.Testimonials().insert({
       id: uuidv4(),
       ...request,
       created_at: new Date(),
     })
 
-  public update = (request: TestimonialEntity.Struct, id: string) =>
+  public update = (request: TestimonialEntity.Testimonial, id: string) =>
     this.Testimonials()
       .where('id', id)
       .update({
@@ -65,7 +65,7 @@ export class TestimonialRepository {
 
   public destroy = (id: string) => this.Testimonials().where('id', id).delete()
 
-  public createFile = (request: TestimonialEntity.StructFile) =>
+  public createFile = (request: TestimonialEntity.File) =>
     this.Files()
       .insert({
         ...request,
@@ -74,7 +74,7 @@ export class TestimonialRepository {
       .onConflict('source')
       .merge(['name', 'created_at'])
 
-  public updateFile = (request: TestimonialEntity.StructFile, id: number) =>
+  public updateFile = (request: TestimonialEntity.File, id: number) =>
     this.Files()
       .where('id', id)
       .update({

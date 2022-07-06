@@ -5,9 +5,9 @@ import { pagination } from '../../helpers/paginate'
 import { UserEntity } from './user_entity'
 
 export class UserRepository {
-  private Users = () => database<UserEntity.Struct>('users')
+  private Users = () => database<UserEntity.User>('users')
 
-  private Files = () => database<UserEntity.StructFile>('files')
+  private Files = () => database<UserEntity.File>('files')
 
   private Query = () =>
     this.Users()
@@ -47,7 +47,7 @@ export class UserRepository {
 
   public destroy = (id: number) => this.Users().where('id', id).delete()
 
-  public store = (request: UserEntity.Struct) =>
+  public store = (request: UserEntity.User) =>
     this.Users().insert({
       ...request,
       id: uuidv4(),
@@ -56,7 +56,7 @@ export class UserRepository {
       updated_at: new Date(),
     })
 
-  public createFile = (request: UserEntity.StructFile) =>
+  public createFile = (request: UserEntity.File) =>
     this.Files()
       .insert({
         ...request,
@@ -65,14 +65,14 @@ export class UserRepository {
       .onConflict('source')
       .merge(['name', 'created_at'])
 
-  public updateFile = (request: UserEntity.StructFile, id: number) =>
+  public updateFile = (request: UserEntity.File, id: number) =>
     this.Files()
       .where('id', id)
       .update({
         ...request,
       })
 
-  public update = (request: UserEntity.Struct, id: string) =>
+  public update = (request: UserEntity.User, id: string) =>
     this.Users()
       .where('id', id)
       .update({

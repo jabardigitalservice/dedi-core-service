@@ -1,7 +1,7 @@
 import { Query } from '../../helpers/types'
 
 export namespace District {
-  export interface Struct {
+  export interface District {
     id: string
     name: string
     city_id: string

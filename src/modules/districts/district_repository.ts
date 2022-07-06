@@ -4,7 +4,7 @@ import { getPolygon } from '../../helpers/polygon'
 import { District as Entity } from './district_entity'
 
 export class DistrictRepository {
-  private Districts = () => database<Entity.Struct>('districts')
+  private Districts = () => database<Entity.District>('districts')
 
   private getWherePolygon = (request: Entity.RequestQueryWithLocation) => {
     const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(

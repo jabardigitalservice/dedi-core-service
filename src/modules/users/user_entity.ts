@@ -2,7 +2,7 @@ import { metaPaginate } from '../../helpers/paginate'
 import { Query } from '../../helpers/types'
 
 export namespace UserEntity {
-  export interface Struct {
+  export interface User {
     id?: string
     name: string
     partner_id?: string
@@ -18,7 +18,7 @@ export namespace UserEntity {
     last_login_at?: Date
   }
 
-  export interface StructFile {
+  export interface File {
     id?: number
     name: string
     source: string

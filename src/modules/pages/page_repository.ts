@@ -4,9 +4,9 @@ import { pagination } from '../../helpers/paginate'
 import { PageEntity } from './page_entity'
 
 export class PageRepository {
-  private Pages = () => database<PageEntity.Struct>('pages')
+  private Pages = () => database<PageEntity.Page>('pages')
 
-  private Files = () => database<PageEntity.StructFile>('files')
+  private Files = () => database<PageEntity.File>('files')
 
   private Query = () =>
     this.Pages()
@@ -40,7 +40,7 @@ export class PageRepository {
 
   public findById = (id: string) => this.Query().where('pages.id', Number(id)).first()
 
-  public store = (request: PageEntity.Struct) =>
+  public store = (request: PageEntity.Page) =>
     this.Pages().insert({
       ...request,
       created_at: new Date(),
@@ -48,7 +48,7 @@ export class PageRepository {
 
   public destroy = (id: number) => this.Pages().where('id', id).delete()
 
-  public update = (request: PageEntity.Struct, id: number) =>
+  public update = (request: PageEntity.Page, id: number) =>
     this.Pages()
       .where('id', id)
       .update({
@@ -56,7 +56,7 @@ export class PageRepository {
         updated_at: new Date(),
       })
 
-  public createFile = (request: PageEntity.StructFile) =>
+  public createFile = (request: PageEntity.File) =>
     this.Files()
       .insert({
         ...request,
@@ -65,7 +65,7 @@ export class PageRepository {
       .onConflict('source')
       .merge(['name', 'created_at'])
 
-  public updateFile = (request: PageEntity.StructFile, id: number) =>
+  public updateFile = (request: PageEntity.File, id: number) =>
     this.Files()
       .where('id', id)
       .update({

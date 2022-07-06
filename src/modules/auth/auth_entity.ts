@@ -1,5 +1,5 @@
 export namespace AuthEntity {
-  export interface StructUser {
+  export interface User {
     id: string
     name: string
     avatar?: string
@@ -14,14 +14,14 @@ export namespace AuthEntity {
     last_login_at?: Date
   }
 
-  export interface StructPartner {
+  export interface Partner {
     id: string
     name: string
     deleted_at?: Date
     created_at: Date
   }
 
-  export interface StructOauthToken {
+  export interface OauthToken {
     id?: string
     user_id: string
     access_token: string

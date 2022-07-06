@@ -2,7 +2,7 @@ import { metaPaginate } from '../../helpers/paginate'
 import { Query } from '../../helpers/types'
 
 export namespace PageEntity {
-  export interface Struct {
+  export interface Page {
     id?: number
     created_by?: string
     title: string
@@ -14,7 +14,7 @@ export namespace PageEntity {
     updated_at?: Date
   }
 
-  export interface StructFile {
+  export interface File {
     id?: number
     name: string
     source: string

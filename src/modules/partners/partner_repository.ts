@@ -4,7 +4,7 @@ import { pagination } from '../../helpers/paginate'
 import { PartnerEntity } from './partner_entity'
 
 export class PartnerRepository {
-  private Partners = () => database<PartnerEntity.Struct>('partners')
+  private Partners = () => database<PartnerEntity.Partner>('partners')
 
   public findAll = (request: PartnerEntity.RequestQuery) => {
     const query = this.Partners()

@@ -1,7 +1,7 @@
 import { Query } from '../../helpers/types'
 
 export namespace CityEntity {
-  export interface Struct {
+  export interface City {
     id: string
     name: string
     is_active: boolean

@@ -3,11 +3,11 @@ import database from '../../config/database'
 import { AuthEntity } from './auth_entity'
 
 export class AuthRepository {
-  private Users = () => database<AuthEntity.StructUser>('users')
+  private Users = () => database<AuthEntity.User>('users')
 
-  private Partners = () => database<AuthEntity.StructPartner>('partners')
+  private Partners = () => database<AuthEntity.Partner>('partners')
 
-  private OauthTokens = () => database<AuthEntity.StructOauthToken>('oauth_tokens')
+  private OauthTokens = () => database<AuthEntity.OauthToken>('oauth_tokens')
 
   public createPartner = (partner: AuthEntity.PartnerCreate) =>
     this.Partners().insert({
@@ -62,14 +62,14 @@ export class AuthRepository {
   public deleteOauthbyRefreshToken = (request: AuthEntity.RequestBodyRefreshToken) =>
     this.OauthTokens().where('refresh_token', request.refresh_token).delete()
 
-  public createOauthToken = (oauthToken: AuthEntity.StructOauthToken) =>
+  public createOauthToken = (oauthToken: AuthEntity.OauthToken) =>
     this.OauthTokens().insert({
       ...oauthToken,
       id: uuidv4(),
       created_at: new Date(),
     })
 
-  public updateRefreshToken = (refreshToken: string, oauthToken: AuthEntity.StructOauthToken) =>
+  public updateRefreshToken = (refreshToken: string, oauthToken: AuthEntity.OauthToken) =>
     this.OauthTokens()
       .where('refresh_token', refreshToken)
       .update({

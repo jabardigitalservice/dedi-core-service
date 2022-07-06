@@ -4,7 +4,7 @@ import { getPolygon } from '../../helpers/polygon'
 import { CityEntity } from './city_entity'
 
 export class CityRepository {
-  private Cities = () => database<CityEntity.Struct>('cities')
+  private Cities = () => database<CityEntity.City>('cities')
 
   private getWherePolygon = (request: CityEntity.RequestQueryWithLocation) => {
     const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(request.bounds)}'), location)`
