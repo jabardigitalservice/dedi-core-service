@@ -5,7 +5,7 @@ import { getPolygon } from '../../helpers/polygon'
 import { VillageEntity } from './village_entity'
 
 export class VillageRepository {
-  private Villages = () => database<VillageEntity.Struct>('villages')
+  private Villages = () => database<VillageEntity.Village>('villages')
 
   private getWherePolygon = (request: VillageEntity.RequestQueryWithLocation) => {
     const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(

@@ -2,7 +2,7 @@ import { metaPaginate } from '../../helpers/paginate'
 import { Query } from '../../helpers/types'
 
 export namespace VillageEntity {
-  export interface Struct {
+  export interface Village {
     id: string
     name: string
     district_id: string

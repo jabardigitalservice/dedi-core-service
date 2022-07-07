@@ -2,7 +2,7 @@ import { metaPaginate } from '../../helpers/paginate'
 import { Query } from '../../helpers/types'
 
 export namespace TestimonialEntity {
-  export interface Struct {
+  export interface Testimonial {
     id?: string
     name: string
     description: string
@@ -15,7 +15,7 @@ export namespace TestimonialEntity {
     created_at?: Date
   }
 
-  export interface StructFile {
+  export interface File {
     id?: number
     name: string
     source: string
