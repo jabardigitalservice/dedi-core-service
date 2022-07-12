@@ -15,7 +15,7 @@ export namespace VillageLog {
     if (req.query.name || req.query.level) {
       customLogger({
         level: 'info',
-        message: `search by ${searchBy(req)}`,
+        message: `search by ${searchBy(req)} service village`,
         data: {
           name: req.query.name,
           level: req.query.level,

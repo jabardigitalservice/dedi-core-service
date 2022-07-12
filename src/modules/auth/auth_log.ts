@@ -5,7 +5,7 @@ export namespace AuthLog {
   export const signIn = (request: AuthEntity.RequestBodySignIn) => {
     customLogger({
       level: 'info',
-      message: 'user sign in',
+      message: 'sign in service auth',
       data: {
         email: request.email,
       },

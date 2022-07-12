@@ -6,7 +6,7 @@ export namespace TestimonialLog {
     if (req.query.type) {
       customLogger({
         level: 'info',
-        message: 'search by type',
+        message: 'search by type service testimonial',
         data: {
           type: req.query.type,
         },
