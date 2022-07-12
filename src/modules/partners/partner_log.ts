@@ -6,7 +6,7 @@ export namespace PartnerLog {
     if (req.query.name) {
       customLogger({
         level: 'info',
-        message: 'search by name',
+        message: 'search by name service partner',
         data: {
           name: req.query.name,
         },
