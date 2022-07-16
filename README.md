@@ -160,6 +160,7 @@ Make sure there is already a MySQL test database (should differ with the dev dat
       └── <module_name>_http          * routes
       └── <module_name>_log           * logging business
       └── <module_name>_repository    * database queries
+      └── <module_name>_response      * mapping for response
       └── <module_name>_rules         * model rules and restrictions
       └── <module_name>_service       * all business logic
       └── <module_name>_test          * remember to keep our code coverage high
