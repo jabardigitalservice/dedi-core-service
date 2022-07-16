@@ -1,36 +1,16 @@
-import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { metaPagination } from '../../helpers/paginate'
 import { PartnerEntity } from './partner_entity'
 import { PartnerRepository } from './partner_repository'
+import { PartnerResponse } from './partner_response'
 
 export class PartnerService {
   private partnerRepository: PartnerRepository
 
+  private partnerResponse: PartnerResponse
+
   constructor(partnerRepository: PartnerRepository = new PartnerRepository()) {
     this.partnerRepository = partnerRepository
-  }
-
-  private response = (item: any): PartnerEntity.Response => ({
-    id: item.id,
-    name: item.name,
-    total_village: item.total_village,
-    logo: {
-      path: getUrl(item.logo),
-      source: item.logo,
-      original_name: getOriginalName(item.file_name),
-    },
-    created_at: item.created_at,
-    website: item.website,
-    join_year: item.join_year,
-  })
-
-  private responseFindAll = (items: any[]): PartnerEntity.Response[] => {
-    const data: PartnerEntity.Response[] = []
-    for (const item of items) {
-      data.push(this.response(item))
-    }
-
-    return data
+    this.partnerResponse = new PartnerResponse()
   }
 
   public findAll = async (
@@ -41,7 +21,7 @@ export class PartnerService {
     const lastUpdate = await this.partnerRepository.getLastUpdate(request)
 
     const result: PartnerEntity.ResponseFindAll = {
-      data: this.responseFindAll(items.data),
+      data: this.partnerResponse.findAll(items.data),
       meta: {
         ...metaPagination(items.pagination),
         last_update: lastUpdate?.created_at || null,

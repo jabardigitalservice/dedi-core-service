@@ -1,12 +1,12 @@
 import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { getPolygon } from '../../helpers/polygon'
-import { District as Entity } from './district_entity'
+import { DistrictEntity } from './district_entity'
 
 export class DistrictRepository {
-  private Districts = () => database<Entity.District>('districts')
+  private Districts = () => database<DistrictEntity.District>('districts')
 
-  private getWherePolygon = (request: Entity.RequestQueryWithLocation) => {
+  private getWherePolygon = (request: DistrictEntity.RequestQueryWithLocation) => {
     const wherePolygon = `ST_CONTAINS(ST_GEOMFROMTEXT('${getPolygon(
       request.bounds
     )}'), districts.location)`
@@ -14,7 +14,7 @@ export class DistrictRepository {
     return wherePolygon
   }
 
-  public withLocation = (request: Entity.RequestQueryWithLocation) => {
+  public withLocation = (request: DistrictEntity.RequestQueryWithLocation) => {
     const query = this.Districts()
       .select(
         'districts.id',
@@ -32,7 +32,7 @@ export class DistrictRepository {
     return query
   }
 
-  public suggestion = (request: Entity.RequestQuerySuggestion) => {
+  public suggestion = (request: DistrictEntity.RequestQuerySuggestion) => {
     const query = this.Districts().select('id', 'name').orderBy('name', 'asc')
 
     if (request.name) query.where('name', 'LIKE', `%${request.name}%`)

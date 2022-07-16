@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import httpStatus from 'http-status'
-import { District as Entity } from './district_entity'
+import { DistrictEntity } from './district_entity'
 import { DistrictService } from './district_service'
 
 export class DistrictHandler {
@@ -11,19 +11,23 @@ export class DistrictHandler {
   }
 
   public withLocation = async (
-    req: Request<never, never, never, Entity.RequestQueryWithLocation>,
+    req: Request<never, never, never, DistrictEntity.RequestQueryWithLocation>,
     res: Response
   ) => {
-    const result: Entity.ResponseWithLocation = await this.districtService.withLocation(req.query)
+    const result: DistrictEntity.ResponseWithLocation = await this.districtService.withLocation(
+      req.query
+    )
 
     return res.status(httpStatus.OK).json(result)
   }
 
   public suggestion = async (
-    req: Request<never, never, never, Entity.RequestQuerySuggestion>,
+    req: Request<never, never, never, DistrictEntity.RequestQuerySuggestion>,
     res: Response
   ) => {
-    const result: Entity.ResponseSuggestion = await this.districtService.suggestion(req.query)
+    const result: DistrictEntity.ResponseSuggestion = await this.districtService.suggestion(
+      req.query
+    )
 
     return res.status(httpStatus.OK).json(result)
   }
