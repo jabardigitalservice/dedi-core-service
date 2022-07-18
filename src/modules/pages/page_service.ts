@@ -1,47 +1,28 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
-import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import { User } from '../../helpers/rbac'
 import lang from '../../lang'
 import { PageEntity } from './page_entity'
 import { PageRepository } from './page_repository'
+import { PageResponse } from './page_response'
 
 export class PageService {
   private pageRepository: PageRepository
 
+  private pageResponse: PageResponse
+
   constructor(pageRepository: PageRepository = new PageRepository()) {
     this.pageRepository = pageRepository
-  }
-
-  private response = (item: any): PageEntity.Response => ({
-    id: item.id,
-    title: item.title,
-    link: item.link,
-    is_active: convertToBoolean(item.is_active),
-    order: item.order,
-    image: {
-      path: getUrl(item.image),
-      source: item.image,
-      original_name: getOriginalName(item.file_name),
-    },
-  })
-
-  private responseFindAll = (items: any[]): PageEntity.Response[] => {
-    const data: PageEntity.Response[] = []
-    for (const item of items) {
-      data.push(this.response(item))
-    }
-
-    return data
+    this.pageResponse = new PageResponse()
   }
 
   public findAll = async (request: PageEntity.RequestQuery) => {
     const items: any = await this.pageRepository.findAll(request)
 
     const result: PageEntity.ResponseFindAll = {
-      data: this.responseFindAll(items.data),
+      data: this.pageResponse.findAll(items.data),
       meta: metaPagination(items.pagination),
     }
 
@@ -54,7 +35,7 @@ export class PageService {
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Page', id }))
 
     const result: PageEntity.ResponseFindById = {
-      data: this.response(item),
+      data: this.pageResponse.findById(item),
       meta: {},
     }
 

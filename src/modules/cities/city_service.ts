@@ -1,30 +1,16 @@
 import { isRequestBounds } from '../../helpers/polygon'
 import { CityEntity } from './city_entity'
 import { CityRepository } from './city_repository'
+import { CityResponse } from './city_response'
 
 export class CityService {
   private cityRepository: CityRepository
 
+  private cityResponse: CityResponse
+
   constructor(cityRepository: CityRepository = new CityRepository()) {
     this.cityRepository = cityRepository
-  }
-
-  private responseWithLocation = (
-    items: CityEntity.Repository['WithLocation']
-  ): CityEntity.WithLocation[] => {
-    const data: CityEntity.WithLocation[] = []
-    for (const item of items) {
-      data.push({
-        id: item.id,
-        name: item.name,
-        location: {
-          lat: item.location.y,
-          lng: item.location.x,
-        },
-      })
-    }
-
-    return data
+    this.cityResponse = new CityResponse()
   }
 
   public withLocation = async (
@@ -37,7 +23,7 @@ export class CityService {
       (await this.cityRepository.getTotalWithLocation()) as CityEntity.Repository['GetTotalWithLocation']
 
     const result: CityEntity.ResponseWithLocation = {
-      data: this.responseWithLocation(items),
+      data: this.cityResponse.withLocation(items),
       meta: {
         total: total.total,
       },

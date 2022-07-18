@@ -1,44 +1,22 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
-import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
-import { getRole, User } from '../../helpers/rbac'
+import { User } from '../../helpers/rbac'
 import lang from '../../lang'
 import { UserEntity } from './user_entity'
 import { UserRepository } from './user_repository'
+import { UserResponse } from './user_response'
 
 export class UserService {
   private userRepository: UserRepository
 
+  private userResponse: UserResponse
+
   constructor(userRepository: UserRepository = new UserRepository()) {
     this.userRepository = userRepository
-  }
-
-  private response = (item: any): UserEntity.Response => ({
-    id: item.id,
-    name: item.name,
-    email: item.email,
-    role: getRole({ prtnr: item.partner_id, adm: item.is_admin }),
-    avatar: {
-      path: getUrl(item.avatar),
-      source: item.avatar,
-      original_name: getOriginalName(item.file_name),
-    },
-    is_active: convertToBoolean(item.is_active),
-    created_at: item.created_at,
-    updated_at: item.updated_at,
-    last_login_at: item.last_login_at,
-  })
-
-  private responseFindAll = (items: any[]): UserEntity.Response[] => {
-    const data: UserEntity.Response[] = []
-    for (const item of items) {
-      data.push(this.response(item))
-    }
-
-    return data
+    this.userResponse = new UserResponse()
   }
 
   public findAll = async (
@@ -47,7 +25,7 @@ export class UserService {
     const items: any = await this.userRepository.findAll(requestQuery)
 
     const result: UserEntity.ResponseFindAll = {
-      data: this.responseFindAll(items.data),
+      data: this.userResponse.findAll(items.data),
       meta: metaPagination(items.pagination),
     }
 
@@ -60,7 +38,7 @@ export class UserService {
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
     const result: UserEntity.ResponseFindById = {
-      data: this.response(item),
+      data: this.userResponse.findById(item),
       meta: {},
     }
 

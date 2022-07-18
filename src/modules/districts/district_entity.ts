@@ -1,6 +1,6 @@
 import { Query } from '../../helpers/types'
 
-export namespace District {
+export namespace DistrictEntity {
   export interface District {
     id: string
     name: string
