@@ -13,27 +13,27 @@ export class VillageResponse {
   }
 
   private getWithLocation = (item: any) => ({
-      id: item.id,
-      name: item.name,
-      level: item.level,
-      city: {
-        id: item.city_id,
-        name: item.city_name,
-      },
-      district: {
-        id: item.district_id,
-        name: item.district_name,
-      },
-      category: {
-        id: item.category_id,
-        name: item.category_name,
-      },
-      location: {
-        lat: item.location.y,
-        lng: item.location.x,
-      },
-      images: this.getImages(item.images),
-    })
+    id: item.id,
+    name: item.name,
+    level: item.level,
+    city: {
+      id: item.city_id,
+      name: item.city_name,
+    },
+    district: {
+      id: item.district_id,
+      name: item.district_name,
+    },
+    category: {
+      id: item.category_id,
+      name: item.category_name,
+    },
+    location: {
+      lat: item.location.y,
+      lng: item.location.x,
+    },
+    images: this.getImages(item.images),
+  })
 
   public withLocation = (items: any[]): VillageEntity.WithLocation[] => {
     const data: VillageEntity.WithLocation[] = []
