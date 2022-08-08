@@ -23,6 +23,10 @@ export class VillageResponse {
           id: item.city_id,
           name: item.city_name,
         },
+        district: {
+          id: item.district_id,
+          name: item.district_name,
+        },
         category: {
           id: item.category_id,
           name: item.category_name,

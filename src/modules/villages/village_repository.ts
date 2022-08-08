@@ -23,6 +23,8 @@ export class VillageRepository {
         'villages.level',
         'cities.id as city_id',
         'cities.name as city_name',
+        'districts.id as district_id',
+        'districts.name as district_name',
         'categories.id as category_id',
         'categories.name as category_name',
         'villages.location',
@@ -78,6 +80,8 @@ export class VillageRepository {
         'villages.is_active as is_active',
         'cities.id as city_id',
         'cities.name as city_name',
+        'districts.id as district_id',
+        'districts.name as district_name',
         'categories.id as category_id',
         'categories.name as category_name'
       )
