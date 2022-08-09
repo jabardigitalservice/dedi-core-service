@@ -1,11 +1,5 @@
 import Joi from 'joi'
-import {
-  regexAlphanumeric,
-  regexCodeRegion,
-  regexExtFile,
-  regexPointLatitude,
-  regexPointLongitude,
-} from '../../helpers/regex'
+import { regexAlphanumeric, regexCodeRegion, regexExtFile, regexPoint } from '../../helpers/regex'
 import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace VillageRules {
@@ -150,8 +144,8 @@ export namespace VillageRules {
     city_id: Joi.string().min(5).max(5).regex(regexCodeRegion).required(),
     district_id: Joi.string().min(8).max(8).regex(regexCodeRegion).required(),
     level: Joi.number().valid(1, 2, 3, 4, null).default(null),
-    longitude: Joi.string().regex(regexPointLongitude).required(),
-    latitude: Joi.string().regex(regexPointLatitude).required(),
+    longitude: Joi.string().regex(regexPoint).required(),
+    latitude: Joi.string().regex(regexPoint).required(),
     status: Joi.string().default('desa'),
   })
 
