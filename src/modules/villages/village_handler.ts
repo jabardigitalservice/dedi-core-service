@@ -70,4 +70,13 @@ export class VillageHandler {
       return next(error)
     }
   }
+
+  public store = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this.villageService.store(req.body)
+      return res.status(httpStatus.CREATED).json({ message: 'Created' })
+    } catch (error) {
+      return next(error)
+    }
+  }
 }

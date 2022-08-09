@@ -14,6 +14,7 @@ export namespace VillageEntity {
     images: string
     is_active: boolean
     updated_at: Date
+    created_at: Date
     properties: string
   }
 
@@ -122,5 +123,16 @@ export namespace VillageEntity {
     id?: string
     level: number
     properties: string
+  }
+
+  export interface RequestBodyStore {
+    id: string
+    name: string
+    city_id: string
+    district_id: string
+    level: number
+    longitude: string
+    latitude: string
+    status: string
   }
 }

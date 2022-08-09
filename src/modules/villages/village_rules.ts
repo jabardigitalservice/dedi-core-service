@@ -1,5 +1,11 @@
 import Joi from 'joi'
-import { regexAlphanumeric, regexCodeRegion, regexExtFile } from '../../helpers/regex'
+import {
+  regexAlphanumeric,
+  regexCodeRegion,
+  regexExtFile,
+  regexPointLatitude,
+  regexPointLongitude,
+} from '../../helpers/regex'
 import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace VillageRules {
@@ -138,10 +144,34 @@ export namespace VillageRules {
     }).required(),
   })
 
+  const validate = Joi.object({
+    id: Joi.string().min(13).max(14).regex(regexCodeRegion).required(),
+    name: Joi.string().min(3).max(100).required().regex(regexAlphanumeric).trim(),
+    city_id: Joi.string().min(5).max(5).regex(regexCodeRegion).required(),
+    district_id: Joi.string().min(8).max(8).regex(regexCodeRegion).required(),
+    level: Joi.number().valid(1, 2, 3, 4, null).default(null),
+    longitude: Joi.string().regex(regexPointLongitude).required(),
+    latitude: Joi.string().regex(regexPointLatitude).required(),
+    status: Joi.string().default('desa'),
+  })
+
+  export const store = validate
+
   export const questionnaireWithDB: ValidationWithDB = {
     id: [
       {
         type: 'exists',
+        attr: 'id',
+        table: 'villages',
+        column: 'id',
+      },
+    ],
+  }
+
+  export const storeWithDB: ValidationWithDB = {
+    id: [
+      {
+        type: 'unique',
         attr: 'id',
         table: 'villages',
         column: 'id',

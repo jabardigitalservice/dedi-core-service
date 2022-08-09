@@ -115,4 +115,16 @@ export class VillageRepository {
       properties,
       updated_at: new Date(),
     })
+
+  public store = (request: VillageEntity.RequestBodyStore) =>
+    this.Villages().insert({
+      id: request.id,
+      name: request.name,
+      district_id: request.district_id,
+      level: request.level,
+      created_at: new Date(),
+      location: database.raw(`ST_GeomFromText('POINT(${request.latitude} ${request.longitude})')`),
+      status: request.status,
+      is_active: false,
+    })
 }
