@@ -102,4 +102,6 @@ export class VillageService {
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))
   }
+
+  public store = (request: VillageEntity.RequestBodyStore) => this.villageRepository.store(request)
 }

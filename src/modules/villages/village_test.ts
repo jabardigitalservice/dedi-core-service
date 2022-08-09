@@ -2,9 +2,11 @@ import faker from 'faker'
 import 'jest-extended'
 import request from 'supertest'
 import httpStatus from 'http-status'
+import { v4 as uuidv4 } from 'uuid'
 import app from '../../server'
 import database from '../../config/database'
 import { VillageRules } from './village_rules'
+import { createAccessToken } from '../../middleware/jwt'
 
 const expectMetaBounds = expect.objectContaining({
   total: expect.any(Number),
@@ -123,6 +125,24 @@ const requestBodyQuestionnaire = {
     },
   },
 }
+
+const storeVillage = {
+  id: '32.04.40.2007',
+  name: 'test',
+  city_id: '32.04',
+  district_id: '32.04.40',
+  level: 1,
+  longitude: '-21312312',
+  latitude: '122213213',
+}
+
+const identifier = uuidv4()
+
+const accessToken = createAccessToken({
+  identifier,
+  prtnr: false,
+  adm: true,
+})
 
 describe('seed data', () => {
   it('insert villages', async () => {
@@ -321,4 +341,13 @@ describe('tests villages', () => {
       .then((response) => {
         expect(response.body).toEqual(expectBodyFindById)
       }))
+})
+
+describe('tests villages', () => {
+  it('create village success', async () =>
+    request(app)
+      .post('/v1/villages')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(storeVillage)
+      .expect(httpStatus.CREATED))
 })
