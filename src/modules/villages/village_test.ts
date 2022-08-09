@@ -32,6 +32,7 @@ const expectFindAll = expect.arrayContaining([
     name: expect.any(String),
     level: expect.any(Number),
     city: expect.any(Object),
+    district: expect.any(Object),
     category: expect.any(Object),
     location: expect.objectContaining({
       lat: expect.any(Number),
@@ -55,6 +56,7 @@ const expectFindById = expect.objectContaining({
   level: expect.any(Number),
   city: expect.any(Object),
   category: expect.any(Object),
+  district: expect.any(Object),
 })
 
 const expectBodyFindById = expect.objectContaining({

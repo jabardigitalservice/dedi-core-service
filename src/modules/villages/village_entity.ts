@@ -25,6 +25,10 @@ export namespace VillageEntity {
       id: string
       name: string
     }
+    district: {
+      id: string
+      name: string
+    }
     category: {
       id: number
       name: string
@@ -50,6 +54,10 @@ export namespace VillageEntity {
     name: string
     level: number
     city: {
+      id: string
+      name: string
+    }
+    district: {
       id: string
       name: string
     }
