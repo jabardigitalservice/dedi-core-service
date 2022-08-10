@@ -103,5 +103,14 @@ export class VillageService {
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))
   }
 
-  public store = (request: VillageEntity.RequestBodyStore) => this.villageRepository.store(request)
+  public store = (request: VillageEntity.RequestBody) => this.villageRepository.store(request)
+
+  public update = async (request: VillageEntity.RequestBody, id: string) => {
+    const item: any = await this.villageRepository.findById(id)
+
+    if (!item)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))
+
+    return this.villageRepository.update(request, id)
+  }
 }

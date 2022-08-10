@@ -33,4 +33,5 @@ export namespace VillageAccess {
   export const ac = accessControl(flatList)
 
   export const store = () => grantAccess(ac, 'createAny', 'village')
+  export const update = () => grantAccess(ac, 'updateAny', 'village')
 }

@@ -37,4 +37,13 @@ router.post(
   villageHandler.store
 )
 
+router.put(
+  '/v1/villages/:id',
+  verifyAccessToken,
+  VillageAccess.update(),
+  validate(VillageRules.update),
+  validateWithDB(VillageRules.updateWithDB),
+  villageHandler.update
+)
+
 export default router

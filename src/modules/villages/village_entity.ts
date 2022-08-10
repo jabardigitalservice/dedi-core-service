@@ -125,7 +125,7 @@ export namespace VillageEntity {
     properties: string
   }
 
-  export interface RequestBodyStore {
+  export interface RequestBody {
     id: string
     name: string
     city_id: string
@@ -133,6 +133,6 @@ export namespace VillageEntity {
     level: number
     longitude: string
     latitude: string
-    status: string
+    status?: string
   }
 }

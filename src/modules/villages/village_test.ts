@@ -351,3 +351,12 @@ describe('tests villages', () => {
       .send(storeVillage)
       .expect(httpStatus.CREATED))
 })
+
+describe('tests villages', () => {
+  it('update village success', async () =>
+    request(app)
+      .put(`/v1/villages/${storeVillage.id}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(storeVillage)
+      .expect(httpStatus.OK))
+})
