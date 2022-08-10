@@ -368,7 +368,7 @@ describe('tests villages', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         ...storeVillage,
-        id: '32.04.40.2008'
+        id: '32.04.40.2008',
       })
       .expect(httpStatus.NOT_FOUND))
 })
