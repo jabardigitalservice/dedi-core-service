@@ -34,4 +34,5 @@ export namespace VillageAccess {
 
   export const store = () => grantAccess(ac, 'createAny', 'village')
   export const update = () => grantAccess(ac, 'updateAny', 'village')
+  export const destroy = () => grantAccess(ac, 'deleteAny', 'village')
 }
