@@ -170,7 +170,6 @@ export namespace VillageRules {
         table: 'villages',
         column: 'id',
         params: 'id',
-        isDeletedAt: true
       },
     ],
   }

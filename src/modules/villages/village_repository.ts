@@ -149,8 +149,5 @@ export class VillageRepository {
         updated_at: new Date(),
       })
 
-  public destroy = (id: string) =>
-    this.Villages()
-      .where('id', id)
-      .delete()
+  public destroy = (id: string) => this.Villages().where('id', id).delete()
 }
