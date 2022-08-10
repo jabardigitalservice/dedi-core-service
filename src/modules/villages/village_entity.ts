@@ -133,6 +133,5 @@ export namespace VillageEntity {
     level: number
     longitude: string
     latitude: string
-    status?: string
   }
 }
