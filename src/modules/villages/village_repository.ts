@@ -83,7 +83,9 @@ export class VillageRepository {
         'districts.id as district_id',
         'districts.name as district_name',
         'categories.id as category_id',
-        'categories.name as category_name'
+        'categories.name as category_name',
+        'villages.location',
+        'images'
       )
       .leftJoin('categories', 'categories.id', '=', 'villages.category_id')
       .leftJoin('districts', 'districts.id', '=', 'villages.district_id')
@@ -116,15 +118,27 @@ export class VillageRepository {
       updated_at: new Date(),
     })
 
-  public store = (request: VillageEntity.RequestBodyStore) =>
+  private getReqBody = (request: VillageEntity.RequestBody) => ({
+    id: request.id,
+    name: request.name,
+    district_id: request.district_id,
+    level: request.level,
+    location: database.raw(`ST_GeomFromText('POINT(${request.latitude} ${request.longitude})')`),
+  })
+
+  public store = (request: VillageEntity.RequestBody) =>
     this.Villages().insert({
-      id: request.id,
-      name: request.name,
-      district_id: request.district_id,
-      level: request.level,
+      ...this.getReqBody(request),
       created_at: new Date(),
-      location: database.raw(`ST_GeomFromText('POINT(${request.latitude} ${request.longitude})')`),
-      status: request.status,
+      status: 'desa',
       is_active: false,
     })
+
+  public update = (request: VillageEntity.RequestBody, id: string) =>
+    this.Villages()
+      .where('id', id)
+      .update({
+        ...this.getReqBody(request),
+        updated_at: new Date(),
+      })
 }

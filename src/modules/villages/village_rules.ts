@@ -143,13 +143,13 @@ export namespace VillageRules {
     name: Joi.string().min(3).max(100).required().regex(regexAlphanumeric).trim(),
     city_id: Joi.string().min(5).max(5).regex(regexCodeRegion).required(),
     district_id: Joi.string().min(8).max(8).regex(regexCodeRegion).required(),
-    level: Joi.number().valid(1, 2, 3, 4, null).default(null),
+    level: Joi.number().valid(1, 2, 3, 4, null),
     longitude: Joi.string().regex(regexPoint).required(),
     latitude: Joi.string().regex(regexPoint).required(),
-    status: Joi.string().default('desa'),
   })
 
   export const store = validate
+  export const update = validate
 
   export const questionnaireWithDB: ValidationWithDB = {
     id: [
@@ -162,14 +162,18 @@ export namespace VillageRules {
     ],
   }
 
-  export const storeWithDB: ValidationWithDB = {
+  const validateWithDB: ValidationWithDB = {
     id: [
       {
         type: 'unique',
         attr: 'id',
         table: 'villages',
         column: 'id',
+        params: 'id',
       },
     ],
   }
+
+  export const storeWithDB = validateWithDB
+  export const updateWithDB = validateWithDB
 }

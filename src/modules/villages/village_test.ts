@@ -59,6 +59,11 @@ const expectFindById = expect.objectContaining({
   city: expect.any(Object),
   category: expect.any(Object),
   district: expect.any(Object),
+  location: expect.objectContaining({
+    lat: expect.any(Number),
+    lng: expect.any(Number),
+  }),
+  images: expect.any(Array),
 })
 
 const expectBodyFindById = expect.objectContaining({
@@ -350,4 +355,25 @@ describe('tests villages', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .send(storeVillage)
       .expect(httpStatus.CREATED))
+})
+
+describe('tests villages', () => {
+  it('update village success', async () =>
+    request(app)
+      .put(`/v1/villages/${storeVillage.id}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(storeVillage)
+      .expect(httpStatus.OK))
+})
+
+describe('tests villages', () => {
+  it('update village error not found', async () =>
+    request(app)
+      .put(`/v1/villages/test1`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        ...storeVillage,
+        id: '32.04.40.2008',
+      })
+      .expect(httpStatus.NOT_FOUND))
 })

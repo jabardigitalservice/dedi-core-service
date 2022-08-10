@@ -75,4 +75,13 @@ export class VillageHandler {
     await this.villageService.store(req.body)
     return res.status(httpStatus.CREATED).json({ message: 'Created' })
   }
+
+  public update = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this.villageService.update(req.body, req.params.id)
+      return res.status(httpStatus.OK).json({ message: 'Updated' })
+    } catch (error) {
+      return next(error)
+    }
+  }
 }

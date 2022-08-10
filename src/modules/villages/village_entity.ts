@@ -66,6 +66,11 @@ export namespace VillageEntity {
       id: number
       name: string
     }
+    location: {
+      lat: number
+      lng: number
+    }
+    images: string[]
   }
 
   export interface RequestQueryListWithLocation extends Query {
@@ -125,7 +130,7 @@ export namespace VillageEntity {
     properties: string
   }
 
-  export interface RequestBodyStore {
+  export interface RequestBody {
     id: string
     name: string
     city_id: string
@@ -133,6 +138,5 @@ export namespace VillageEntity {
     level: number
     longitude: string
     latitude: string
-    status: string
   }
 }
