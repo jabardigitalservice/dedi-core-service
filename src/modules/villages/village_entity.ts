@@ -66,6 +66,11 @@ export namespace VillageEntity {
       id: number
       name: string
     }
+    location: {
+      lat: number
+      lng: number
+    }
+    images: string[]
   }
 
   export interface RequestQueryListWithLocation extends Query {

@@ -59,6 +59,11 @@ const expectFindById = expect.objectContaining({
   city: expect.any(Object),
   category: expect.any(Object),
   district: expect.any(Object),
+  location: expect.objectContaining({
+    lat: expect.any(Number),
+    lng: expect.any(Number),
+  }),
+  images: expect.any(Array),
 })
 
 const expectBodyFindById = expect.objectContaining({

@@ -61,6 +61,11 @@ export class VillageResponse {
         id: item.category_id,
         name: item.category_name,
       },
+      location: {
+        lat: item.location.y,
+        lng: item.location.x,
+      },
+      images: this.getImages(item.images),
     },
     meta: {},
   })

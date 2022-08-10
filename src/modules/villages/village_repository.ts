@@ -83,7 +83,9 @@ export class VillageRepository {
         'districts.id as district_id',
         'districts.name as district_name',
         'categories.id as category_id',
-        'categories.name as category_name'
+        'categories.name as category_name',
+        'villages.location',
+        'images'
       )
       .leftJoin('categories', 'categories.id', '=', 'villages.category_id')
       .leftJoin('districts', 'districts.id', '=', 'villages.district_id')
