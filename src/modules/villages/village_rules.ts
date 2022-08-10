@@ -144,8 +144,8 @@ export namespace VillageRules {
     city_id: Joi.string().min(5).max(5).regex(regexCodeRegion).required(),
     district_id: Joi.string().min(8).max(8).regex(regexCodeRegion).required(),
     level: Joi.number().valid(1, 2, 3, 4, null),
-    longitude: Joi.string().regex(regexPoint),
-    latitude: Joi.string().regex(regexPoint),
+    longitude: Joi.string().regex(regexPoint).required(),
+    latitude: Joi.string().regex(regexPoint).required(),
   })
 
   export const store = validate

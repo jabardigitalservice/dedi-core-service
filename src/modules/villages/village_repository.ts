@@ -118,20 +118,13 @@ export class VillageRepository {
       updated_at: new Date(),
     })
 
-  private getReqBody = (request: VillageEntity.RequestBody) => {
-    let location = null
-    if (request.latitude && request.longitude) {
-      location = database.raw(`ST_GeomFromText('POINT(${request.latitude} ${request.longitude})')`)
-    }
-
-    return {
+  private getReqBody = (request: VillageEntity.RequestBody) => ({
       id: request.id,
       name: request.name,
       district_id: request.district_id,
       level: request.level,
-      location,
-    }
-  }
+      location: database.raw(`ST_GeomFromText('POINT(${request.latitude} ${request.longitude})')`),
+    })
 
   public store = (request: VillageEntity.RequestBody) =>
     this.Villages().insert({
