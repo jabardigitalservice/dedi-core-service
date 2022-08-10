@@ -119,12 +119,12 @@ export class VillageRepository {
     })
 
   private getReqBody = (request: VillageEntity.RequestBody) => ({
-      id: request.id,
-      name: request.name,
-      district_id: request.district_id,
-      level: request.level,
-      location: database.raw(`ST_GeomFromText('POINT(${request.latitude} ${request.longitude})')`),
-    })
+    id: request.id,
+    name: request.name,
+    district_id: request.district_id,
+    level: request.level,
+    location: database.raw(`ST_GeomFromText('POINT(${request.latitude} ${request.longitude})')`),
+  })
 
   public store = (request: VillageEntity.RequestBody) =>
     this.Villages().insert({
