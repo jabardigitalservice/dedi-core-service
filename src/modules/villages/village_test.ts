@@ -360,3 +360,15 @@ describe('tests villages', () => {
       .send(storeVillage)
       .expect(httpStatus.OK))
 })
+
+describe('tests villages', () => {
+  it('update village error not found', async () =>
+    request(app)
+      .put(`/v1/villages/test1`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        ...storeVillage,
+        id: '32.04.40.2008'
+      })
+      .expect(httpStatus.NOT_FOUND))
+})
