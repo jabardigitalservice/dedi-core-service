@@ -46,4 +46,11 @@ router.put(
   villageHandler.update
 )
 
+router.delete(
+  '/v1/villages/:id',
+  verifyAccessToken,
+  VillageAccess.destroy(),
+  villageHandler.destroy
+)
+
 export default router

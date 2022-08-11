@@ -377,3 +377,19 @@ describe('tests villages', () => {
       })
       .expect(httpStatus.NOT_FOUND))
 })
+
+describe('tests villages', () => {
+  it('destroy village success', async () =>
+    request(app)
+      .delete(`/v1/villages/${storeVillage.id}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
+})
+
+describe('tests villages', () => {
+  it('destroy village error not found', async () =>
+    request(app)
+      .delete(`/v1/villages/test1`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
+})

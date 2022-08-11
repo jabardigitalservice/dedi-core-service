@@ -84,4 +84,13 @@ export class VillageHandler {
       return next(error)
     }
   }
+
+  public destroy = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this.villageService.destroy(req.params.id)
+      return res.status(httpStatus.OK).json({ message: 'Deleted' })
+    } catch (error) {
+      return next(error)
+    }
+  }
 }

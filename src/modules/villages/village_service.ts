@@ -113,4 +113,13 @@ export class VillageService {
 
     return this.villageRepository.update(request, id)
   }
+
+  public destroy = async (id: string) => {
+    const item: any = await this.villageRepository.findById(id)
+
+    if (!item)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'Village', id }))
+
+    return this.villageRepository.destroy(id)
+  }
 }

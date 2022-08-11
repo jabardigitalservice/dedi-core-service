@@ -141,4 +141,6 @@ export class VillageRepository {
         ...this.getReqBody(request),
         updated_at: new Date(),
       })
+
+  public destroy = (id: string) => this.Villages().where('id', id).delete()
 }
