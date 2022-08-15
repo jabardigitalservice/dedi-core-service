@@ -7,7 +7,7 @@ export namespace UserRules {
   const orderByValid = [
     'users.name',
     'users.is_active',
-    'email',
+    'users.email',
     'users.updated_at',
     'partners.name',
   ]
