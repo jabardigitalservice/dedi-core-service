@@ -9,6 +9,9 @@ export class UserResponse {
     name: item.name,
     email: item.email,
     role: getRole({ prtnr: item.partner_id, adm: item.is_admin }),
+    partner: {
+      name: item.partner_name,
+    },
     avatar: {
       path: getUrl(item.avatar),
       source: item.avatar,

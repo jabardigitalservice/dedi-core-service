@@ -1,9 +1,17 @@
 import Joi from 'joi'
+import config from '../../config'
 import { regexAlphanumeric, regexExtFile } from '../../helpers/regex'
 import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace UserRules {
-  const orderByValid = ['name', 'is_active', 'email', 'updated_at']
+  const orderByValid = [
+    'users.name',
+    'users.is_active',
+    'email',
+    'users.updated_at',
+    'partners.name',
+  ]
+  const roles = [config.get('role.1')]
   const emptyAllow = ['', null]
 
   export const findAll = Joi.object({
@@ -12,6 +20,9 @@ export namespace UserRules {
       .allow(...emptyAllow),
     is_admin: Joi.boolean().allow(...emptyAllow),
     is_active: Joi.boolean().allow(...emptyAllow),
+    roles: Joi.string()
+      .valid(...roles)
+      .allow(...emptyAllow),
   })
 
   const email = Joi.string().email().max(150).required()

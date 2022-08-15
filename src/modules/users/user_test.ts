@@ -3,6 +3,7 @@ import httpStatus from 'http-status'
 import 'jest-extended'
 import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
+import config from '../../config'
 import { createAccessToken } from '../../middleware/jwt'
 import app from '../../server'
 import { UserEntity } from './user_entity'
@@ -98,6 +99,15 @@ describe('test users', () => {
       .get('/v1/users')
       .expect(httpStatus.OK)
       .query({ is_active: true, is_admin: true, q: name })
+      .set('Authorization', `Bearer ${accessToken}`))
+})
+
+describe('test users', () => {
+  it(`test success find all with query selected list ${config.get('role.1')}`, async () =>
+    request(app)
+      .get('/v1/users')
+      .expect(httpStatus.OK)
+      .query({ is_active: true, is_admin: false, q: name, roles: config.get('role.1') })
       .set('Authorization', `Bearer ${accessToken}`))
 })
 
