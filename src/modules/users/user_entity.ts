@@ -30,6 +30,9 @@ export namespace UserEntity {
     name: string
     email: string
     role: string
+    partner: {
+      name: string
+    }
     avatar: {
       path: string
       source: string
@@ -45,6 +48,7 @@ export namespace UserEntity {
     order_by: string
     sort_by: string
     is_admin: string
+    roles: string
     is_active: string
     per_page: string
     current_page: string

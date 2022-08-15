@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
+import config from '../../config'
 import database from '../../config/database'
 import { convertToBoolean } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
@@ -23,12 +24,14 @@ export class UserRepository {
         'users.updated_at',
         'users.last_login_at',
         'files.name as file_name',
-        'files.id as file_id'
+        'files.id as file_id',
+        'partners.name as partner_name'
       )
       .leftJoin('files', 'files.source', '=', 'users.avatar')
+      .leftJoin('partners', 'partners.id', '=', 'users.partner_id')
 
   public findAll = (request: UserEntity.RequestQuery) => {
-    const orderBy: string = request.order_by || 'updated_at'
+    const orderBy: string = request.order_by || 'users.updated_at'
     const sortBy: string = request.sort_by || 'desc'
 
     const query = this.Query().orderBy(orderBy, sortBy)
@@ -36,7 +39,14 @@ export class UserRepository {
     if (convertToBoolean(request.is_active))
       query.where('users.is_active', convertToBoolean(request.is_active))
 
-    if (request.is_admin) query.where('users.is_admin', convertToBoolean(request.is_admin))
+    if (request.is_admin) {
+      query.where('users.is_admin', convertToBoolean(request.is_admin))
+    }
+
+    // Condition for filter roles value is partner
+    if (request.roles && request.roles === config.get('role.1')) {
+      query.whereNotNull('users.partner_id').where('users.is_admin', false)
+    }
 
     if (request.q) query.where('users.name', 'like', `%${request.q}%`)
 
