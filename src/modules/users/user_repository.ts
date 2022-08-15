@@ -45,7 +45,7 @@ export class UserRepository {
 
     // Condition for filter roles value is partner
     if (request.roles && request.roles === config.get('role.1')) {
-      query.whereNotNull('users.partner_id')
+      query.whereNotNull('users.partner_id').where('users.is_admin', false)
     }
 
     if (request.q) query.where('users.name', 'like', `%${request.q}%`)
