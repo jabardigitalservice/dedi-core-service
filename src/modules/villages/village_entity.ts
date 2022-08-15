@@ -79,6 +79,8 @@ export namespace VillageEntity {
     per_page: string
     current_page: string
     is_active: string
+    order_by: string
+    sort_by: string
   }
 
   export interface RequestQueryWithLocation extends Query {
