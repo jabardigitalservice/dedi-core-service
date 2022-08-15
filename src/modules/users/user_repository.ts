@@ -43,6 +43,7 @@ export class UserRepository {
       query.where('users.is_admin', convertToBoolean(request.is_admin))
     }
 
+    // Condition for filter roles value is partner
     if (request.roles && request.roles === config.get('role.1')) {
       query.whereNotNull('users.partner_id')
     }
