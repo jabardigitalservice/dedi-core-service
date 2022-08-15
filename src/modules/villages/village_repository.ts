@@ -33,13 +33,12 @@ export class VillageRepository {
       .leftJoin('districts', 'districts.id', '=', 'villages.district_id')
       .leftJoin('categories', 'categories.id', '=', 'villages.category_id')
       .leftJoin('cities', 'cities.id', '=', 'districts.city_id')
-      .orderBy('villages.name', 'asc')
 
     return query
   }
 
   public withLocation = (request: VillageEntity.RequestQueryWithLocation) => {
-    const query = this.Query()
+    const query = this.Query().orderBy('villages.name', 'asc')
 
     if (convertToBoolean(request.is_active))
       query.where('villages.is_active', convertToBoolean(request.is_active))
@@ -50,7 +49,7 @@ export class VillageRepository {
   }
 
   public suggestion = (request: VillageEntity.RequestQuerySuggestion) => {
-    const query = this.Query()
+    const query = this.Query().orderBy('villages.name', 'asc')
 
     if (request.name) query.where('villages.name', 'LIKE', `%${request.name}%`)
     if (convertToBoolean(request.is_active))
@@ -61,7 +60,10 @@ export class VillageRepository {
   }
 
   public listWithLocation = (request: VillageEntity.RequestQueryListWithLocation) => {
-    const query = this.Query()
+    const orderBy: string = request.order_by || 'villages.name'
+    const sortBy: string = request.sort_by || 'asc'
+
+    const query = this.Query().orderBy(orderBy, sortBy)
 
     if (request.name) query.where('villages.name', 'LIKE', `%${request.name}%`)
     if (request.level) query.where('villages.level', request.level)

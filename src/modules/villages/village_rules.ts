@@ -3,6 +3,15 @@ import { regexAlphanumeric, regexCodeRegion, regexExtFile, regexPoint } from '..
 import { ValidationWithDB } from '../../helpers/validator'
 
 export namespace VillageRules {
+  const orderByValid = ['villages.name']
+  const emptyAllow = ['', null]
+
+  export const listWithLocation = Joi.object({
+    order_by: Joi.string()
+      .valid(...orderByValid)
+      .allow(...emptyAllow),
+  })
+
   const file = Joi.object({
     path: Joi.string().regex(regexExtFile).uri().allow(null),
     original_name: Joi.string().regex(regexExtFile).allow(null),

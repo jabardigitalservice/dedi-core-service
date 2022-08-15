@@ -15,6 +15,7 @@ router.get('/v1/villages/with-location', villageHandler.withLocation)
 router.get(
   '/v1/villages/list-with-location',
   cache(),
+  validate(VillageRules.listWithLocation, 'query'),
   VillageLog.listWithLocation(),
   villageHandler.listWithLocation
 )
