@@ -12,6 +12,28 @@ export class UserRepository {
 
   private Partner = () => database<UserEntity.Partner>('partners')
 
+  private filter = (query: any, request: UserEntity.RequestQuery) => {
+    if (convertToBoolean(request.is_active))
+      query.where('users.is_active', convertToBoolean(request.is_active))
+
+    if (request.is_admin) {
+      query.where('users.is_admin', convertToBoolean(request.is_admin))
+    }
+
+    // Condition for filter roles value is partner
+    if (request.roles && request.roles === config.get('role.1')) {
+      query.whereNotNull('users.partner_id').where('users.is_admin', false)
+    }
+
+    if (request.q)
+      query.where((q: any) => {
+        q.where('users.name', 'like', `%${request.q}%`)
+        q.orWhere('partners.name', 'like', `%${request.q}%`)
+      })
+
+    return query
+  }
+
   private Query = () =>
     this.Users()
       .select(
@@ -36,21 +58,9 @@ export class UserRepository {
     const orderBy: string = request.order_by || 'users.updated_at'
     const sortBy: string = request.sort_by || 'desc'
 
-    const query = this.Query().orderBy(orderBy, sortBy)
+    let query = this.Query().orderBy(orderBy, sortBy)
 
-    if (convertToBoolean(request.is_active))
-      query.where('users.is_active', convertToBoolean(request.is_active))
-
-    if (request.is_admin) {
-      query.where('users.is_admin', convertToBoolean(request.is_admin))
-    }
-
-    // Condition for filter roles value is partner
-    if (request.roles && request.roles === config.get('role.1')) {
-      query.whereNotNull('users.partner_id').where('users.is_admin', false)
-    }
-
-    if (request.q) query.where('users.name', 'like', `%${request.q}%`)
+    query = this.filter(query, request)
 
     return query.paginate(pagination(request))
   }
@@ -100,7 +110,8 @@ export class UserRepository {
         updated_at: new Date(),
       })
 
-  public findByNamePartner = (company: string) => this.Partner().select('id').where('name', company).first()
+  public findByNamePartner = (company: string) =>
+    this.Partner().select('id').where('name', company).first()
 
   public storePartner = async (company: string) => {
     const id = uuidv4()
