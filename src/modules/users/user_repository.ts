@@ -12,14 +12,14 @@ export class UserRepository {
 
   private Partner = () => database<UserEntity.Partner>('partners')
 
-  private searchText = (query: any, text: string) => query.where((q: any) => {
+  private searchText = (query: any, text: string) =>
+    query.where((q: any) => {
       q.where('users.name', 'like', `%${text}%`)
       q.orWhere('partners.name', 'like', `%${text}%`)
     })
 
   private filter = (query: any, request: UserEntity.RequestQuery) => {
-    if (request.is_active)
-      query.where('users.is_active', convertToBoolean(request.is_active))
+    if (request.is_active) query.where('users.is_active', convertToBoolean(request.is_active))
 
     if (request.is_admin) {
       query.where('users.is_admin', convertToBoolean(request.is_admin))
