@@ -18,7 +18,7 @@ export class UserRepository {
     })
 
   private filter = (query: any, request: UserEntity.RequestQuery) => {
-    if (convertToBoolean(request.is_active))
+    if (request.is_active)
       query.where('users.is_active', convertToBoolean(request.is_active))
 
     if (request.is_admin) {
