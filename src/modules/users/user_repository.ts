@@ -10,6 +10,8 @@ export class UserRepository {
 
   private Files = () => database<UserEntity.File>('files')
 
+  private Partner = () => database<UserEntity.Partner>('partners')
+
   private Query = () =>
     this.Users()
       .select(
@@ -97,4 +99,14 @@ export class UserRepository {
         ...request,
         updated_at: new Date(),
       })
+
+  public findByNamePartner = (company: string) => this.Partner().select('id').where('name', company).first()
+
+  public storePartner = async (company: string) => {
+    const id = uuidv4()
+
+    await this.Partner().insert({ id, name: company, created_at: new Date() })
+
+    return id
+  }
 }
