@@ -10,6 +10,33 @@ export class UserRepository {
 
   private Files = () => database<UserEntity.File>('files')
 
+  private Partner = () => database<UserEntity.Partner>('partners')
+
+  private searchText = (query: any, text: string) =>
+    query.where((q: any) => {
+      q.where('users.name', 'like', `%${text}%`)
+      q.orWhere('partners.name', 'like', `%${text}%`)
+    })
+
+  private filter = (query: any, request: UserEntity.RequestQuery) => {
+    if (request.is_active) query.where('users.is_active', convertToBoolean(request.is_active))
+
+    if (request.is_admin) {
+      query.where('users.is_admin', convertToBoolean(request.is_admin))
+    }
+
+    // Condition for filter roles value is partner
+    if (request.roles && request.roles === config.get('role.1')) {
+      query.whereNotNull('users.partner_id').where('users.is_admin', false)
+    }
+
+    if (request.q) {
+      query = this.searchText(query, request.q)
+    }
+
+    return query
+  }
+
   private Query = () =>
     this.Users()
       .select(
@@ -34,21 +61,9 @@ export class UserRepository {
     const orderBy: string = request.order_by || 'users.updated_at'
     const sortBy: string = request.sort_by || 'desc'
 
-    const query = this.Query().orderBy(orderBy, sortBy)
+    let query = this.Query().orderBy(orderBy, sortBy)
 
-    if (convertToBoolean(request.is_active))
-      query.where('users.is_active', convertToBoolean(request.is_active))
-
-    if (request.is_admin) {
-      query.where('users.is_admin', convertToBoolean(request.is_admin))
-    }
-
-    // Condition for filter roles value is partner
-    if (request.roles && request.roles === config.get('role.1')) {
-      query.whereNotNull('users.partner_id').where('users.is_admin', false)
-    }
-
-    if (request.q) query.where('users.name', 'like', `%${request.q}%`)
+    query = this.filter(query, request)
 
     return query.paginate(pagination(request))
   }
@@ -97,4 +112,15 @@ export class UserRepository {
         ...request,
         updated_at: new Date(),
       })
+
+  public findByNamePartner = (company: string) =>
+    this.Partner().select('id').where('name', company).first()
+
+  public storePartner = async (company: string) => {
+    const id = uuidv4()
+
+    await this.Partner().insert({ id, name: company, created_at: new Date() })
+
+    return id
+  }
 }

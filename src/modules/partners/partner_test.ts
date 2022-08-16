@@ -153,15 +153,3 @@ describe('tests partners', () => {
         expect(response.body).toEqual(expectBodySuggestion)
       }))
 })
-
-describe('tests partners', () => {
-  it('test success find all data is deleted return data empty', async () => {
-    await database('partners').where('name', 'test').update({ deleted_at: new Date() })
-    return request(app)
-      .get('/v1/partners')
-      .expect(httpStatus.OK)
-      .then((response) => {
-        expect(response.body).toEqual(expectEmptyBodyFindAll)
-      })
-  })
-})

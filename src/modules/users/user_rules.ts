@@ -11,7 +11,7 @@ export namespace UserRules {
     'users.updated_at',
     'partners.name',
   ]
-  const roles = [config.get('role.1')]
+  const roles = [config.get('role.0'), config.get('role.1')]
   const emptyAllow = ['', null]
 
   export const findAll = Joi.object({
@@ -21,7 +21,7 @@ export namespace UserRules {
     is_admin: Joi.boolean().allow(...emptyAllow),
     is_active: Joi.boolean().allow(...emptyAllow),
     roles: Joi.string()
-      .valid(...roles)
+      .valid(...[config.get('role.1')])
       .allow(...emptyAllow),
   })
 
@@ -30,13 +30,25 @@ export namespace UserRules {
   const validate = {
     name: Joi.string().regex(regexAlphanumeric).trim().min(3).max(100).required(),
     email,
+    roles: Joi.string()
+      .valid(...roles)
+      .required(),
+    company: Joi.alternatives().conditional('roles', {
+      is: config.get('role.1'),
+      then: Joi.string().regex(regexAlphanumeric).required(),
+      otherwise: Joi.optional(),
+    }),
     avatar: Joi.string().regex(regexExtFile).max(255).required(),
     avatar_original_name: Joi.string().regex(regexExtFile).max(255).required(),
   }
 
   export const store = Joi.object({
     ...validate,
-    password: Joi.string().regex(regexAlphanumeric).min(8).required(),
+    password: Joi.alternatives().conditional('roles', {
+      is: config.get('role.0'),
+      then: Joi.string().regex(regexAlphanumeric).min(8).required(),
+      otherwise: Joi.optional(),
+    }),
   })
 
   export const update = Joi.object({

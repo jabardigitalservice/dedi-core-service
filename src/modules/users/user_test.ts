@@ -4,17 +4,44 @@ import 'jest-extended'
 import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
 import config from '../../config'
+import database from '../../config/database'
 import { createAccessToken } from '../../middleware/jwt'
 import app from '../../server'
 import { UserEntity } from './user_entity'
 
 const name = faker.name.firstName()
+const timestamp = new Date()
+
+describe('seed data', () => {
+  it('insert partners', async () => {
+    await database('partners').insert({
+      id: uuidv4(),
+      name: 'test-partner-users',
+      total_village: 1,
+      logo: 'https://test.com',
+      website: 'https://test.com',
+      created_at: timestamp,
+      updated_at: timestamp,
+      verified_at: timestamp,
+    })
+  })
+})
 
 const data = (): UserEntity.RequestBody => ({
   name,
   email: faker.internet.email(),
+  roles: config.get('role.0'),
   avatar: faker.image.avatar(),
   avatar_original_name: faker.image.avatar(),
+})
+
+const dataPartner = (): UserEntity.RequestBody => ({
+  name,
+  email: faker.internet.email(),
+  roles: config.get('role.1'),
+  avatar: faker.image.avatar(),
+  avatar_original_name: faker.image.avatar(),
+  company: faker.name.firstName(),
 })
 
 const identifier = uuidv4()
@@ -70,6 +97,27 @@ describe('test users', () => {
       .send({
         ...data(),
         password: 'test1234',
+      })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.CREATED))
+})
+
+describe('test users', () => {
+  it('test success store as partner', async () =>
+    request(app)
+      .post('/v1/users')
+      .send(dataPartner())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.CREATED))
+})
+
+describe('test users', () => {
+  it('test success store as partner company exists', async () =>
+    request(app)
+      .post('/v1/users')
+      .send({
+        ...dataPartner(),
+        company: 'test-partner-users',
       })
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(httpStatus.CREATED))

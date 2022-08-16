@@ -1,4 +1,5 @@
 import httpStatus from 'http-status'
+import config from '../../config'
 import { HttpError } from '../../handler/exception'
 import { convertToBoolean } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
@@ -62,18 +63,35 @@ export class UserService {
     avatar: request.avatar,
   })
 
+  private getPartnerId = async (company: string): Promise<string> => {
+    const partner = await this.userRepository.findByNamePartner(company)
+    if (partner) {
+      return partner.id
+    }
+
+    return this.userRepository.storePartner(company)
+  }
+
   public store = async (request: UserEntity.RequestBody) => {
     await this.userRepository.createFile({
       source: request.avatar,
       name: request.avatar_original_name,
     })
 
-    return this.userRepository.store({
-      ...this.getRequestBody(request),
-      password: passwordHash(request.password),
-      is_admin: true,
-      is_active: true,
-    })
+    const payload = this.getRequestBody(request) as UserEntity.User
+    payload.is_active = true
+    payload.is_admin = false
+
+    if (request.roles === config.get('role.0')) {
+      payload.is_admin = true
+      payload.password = passwordHash(request.password)
+    }
+
+    if (request.roles === config.get('role.1')) {
+      payload.partner_id = await this.getPartnerId(request.company)
+    }
+
+    return this.userRepository.store(payload)
   }
 
   public update = async (request: UserEntity.RequestBody, id: string) => {

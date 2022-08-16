@@ -25,6 +25,13 @@ export namespace UserEntity {
     created_at?: Date
   }
 
+  export interface Partner {
+    id: string
+    name: string
+    deleted_at?: Date
+    created_at: Date
+  }
+
   export interface Response {
     id: string
     name: string
@@ -59,6 +66,8 @@ export namespace UserEntity {
     name: string
     email: string
     password?: string
+    company?: string
+    roles: string
     avatar: string
     avatar_original_name: string
   }
