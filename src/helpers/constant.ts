@@ -14,3 +14,11 @@ export const IsJsonString = (str: string) => {
   }
   return isJsonString
 }
+
+export enum StatusPartner {
+  WAITING = 'Menunggu Verifikasi',
+  VERIFIED = 'Terverifikasi',
+  REJECTED = 'Ditolak',
+  ACTIVE = 'Aktif',
+  INACTIVE = 'Non Aktif',
+}
