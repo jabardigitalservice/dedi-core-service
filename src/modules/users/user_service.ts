@@ -111,7 +111,7 @@ export class UserService {
 
     const payload = this.getRequestBody(request) as UserEntity.User
 
-    if (request.roles === config.get('role.1')) {
+    if (request.roles === config.get('role.1') && item.partner_name !== request.company) {
       payload.partner_id = await this.getPartnerId(request.company)
     }
 

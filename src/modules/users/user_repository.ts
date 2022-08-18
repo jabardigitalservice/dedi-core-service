@@ -53,7 +53,8 @@ export class UserRepository {
         'users.status_partner',
         'files.name as file_name',
         'files.id as file_id',
-        'partners.name as partner_name'
+        'partners.name as partner_name',
+        'partners.id as partner_id'
       )
       .leftJoin('files', 'files.source', '=', 'users.avatar')
       .leftJoin('partners', 'partners.id', '=', 'users.partner_id')
