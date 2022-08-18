@@ -12,6 +12,7 @@ export namespace AuthEntity {
     is_admin?: boolean
     is_active?: boolean
     last_login_at?: Date
+    status_partner?: string
   }
 
   export interface Partner {
@@ -41,6 +42,7 @@ export namespace AuthEntity {
     is_admin?: boolean
     google_id?: string
     verified_at?: Date
+    status_partner?: string
   }
 
   export interface PartnerCreate {

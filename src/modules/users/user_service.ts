@@ -1,7 +1,7 @@
 import httpStatus from 'http-status'
 import config from '../../config'
 import { HttpError } from '../../handler/exception'
-import { convertToBoolean } from '../../helpers/constant'
+import { convertToBoolean, StatusPartner } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
 import { User } from '../../helpers/rbac'
@@ -79,16 +79,18 @@ export class UserService {
     })
 
     const payload = this.getRequestBody(request) as UserEntity.User
-    payload.is_active = true
+    payload.is_active = false
     payload.is_admin = false
 
     if (request.roles === config.get('role.0')) {
+      payload.is_active = true
       payload.is_admin = true
       payload.password = passwordHash(request.password)
     }
 
     if (request.roles === config.get('role.1')) {
       payload.partner_id = await this.getPartnerId(request.company)
+      payload.status_partner = StatusPartner.INACTIVE
     }
 
     return this.userRepository.store(payload)

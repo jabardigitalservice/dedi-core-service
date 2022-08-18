@@ -9,6 +9,7 @@ export namespace UserRules {
     'users.is_active',
     'users.email',
     'users.updated_at',
+    'users.status_partner',
     'partners.name',
   ]
   const roles = [config.get('role.0'), config.get('role.1')]

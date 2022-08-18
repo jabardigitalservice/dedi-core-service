@@ -16,6 +16,7 @@ export namespace UserEntity {
     updated_at?: Date
     verified_at?: Date
     last_login_at?: Date
+    status_partner?: string
   }
 
   export interface File {
@@ -48,6 +49,7 @@ export namespace UserEntity {
     is_active: boolean
     created_at?: Date
     updated_at?: Date
+    status_partner?: string
     last_login_at?: Date
   }
 
