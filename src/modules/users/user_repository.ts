@@ -79,7 +79,6 @@ export class UserRepository {
       id: uuidv4(),
       verified_at: new Date(),
       created_at: new Date(),
-      updated_at: new Date(),
     })
 
   public createFile = (request: UserEntity.File) =>
