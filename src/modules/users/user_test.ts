@@ -74,6 +74,7 @@ const expectResponse = expect.objectContaining({
   is_active: expect.any(Boolean),
   created_at: expect.toBeOneOf([null, expect.any(String)]),
   updated_at: expect.toBeOneOf([null, expect.any(String)]),
+  status_partner: expect.toBeOneOf([null, expect.any(String)]),
   last_login_at: expect.toBeOneOf([null, expect.any(String)]),
 })
 
