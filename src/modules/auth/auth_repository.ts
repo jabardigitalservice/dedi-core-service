@@ -21,7 +21,6 @@ export class AuthRepository {
       .select('id')
       .where('id', request.partner_id)
       .orWhere('name', request.company)
-      .whereNull('deleted_at')
       .first()
 
     return !request.partner_id || !(await partner)
