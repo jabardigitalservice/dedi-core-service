@@ -90,7 +90,7 @@ export class UserService {
 
     if (request.roles === config.get('role.1')) {
       payload.partner_id = await this.getPartnerId(request.company)
-      payload.status_partner = StatusPartner.INACTIVE
+      payload.status_partner = StatusPartner.VERIFIED
     }
 
     return this.userRepository.store(payload)
