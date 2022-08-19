@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import database from '../../config/database'
+import { StatusPartner } from '../../helpers/constant'
 import { AuthEntity } from './auth_entity'
 
 export class AuthRepository {
@@ -80,6 +81,14 @@ export class AuthRepository {
   public updatePassword = (id: string, password: string) =>
     this.Users().where('id', id).update({ password })
 
-  public updateLastLoginAt = (id: string) =>
-    this.Users().where('id', id).update({ last_login_at: new Date() })
+  public updateAfterSignIn = (user: AuthEntity.User) => {
+    let payload: AuthEntity.User
+
+    payload.last_login_at = new Date()
+    if (user.status_partner === StatusPartner.VERIFIED) {
+      payload.status_partner = StatusPartner.ACTIVE
+    }
+
+    return this.Users().where('id', user.id).update(payload)
+  }
 }
