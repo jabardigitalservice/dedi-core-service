@@ -81,7 +81,7 @@ export class AuthRepository {
   public updatePassword = (id: string, password: string) =>
     this.Users().where('id', id).update({ password })
 
-  public updateAfterSignIn = (user: AuthEntity.User) => {
+  public updateStatus = (user: AuthEntity.User) => {
     let payload: AuthEntity.User
 
     payload.last_login_at = new Date()
