@@ -109,7 +109,14 @@ export class UserService {
       item.file_id
     )
 
-    return this.userRepository.update(this.getRequestBody(request), id)
+    const payload = this.getRequestBody(request) as UserEntity.User
+
+    // check if roles is partner and partners are changing
+    if (request.roles === config.get('role.1') && item.partner_name !== request.company) {
+      payload.partner_id = await this.getPartnerId(request.company)
+    }
+
+    return this.userRepository.update(payload, id)
   }
 
   public updateStatus = async (request: UserEntity.RequestBodyUpdateStatus, id: string) => {

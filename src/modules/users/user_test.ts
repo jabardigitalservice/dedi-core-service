@@ -74,6 +74,7 @@ const expectResponse = expect.objectContaining({
   is_active: expect.any(Boolean),
   created_at: expect.toBeOneOf([null, expect.any(String)]),
   updated_at: expect.toBeOneOf([null, expect.any(String)]),
+  status_partner: expect.toBeOneOf([null, expect.any(String)]),
   last_login_at: expect.toBeOneOf([null, expect.any(String)]),
 })
 
@@ -210,6 +211,19 @@ describe('test users', () => {
     request(app)
       .put(`/v1/users/${userId}`)
       .send(data())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
+})
+
+describe('test users', () => {
+  it('test success update as partner', async () =>
+    request(app)
+      .put(`/v1/users/${userId}`)
+      .send({
+        ...data(),
+        roles: config.get('role.1'),
+        company: faker.name.firstName(),
+      })
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(httpStatus.OK))
 })
