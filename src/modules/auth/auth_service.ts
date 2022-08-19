@@ -80,7 +80,7 @@ export class AuthService {
 
     const responseJwt = this.generateJwtToken(user)
 
-    await this.authRepository.updateLastLoginAt(user.id)
+    await this.authRepository.updateStatus(user)
 
     await this.authRepository.createOauthToken({
       user_id: user.id,
