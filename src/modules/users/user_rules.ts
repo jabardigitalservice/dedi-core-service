@@ -9,6 +9,7 @@ export namespace UserRules {
     'users.is_active',
     'users.email',
     'users.updated_at',
+    'users.created_at',
     'users.status_partner',
     'partners.name',
   ]
