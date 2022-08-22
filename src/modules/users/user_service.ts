@@ -1,5 +1,4 @@
 import httpStatus from 'http-status'
-import { boolean } from 'joi'
 import config from '../../config'
 import { HttpError } from '../../handler/exception'
 import { convertToBoolean, StatusPartner } from '../../helpers/constant'
