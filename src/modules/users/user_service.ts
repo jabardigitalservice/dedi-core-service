@@ -124,6 +124,20 @@ export class UserService {
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
-    return this.userRepository.updateStatus({ is_active: convertToBoolean(request.is_active) }, id)
+    const is_active = convertToBoolean(request.is_active)
+
+    const payload = <UserEntity.RequestBodyUpdateStatus>{
+      is_active,
+    }
+
+    const isStatusActiveInactive = [StatusPartner.ACTIVE, StatusPartner.INACTIVE].includes(
+      item.status_partner
+    )
+
+    const status_partner = is_active ? StatusPartner.ACTIVE : StatusPartner.INACTIVE
+
+    if (isStatusActiveInactive) payload.status_partner = status_partner
+
+    return this.userRepository.updateStatus(payload, id)
   }
 }
