@@ -1,4 +1,5 @@
 import httpStatus from 'http-status'
+import { boolean } from 'joi'
 import config from '../../config'
 import { HttpError } from '../../handler/exception'
 import { convertToBoolean, StatusPartner } from '../../helpers/constant'
@@ -157,7 +158,6 @@ export class UserService {
       throw new HttpError(httpStatus.BAD_REQUEST, lang.__('error.users.partner.verified'))
 
     const is_verify = convertToBoolean(request.is_verify)
-
     const payload = <UserEntity.Verify>{
       is_active: true,
     }
@@ -169,28 +169,35 @@ export class UserService {
       payload.is_active = false
     }
 
-    const html = is_verify
-      ? this.templateEmailHtmlAccepted()
-      : this.templateEmailHtmlRejected(request.notes)
-
-    this.sendEmailVerify(is_verify, item.email, html)
+    this.sendEmailVerify(item.email, is_verify, request.notes)
 
     return this.userRepository.verify(payload, id)
+  }
+
+  private propertySendEmailVerify = (is_verify: boolean, notes: string) => {
+    const property = <UserEntity.Email>{
+      subject: this.templateEmailHtmlRejected(notes),
+      html: lang.__('subject.verify.subject.rejected'),
+    }
+
+    if (is_verify) {
+      property.subject = this.templateEmailHtmlAccepted()
+      property.html = lang.__('subject.verify.subject.accepted')
+    }
+
+    return property
   }
 
   private templateEmailHtmlAccepted = () => ``
 
   private templateEmailHtmlRejected = (notes: string) => ``
 
-  private sendEmailVerify = async (is_verify: boolean, email: string, html: string) => {
-    const subject = is_verify
-      ? lang.__('subject.verify.subject.accepted')
-      : lang.__('subject.verify.subject.rejected')
-
+  private sendEmailVerify = async (email: string, is_verify: boolean, notes: string) => {
+    const propertyEmail = this.propertySendEmailVerify(is_verify, notes)
     this.sendMail({
       to: email,
-      subject,
-      html,
+      subject: propertyEmail.subject,
+      html: propertyEmail.html,
     })
   }
 }

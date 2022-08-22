@@ -45,6 +45,15 @@ const dataPartner = (): UserEntity.RequestBody => ({
   company: faker.name.firstName(),
 })
 
+const dataVerifyAccepted = (): UserEntity.RequestBodyVerify => ({
+  is_verify: true,
+})
+
+const dataVerifyRejected = (): UserEntity.RequestBodyVerify => ({
+  is_verify: false,
+  notes: faker.name.firstName(),
+})
+
 const identifier = uuidv4()
 
 const accessToken = createAccessToken({
@@ -90,6 +99,7 @@ const expectFindById = expect.objectContaining({
 })
 
 let userId: string
+let userIdPartner: string
 let accessTokenByUser: string
 
 describe('test users', () => {
@@ -140,6 +150,19 @@ describe('test users', () => {
           adm: true,
         })
         expect(response.body).toEqual(expectFindAll)
+      }))
+})
+
+describe('test users', () => {
+  it('test success find all with query is partner', async () =>
+    request(app)
+      .get('/v1/users')
+      .expect(httpStatus.OK)
+      .query({ is_admin: false, roles: config.get('role.1') })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .then((response) => {
+        const [item] = response.body.data
+        userIdPartner = item.id
       }))
 })
 
@@ -199,7 +222,7 @@ describe('test users', () => {
 })
 
 describe('test users', () => {
-  it('update users partner status partner set active', async () => {
+  it('update users partner status partner set inactive', async () => {
     await database('users').whereNotNull('partner_id').update({
       status_partner: StatusPartner.INACTIVE,
     })
@@ -251,6 +274,58 @@ describe('test users', () => {
         roles: config.get('role.1'),
         company: faker.name.firstName(),
       })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
+})
+
+describe('test users', () => {
+  it('test failed verify not found', async () =>
+    request(app)
+      .put('/v1/users/9999/verify')
+      .send(dataVerifyAccepted())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
+})
+
+describe('test users', () => {
+  it('test failed verify when status not is waiting', async () =>
+    request(app)
+      .put(`/v1/users/${userId}/verify`)
+      .send(dataVerifyAccepted())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.BAD_REQUEST))
+})
+
+describe('test users', () => {
+  it('update users partner status partner set waiting', async () => {
+    await database('users').where('id', userIdPartner).update({
+      status_partner: StatusPartner.WAITING,
+    })
+  })
+})
+
+describe('test users', () => {
+  it('test success verify accepted', async () =>
+    request(app)
+      .put(`/v1/users/${userIdPartner}/verify`)
+      .send(dataVerifyAccepted())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
+})
+
+describe('test users', () => {
+  it('update users partner status partner set waiting', async () => {
+    await database('users').where('id', userIdPartner).update({
+      status_partner: StatusPartner.WAITING,
+    })
+  })
+})
+
+describe('test users', () => {
+  it('test success verified rejected', async () =>
+    request(app)
+      .put(`/v1/users/${userIdPartner}/verify`)
+      .send(dataVerifyRejected())
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(httpStatus.OK))
 })
