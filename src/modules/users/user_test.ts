@@ -190,7 +190,7 @@ describe('test users', () => {
 })
 
 describe('test users', () => {
-  it('test success update status set is active true', async () =>
+  it('test success update status', async () =>
     request(app)
       .patch(`/v1/users/${userId}/status`)
       .send({ is_active: true })
