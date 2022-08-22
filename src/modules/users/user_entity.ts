@@ -79,6 +79,17 @@ export namespace UserEntity {
     status_partner?: string
   }
 
+  export interface Verify {
+    notes?: string
+    status_partner?: string
+    is_active?: boolean
+  }
+
+  export interface RequestBodyVerify {
+    is_verify: boolean
+    notes?: string
+  }
+
   type Meta = metaPaginate
 
   export interface ResponseFindAll {

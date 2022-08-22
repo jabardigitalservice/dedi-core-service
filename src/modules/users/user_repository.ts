@@ -113,6 +113,14 @@ export class UserRepository {
         updated_at: new Date(),
       })
 
+  public verify = (request: UserEntity.Verify, id: string) =>
+    this.Users()
+      .where('id', id)
+      .update({
+        ...request,
+        updated_at: new Date(),
+      })
+
   public findByNamePartner = (company: string) =>
     this.Partner().select('id').where('name', company).first()
 

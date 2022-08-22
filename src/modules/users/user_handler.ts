@@ -68,4 +68,15 @@ export class UserHandler {
       return next(error)
     }
   }
+
+  public verify = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { body } = req
+      const { id } = req.params
+      await this.userService.verify(body, id)
+      return res.status(httpStatus.OK).json({ message: 'UPDATED' })
+    } catch (error) {
+      return next(error)
+    }
+  }
 }
