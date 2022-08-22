@@ -101,4 +101,9 @@ export namespace AuthEntity {
     }
     meta: {}
   }
+
+  export interface UpdateStatus {
+    last_login_at?: Date
+    status_partner?: string
+  }
 }
