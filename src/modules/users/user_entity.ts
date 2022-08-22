@@ -17,6 +17,7 @@ export namespace UserEntity {
     verified_at?: Date
     last_login_at?: Date
     status_partner?: string
+    notes?: string
   }
 
   export interface File {
