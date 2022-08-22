@@ -76,6 +76,7 @@ export namespace UserEntity {
 
   export interface RequestBodyUpdateStatus {
     is_active: boolean
+    status_partner?: string
   }
 
   type Meta = metaPaginate

@@ -5,6 +5,7 @@ import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
 import config from '../../config'
 import database from '../../config/database'
+import { StatusPartner } from '../../helpers/constant'
 import { createAccessToken } from '../../middleware/jwt'
 import app from '../../server'
 import { UserEntity } from './user_entity'
@@ -189,10 +190,36 @@ describe('test users', () => {
 })
 
 describe('test users', () => {
-  it('test success update status', async () =>
+  it('test success update status set is active true', async () =>
     request(app)
       .patch(`/v1/users/${userId}/status`)
       .send({ is_active: true })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
+})
+
+describe('test users', () => {
+  it('update users partner status partner set active', async () => {
+    await database('users').whereNotNull('partner_id').update({
+      status_partner: StatusPartner.INACTIVE,
+    })
+  })
+})
+
+describe('test users', () => {
+  it('test success update status set is active true', async () =>
+    request(app)
+      .patch(`/v1/users/${userId}/status`)
+      .send({ is_active: true })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
+})
+
+describe('test users', () => {
+  it('test success update status set is active false', async () =>
+    request(app)
+      .patch(`/v1/users/${userId}/status`)
+      .send({ is_active: false })
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(httpStatus.OK))
 })
