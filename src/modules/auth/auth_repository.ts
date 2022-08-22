@@ -81,7 +81,7 @@ export class AuthRepository {
     this.Users().where('id', id).update({ password })
 
   public updateStatus = (user: AuthEntity.User) => {
-    let payload: AuthEntity.User
+    const payload = <AuthEntity.UpdateStatus>{}
 
     payload.last_login_at = new Date()
     if (user.status_partner === StatusPartner.VERIFIED) {

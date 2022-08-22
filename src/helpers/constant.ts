@@ -20,5 +20,5 @@ export enum StatusPartner {
   VERIFIED = 'Terverifikasi',
   REJECTED = 'Ditolak',
   ACTIVE = 'Aktif',
-  INACTIVE = 'Non Aktif',
+  INACTIVE = 'Nonaktif',
 }
