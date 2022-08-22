@@ -160,13 +160,13 @@ export class UserService {
     const is_verify = convertToBoolean(request.is_verify)
     const payload = <UserEntity.Verify>{
       is_active: true,
+      status_partner: StatusPartner.ACTIVE,
     }
-
-    payload.status_partner = is_verify ? StatusPartner.ACTIVE : StatusPartner.REJECTED
 
     if (!is_verify) {
       payload.notes = request.notes
       payload.is_active = false
+      payload.status_partner = StatusPartner.REJECTED
     }
 
     this.sendEmailVerify(item.email, is_verify, request.notes)
