@@ -2,6 +2,7 @@ import httpStatus from 'http-status'
 import config from '../../config'
 import { HttpError } from '../../handler/exception'
 import { convertToBoolean, StatusPartner } from '../../helpers/constant'
+import { Payload, sendMail as SendMail } from '../../helpers/mail'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
 import { User } from '../../helpers/rbac'
@@ -15,9 +16,15 @@ export class UserService {
 
   private userResponse: UserResponse
 
-  constructor(userRepository: UserRepository = new UserRepository()) {
+  private sendMail: typeof SendMail
+
+  constructor(
+    userRepository: UserRepository = new UserRepository(),
+    sendMail: typeof SendMail = SendMail
+  ) {
     this.userRepository = userRepository
     this.userResponse = new UserResponse()
+    this.sendMail = sendMail
   }
 
   public findAll = async (
@@ -139,5 +146,53 @@ export class UserService {
     if (isStatusActiveInactive) payload.status_partner = status_partner
 
     return this.userRepository.updateStatus(payload, id)
+  }
+
+  public verify = async (request: UserEntity.RequestBodyVerify, id: string) => {
+    const item: any = await this.userRepository.findById(id)
+    if (!item)
+      throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
+
+    if (item.status_partner !== StatusPartner.WAITING)
+      throw new HttpError(httpStatus.BAD_REQUEST, lang.__('error.users.partner.verified'))
+
+    const is_verify = convertToBoolean(request.is_verify)
+    const payload = <UserEntity.Verify>{
+      is_active: true,
+      status_partner: StatusPartner.ACTIVE,
+    }
+
+    if (!is_verify) {
+      payload.notes = request.notes
+      payload.is_active = false
+      payload.status_partner = StatusPartner.REJECTED
+    }
+
+    this.sendEmailVerify(item.email, is_verify, request.notes)
+
+    return this.userRepository.verify(payload, id)
+  }
+
+  private templateEmailHtmlAccepted = () => ``
+
+  private templateEmailHtmlRejected = (notes: string) => ``
+
+  private sendEmailVerify = async (email: string, is_verify: boolean, notes: string) => {
+    const payload = <Payload>{
+      to: email,
+      subject: this.templateEmailHtmlRejected(notes),
+      html: lang.__('subject.verify.subject.rejected'),
+    }
+
+    if (is_verify) {
+      payload.subject = this.templateEmailHtmlAccepted()
+      payload.html = lang.__('subject.verify.subject.accepted')
+    }
+
+    this.sendMail({
+      to: payload.to,
+      subject: payload.subject,
+      html: payload.html,
+    })
   }
 }

@@ -38,7 +38,7 @@ export namespace UserRules {
     company: Joi.alternatives().conditional('roles', {
       is: config.get('role.1'),
       then: Joi.string().regex(regexAlphanumeric).required(),
-      otherwise: Joi.optional(),
+      otherwise: Joi.forbidden(),
     }),
     avatar: Joi.string().regex(regexExtFile).max(255).required(),
     avatar_original_name: Joi.string().regex(regexExtFile).max(255).required(),
@@ -49,7 +49,7 @@ export namespace UserRules {
     password: Joi.alternatives().conditional('roles', {
       is: config.get('role.0'),
       then: Joi.string().regex(regexAlphanumeric).min(8).required(),
-      otherwise: Joi.optional(),
+      otherwise: Joi.forbidden(),
     }),
   })
 
@@ -59,6 +59,15 @@ export namespace UserRules {
 
   export const updateStatus = Joi.object({
     is_active: Joi.boolean().required(),
+  })
+
+  export const verify = Joi.object({
+    is_verify: Joi.boolean().required(),
+    notes: Joi.alternatives().conditional('is_verify', {
+      is: false,
+      then: Joi.string().regex(regexAlphanumeric).max(5000).required(),
+      otherwise: Joi.forbidden(),
+    }),
   })
 
   const validateWithDB: ValidationWithDB = {

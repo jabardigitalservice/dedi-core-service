@@ -28,6 +28,7 @@
 
   "error.exists": "{{ entity }} dengan id {{ id }} tidak ditemukan.",
   "error.village.registered": "Desa yang Anda ajukan telah terdaftar di Desa Digital level {{ level }}",
+  "error.users.partner.verified": "User mitra yang akan diverifikasi harus berstatus menunggu verifikasi",
 
   "auth.signin.failed": "Email dan Kata Sandi tidak ditemukan.",
   "auth.signin.failed.limiter": "Harap mencoba login dalam",
@@ -40,6 +41,8 @@
   "auth.user.not.found": "User tidak ditemukan.",
 
   "subject.forgot.password": "Reset Kata Sandi",
+  "subject.verify.subject.accepted": "Permohonan Akun Diterima",
+  "subject.verify.subject.rejected": "Permohonan Akun Ditolak",
   "template.paragraph.forgot.password": "Klik link di bawah ini untuk melakukan reset kata sandi",
 
   "route.not.found": "Route tidak ditemukan",

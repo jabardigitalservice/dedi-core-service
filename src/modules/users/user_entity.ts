@@ -17,6 +17,7 @@ export namespace UserEntity {
     verified_at?: Date
     last_login_at?: Date
     status_partner?: string
+    notes?: string
   }
 
   export interface File {
@@ -79,6 +80,17 @@ export namespace UserEntity {
     status_partner?: string
   }
 
+  export interface Verify {
+    notes?: string
+    status_partner?: string
+    is_active?: boolean
+  }
+
+  export interface RequestBodyVerify {
+    is_verify: boolean
+    notes?: string
+  }
+
   type Meta = metaPaginate
 
   export interface ResponseFindAll {
@@ -89,5 +101,10 @@ export namespace UserEntity {
   export interface ResponseFindById {
     data: Response
     meta: {}
+  }
+
+  export interface Email {
+    subject: string
+    html: string
   }
 }

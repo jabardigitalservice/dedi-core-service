@@ -40,6 +40,14 @@ router.patch(
   validate(UserRules.updateStatus),
   userHandler.updateStatus
 )
+
+router.put(
+  '/v1/users/:id/verify',
+  verifyAccessToken,
+  UserAccess.verify(),
+  validate(UserRules.verify),
+  userHandler.verify
+)
 router.delete('/v1/users/:id', verifyAccessToken, UserAccess.destroy(), userHandler.destroy)
 
 export default router

@@ -9,10 +9,12 @@ export namespace AuthEntity {
     google_id?: string
     created_at: Date
     verified_at?: Date
+    updated_at?: Date
     is_admin?: boolean
     is_active?: boolean
     last_login_at?: Date
     status_partner?: string
+    notes?: string
   }
 
   export interface Partner {
