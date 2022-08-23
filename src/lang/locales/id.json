@@ -22,6 +22,7 @@
   "validation.boolean.base": "Isian {{ attribute }} harus berupa true atau false.",
   "validation.string.empty": "Isian {{ attribute }} tidak boleh string kosong.",
   "validation.string.uri": "Isian {{ attribute }} harus berupa URL yang valid.",
+  "validation.any.unknown": "Isian {{ attribute }} tidak diperbolehkan.",
 
   "validation.file.mimetypes": "Isian {{ attribute }} harus berjenis : {{ values }}.",
   "validation.file.size": "Isian {{ attribute }} seharusnya tidak lebih dari {{ max }} MB.",
