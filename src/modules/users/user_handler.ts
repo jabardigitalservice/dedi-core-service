@@ -42,9 +42,13 @@ export class UserHandler {
   }
 
   public store = async (req: Request, res: Response, next: NextFunction) => {
-    const { body } = req
-    await this.userService.store(body)
-    return res.status(httpStatus.CREATED).json({ message: 'CREATED' })
+    try {
+      const { body } = req
+      await this.userService.store(body)
+      return res.status(httpStatus.CREATED).json({ message: 'CREATED' })
+    } catch (error) {
+      return next(error)
+    }
   }
 
   public update = async (req: Request, res: Response, next: NextFunction) => {

@@ -124,7 +124,7 @@ describe('test users', () => {
 })
 
 describe('test users', () => {
-  it('test success store as partner company exists', async () =>
+  it('test failed store as partner company exists', async () =>
     request(app)
       .post('/v1/users')
       .send({
@@ -132,7 +132,7 @@ describe('test users', () => {
         company: 'test-partner-users',
       })
       .set('Authorization', `Bearer ${accessToken}`)
-      .expect(httpStatus.CREATED))
+      .expect(httpStatus.UNPROCESSABLE_ENTITY))
 })
 
 describe('test users', () => {
@@ -261,19 +261,6 @@ describe('test users', () => {
     request(app)
       .put(`/v1/users/${userId}`)
       .send(data())
-      .set('Authorization', `Bearer ${accessToken}`)
-      .expect(httpStatus.OK))
-})
-
-describe('test users', () => {
-  it('test success update as partner', async () =>
-    request(app)
-      .put(`/v1/users/${userId}`)
-      .send({
-        ...data(),
-        roles: config.get('role.1'),
-        company: faker.name.firstName(),
-      })
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(httpStatus.OK))
 })

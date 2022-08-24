@@ -32,14 +32,6 @@ export namespace UserRules {
   const validate = {
     name: Joi.string().regex(regexAlphanumeric).trim().min(3).max(100).required(),
     email,
-    roles: Joi.string()
-      .valid(...roles)
-      .required(),
-    company: Joi.alternatives().conditional('roles', {
-      is: config.get('role.1'),
-      then: Joi.string().regex(regexAlphanumeric).required(),
-      otherwise: Joi.forbidden(),
-    }),
     avatar: Joi.string().regex(regexExtFile).max(255).required(),
     avatar_original_name: Joi.string().regex(regexExtFile).max(255).required(),
   }
@@ -49,6 +41,14 @@ export namespace UserRules {
     password: Joi.alternatives().conditional('roles', {
       is: config.get('role.0'),
       then: Joi.string().regex(regexAlphanumeric).min(8).required(),
+      otherwise: Joi.forbidden(),
+    }),
+    roles: Joi.string()
+      .valid(...roles)
+      .required(),
+    company: Joi.alternatives().conditional('roles', {
+      is: config.get('role.1'),
+      then: Joi.string().regex(regexAlphanumeric).required(),
       otherwise: Joi.forbidden(),
     }),
   })

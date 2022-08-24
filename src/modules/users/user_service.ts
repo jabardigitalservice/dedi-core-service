@@ -6,6 +6,11 @@ import { Payload, sendMail as SendMail } from '../../helpers/mail'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
 import { User } from '../../helpers/rbac'
+import {
+  templateEmailInvitationPartner,
+  templateEmailVerifyAccepted,
+  templateEmailVerifyRejected,
+} from '../../helpers/templateEmail'
 import lang from '../../lang'
 import { UserEntity } from './user_entity'
 import { UserRepository } from './user_repository'
@@ -70,34 +75,69 @@ export class UserService {
     avatar: request.avatar,
   })
 
-  private getPartnerId = async (company: string): Promise<string> => {
+  private isPartnerExist = async (company: string) => {
     const partner = await this.userRepository.findByNamePartner(company)
-    if (partner) {
-      return partner.id
+    return !!partner
+  }
+
+  private setStoreAdmin = (payload: UserEntity.User, request: UserEntity.RequestBody) => {
+    payload.is_active = true
+    payload.is_admin = true
+    payload.password = passwordHash(request.password)
+
+    return payload
+  }
+
+  private setStorePartner = async (payload: UserEntity.User, request: UserEntity.RequestBody) => {
+    payload.partner_id = await this.userRepository.storePartner(request.company)
+    payload.status_partner = StatusPartner.VERIFIED
+
+    return payload
+  }
+
+  private getStorePayload = async (request: UserEntity.RequestBody) => {
+    let payload = this.getRequestBody(request) as UserEntity.User
+    payload.is_active = false
+    payload.is_admin = false
+
+    if (request.roles === config.get('role.0')) {
+      payload = this.setStoreAdmin(payload, request)
     }
 
-    return this.userRepository.storePartner(company)
+    if (request.roles === config.get('role.1')) {
+      payload = await this.setStorePartner(payload, request)
+    }
+
+    return payload
+  }
+
+  private errorStorePartner = {
+    company: lang.__('validation.unique', { attribute: 'company' }),
+  }
+
+  private sendEmailInvitationPartner = (email: string) => {
+    this.sendMail({
+      to: email,
+      subject: lang.__('subject.invitation.partner'),
+      html: templateEmailInvitationPartner(),
+    })
   }
 
   public store = async (request: UserEntity.RequestBody) => {
+    if (request.roles === config.get('role.1') && (await this.isPartnerExist(request.company))) {
+      const errors = this.errorStorePartner
+      throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, JSON.stringify(errors), true)
+    }
+
     await this.userRepository.createFile({
       source: request.avatar,
       name: request.avatar_original_name,
     })
 
-    const payload = this.getRequestBody(request) as UserEntity.User
-    payload.is_active = false
-    payload.is_admin = false
-
-    if (request.roles === config.get('role.0')) {
-      payload.is_active = true
-      payload.is_admin = true
-      payload.password = passwordHash(request.password)
-    }
+    const payload = await this.getStorePayload(request)
 
     if (request.roles === config.get('role.1')) {
-      payload.partner_id = await this.getPartnerId(request.company)
-      payload.status_partner = StatusPartner.VERIFIED
+      this.sendEmailInvitationPartner(payload.email)
     }
 
     return this.userRepository.store(payload)
@@ -117,11 +157,6 @@ export class UserService {
     )
 
     const payload = this.getRequestBody(request) as UserEntity.User
-
-    // check if roles is partner and partners are changing
-    if (request.roles === config.get('role.1') && item.partner_name !== request.company) {
-      payload.partner_id = await this.getPartnerId(request.company)
-    }
 
     return this.userRepository.update(payload, id)
   }
@@ -173,20 +208,16 @@ export class UserService {
     return this.userRepository.verify(payload, id)
   }
 
-  private templateEmailHtmlAccepted = () => ``
-
-  private templateEmailHtmlRejected = (notes: string) => ``
-
-  private sendEmailVerify = async (email: string, is_verify: boolean, notes: string) => {
+  private sendEmailVerify = (email: string, is_verify: boolean, notes: string) => {
     const payload = <Payload>{
       to: email,
-      subject: this.templateEmailHtmlRejected(notes),
-      html: lang.__('subject.verify.subject.rejected'),
+      html: templateEmailVerifyRejected(notes),
+      subject: lang.__('subject.verify.rejected'),
     }
 
     if (is_verify) {
-      payload.subject = this.templateEmailHtmlAccepted()
-      payload.html = lang.__('subject.verify.subject.accepted')
+      payload.html = templateEmailVerifyAccepted()
+      payload.subject = lang.__('subject.verify.accepted')
     }
 
     this.sendMail({
