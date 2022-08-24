@@ -137,8 +137,8 @@ const storeVillage = {
   city_id: '32.04',
   district_id: '32.04.40',
   level: 1,
-  longitude: '-21312312',
-  latitude: '122213213',
+  longitude: '-21.312312',
+  latitude: '122.213213',
 }
 
 const identifier = uuidv4()

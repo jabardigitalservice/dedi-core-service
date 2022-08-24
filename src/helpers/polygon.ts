@@ -1,9 +1,11 @@
+import { regexPointBounds } from './regex'
+
 interface Bounds {
   ne: string
   sw: string
 }
 
-const pointRegexRule = (point: string) => /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/.test(point)
+const pointRegexRule = (point: string) => regexPointBounds.test(point)
 
 export const isRequestBounds = (bounds: Bounds) =>
   bounds?.ne && bounds.sw && pointRegexRule(bounds.ne) && pointRegexRule(bounds.sw)
