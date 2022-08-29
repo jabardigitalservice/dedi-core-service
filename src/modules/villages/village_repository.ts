@@ -125,7 +125,7 @@ export class VillageRepository {
     name: request.name,
     district_id: request.district_id,
     level: request.level,
-    location: database.raw(`ST_GeomFromText('POINT(${request.latitude} ${request.longitude})')`),
+    location: database.raw(`ST_GeomFromText('POINT(${request.longitude} ${request.latitude})')`),
   })
 
   public store = (request: VillageEntity.RequestBody) =>
