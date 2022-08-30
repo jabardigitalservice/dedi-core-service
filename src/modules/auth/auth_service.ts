@@ -35,7 +35,7 @@ export class AuthService {
       google_id: request.google_id,
     }
 
-    user.partner_id = request.company ? await this.authRepository.getPartnerId(request) : null
+    user.partner_id = await this.authRepository.getPartnerId(request)
     user.status_partner = user.partner_id ? StatusPartner.WAITING : null
 
     return this.authRepository.signUp(user)
