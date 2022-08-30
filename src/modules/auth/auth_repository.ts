@@ -17,13 +17,15 @@ export class AuthRepository {
     })
 
   private isPartnerIdNotExist = async (request: AuthEntity.RequestBodySignUp) => {
-    const partner = this.Partners()
-      .select('id')
-      .where('id', request.partner_id)
-      .orWhere('name', request.company)
-      .first()
+    const query = this.Partners().select('id')
 
-    return !request.partner_id || !(await partner)
+    if (request.partner_id) query.where('id', request.partner_id)
+
+    query.where('name', request.company)
+
+    const partner = await query.first()
+
+    return !partner
   }
 
   public getPartnerId = async (request: AuthEntity.RequestBodySignUp) => {
