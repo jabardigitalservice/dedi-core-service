@@ -73,7 +73,7 @@ export class UserRepository {
 
   public destroy = (id: number) =>
     this.Users()
-      .where('id', id)
+      .where('users.id', id)
       .leftJoin('partners', 'partners.id', '=', 'users.partner_id')
       .delete()
 
