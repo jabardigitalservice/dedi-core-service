@@ -71,7 +71,11 @@ export class UserRepository {
 
   public findById = (id: string) => this.Query().where('users.id', id).first()
 
-  public destroy = (id: number) => this.Users().where('id', id).delete()
+  public destroy = (id: number) =>
+    this.Users()
+      .where('users.id', id)
+      .leftJoin('partners', 'partners.id', '=', 'users.partner_id')
+      .delete()
 
   public store = (request: UserEntity.User) =>
     this.Users().insert({
