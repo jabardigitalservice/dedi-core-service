@@ -75,11 +75,6 @@ export class UserService {
     avatar: request.avatar,
   })
 
-  private isPartnerExist = async (company: string) => {
-    const partner = await this.userRepository.findByNamePartner(company)
-    return !!partner
-  }
-
   private setStoreAdmin = (payload: UserEntity.User, request: UserEntity.RequestBody) => {
     payload.is_active = true
     payload.is_admin = true
@@ -111,10 +106,6 @@ export class UserService {
     return payload
   }
 
-  private errorStorePartner = {
-    company: lang.__('validation.unique', { attribute: 'company' }),
-  }
-
   private sendEmailInvitationPartner = (email: string) => {
     this.sendMail({
       to: email,
@@ -124,11 +115,6 @@ export class UserService {
   }
 
   public store = async (request: UserEntity.RequestBody) => {
-    if (request.roles === config.get('role.1') && (await this.isPartnerExist(request.company))) {
-      const errors = this.errorStorePartner
-      throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, JSON.stringify(errors), true)
-    }
-
     await this.userRepository.createFile({
       source: request.avatar,
       name: request.avatar_original_name,
