@@ -125,9 +125,6 @@ export class UserRepository {
         updated_at: new Date(),
       })
 
-  public findByNamePartner = (company: string) =>
-    this.Partner().select('id').where('name', company).first()
-
   public storePartner = async (company: string) => {
     const id = uuidv4()
 
