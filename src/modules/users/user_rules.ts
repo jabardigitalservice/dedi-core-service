@@ -80,6 +80,14 @@ export namespace UserRules {
         params: 'id',
       },
     ],
+    company: [
+      {
+        type: 'unique',
+        attr: 'company',
+        table: 'partners',
+        column: 'name',
+      },
+    ],
     avatar: [
       {
         type: 'unique',

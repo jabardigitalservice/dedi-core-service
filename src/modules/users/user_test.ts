@@ -124,18 +124,6 @@ describe('test users', () => {
 })
 
 describe('test users', () => {
-  it('test failed store as partner company exists', async () =>
-    request(app)
-      .post('/v1/users')
-      .send({
-        ...dataPartner(),
-        company: 'test-partner-users',
-      })
-      .set('Authorization', `Bearer ${accessToken}`)
-      .expect(httpStatus.UNPROCESSABLE_ENTITY))
-})
-
-describe('test users', () => {
   it('test success find all', async () =>
     request(app)
       .get('/v1/users')
@@ -243,6 +231,15 @@ describe('test users', () => {
     request(app)
       .patch(`/v1/users/${userId}/status`)
       .send({ is_active: false })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
+})
+
+describe('test users', () => {
+  it('test success update status set is active true', async () =>
+    request(app)
+      .patch(`/v1/users/${userId}/status`)
+      .send({ is_active: true })
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(httpStatus.OK))
 })
