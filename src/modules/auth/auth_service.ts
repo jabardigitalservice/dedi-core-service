@@ -66,12 +66,21 @@ export class AuthService {
     <a href="${linkRedirect}">${aliasRedirect}</a>
     `
 
+  private testMatchPassword = async (password: string, passwordHashed: string) => {
+    const error = new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.signin.failed'))
+    try {
+      const match = await compare(password, passwordHashed)
+      if (!match) throw error
+    } catch (e) {
+      throw error
+    }
+  }
+
   public signIn = async (request: AuthEntity.RequestBodySignIn) => {
     const user = await this.authRepository.findByEmail(request)
     if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.signin.failed'))
 
-    const match = await compare(request.password, user.password)
-    if (!match) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.signin.failed'))
+    await this.testMatchPassword(request.password, user.password)
 
     if (!user.verified_at)
       throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.verified.failed'))
