@@ -117,13 +117,17 @@ export class UserRepository {
         updated_at: new Date(),
       })
 
-  public verify = (request: UserEntity.Verify, id: string) =>
-    this.Users()
+  public verify = (request: UserEntity.Verify, id: string) => {
+    const verified_at = request.is_active ? new Date() : null
+
+    return this.Users()
       .where('id', id)
       .update({
         ...request,
+        verified_at,
         updated_at: new Date(),
       })
+  }
 
   public storePartner = async (company: string) => {
     const id = uuidv4()
