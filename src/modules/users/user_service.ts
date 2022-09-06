@@ -110,7 +110,7 @@ export class UserService {
     this.sendMail({
       to: email,
       subject: lang.__('subject.invitation.partner'),
-      html: templateEmailInvitationPartner(),
+      template: 'invitation_partner',
     })
   }
 
@@ -197,19 +197,22 @@ export class UserService {
   private sendEmailVerify = (email: string, is_verify: boolean, notes: string) => {
     const payload = <Payload>{
       to: email,
-      html: templateEmailVerifyRejected(notes),
+      template: 'verify_rejected_partner',
       subject: lang.__('subject.verify.rejected'),
+      context: {
+        notes
+      }
     }
 
     if (is_verify) {
-      payload.html = templateEmailVerifyAccepted()
+      payload.template = 'verify_rejected_partner'
       payload.subject = lang.__('subject.verify.accepted')
     }
 
     this.sendMail({
       to: payload.to,
       subject: payload.subject,
-      html: payload.html,
+      template: payload.template,
     })
   }
 }
