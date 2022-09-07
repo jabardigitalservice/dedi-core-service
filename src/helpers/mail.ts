@@ -1,13 +1,10 @@
 import newrelic from 'newrelic'
+import { TemplateOptions } from 'nodemailer-express-handlebars'
+import { Options } from 'nodemailer/lib/mailer'
 import config from '../config'
 import mail from '../config/mailer'
 
-export interface Payload {
-  to: string
-  subject: string
-  text?: string
-  html?: string
-}
+export type Payload = Options & TemplateOptions
 
 export const sendMail = async (payload: Payload) => {
   const mailOptions = {

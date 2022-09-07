@@ -61,11 +61,6 @@ export class AuthService {
     }
   }
 
-  private templateHtmlForgotEmail = (linkRedirect: string, aliasRedirect: string) => `
-    <p>${lang.__('template.paragraph.forgot.password')}</p>
-    <a href="${linkRedirect}">${aliasRedirect}</a>
-    `
-
   private testMatchPassword = async (password: string, passwordHashed: string) => {
     const error = new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.signin.failed'))
     try {
@@ -176,13 +171,13 @@ export class AuthService {
       target: 'password-verify',
     })
 
-    const aliasRedirect = config.get('url.redirect.forgot.password')
-    const linkRedirect = `${aliasRedirect}?token=${token}`
-
     this.sendMail({
       to: user.email,
       subject: lang.__('subject.forgot.password'),
-      html: this.templateHtmlForgotEmail(linkRedirect, aliasRedirect),
+      context: {
+        link: `${config.get('url.redirect.forgot.password')}?token=${token}`,
+      },
+      template: 'forgot_password',
     })
 
     return { message: lang.__('auth.email.forgot.password.success', { email: user.email }) }
