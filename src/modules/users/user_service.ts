@@ -6,11 +6,6 @@ import { Payload, sendMail as SendMail } from '../../helpers/mail'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
 import { User } from '../../helpers/rbac'
-import {
-  templateEmailInvitationPartner,
-  templateEmailVerifyAccepted,
-  templateEmailVerifyRejected,
-} from '../../helpers/templateEmail'
 import lang from '../../lang'
 import { UserEntity } from './user_entity'
 import { UserRepository } from './user_repository'
@@ -200,8 +195,8 @@ export class UserService {
       template: 'verify_rejected_partner',
       subject: lang.__('subject.verify.rejected'),
       context: {
-        notes
-      }
+        notes,
+      },
     }
 
     if (is_verify) {

@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
-import config from '.'
 import hbs, { NodemailerExpressHandlebarsOptions } from 'nodemailer-express-handlebars'
+import config from '.'
 
 const mail = nodemailer.createTransport({
   host: config.get('smtp.host'),
