@@ -16,7 +16,8 @@ export class UserResponse {
     },
   })
 
-  private role = (item: any) => getRole({
+  private role = (item: any) =>
+    getRole({
       prtnr: item.partner_id,
       adm: item.is_admin,
       apparatus: item.is_village_apparatus,
