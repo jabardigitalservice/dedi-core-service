@@ -171,14 +171,11 @@ export class AuthService {
       target: 'password-verify',
     })
 
-    const aliasRedirect = config.get('url.redirect.forgot.password')
-
     this.sendMail({
       to: user.email,
       subject: lang.__('subject.forgot.password'),
       context: {
-        linkRedirect: `${aliasRedirect}?token=${token}`,
-        aliasRedirect,
+        link: `${config.get('url.redirect.forgot.password')}?token=${token}`,
       },
       template: 'forgot_password',
     })
