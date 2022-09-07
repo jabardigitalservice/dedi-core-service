@@ -5,7 +5,7 @@ import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
 import config from '../../config'
 import database from '../../config/database'
-import { StatusPartner } from '../../helpers/constant'
+import { UserStatus } from '../../helpers/constant'
 import { createAccessToken } from '../../middleware/jwt'
 import app from '../../server'
 import { UserEntity } from './user_entity'
@@ -84,7 +84,7 @@ const expectResponse = expect.objectContaining({
   is_active: expect.any(Boolean),
   created_at: expect.toBeOneOf([null, expect.any(String)]),
   updated_at: expect.toBeOneOf([null, expect.any(String)]),
-  status_partner: expect.toBeOneOf([null, expect.any(String)]),
+  status: expect.toBeOneOf([null, expect.any(String)]),
   last_login_at: expect.toBeOneOf([null, expect.any(String)]),
 })
 
@@ -212,7 +212,7 @@ describe('test users', () => {
 describe('test users', () => {
   it('update users partner status partner set inactive', async () => {
     await database('users').whereNotNull('partner_id').update({
-      status_partner: StatusPartner.INACTIVE,
+      status: UserStatus.INACTIVE,
     })
   })
 })
@@ -283,7 +283,7 @@ describe('test users', () => {
 describe('test users', () => {
   it('update users partner status partner set waiting', async () => {
     await database('users').where('id', userIdPartner).update({
-      status_partner: StatusPartner.WAITING,
+      status: UserStatus.WAITING,
     })
   })
 })
@@ -300,7 +300,7 @@ describe('test users', () => {
 describe('test users', () => {
   it('update users partner status partner set waiting', async () => {
     await database('users').where('id', userIdPartner).update({
-      status_partner: StatusPartner.WAITING,
+      status: UserStatus.WAITING,
     })
   })
 })

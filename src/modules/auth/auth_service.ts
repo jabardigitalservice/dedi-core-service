@@ -10,7 +10,7 @@ import * as jwt from '../../middleware/jwt'
 import { sendMail as SendMail } from '../../helpers/mail'
 import config from '../../config'
 import { getRole, User } from '../../helpers/rbac'
-import { convertToBoolean, StatusPartner } from '../../helpers/constant'
+import { convertToBoolean, UserStatus } from '../../helpers/constant'
 import { passwordHash } from '../../helpers/passwordHash'
 import { getUrl } from '../../helpers/cloudStorage'
 
@@ -36,7 +36,7 @@ export class AuthService {
     }
 
     user.partner_id = await this.authRepository.getPartnerId(request)
-    user.status_partner = user.partner_id ? StatusPartner.WAITING : null
+    user.status = user.partner_id ? UserStatus.WAITING : null
 
     return this.authRepository.signUp(user)
   }
