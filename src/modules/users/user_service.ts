@@ -1,7 +1,7 @@
 import httpStatus from 'http-status'
 import config from '../../config'
 import { HttpError } from '../../handler/exception'
-import { convertToBoolean, StatusPartner } from '../../helpers/constant'
+import { convertToBoolean, StatusUser } from '../../helpers/constant'
 import { Payload, sendMail as SendMail } from '../../helpers/mail'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
@@ -80,7 +80,7 @@ export class UserService {
 
   private setStorePartner = async (payload: UserEntity.User, request: UserEntity.RequestBody) => {
     payload.partner_id = await this.userRepository.storePartner(request.company)
-    payload.status_partner = StatusPartner.VERIFIED
+    payload.status = StatusUser.VERIFIED
 
     return payload
   }
@@ -153,13 +153,11 @@ export class UserService {
       is_active,
     }
 
-    const isStatusActiveInactive = [StatusPartner.ACTIVE, StatusPartner.INACTIVE].includes(
-      item.status_partner
-    )
+    const isStatusActiveInactive = [StatusUser.ACTIVE, StatusUser.INACTIVE].includes(item.status)
 
-    const status_partner = is_active ? StatusPartner.ACTIVE : StatusPartner.INACTIVE
+    const status = is_active ? StatusUser.ACTIVE : StatusUser.INACTIVE
 
-    if (isStatusActiveInactive) payload.status_partner = status_partner
+    if (isStatusActiveInactive) payload.status = status
 
     return this.userRepository.updateStatus(payload, id)
   }
@@ -169,19 +167,19 @@ export class UserService {
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
-    if (item.status_partner !== StatusPartner.WAITING)
+    if (item.status !== StatusUser.WAITING)
       throw new HttpError(httpStatus.BAD_REQUEST, lang.__('error.users.partner.verified'))
 
     const is_verify = convertToBoolean(request.is_verify)
     const payload = <UserEntity.Verify>{
       is_active: true,
-      status_partner: StatusPartner.ACTIVE,
+      status: StatusUser.ACTIVE,
     }
 
     if (!is_verify) {
       payload.notes = request.notes
       payload.is_active = false
-      payload.status_partner = StatusPartner.REJECTED
+      payload.status = StatusUser.REJECTED
     }
 
     this.sendEmailVerify(item.email, is_verify, request.notes)

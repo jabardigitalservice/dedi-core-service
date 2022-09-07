@@ -20,7 +20,7 @@ export class UserResponse {
     is_active: convertToBoolean(item.is_active),
     created_at: item.created_at,
     updated_at: item.updated_at,
-    status_partner: item.status_partner,
+    status: item.status,
     last_login_at: item.last_login_at,
   })
 

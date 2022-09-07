@@ -16,7 +16,7 @@ export namespace UserEntity {
     updated_at?: Date
     verified_at?: Date
     last_login_at?: Date
-    status_partner?: string
+    status?: string
     notes?: string
   }
 
@@ -50,7 +50,7 @@ export namespace UserEntity {
     is_active: boolean
     created_at?: Date
     updated_at?: Date
-    status_partner?: string
+    status?: string
     last_login_at?: Date
   }
 
@@ -77,12 +77,12 @@ export namespace UserEntity {
 
   export interface RequestBodyUpdateStatus {
     is_active: boolean
-    status_partner?: string
+    status?: string
   }
 
   export interface Verify {
     notes?: string
-    status_partner?: string
+    status?: string
     is_active?: boolean
   }
 

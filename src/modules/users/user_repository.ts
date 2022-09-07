@@ -50,7 +50,7 @@ export class UserRepository {
         'users.created_at',
         'users.updated_at',
         'users.last_login_at',
-        'users.status_partner',
+        'users.status',
         'files.name as file_name',
         'files.id as file_id',
         'partners.name as partner_name'

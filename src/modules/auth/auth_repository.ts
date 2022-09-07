@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import database from '../../config/database'
-import { StatusPartner } from '../../helpers/constant'
+import { StatusUser } from '../../helpers/constant'
 import { AuthEntity } from './auth_entity'
 
 export class AuthRepository {
@@ -86,8 +86,8 @@ export class AuthRepository {
     const payload = <AuthEntity.UpdateStatus>{}
 
     payload.last_login_at = new Date()
-    if (user.status_partner === StatusPartner.VERIFIED) {
-      payload.status_partner = StatusPartner.ACTIVE
+    if (user.status === StatusUser.VERIFIED) {
+      payload.status = StatusUser.ACTIVE
     }
 
     return this.Users().where('id', user.id).update(payload)
