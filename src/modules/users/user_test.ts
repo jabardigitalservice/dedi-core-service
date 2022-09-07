@@ -5,7 +5,7 @@ import request from 'supertest'
 import { v4 as uuidv4 } from 'uuid'
 import config from '../../config'
 import database from '../../config/database'
-import { StatusUser } from '../../helpers/constant'
+import { UserStatus } from '../../helpers/constant'
 import { createAccessToken } from '../../middleware/jwt'
 import app from '../../server'
 import { UserEntity } from './user_entity'
@@ -212,7 +212,7 @@ describe('test users', () => {
 describe('test users', () => {
   it('update users partner status partner set inactive', async () => {
     await database('users').whereNotNull('partner_id').update({
-      status: StatusUser.INACTIVE,
+      status: UserStatus.INACTIVE,
     })
   })
 })
@@ -283,7 +283,7 @@ describe('test users', () => {
 describe('test users', () => {
   it('update users partner status partner set waiting', async () => {
     await database('users').where('id', userIdPartner).update({
-      status: StatusUser.WAITING,
+      status: UserStatus.WAITING,
     })
   })
 })
@@ -300,7 +300,7 @@ describe('test users', () => {
 describe('test users', () => {
   it('update users partner status partner set waiting', async () => {
     await database('users').where('id', userIdPartner).update({
-      status: StatusUser.WAITING,
+      status: UserStatus.WAITING,
     })
   })
 })

@@ -1,7 +1,7 @@
 import httpStatus from 'http-status'
 import config from '../../config'
 import { HttpError } from '../../handler/exception'
-import { convertToBoolean, StatusUser } from '../../helpers/constant'
+import { convertToBoolean, UserStatus } from '../../helpers/constant'
 import { Payload, sendMail as SendMail } from '../../helpers/mail'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
@@ -80,7 +80,7 @@ export class UserService {
 
   private setStorePartner = async (payload: UserEntity.User, request: UserEntity.RequestBody) => {
     payload.partner_id = await this.userRepository.storePartner(request.company)
-    payload.status = StatusUser.VERIFIED
+    payload.status = UserStatus.VERIFIED
 
     return payload
   }
@@ -153,9 +153,9 @@ export class UserService {
       is_active,
     }
 
-    const isStatusActiveInactive = [StatusUser.ACTIVE, StatusUser.INACTIVE].includes(item.status)
+    const isStatusActiveInactive = [UserStatus.ACTIVE, UserStatus.INACTIVE].includes(item.status)
 
-    const status = is_active ? StatusUser.ACTIVE : StatusUser.INACTIVE
+    const status = is_active ? UserStatus.ACTIVE : UserStatus.INACTIVE
 
     if (isStatusActiveInactive) payload.status = status
 
@@ -167,19 +167,19 @@ export class UserService {
     if (!item)
       throw new HttpError(httpStatus.NOT_FOUND, lang.__('error.exists', { entity: 'user', id }))
 
-    if (item.status !== StatusUser.WAITING)
+    if (item.status !== UserStatus.WAITING)
       throw new HttpError(httpStatus.BAD_REQUEST, lang.__('error.users.partner.verified'))
 
     const is_verify = convertToBoolean(request.is_verify)
     const payload = <UserEntity.Verify>{
       is_active: true,
-      status: StatusUser.ACTIVE,
+      status: UserStatus.ACTIVE,
     }
 
     if (!is_verify) {
       payload.notes = request.notes
       payload.is_active = false
-      payload.status = StatusUser.REJECTED
+      payload.status = UserStatus.REJECTED
     }
 
     this.sendEmailVerify(item.email, is_verify, request.notes)
