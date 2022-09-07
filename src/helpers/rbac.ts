@@ -13,10 +13,12 @@ export interface User {
   identifier?: string
   prtnr: boolean
   adm: boolean
+  apparatus?: boolean
 }
 
 export const getRole = (user: User) => {
-  const partner: string = user.prtnr ? config.get('role.1') : config.get('role.2')
+  const apparatus: string = user.apparatus ? config.get('role.2') : config.get('role.3')
+  const partner: string = user.prtnr ? config.get('role.1') : apparatus
   const role: string = user.adm ? config.get('role.0') : partner
 
   return role

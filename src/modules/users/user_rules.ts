@@ -12,6 +12,9 @@ export namespace UserRules {
     'users.created_at',
     'users.status',
     'partners.name',
+    'villages.name',
+    'districts.name',
+    'cities.name',
   ]
   const roles = [config.get('role.0'), config.get('role.1')]
   const emptyAllow = ['', null]
@@ -23,7 +26,7 @@ export namespace UserRules {
     is_admin: Joi.boolean().allow(...emptyAllow),
     is_active: Joi.boolean().allow(...emptyAllow),
     roles: Joi.string()
-      .valid(...[config.get('role.1')])
+      .valid(...[config.get('role.1'), config.get('role.2')])
       .allow(...emptyAllow),
   })
 

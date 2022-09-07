@@ -76,6 +76,9 @@ const expectResponse = expect.objectContaining({
   name: expect.any(String),
   email: expect.any(String),
   role: expect.any(String),
+  city: expect.any(Object),
+  village: expect.any(Object),
+  district: expect.any(Object),
   avatar: {
     path: expect.any(String),
     source: expect.any(String),
@@ -152,6 +155,15 @@ describe('test users', () => {
         const [item] = response.body.data
         userIdPartner = item.id
       }))
+})
+
+describe('test users', () => {
+  it('test success find all with query is village apparatus', async () =>
+    request(app)
+      .get('/v1/users')
+      .expect(httpStatus.OK)
+      .query({ is_admin: false, roles: config.get('role.2') })
+      .set('Authorization', `Bearer ${accessToken}`))
 })
 
 describe('test users', () => {

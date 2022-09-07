@@ -11,6 +11,8 @@ export namespace UserEntity {
     password?: string
     is_admin?: boolean
     is_active?: boolean
+    is_village_apparatus?: boolean
+    village_id?: string
     google_id?: string
     created_at?: Date
     updated_at?: Date
@@ -40,6 +42,15 @@ export namespace UserEntity {
     email: string
     role: string
     partner: {
+      name: string
+    }
+    city: {
+      name: string
+    }
+    district: {
+      name: string
+    }
+    village: {
       name: string
     }
     avatar: {
