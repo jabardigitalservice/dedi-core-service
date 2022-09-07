@@ -148,6 +148,7 @@ Make sure there is already a MySQL test database (should differ with the dev dat
 ├── src/
   └── config/         * config like db, aws, redis, etc.
   └── database/       * migrations, seeds, etc.
+  └── emails/         * email templates.
   └── handler/        * frequently used exception handling, etc.
   └── helpers/        * helpers and utils
   └── lang/           * messages in id, en, etc.
