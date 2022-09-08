@@ -198,7 +198,7 @@ export class UserService {
     }
 
     if (is_verify) {
-      payload.template = 'verify_rejected_partner'
+      payload.template = 'verify_accepted_partner'
       payload.subject = lang.__('subject.verify.accepted')
     }
 
