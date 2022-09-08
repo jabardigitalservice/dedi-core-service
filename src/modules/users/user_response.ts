@@ -4,14 +4,34 @@ import { getRole } from '../../helpers/rbac'
 import { UserEntity } from './user_entity'
 
 export class UserResponse {
+  private region = (item: any) => ({
+    village: {
+      name: item.village_name,
+    },
+    district: {
+      name: item.district_name,
+    },
+    city: {
+      name: item.city_name,
+    },
+  })
+
+  private role = (item: any) =>
+    getRole({
+      prtnr: item.partner_id,
+      adm: item.is_admin,
+      aprts: item.is_village_apparatus,
+    })
+
   public findById = (item: any): UserEntity.Response => ({
     id: item.id,
     name: item.name,
     email: item.email,
-    role: getRole({ prtnr: item.partner_id, adm: item.is_admin }),
+    role: this.role(item),
     partner: {
       name: item.partner_name,
     },
+    ...this.region(item),
     avatar: {
       path: getUrl(item.avatar),
       source: item.avatar,

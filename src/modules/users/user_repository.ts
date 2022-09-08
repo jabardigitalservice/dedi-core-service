@@ -12,23 +12,54 @@ export class UserRepository {
 
   private Partner = () => database<UserEntity.Partner>('partners')
 
+  private select = [
+    'villages.name as village_name',
+    'cities.name as city_name',
+    'districts.name as district_name',
+    'users.id',
+    'users.name',
+    'users.email',
+    'avatar',
+    'users.is_admin',
+    'users.partner_id',
+    'users.is_active',
+    'users.is_village_apparatus',
+    'users.created_at',
+    'users.updated_at',
+    'users.last_login_at',
+    'users.status',
+    'files.name as file_name',
+    'files.id as file_id',
+    'partners.name as partner_name',
+  ]
+
   private searchText = (query: any, text: string) =>
     query.where((q: any) => {
       q.where('users.name', 'like', `%${text}%`)
       q.orWhere('partners.name', 'like', `%${text}%`)
+      q.orWhere('villages.name', 'like', `%${text}%`)
     })
 
-  private filter = (query: any, request: UserEntity.RequestQuery) => {
-    if (request.is_active) query.where('users.is_active', convertToBoolean(request.is_active))
-
+  private filterRoles = (query: any, request: UserEntity.RequestQuery) => {
     if (request.is_admin) {
       query.where('users.is_admin', convertToBoolean(request.is_admin))
     }
 
-    // Condition for filter roles value is partner
-    if (request.roles && request.roles === config.get('role.1')) {
-      query.whereNotNull('users.partner_id').where('users.is_admin', false)
+    if (request.roles === config.get('role.1')) {
+      query.whereNotNull('users.partner_id').whereNull('is_village_apparatus')
     }
+
+    if (request.roles && request.roles === config.get('role.2')) {
+      query.whereNull('users.partner_id').where('is_village_apparatus', true)
+    }
+
+    return query
+  }
+
+  private filter = (query: any, request: UserEntity.RequestQuery) => {
+    if (request.is_active) query.where('users.is_active', convertToBoolean(request.is_active))
+
+    query = this.filterRoles(query, request)
 
     if (request.q) {
       query = this.searchText(query, request.q)
@@ -39,24 +70,12 @@ export class UserRepository {
 
   private Query = () =>
     this.Users()
-      .select(
-        'users.id',
-        'users.name',
-        'users.email',
-        'avatar',
-        'users.is_admin',
-        'users.partner_id',
-        'users.is_active',
-        'users.created_at',
-        'users.updated_at',
-        'users.last_login_at',
-        'users.status',
-        'files.name as file_name',
-        'files.id as file_id',
-        'partners.name as partner_name'
-      )
+      .select(this.select)
       .leftJoin('files', 'files.source', '=', 'users.avatar')
       .leftJoin('partners', 'partners.id', '=', 'users.partner_id')
+      .leftJoin('villages', 'villages.id', '=', 'users.village_id')
+      .leftJoin('districts', 'districts.id', '=', 'villages.district_id')
+      .leftJoin('cities', 'cities.id', '=', 'districts.city_id')
 
   public findAll = (request: UserEntity.RequestQuery) => {
     const orderBy: string = request.order_by || 'users.updated_at'

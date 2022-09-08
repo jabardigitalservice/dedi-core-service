@@ -12,6 +12,8 @@ export namespace AuthEntity {
     updated_at?: Date
     is_admin?: boolean
     is_active?: boolean
+    is_village_apparatus?: boolean
+    village_id?: string
     last_login_at?: Date
     status?: string
     notes?: string
