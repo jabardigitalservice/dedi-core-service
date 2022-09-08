@@ -20,7 +20,7 @@ export class UserResponse {
     getRole({
       prtnr: item.partner_id,
       adm: item.is_admin,
-      apparatus: item.is_village_apparatus,
+      aprts: item.is_village_apparatus,
     })
 
   public findById = (item: any): UserEntity.Response => ({
