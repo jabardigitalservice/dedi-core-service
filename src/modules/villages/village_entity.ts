@@ -126,12 +126,6 @@ export namespace VillageEntity {
     meta: Object
   }
 
-  export interface RequestBodyQuestionnaire {
-    id?: string
-    level: number
-    properties: string
-  }
-
   export interface RequestBody {
     id: string
     name: string

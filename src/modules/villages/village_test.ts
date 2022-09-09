@@ -5,7 +5,6 @@ import httpStatus from 'http-status'
 import { v4 as uuidv4 } from 'uuid'
 import app from '../../server'
 import database from '../../config/database'
-import { VillageRules } from './village_rules'
 import { createAccessToken } from '../../middleware/jwt'
 
 const expectMetaBounds = expect.objectContaining({
@@ -91,46 +90,6 @@ const expectBodyFindAllBoundsEmpty = expect.objectContaining({
   meta: expectMetaBounds,
 })
 
-const file = () => ({
-  path: faker.image.avatar(),
-  original_name: faker.image.avatar(),
-  source: faker.image.avatar(),
-})
-
-const requestBodyQuestionnaire = {
-  id: '123456785',
-  level: 1,
-  properties: {
-    pemohon: {
-      nama: faker.name.firstName(),
-      posisi: faker.name.jobTitle(),
-      file: file(),
-      nomor_telepon: '023445354',
-      email: faker.internet.email(),
-    },
-    fasilitas_desa: {
-      akses_kendaraan: {
-        data: [faker.random.arrayElement(VillageRules.optionsVehicles)],
-        photo: file(),
-      },
-      suplai_listrik: {
-        data: faker.name.firstName(),
-        photo: file(),
-      },
-      jaringan_telepon: {
-        data: faker.name.firstName(),
-        photo: file(),
-        operator: faker.name.firstName(),
-      },
-      jaringan_internet: {
-        data: faker.name.firstName(),
-        photo: file(),
-        website: faker.name.firstName(),
-      },
-    },
-  },
-}
-
 const storeVillage = {
   id: '32.04.40.2007',
   name: 'test',
@@ -198,14 +157,6 @@ describe('tests villages', () => {
       .then((response) => {
         expect(response.body).toEqual(expectBodyFindAllBounds)
       }))
-})
-
-describe('tests villages', () => {
-  it('test success questionnaire', async () =>
-    request(app)
-      .post('/v1/villages/questionnaire')
-      .send(requestBodyQuestionnaire)
-      .expect(httpStatus.CREATED))
 })
 
 describe('tests villages', () => {

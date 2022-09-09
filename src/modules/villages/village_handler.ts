@@ -45,11 +45,6 @@ export class VillageHandler {
     }
   }
 
-  public questionnaire = async (req: Request, res: Response) => {
-    this.villageService.questionnaire(req.body)
-    return res.status(httpStatus.CREATED).json({ message: 'CREATED' })
-  }
-
   public suggestion = async (
     req: Request<VillageEntity.RequestParamFindById, never, never, never>,
     res: Response
