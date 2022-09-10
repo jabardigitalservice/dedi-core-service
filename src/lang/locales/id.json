@@ -48,5 +48,11 @@
   "template.paragraph.forgot.password": "Klik link di bawah ini untuk melakukan reset kata sandi",
 
   "route.not.found": "Route tidak ditemukan",
-  "error.cors": "Tidak diizinkan oleh CORS"
+  "error.cors": "Tidak diizinkan oleh CORS",
+
+  "user.status.waiting": "Menunggu Verifikasi",
+  "user.status.verified": "Terverifikasi",
+  "user.status.rejected": "Ditolak",
+  "user.status.active": "Aktif",
+  "user.status.inactive": "Nonaktif"
 }
