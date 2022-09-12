@@ -9,10 +9,10 @@ const questionnaireHandler = new QuestionnaireHandler()
 
 const router = Router()
 
-router.post('/v1/questionnaire', validate(QuestionnaireRules.store), questionnaireHandler.store)
+router.post('/v1/questionnaires', validate(QuestionnaireRules.store), questionnaireHandler.store)
 
 router.get(
-  '/v1/questionnaire',
+  '/v1/questionnaires',
   verifyAccessToken,
   QuestionnaireAccess.findAll(),
   validate(QuestionnaireRules.findAll, 'query'),

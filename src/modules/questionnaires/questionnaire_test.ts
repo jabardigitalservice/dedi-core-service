@@ -73,7 +73,7 @@ const expectFindAll = expect.objectContaining({
 describe('tests questionnaires', () => {
   it('test success questionnaire', async () =>
     request(app)
-      .post('/v1/questionnaire')
+      .post('/v1/questionnaires')
       .send(requestBodyQuestionnaire)
       .expect(httpStatus.CREATED))
 })
@@ -81,7 +81,7 @@ describe('tests questionnaires', () => {
 describe('tests questionnaires', () => {
   it('test success find all questionnaire', async () =>
     request(app)
-      .get('/v1/questionnaire')
+      .get('/v1/questionnaires')
       .set('Authorization', `Bearer ${accessToken}`)
       .query({ level: 1 })
       .expect(httpStatus.OK)
