@@ -7,6 +7,7 @@ import app from '../../server'
 import { QuestionnaireRules } from './questionnaire_rules'
 import { createAccessToken } from '../../middleware/jwt'
 import { expectMeta } from '../../helpers/test/expect'
+import database from '../../config/database'
 
 const file = () => ({
   path: faker.image.avatar(),
@@ -55,6 +56,19 @@ const requestBodyQuestionnaire = {
     },
   },
 }
+
+describe('seed data', () => {
+  it('insert villages', async () => {
+    await database('villages').insert({
+      id: '123456785213',
+      name: 'test',
+      district_id: '1',
+      level: 4,
+      location: database.raw("ST_GeomFromText('POINT(107.5090974 -6.8342172)')"),
+      is_active: true,
+    })
+  })
+})
 
 const expectResponse = expect.objectContaining({
   id: expect.any(Number),

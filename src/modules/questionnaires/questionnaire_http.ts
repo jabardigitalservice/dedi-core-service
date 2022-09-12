@@ -9,7 +9,12 @@ const questionnaireHandler = new QuestionnaireHandler()
 
 const router = Router()
 
-router.post('/v1/questionnaires', validate(QuestionnaireRules.store), questionnaireHandler.store)
+router.post(
+  '/v1/questionnaires',
+  validate(QuestionnaireRules.store),
+  validateWithDB(QuestionnaireRules.storeWithDB),
+  questionnaireHandler.store
+)
 
 router.get(
   '/v1/questionnaires',

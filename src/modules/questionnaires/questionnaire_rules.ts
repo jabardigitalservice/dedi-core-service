@@ -150,4 +150,15 @@ export namespace QuestionnaireRules {
       .allow(...emptyAllow)
       .regex(regexAlphanumeric),
   })
+
+  export const storeWithDB: ValidationWithDB = {
+    id: [
+      {
+        type: 'exists',
+        attr: 'id',
+        table: 'villages',
+        column: 'id',
+      },
+    ],
+  }
 }
