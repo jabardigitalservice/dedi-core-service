@@ -126,7 +126,7 @@ export namespace QuestionnaireRules {
       otherwise: Joi.optional(),
     })
 
-  export const questionnaire = Joi.object({
+  export const store = Joi.object({
     id: Joi.string().regex(regexCodeRegion).max(14).required(),
     level: Joi.number().valid(1, 2, 3, 4).required(),
     properties: Joi.object({
@@ -138,7 +138,7 @@ export namespace QuestionnaireRules {
     }).required(),
   })
 
-  export const questionnaireWithDB: ValidationWithDB = {
+  export const storeWithDB: ValidationWithDB = {
     id: [
       {
         type: 'exists',

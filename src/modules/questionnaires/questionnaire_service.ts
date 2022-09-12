@@ -12,7 +12,7 @@ export class QuestionnaireService {
     this.questionnaireResponse = new QuestionnaireResponse()
   }
 
-  public questionnaire = async (request: QuestionnaireEntity.RequestBodyQuestionnaire) => {
+  public store = async (request: QuestionnaireEntity.RequestBodyQuestionnaire) => {
     const { id } = request
 
     const data: QuestionnaireEntity.Questionnaire = {

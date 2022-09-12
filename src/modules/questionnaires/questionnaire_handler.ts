@@ -9,8 +9,8 @@ export class QuestionnaireHandler {
     this.questionnaireService = questionnaireService
   }
 
-  public questionnaire = async (req: Request, res: Response) => {
-    this.questionnaireService.questionnaire(req.body)
+  public store = async (req: Request, res: Response) => {
+    this.questionnaireService.store(req.body)
     return res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   }
 }

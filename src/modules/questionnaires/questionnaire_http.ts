@@ -12,9 +12,9 @@ const router = Router()
 
 router.post(
   '/v1/villages/questionnaire',
-  validate(QuestionnaireRules.questionnaire),
-  validateWithDB(QuestionnaireRules.questionnaireWithDB),
-  questionnaireHandler.questionnaire
+  validate(QuestionnaireRules.store),
+  validateWithDB(QuestionnaireRules.storeWithDB),
+  questionnaireHandler.store
 )
 
 export default router
