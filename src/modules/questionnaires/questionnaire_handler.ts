@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
+import { QuestionnaireEntity } from './questionnaire_entity'
 import { QuestionnaireService } from './questionnaire_service'
 
 export class QuestionnaireHandler {
@@ -12,5 +13,15 @@ export class QuestionnaireHandler {
   public store = async (req: Request, res: Response) => {
     this.questionnaireService.store(req.body)
     return res.status(httpStatus.CREATED).json({ message: 'CREATED' })
+  }
+
+  public findAll = async (
+    req: Request<never, never, never, QuestionnaireEntity.RequestQueryFindAll>,
+    res: Response
+  ) => {
+    const result: QuestionnaireEntity.ResponseFindAll = await this.questionnaireService.findAll(
+      req.query
+    )
+    return res.status(httpStatus.OK).json(result)
   }
 }

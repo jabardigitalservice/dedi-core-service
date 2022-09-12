@@ -138,14 +138,16 @@ export namespace QuestionnaireRules {
     }).required(),
   })
 
-  export const storeWithDB: ValidationWithDB = {
-    id: [
-      {
-        type: 'exists',
-        attr: 'id',
-        table: 'villages',
-        column: 'id',
-      },
-    ],
-  }
+  const orderByValid = ['villages.name']
+  const emptyAllow = ['', null]
+
+  export const findAll = Joi.object({
+    order_by: Joi.string()
+      .valid(...orderByValid)
+      .allow(...emptyAllow),
+    level: Joi.number().valid(1, 2, 3, 4).required(),
+    q: Joi.string()
+      .allow(...emptyAllow)
+      .regex(regexAlphanumeric),
+  })
 }
