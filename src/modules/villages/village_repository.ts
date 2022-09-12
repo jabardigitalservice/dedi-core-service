@@ -114,12 +114,6 @@ export class VillageRepository {
     return { total: total.first(), lastUpdate: lastUpdate.first() }
   }
 
-  public questionnaire = (id: string, properties: string) =>
-    this.Villages().where('id', id).update({
-      properties,
-      updated_at: new Date(),
-    })
-
   private getReqBody = (request: VillageEntity.RequestBody) => ({
     id: request.id,
     name: request.name,

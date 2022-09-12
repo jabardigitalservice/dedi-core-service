@@ -83,19 +83,6 @@ export class VillageService {
     return result
   }
 
-  public questionnaire = async (
-    request: VillageEntity.RequestBodyQuestionnaire
-  ): Promise<number> => {
-    const { id } = request
-
-    const properties = {
-      level: request.level,
-      properties: request.properties,
-    }
-
-    return this.villageRepository.questionnaire(id, JSON.stringify(properties))
-  }
-
   public checkRegistered = async ({ id }: VillageEntity.RequestParamFindById): Promise<void> => {
     const item: any = await this.villageRepository.findById(id)
 

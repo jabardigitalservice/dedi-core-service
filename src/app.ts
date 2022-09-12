@@ -16,6 +16,7 @@ import partners from './modules/partners/partner_http'
 import testimonials from './modules/testimonials/testimonial_http'
 import users from './modules/users/user_http'
 import villages from './modules/villages/village_http'
+import questionnaire from './modules/questionnaires/questionnaire_http'
 
 class App {
   public app: Application
@@ -46,6 +47,7 @@ class App {
     this.app.use(testimonials)
     this.app.use(users)
     this.app.use(villages)
+    this.app.use(questionnaire)
   }
 
   protected extends(): void {

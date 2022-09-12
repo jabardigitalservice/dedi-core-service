@@ -20,12 +20,6 @@ router.get(
   villageHandler.listWithLocation
 )
 router.get('/v1/villages/suggestion', cache(), villageHandler.suggestion)
-router.post(
-  '/v1/villages/questionnaire',
-  validate(VillageRules.questionnaire),
-  validateWithDB(VillageRules.questionnaireWithDB),
-  villageHandler.questionnaire
-)
 router.get('/v1/villages/:id', villageHandler.findById)
 router.get('/v1/villages/:id/check-registered', villageHandler.checkRegistered)
 
