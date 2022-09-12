@@ -12,16 +12,15 @@ export class QuestionnaireService {
     this.questionnaireResponse = new QuestionnaireResponse()
   }
 
-  public questionnaire = async (
-    request: QuestionnaireEntity.RequestBodyQuestionnaire
-  ): Promise<number> => {
+  public store = async (request: QuestionnaireEntity.RequestBodyQuestionnaire) => {
     const { id } = request
 
-    const properties = {
+    const data: QuestionnaireEntity.Questionnaire = {
       level: request.level,
-      properties: request.properties,
+      village_id: id,
+      properties: JSON.stringify(request.properties),
     }
 
-    return this.questionnaireRepository.questionnaire(id, JSON.stringify(properties))
+    return this.questionnaireRepository.store(data)
   }
 }
