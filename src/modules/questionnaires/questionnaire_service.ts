@@ -1,3 +1,4 @@
+import { metaPagination } from '../../helpers/paginate'
 import { QuestionnaireEntity } from './questionnaire_entity'
 import { QuestionnaireRepository } from './questionnaire_repository'
 import { QuestionnaireResponse } from './questionnaire_response'
@@ -13,14 +14,22 @@ export class QuestionnaireService {
   }
 
   public store = async (request: QuestionnaireEntity.RequestBodyQuestionnaire) => {
-    const { id } = request
-
     const data: QuestionnaireEntity.Questionnaire = {
       level: request.level,
-      village_id: id,
+      village_id: request.id,
       properties: JSON.stringify(request.properties),
     }
 
     return this.questionnaireRepository.store(data)
+  }
+
+  public findAll = async (request: QuestionnaireEntity.RequestQueryFindAll) => {
+    const items: any = await this.questionnaireRepository.findAll(request)
+
+    const result: QuestionnaireEntity.ResponseFindAll = {
+      data: this.questionnaireResponse.findAll(items.data),
+      meta: metaPagination(items.pagination),
+    }
+    return result
   }
 }
