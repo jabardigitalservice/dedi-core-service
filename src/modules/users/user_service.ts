@@ -101,11 +101,14 @@ export class UserService {
     return payload
   }
 
-  private sendEmailInvitationPartner = (email: string) => {
+  private sendEmailInvitationPartner = (email: string, name: string) => {
     this.sendMail({
       to: email,
       subject: lang.__('subject.invitation.partner'),
       template: 'invitation_partner',
+      context: {
+        name,
+      },
     })
   }
 
@@ -118,7 +121,7 @@ export class UserService {
     const payload = await this.getStorePayload(request)
 
     if (request.roles === config.get('role.1')) {
-      this.sendEmailInvitationPartner(payload.email)
+      this.sendEmailInvitationPartner(payload.email, payload.name)
     }
 
     return this.userRepository.store(payload)
@@ -182,18 +185,19 @@ export class UserService {
       payload.status = UserStatus.REJECTED
     }
 
-    this.sendEmailVerify(item.email, is_verify, request.notes)
+    this.sendEmailVerify(item.email, is_verify, request.notes, item.name)
 
     return this.userRepository.verify(payload, id)
   }
 
-  private sendEmailVerify = (email: string, is_verify: boolean, notes: string) => {
+  private sendEmailVerify = (email: string, is_verify: boolean, notes: string, name: string) => {
     const payload = <Payload>{
       to: email,
       template: 'verify_rejected_partner',
       subject: lang.__('subject.verify.rejected'),
       context: {
         notes,
+        name,
       },
     }
 

@@ -15,7 +15,7 @@
         <img style="width: 100%; max-width: 600px; height: auto; border-radius: 16px 16px 0px 0px;" width="382px" height="110px" src="https://dedi-cdn.digitalservice.id/assets/header_tolak_dekstop.png" alt="greeting person">
         <div style="padding: 16px; text-align: center;">
           <h1 style="color: #022B55; font-family: 'Lato', sans-serif; font-size: 14px; line-height: 23px; font-weight: 700;">
-              Hai, Mitra!
+              Hai, {{ name }}!
           </h1>
           <h2 style="color: #022B55; font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 26px; font-weight: 700;">
               Mohon Maaf, Permintaan Akun Mitra Anda Ditolak!
@@ -29,6 +29,7 @@
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer et in at nibh.
               Accumsan tellus egestas aliquet hendrerit.
               Dui viverra quam lacus, proin ac pulvinar quis nec. Vel dictumst.
+              {{ notes }}
           </p>
           <div style="padding: 10px 16px; display: inline-flex; column-gap: 10px; background-color: #E6F7FF; border: 1px solid #53bdff; border-radius: 8px;">
             <img width="17" height="17" src="https://dedi-cdn.digitalservice.id/assets/icon_ask.png" alt="icon_ask">
