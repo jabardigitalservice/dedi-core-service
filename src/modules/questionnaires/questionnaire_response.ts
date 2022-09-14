@@ -12,6 +12,9 @@ export class QuestionnaireResponse {
     city: {
       name: item.city_name,
     },
+    category: {
+      name: item.category_name,
+    },
     status: item.status,
     level: item.level,
     created_at: item.created_at,

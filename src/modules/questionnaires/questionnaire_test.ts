@@ -70,6 +70,25 @@ describe('seed data', () => {
   })
 })
 
+describe('seed data', () => {
+  it('insert categories', async () => {
+    await database('categories').insert({
+      id: 1,
+      name: faker.name.firstName(),
+      is_active: true,
+      level: 4,
+    })
+  })
+
+  it('insert village categories', async () => {
+    await database('village_categories').insert({
+      category_id: 1,
+      village_id: '123456785213',
+      is_verify: false,
+    })
+  })
+})
+
 const expectResponse = expect.objectContaining({
   id: expect.any(Number),
   status: expect.toBeOneOf([null, expect.any(String)]),
@@ -77,6 +96,7 @@ const expectResponse = expect.objectContaining({
   city: expect.any(Object),
   village: expect.any(Object),
   district: expect.any(Object),
+  category: expect.any(Object),
 })
 
 const expectFindAll = expect.objectContaining({
@@ -98,6 +118,18 @@ describe('tests questionnaires', () => {
       .get('/v1/questionnaires')
       .set('Authorization', `Bearer ${accessToken}`)
       .query({ level: 1 })
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectFindAll)
+      }))
+})
+
+describe('tests questionnaires', () => {
+  it('test success find all questionnaire with query level 4', async () =>
+    request(app)
+      .get('/v1/questionnaires')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .query({ level: 4 })
       .expect(httpStatus.OK)
       .then((response) => {
         expect(response.body).toEqual(expectFindAll)
