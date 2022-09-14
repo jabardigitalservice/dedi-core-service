@@ -41,7 +41,7 @@ export class QuestionnaireRepository {
     return item ? item.id : null
   }
 
-  public storeVillageCategory = (categories: string[], village_id: string) => {
+  public storeVillageCategory = async (categories: string[], village_id: string) => {
     const datas = []
 
     for (const name of categories) {
