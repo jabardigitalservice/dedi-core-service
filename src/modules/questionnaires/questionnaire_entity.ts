@@ -18,13 +18,6 @@ export namespace QuestionnaireEntity {
     village_id?: string
   }
 
-  export interface Category {
-    id?: number
-    name: string
-    level: number
-    is_active: boolean
-  }
-
   export interface RequestBodyQuestionnaire {
     id?: string
     level: number

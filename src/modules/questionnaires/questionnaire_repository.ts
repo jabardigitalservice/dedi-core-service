@@ -8,8 +8,6 @@ export class QuestionnaireRepository {
   private VillageCategories = () =>
     database<QuestionnaireEntity.VillageCategory>('village_categories')
 
-  private Categories = () => database<QuestionnaireEntity.Category>('categories')
-
   private select = [
     'questionnaires.id',
     'questionnaires.level',
@@ -30,31 +28,6 @@ export class QuestionnaireRepository {
       properties: data.properties,
       created_at: timestamp,
     })
-  }
-
-  private findIdByNameCategory = async (name: string) => {
-    const item = await this.Categories()
-      .where('name', 'like', `%${name}%`)
-      .where('level', 4)
-      .first()
-
-    return item ? item.id : null
-  }
-
-  public storeVillageCategory = async (categories: string[], village_id: string) => {
-    const datas = []
-
-    for (const name of categories) {
-      const id = this.findIdByNameCategory(name)
-      if (!id) continue
-
-      datas.push({
-        category_id: id,
-        village_id,
-      })
-    }
-
-    return this.QueryVillageCategories().insert(datas)
   }
 
   private Query = (level: number) =>
