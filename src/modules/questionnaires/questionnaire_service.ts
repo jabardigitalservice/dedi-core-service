@@ -20,6 +20,11 @@ export class QuestionnaireService {
       properties: JSON.stringify(request.properties),
     }
 
+    if (request.level === 4) {
+      const categories = request.properties.potensi_desa.data
+      this.questionnaireRepository.storeVillageCategory(categories, request.id)
+    }
+
     return this.questionnaireRepository.store(data)
   }
 
