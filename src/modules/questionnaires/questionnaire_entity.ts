@@ -43,11 +43,20 @@ export namespace QuestionnaireEntity {
     created_at: Date
   }
 
+  export interface FindById extends FindAll {
+    properties: Properties
+  }
+
   type Meta = metaPaginate
 
   export interface ResponseFindAll {
     data: FindAll[]
     meta: Meta
+  }
+
+  export interface ResponseFindById {
+    data: FindById
+    meta: object
   }
 
   export interface RequestQueryFindAll extends Query {

@@ -32,4 +32,14 @@ export class QuestionnaireService {
     }
     return result
   }
+
+  public findById = async (id: string) => {
+    const item: any = await this.questionnaireRepository.findById(id)
+
+    const result: QuestionnaireEntity.ResponseFindById = {
+      data: this.questionnaireResponse.findById(item),
+      meta: {},
+    }
+    return result
+  }
 }

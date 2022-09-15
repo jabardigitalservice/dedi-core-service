@@ -151,6 +151,10 @@ export namespace QuestionnaireRules {
       .regex(regexAlphanumeric),
   })
 
+  export const findById = Joi.object({
+    id: Joi.number().integer(),
+  })
+
   export const storeWithDB: ValidationWithDB = {
     id: [
       {

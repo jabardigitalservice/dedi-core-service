@@ -99,10 +99,28 @@ const expectResponse = expect.objectContaining({
   category: expect.any(Object),
 })
 
+const expectResponseFindById = expect.objectContaining({
+  id: expect.any(Number),
+  status: expect.toBeOneOf([null, expect.any(String)]),
+  created_at: expect.any(String),
+  city: expect.any(Object),
+  village: expect.any(Object),
+  district: expect.any(Object),
+  category: expect.any(Object),
+  properties: expect.any(Object),
+})
+
 const expectFindAll = expect.objectContaining({
   data: expect.arrayContaining([expectResponse]),
   meta: expectMeta,
 })
+
+const expectFindById = expect.objectContaining({
+  data: expectResponseFindById,
+  meta: {},
+})
+
+let id: number
 
 describe('tests questionnaires', () => {
   it('test success questionnaire', async () =>
@@ -120,6 +138,8 @@ describe('tests questionnaires', () => {
       .query({ level: 1 })
       .expect(httpStatus.OK)
       .then((response) => {
+        const [item] = response.body.data
+        id = item.id
         expect(response.body).toEqual(expectFindAll)
       }))
 })
@@ -133,5 +153,16 @@ describe('tests questionnaires', () => {
       .expect(httpStatus.OK)
       .then((response) => {
         expect(response.body).toEqual(expectFindAll)
+      }))
+})
+
+describe('tests questionnaires', () => {
+  it('test success find by id questionnaire', async () =>
+    request(app)
+      .get(`/v1/questionnaires/${id}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK)
+      .then((response) => {
+        expect(response.body).toEqual(expectFindById)
       }))
 })

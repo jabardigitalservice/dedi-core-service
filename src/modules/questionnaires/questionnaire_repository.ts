@@ -30,10 +30,8 @@ export class QuestionnaireRepository {
     })
   }
 
-  private Query = (level: number) =>
+  private Query = () =>
     this.Questionnaires()
-      .select(this.select)
-      .where('questionnaires.level', level)
       .leftJoin('villages', 'villages.id', '=', 'questionnaires.village_id')
       .leftJoin('districts', 'districts.id', '=', 'villages.district_id')
       .leftJoin('categories', 'categories.id', '=', 'villages.category_id')
@@ -41,7 +39,6 @@ export class QuestionnaireRepository {
 
   private QueryVillageCategories = () =>
     this.VillageCategories()
-      .select(this.select)
       .where('village_categories.is_verify', false)
       .leftJoin('questionnaires', 'questionnaires.village_id', '=', 'village_categories.village_id')
       .leftJoin('categories', 'categories.id', '=', 'village_categories.category_id')
@@ -61,14 +58,21 @@ export class QuestionnaireRepository {
 
     const isLevelFour = level === 4
 
-    let query = !isLevelFour ? this.Query(level) : this.QueryVillageCategories()
+    let query = !isLevelFour
+      ? this.Query().where('questionnaires.level', level)
+      : this.QueryVillageCategories()
 
-    query.orderBy(orderBy, sortBy)
+    query.orderBy(orderBy, sortBy).select(this.select)
 
     if (request.q) {
       query = this.searchText(query, request.q)
     }
 
     return query.paginate(pagination(request))
+  }
+
+  public findById = (id: string) => {
+    const select = [...this.select, 'questionnaires.properties']
+    return this.Query().select(select).where('questionnaires.id', id).first()
   }
 }
