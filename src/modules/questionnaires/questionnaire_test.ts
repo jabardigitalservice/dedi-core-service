@@ -166,3 +166,11 @@ describe('tests questionnaires', () => {
         expect(response.body).toEqual(expectFindById)
       }))
 })
+
+describe('tests questionnaires', () => {
+  it('test failed find by id questionnaire not found', async () =>
+    request(app)
+      .get(`/v1/questionnaires/9999`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.NOT_FOUND))
+})
