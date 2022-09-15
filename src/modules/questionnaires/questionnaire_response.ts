@@ -20,6 +20,11 @@ export class QuestionnaireResponse {
     created_at: item.created_at,
   })
 
+  public findById = (item: any): QuestionnaireEntity.FindById => ({
+    ...this.responseFindAll(item),
+    properties: JSON.parse(item.properties),
+  })
+
   public findAll = (items: any[]): QuestionnaireEntity.FindAll[] => {
     const data: QuestionnaireEntity.FindAll[] = []
     for (const item of items) {

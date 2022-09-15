@@ -24,4 +24,12 @@ export class QuestionnaireHandler {
     )
     return res.status(httpStatus.OK).json(result)
   }
+
+  public findById = async (req: Request, res: Response) => {
+    const { id } = req.params
+    const result: QuestionnaireEntity.ResponseFindById = await this.questionnaireService.findById(
+      id
+    )
+    return res.status(httpStatus.OK).json(result)
+  }
 }

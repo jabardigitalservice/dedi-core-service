@@ -24,4 +24,12 @@ router.get(
   questionnaireHandler.findAll
 )
 
+router.get(
+  '/v1/questionnaires/:id',
+  verifyAccessToken,
+  QuestionnaireAccess.findById(),
+  validate(QuestionnaireRules.findById, 'params'),
+  questionnaireHandler.findById
+)
+
 export default router
