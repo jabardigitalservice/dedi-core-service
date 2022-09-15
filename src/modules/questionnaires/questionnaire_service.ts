@@ -1,4 +1,7 @@
+import httpStatus from 'http-status'
+import { HttpError } from '../../handler/exception'
 import { metaPagination } from '../../helpers/paginate'
+import lang from '../../lang'
 import { QuestionnaireEntity } from './questionnaire_entity'
 import { QuestionnaireRepository } from './questionnaire_repository'
 import { QuestionnaireResponse } from './questionnaire_response'
@@ -35,6 +38,11 @@ export class QuestionnaireService {
 
   public findById = async (id: string) => {
     const item: any = await this.questionnaireRepository.findById(id)
+    if (!item)
+      throw new HttpError(
+        httpStatus.NOT_FOUND,
+        lang.__('error.exists', { entity: 'questionnaire', id })
+      )
 
     const result: QuestionnaireEntity.ResponseFindById = {
       data: this.questionnaireResponse.findById(item),
