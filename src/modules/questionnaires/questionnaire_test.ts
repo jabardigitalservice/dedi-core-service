@@ -107,7 +107,7 @@ const expectResponseFindById = expect.objectContaining({
   village: expect.any(Object),
   district: expect.any(Object),
   category: expect.any(Object),
-  properties: expect.any(Object)
+  properties: expect.any(Object),
 })
 
 const expectFindAll = expect.objectContaining({
@@ -120,7 +120,7 @@ const expectFindById = expect.objectContaining({
   meta: {},
 })
 
-let id: number;
+let id: number
 
 describe('tests questionnaires', () => {
   it('test success questionnaire', async () =>
