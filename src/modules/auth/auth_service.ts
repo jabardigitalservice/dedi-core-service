@@ -12,7 +12,7 @@ import config from '../../config'
 import { getRole, User } from '../../helpers/rbac'
 import { convertToBoolean, UserStatus } from '../../helpers/constant'
 import { passwordHash } from '../../helpers/passwordHash'
-import { getUrl } from '../../helpers/cloudStorage'
+import { getUrl } from '../../helpers/storage'
 
 export class AuthService {
   private authRepository: AuthRepository
