@@ -24,7 +24,7 @@ export const getUrl = (path: string) =>
 export const getOriginalName = (originalName: string) => originalName || null
 
 export const uploadFile = (file: Express.Multer.File) => {
-  let filename = uuidv4() + path.extname(file.originalname)
+  const filename = uuidv4() + path.extname(file.originalname)
   const Key = `${config.get('node.env')}/${filename}`
 
   switch (config.get('filesystem.driver')) {
