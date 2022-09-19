@@ -1,4 +1,4 @@
-import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
+import { getOriginalName, getUrl } from '../../helpers/storage'
 import { PartnerEntity } from './partner_entity'
 
 export class PartnerResponse {

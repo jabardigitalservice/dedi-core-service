@@ -2,7 +2,7 @@ import httpStatus from 'http-status'
 import config from '../../config'
 import { HttpError } from '../../handler/exception'
 import { convertToBoolean, UserStatus } from '../../helpers/constant'
-import { Payload, sendMail as SendMail } from '../../helpers/mail'
+import { contextDefault, Payload, sendMail as SendMail } from '../../helpers/mail'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
 import { User } from '../../helpers/rbac'
@@ -108,6 +108,7 @@ export class UserService {
       template: 'invitation_partner',
       context: {
         name,
+        ...contextDefault,
       },
     })
   }
@@ -198,6 +199,7 @@ export class UserService {
       context: {
         notes,
         name,
+        ...contextDefault,
       },
     }
 

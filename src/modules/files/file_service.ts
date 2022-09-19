@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { File as Entity } from './file_entity'
 import { uploadLocalSingle } from '../../helpers/upload'
-import { getUrl, uploadFile } from '../../helpers/cloudStorage'
+import { getUrl, uploadFile } from '../../helpers/storage'
 
 export namespace File {
   export const upload = async (req: Request, res: Response) => {

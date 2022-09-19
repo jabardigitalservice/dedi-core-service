@@ -1,4 +1,4 @@
-import { getUrl } from '../../helpers/cloudStorage'
+import { getUrl } from '../../helpers/storage'
 import { VillageEntity } from './village_entity'
 
 export class VillageResponse {

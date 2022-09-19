@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
-import { getUrl } from '../../helpers/cloudStorage'
+import { getUrl } from '../../helpers/storage'
 import { File as Entity } from './file_entity'
 import { File as Service } from './file_service'
 

@@ -1,4 +1,4 @@
-import { getOriginalName, getUrl } from '../../helpers/cloudStorage'
+import { getOriginalName, getUrl } from '../../helpers/storage'
 import { convertToBoolean } from '../../helpers/constant'
 import { TestimonialEntity } from './testimonial_entity'
 
