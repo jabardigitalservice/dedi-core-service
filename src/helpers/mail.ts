@@ -23,4 +23,5 @@ export const sendMail = async (payload: Payload) => {
 
 export const contextDefault = {
   storageUrl: StorageUrl(),
+  helpDesk: config.get('url.help.desk'),
 }
