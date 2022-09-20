@@ -163,6 +163,12 @@ export namespace QuestionnaireRules {
         table: 'villages',
         column: 'id',
       },
+      {
+        type: 'unique',
+        attr: 'id',
+        table: 'questionnaires',
+        column: 'village_id',
+      },
     ],
   }
 }
