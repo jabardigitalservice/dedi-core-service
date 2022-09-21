@@ -36,31 +36,30 @@ export namespace QuestionnaireRules {
   const ruleArrayString = Joi.array().items(Joi.string().regex(regexAlphanumeric).trim()).required()
 
   const ruleApplicant = Joi.object({
-    nama: Joi.string().regex(regexAlphanumeric).trim().required(),
-    posisi: Joi.string().regex(regexAlphanumeric).trim().required(),
-    file,
-    nomor_telepon: Joi.string().regex(regexAlphanumeric).trim().required(),
+    name: Joi.string().regex(regexAlphanumeric).trim().required(),
+    position: Joi.string().regex(regexAlphanumeric).trim().required(),
+    phone_number: Joi.string().regex(regexAlphanumeric).trim().required(),
     email: Joi.string().email().required(),
   }).required()
 
   const ruleLevel1 = Joi.object({
-    akses_kendaraan: Joi.object({
+    vehicle_access: Joi.object({
       data: Joi.array()
         .items(Joi.string().valid(...optionsVehicles))
         .required()
         .min(1),
       photo: file,
     }).required(),
-    suplai_listrik: Joi.object({
+    power_supply: Joi.object({
       data: Joi.string().regex(regexAlphanumeric).trim().required(),
       photo: file,
     }).required(),
-    jaringan_telepon: Joi.object({
+    phone_network: Joi.object({
       data: Joi.string().regex(regexAlphanumeric).trim().required(),
       photo: file,
       operator: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
-    jaringan_internet: Joi.object({
+    internet_network: Joi.object({
       data: Joi.string().regex(regexAlphanumeric).trim().required(),
       photo: file,
       website: Joi.string().regex(regexAlphanumeric).trim().allow(null),
@@ -68,22 +67,22 @@ export namespace QuestionnaireRules {
   }).required()
 
   const ruleLevel2 = Joi.object({
-    komunitas: Joi.object({
+    community: Joi.object({
       data: ruleArrayString.min(1),
       photo: file,
     }).required(),
-    pelatihan: Joi.object({
+    training: Joi.object({
       data: Joi.string()
         .valid(...optionsTraining)
         .trim()
         .required(),
       photo: file,
-      pelatihan: Joi.string().regex(regexAlphanumeric).trim().allow(null),
+      training: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
   }).required()
 
   const ruleLevel3 = Joi.object({
-    sosial_media: Joi.object({
+    social_media: Joi.object({
       data: ruleArrayString.min(1),
       photo: file,
     }).required(),
@@ -92,20 +91,20 @@ export namespace QuestionnaireRules {
       photo: file,
       bumdes: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
-    komoditas: Joi.object({
+    commodity: Joi.object({
       data: Joi.string().regex(regexAlphanumeric).trim().allow(null),
       photo: file,
-      produktivitas: Joi.string().regex(regexAlphanumeric).trim().allow(null),
+      productivity: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
     ecommerce: Joi.object({
       data: ruleArrayString,
-      ecommerce_lainnya: Joi.string().regex(regexAlphanumeric).trim().allow(null),
-      distribusi: Joi.string()
+      other_ecommerce: Joi.string().regex(regexAlphanumeric).trim().allow(null),
+      distribution: Joi.string()
         .valid(...optionsDistribusi)
         .trim()
         .allow(null),
     }),
-    logistik: Joi.string().regex(regexAlphanumeric).trim().allow(null),
+    logistics: Joi.string().regex(regexAlphanumeric).trim().allow(null),
   }).required()
 
   const ruleLevel4 = Joi.object({
@@ -115,8 +114,8 @@ export namespace QuestionnaireRules {
       .min(1)
       .max(3),
     photo: file,
-    potensi_lainnya: Joi.string().regex(regexAlphanumeric).allow(null),
-    potensi_dapat_dikembangkan: Joi.string().regex(regexAlphanumeric).trim().allow(null),
+    other_potential: Joi.string().regex(regexAlphanumeric).allow(null),
+    growth_potential: Joi.string().regex(regexAlphanumeric).trim().allow(null),
   }).required()
 
   const getRuleLevel = (ruleLevelSchema: Joi.Schema, ruleLevelValid: number[]) =>
@@ -129,12 +128,13 @@ export namespace QuestionnaireRules {
   export const store = Joi.object({
     id: Joi.string().regex(regexCodeRegion).max(14).required(),
     level: Joi.number().valid(1, 2, 3, 4).required(),
+    sk: file,
     properties: Joi.object({
-      pemohon: ruleApplicant,
-      fasilitas_desa: getRuleLevel(ruleLevel1, [1, 2, 3, 4]),
-      literasi_digital: getRuleLevel(ruleLevel2, [2, 3, 4]),
-      tentang_bumdes: getRuleLevel(ruleLevel3, [3, 4]),
-      potensi_desa: getRuleLevel(ruleLevel4, [4]),
+      applicant: ruleApplicant,
+      facility: getRuleLevel(ruleLevel1, [1, 2, 3, 4]),
+      literacy: getRuleLevel(ruleLevel2, [2, 3, 4]),
+      bumdes: getRuleLevel(ruleLevel3, [3, 4]),
+      potential: getRuleLevel(ruleLevel4, [4]),
     }).required(),
   })
 
