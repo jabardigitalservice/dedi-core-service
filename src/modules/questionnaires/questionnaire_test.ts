@@ -23,35 +23,158 @@ const accessToken = createAccessToken({
   adm: true,
 })
 
-const requestBodyQuestionnaire = {
+const requestBodyQuestionnaireLevelOne = {
   id: '123456785213',
   level: 1,
+  sk: file(),
   properties: {
-    pemohon: {
-      nama: faker.name.firstName(),
-      posisi: faker.name.jobTitle(),
-      file: file(),
-      nomor_telepon: '023445354',
+    applicant: {
+      name: faker.name.firstName(),
+      position: faker.name.jobTitle(),
+      phone_number: '023445354',
       email: faker.internet.email(),
     },
-    fasilitas_desa: {
-      akses_kendaraan: {
+    facility: {
+      vehicle_access: {
         data: [faker.random.arrayElement(QuestionnaireRules.optionsVehicles)],
         photo: file(),
       },
-      suplai_listrik: {
+      power_supply: {
         data: faker.name.firstName(),
         photo: file(),
       },
-      jaringan_telepon: {
+      phone_network: {
         data: faker.name.firstName(),
         photo: file(),
         operator: faker.name.firstName(),
       },
-      jaringan_internet: {
+      internet_network: {
         data: faker.name.firstName(),
         photo: file(),
         website: faker.name.firstName(),
+      },
+    },
+  },
+}
+
+const requestBodyQuestionnaireLevelFour = {
+  id: '123456785220',
+  level: 4,
+  sk: {
+    path: 'https://dedi-cdn.digitalservice.id/development/3164a5af-e021-4920-b0b0-341e1e696445.pdf',
+    original_name:
+      'Robert C. Martin - Clean Code_ A Handbook of Agile Software Craftsmanship-Prentice Hall (2008).pdf',
+    source: '3164a5af-e021-4920-b0b0-341e1e696445.pdf',
+  },
+  properties: {
+    applicant: {
+      name: 'Doohan Aditya Saputro',
+      position: 'Kades Bekasi',
+      phone_number: '0863535626',
+      email: 'dassz@gmail.com',
+    },
+    facility: {
+      vehicle_access: {
+        data: ['Motor', 'Mobil', 'Kendaraan Umum (Bus/Elf)'],
+        photo: {
+          path: null,
+          original_name: null,
+          source: null,
+        },
+      },
+      power_supply: {
+        data: 'Ada listrik dan stabil',
+        photo: {
+          path: null,
+          original_name: null,
+          source: null,
+        },
+      },
+      phone_network: {
+        data: 'Ada jaringan seluler yang stabil',
+        photo: {
+          path: null,
+          original_name: null,
+          source: null,
+        },
+        operator: 'Telkomsel, XL',
+      },
+      internet_network: {
+        data: 'Sudah ada jaringan internet yang stabil',
+        photo: {
+          path: null,
+          original_name: null,
+          source: null,
+        },
+        website: 'Gojek, Lazada',
+      },
+    },
+    literacy: {
+      community: {
+        data: [
+          'Pendamping Lokal Desa',
+          'Patriot Desa',
+          'Relawan TIK',
+          'Komunitas Teknologi Digital',
+        ],
+        photo: {
+          path: null,
+          original_name: null,
+          source: null,
+        },
+      },
+      training: {
+        data: 'Pernah, lebih dari 2 kali',
+        photo: {
+          path: null,
+          original_name: null,
+          source: null,
+        },
+        training: 'Coding, desain',
+      },
+    },
+    bumdes: {
+      social_media: {
+        data: ['Facebook', 'Instagram', 'Twitter', 'Youtube'],
+        photo: {
+          path: null,
+          original_name: null,
+          source: null,
+        },
+      },
+      bumdes: {
+        data: 'Ada BUMDes dan masih aktif',
+        photo: {
+          path: null,
+          original_name: null,
+          source: null,
+        },
+        bumdes: 'Bumdes bekasi',
+      },
+      commodity: {
+        data: 'makanan hewan',
+        photo: {
+          path: null,
+          original_name: null,
+          source: null,
+        },
+        productivity: 'Ya, masih aktif',
+      },
+      ecommerce: {
+        data: ['Tokopedia', 'Shopee', 'Lazada'],
+        other_ecommerce: null,
+        distribution: 'Ya, sudah tergabung dengan e-commerce',
+      },
+      logistics: 'Ya, sudah dapat dijangkau kurir logistik',
+    },
+    potential: {
+      data: ['Pertanian', 'Perikanan', 'Kesehatan'],
+      other_potential: null,
+      growth_potential: null,
+      photo: {
+        path: null,
+        original_name: null,
+        source: null,
       },
     },
   },
@@ -61,6 +184,14 @@ describe('seed data', () => {
   it('insert villages', async () => {
     await database('villages').insert({
       id: '123456785213',
+      name: 'test',
+      district_id: '1',
+      level: 4,
+      location: database.raw("ST_GeomFromText('POINT(107.5090974 -6.8342172)')"),
+      is_active: true,
+    })
+    await database('villages').insert({
+      id: '123456785220',
       name: 'test',
       district_id: '1',
       level: 4,
@@ -126,7 +257,15 @@ describe('tests questionnaires', () => {
   it('test success questionnaire', async () =>
     request(app)
       .post('/v1/questionnaires')
-      .send(requestBodyQuestionnaire)
+      .send(requestBodyQuestionnaireLevelOne)
+      .expect(httpStatus.CREATED))
+})
+
+describe('tests questionnaires', () => {
+  it('test success questionnaire', async () =>
+    request(app)
+      .post('/v1/questionnaires')
+      .send(requestBodyQuestionnaireLevelFour)
       .expect(httpStatus.CREATED))
 })
 
