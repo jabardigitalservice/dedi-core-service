@@ -54,7 +54,7 @@ export namespace QuestionnaireRules {
       data: Joi.string().regex(regexAlphanumeric).trim().required(),
       photo: file,
     }).required(),
-    phone_network: Joi.object({
+    cellular_network: Joi.object({
       data: Joi.string().regex(regexAlphanumeric).trim().required(),
       photo: file,
       operator: Joi.string().regex(regexAlphanumeric).trim().allow(null),
