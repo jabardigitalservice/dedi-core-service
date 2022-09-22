@@ -28,7 +28,7 @@ export namespace QuestionnaireRules {
     'Perikanan',
     'Kesehatan',
     'Pendidikan',
-    'Pengelolaan Sampah (Waste Management)',
+    'Waste Management',
     'Multimedia',
     'Lainnya',
   ]
@@ -114,7 +114,11 @@ export namespace QuestionnaireRules {
       .min(1)
       .max(3),
     photo: file,
-    other_potential: Joi.string().regex(regexAlphanumeric).allow(null),
+    other_potential: Joi.alternatives().conditional('data', {
+      is: Joi.array().items(Joi.string().valid('Lainnya')),
+      then: Joi.string().regex(regexAlphanumeric).required(),
+      otherwise: Joi.optional(),
+    }),
     growth_potential: Joi.string().regex(regexAlphanumeric).trim().allow(null),
   }).required()
 
