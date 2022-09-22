@@ -117,7 +117,7 @@ export namespace QuestionnaireRules {
     other_potential: Joi.alternatives().conditional('data', {
       is: Joi.array().items(Joi.string().valid('Lainnya')),
       then: Joi.string().regex(regexAlphanumeric).required(),
-      otherwise: Joi.optional(),
+      otherwise: Joi.string().regex(regexAlphanumeric).allow(null),
     }),
     growth_potential: Joi.string().regex(regexAlphanumeric).trim().allow(null),
   }).required()
