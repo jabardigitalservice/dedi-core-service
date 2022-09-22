@@ -322,24 +322,6 @@ describe('test users', () => {
 })
 
 describe('test users', () => {
-  it('test success update status set is active false', async () =>
-    request(app)
-      .patch(`/v1/users/${userIdPartner}/status`)
-      .send({ is_active: false })
-      .set('Authorization', `Bearer ${accessToken}`)
-      .expect(httpStatus.OK))
-})
-
-describe('test users', () => {
-  it('test success update status set is active true', async () =>
-    request(app)
-      .patch(`/v1/users/${userIdPartner}/status`)
-      .send({ is_active: true })
-      .set('Authorization', `Bearer ${accessToken}`)
-      .expect(httpStatus.OK))
-})
-
-describe('test users', () => {
   it('update users partner status set waiting', async () => {
     await database('users').where('id', userIdPartner).update({
       status: UserStatus.WAITING,
