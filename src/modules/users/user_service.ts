@@ -208,10 +208,6 @@ export class UserService {
       payload.subject = lang.__('subject.verify.accepted')
     }
 
-    this.sendMail({
-      to: payload.to,
-      subject: payload.subject,
-      template: payload.template,
-    })
+    this.sendMail(payload)
   }
 }
