@@ -206,8 +206,6 @@ export class UserService {
         template.accepted += 'village_apparatus'
         template.rejected += 'village_apparatus'
         break
-      default:
-        break
     }
 
     return template
