@@ -43,7 +43,7 @@ const requestBodyQuestionnaireLevelOne = {
         data: faker.name.firstName(),
         photo: file(),
       },
-      phone_network: {
+      cellular_network: {
         data: faker.name.firstName(),
         photo: file(),
         operator: faker.name.firstName(),
@@ -90,7 +90,7 @@ const requestBodyQuestionnaireLevelFour = {
           source: null,
         },
       },
-      phone_network: {
+      cellular_network: {
         data: 'Ada jaringan seluler yang stabil',
         photo: {
           path: null,
