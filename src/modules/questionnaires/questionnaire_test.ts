@@ -262,7 +262,7 @@ describe('tests questionnaires', () => {
 })
 
 describe('tests questionnaires', () => {
-  it('test success questionnaire', async () =>
+  it('test success questionnaire level 4', async () =>
     request(app)
       .post('/v1/questionnaires')
       .send(requestBodyQuestionnaireLevelFour)

@@ -96,7 +96,14 @@ export class QuestionnaireRepository {
 
       await this.storeVillageCategories(trx, ids, data.id)
 
-      return this.Questionnaires().insert(questionnaire).transacting(trx)
+      return this.Questionnaires()
+        .insert({
+          village_id: questionnaire.village_id,
+          level: questionnaire.level,
+          properties: questionnaire.properties,
+          created_at: new Date(),
+        })
+        .transacting(trx)
     })
 
   private Query = () =>
