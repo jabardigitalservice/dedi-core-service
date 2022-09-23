@@ -121,9 +121,9 @@ export class QuestionnaireRepository {
     const sortBy: string = request.sort_by || 'asc'
     const level = Number(request.level)
 
-    let query = !isLevelFour(level)
-      ? this.Query().where('questionnaires.level', level)
-      : this.QueryVillageCategories()
+    let query = isLevelFour(level)
+      ? this.QueryVillageCategories()
+      : this.Query().where('questionnaires.level', level)
 
     query.orderBy(orderBy, sortBy).select(this.select)
 
