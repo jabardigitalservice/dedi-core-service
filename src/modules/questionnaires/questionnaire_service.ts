@@ -1,5 +1,6 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
+import { OTHER } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import lang from '../../lang'
 import { QuestionnaireEntity } from './questionnaire_entity'
@@ -25,9 +26,18 @@ export class QuestionnaireService {
 
     const isLevelFour = request.level === 4
 
-    return !isLevelFour
-      ? this.questionnaireRepository.store(data)
-      : this.questionnaireRepository.storeLevel4(request)
+    if (isLevelFour) {
+      const potential = request.properties.potential.data
+      const isOtherPotential = potential.some((item) => item === OTHER)
+
+      const categories = isOtherPotential
+        ? [request.properties.potential.other_potential]
+        : potential
+
+      return this.questionnaireRepository.storeLevel4(request, categories)
+    }
+
+    return this.questionnaireRepository.store(data)
   }
 
   public findAll = async (request: QuestionnaireEntity.RequestQueryFindAll) => {

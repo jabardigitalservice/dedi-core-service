@@ -16,6 +16,7 @@ export namespace QuestionnaireEntity {
     id?: number
     category_id?: number
     village_id?: string
+    is_verify: boolean
   }
 
   export interface Category {
