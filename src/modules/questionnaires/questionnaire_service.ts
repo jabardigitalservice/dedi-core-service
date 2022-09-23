@@ -23,7 +23,11 @@ export class QuestionnaireService {
       properties: JSON.stringify(request.properties),
     }
 
-    return this.questionnaireRepository.store(data)
+    const isLevelFour = request.level === 4
+
+    return !isLevelFour
+      ? this.questionnaireRepository.store(data)
+      : this.questionnaireRepository.storeLevel4(request)
   }
 
   public findAll = async (request: QuestionnaireEntity.RequestQueryFindAll) => {

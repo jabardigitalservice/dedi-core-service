@@ -22,3 +22,5 @@ export const UserStatus = {
   ACTIVE: lang.__('user.status.active'),
   INACTIVE: lang.__('user.status.inactive'),
 }
+
+export const OTHER = 'Lainnya'

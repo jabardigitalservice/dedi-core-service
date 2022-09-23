@@ -18,9 +18,21 @@ export namespace QuestionnaireEntity {
     village_id?: string
   }
 
-  export interface RequestBodyQuestionnaire {
-    id?: string
+  export interface Category {
+    id?: number
+    name: string
     level: number
+    is_active: boolean
+  }
+
+  export interface RequestBodyQuestionnaire {
+    id: string
+    level: number
+    sk: {
+      path: string
+      source: string
+      original_name: string
+    }
     properties: Properties
   }
 
@@ -69,96 +81,96 @@ export namespace QuestionnaireEntity {
   }
 
   export interface Properties {
-    pemohon: Pemohon
-    fasilitas_desa: FasilitasDesa
-    literasi_digital: LiterasiDigital
-    tentang_bumdes: TentangBumdes
-    potensi_desa: PotensiDesa
+    applicant: Applicant
+    facility: Facility
+    literacy: Literacy
+    bumdes: PropertiesBumdes
+    potential: Potential
   }
 
-  export interface FasilitasDesa {
-    akses_kendaraan: AksesKendaraan
-    suplai_listrik: SuplaiListrik
-    jaringan_telepon: JaringanTelepon
-    jaringan_internet: JaringanInternet
-  }
-
-  export interface AksesKendaraan {
-    data: string[]
-    photo: File
-  }
-
-  export interface File {
-    path: null | string
-    original_name: null | string
-    source: null | string
-  }
-
-  export interface JaringanInternet {
-    data: string
-    photo: File
-    website: null
-  }
-
-  export interface JaringanTelepon {
-    data: string
-    photo: File
-    operator: null
-  }
-
-  export interface SuplaiListrik {
-    data: string
-    photo: File
-  }
-
-  export interface LiterasiDigital {
-    komunitas: AksesKendaraan
-    pelatihan: Pelatihan
-  }
-
-  export interface Pelatihan {
-    data: null
-    photo: File
-    pelatihan: null
-  }
-
-  export interface Pemohon {
-    nama: string
-    posisi: string
-    file: File
-    nomor_telepon: string
+  export interface Applicant {
+    name: string
+    position: string
+    phone_number: string
     email: string
   }
 
-  export interface PotensiDesa {
-    data: string[]
-    potensi_dapat_dikembangkan: null
-    photo: File
-  }
-
-  export interface TentangBumdes {
-    sosial_media: AksesKendaraan
-    bumdes: Bumdes
-    komoditas: Komoditas
+  export interface PropertiesBumdes {
+    social_media: SocialMedia
+    bumdes: BumdesBumdes
+    commodity: Commodity
     ecommerce: Ecommerce
-    logistik: null
+    logistics: string
   }
 
-  export interface Bumdes {
-    data: null
-    photo: File
-    bumdes: null
+  export interface BumdesBumdes {
+    data: string
+    photo: Photo
+    bumdes: string
+  }
+
+  export interface Photo {
+    path: null
+    original_name: null
+    source: null
+  }
+
+  export interface Commodity {
+    data: string
+    photo: Photo
+    productivity: string
   }
 
   export interface Ecommerce {
     data: string[]
-    ecommerce_lainnya: null
-    distribusi: null
+    other_ecommerce: string
+    distribution: string
   }
 
-  export interface Komoditas {
-    data: null
-    photo: File
-    produktivitas: null
+  export interface SocialMedia {
+    data: string[]
+    photo: Photo
+  }
+
+  export interface Facility {
+    vehicle_access: SocialMedia
+    power_supply: PowerSupply
+    cellular_network: CellularNetwork
+    internet_network: InternetNetwork
+  }
+
+  export interface CellularNetwork {
+    data: string
+    photo: Photo
+    operator: string
+  }
+
+  export interface InternetNetwork {
+    data: string
+    photo: Photo
+    website: string
+  }
+
+  export interface PowerSupply {
+    data: string
+    photo: Photo
+  }
+
+  export interface Literacy {
+    community: SocialMedia
+    training: Training
+  }
+
+  export interface Training {
+    data: string
+    photo: Photo
+    training: string
+  }
+
+  export interface Potential {
+    data: string[]
+    other_potential: string
+    growth_potential: null
+    photo: Photo
   }
 }

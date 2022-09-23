@@ -1,9 +1,13 @@
+import { Knex } from 'knex'
 import database from '../../config/database'
+import { OTHER } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
 import { QuestionnaireEntity } from './questionnaire_entity'
 
 export class QuestionnaireRepository {
   private Questionnaires = () => database<QuestionnaireEntity.Questionnaire>('questionnaires')
+
+  private Categories = () => database<QuestionnaireEntity.Category>('categories')
 
   private VillageCategories = () =>
     database<QuestionnaireEntity.VillageCategory>('village_categories')
@@ -29,6 +33,79 @@ export class QuestionnaireRepository {
       created_at: timestamp,
     })
   }
+
+  private getCategoryIds = async (trx: Knex.Transaction, categories: string[]) => {
+    const items = await this.Categories()
+      .select('id')
+      .whereIn('name', categories)
+      .where('level', 4)
+      .transacting(trx)
+
+    console.log(items)
+
+    return items.map((item) => Number(item.id))
+  }
+
+  private storeCategory = async (trx: Knex.Transaction, name: string) => {
+    const category = await this.getCategory(name)
+    if (category) return category.id
+
+    const id = await this.Categories()
+      .insert({
+        name,
+        level: 4,
+        is_active: true,
+      })
+      .transacting(trx)
+
+    return id
+  }
+
+  private getCategory = (name: string) => {
+    if (!name) return
+
+    return this.Categories().select('id').where('name', name).where('level', 4).first()
+  }
+
+  private categoryIds = (ctx: Knex.Transaction, categories: string[], category: string) => {
+    categories = categories.map((category) => category.toUpperCase())
+    category = category?.toUpperCase()
+    return category ? this.storeCategory(ctx, category) : this.getCategoryIds(ctx, categories)
+  }
+
+  private storeVillageCategories = (
+    trx: Knex.Transaction,
+    categories: number[],
+    villageId: string
+  ) => {
+    const datas = categories.map((item) => ({
+      category_id: item,
+      village_id: villageId,
+    }))
+
+    return this.VillageCategories().insert(datas).transacting(trx)
+  }
+
+  public storeLevel4 = async (data: QuestionnaireEntity.RequestBodyQuestionnaire) =>
+    database.transaction(async (trx) => {
+      const questionnaire = {
+        village_id: data.id,
+        level: data.level,
+        properties: JSON.stringify(data.properties),
+        created_at: new Date(),
+      }
+
+      const categories = data.properties.potential.data
+      const isOtherPotential = categories.some((item) => item === OTHER)
+
+      const category = isOtherPotential ? data.properties.potential.other_potential : null
+
+      const ids = await this.categoryIds(trx, categories, category)
+
+      await this.storeVillageCategories(trx, ids, data.id)
+
+      await this.Questionnaires().insert(questionnaire).transacting(trx)
+    })
 
   private Query = () =>
     this.Questionnaires()
