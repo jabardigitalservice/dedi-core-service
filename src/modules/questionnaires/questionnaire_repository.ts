@@ -1,9 +1,13 @@
+import { Knex } from 'knex'
 import database from '../../config/database'
+import { isLevelFour } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
 import { QuestionnaireEntity } from './questionnaire_entity'
 
 export class QuestionnaireRepository {
   private Questionnaires = () => database<QuestionnaireEntity.Questionnaire>('questionnaires')
+
+  private Categories = () => database<QuestionnaireEntity.Category>('categories')
 
   private VillageCategories = () =>
     database<QuestionnaireEntity.VillageCategory>('village_categories')
@@ -29,6 +33,67 @@ export class QuestionnaireRepository {
       created_at: timestamp,
     })
   }
+
+  private getCategoryIds = async (trx: Knex.Transaction, categories: string[]) => {
+    const ids: number[] = []
+
+    for (const category of categories) {
+      const id = await this.getCategory(trx, category)
+      if (id) ids.push(id)
+    }
+
+    return ids
+  }
+
+  private storeCategory = async (trx: Knex.Transaction, name: string) => {
+    const [id] = await this.Categories()
+      .insert({
+        name,
+        level: 4,
+        is_active: true,
+      })
+      .transacting(trx)
+
+    return id
+  }
+
+  private getCategory = async (trx: Knex.Transaction, category: string) => {
+    if (!category) return
+
+    const item = await this.Categories()
+      .select('id')
+      .where('name', 'like', `%${category}%`)
+      .where('level', 4)
+      .transacting(trx)
+      .first()
+
+    if (item) return item.id
+
+    return this.storeCategory(trx, category)
+  }
+
+  private storeVillageCategories = (categories: number[], villageId: string) => {
+    const datas = categories.map((item) => ({
+      category_id: item,
+      village_id: villageId,
+      is_verify: false,
+    }))
+
+    return this.VillageCategories().insert(datas)
+  }
+
+  public storeLevel4 = async (
+    data: QuestionnaireEntity.RequestBodyQuestionnaire,
+    categories: string[],
+    questionnaire: QuestionnaireEntity.Questionnaire
+  ) =>
+    database.transaction(async (trx) => {
+      const ids = await this.getCategoryIds(trx, categories)
+
+      await this.storeVillageCategories(ids, data.id).transacting(trx)
+
+      return this.store(questionnaire).transacting(trx)
+    })
 
   private Query = () =>
     this.Questionnaires()
@@ -56,9 +121,7 @@ export class QuestionnaireRepository {
     const sortBy: string = request.sort_by || 'asc'
     const level = Number(request.level)
 
-    const isLevelFour = level === 4
-
-    let query = !isLevelFour
+    let query = isLevelFour(level)
       ? this.Query().where('questionnaires.level', level)
       : this.QueryVillageCategories()
 

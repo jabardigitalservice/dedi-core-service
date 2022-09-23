@@ -91,11 +91,7 @@ const expectResponse = expect.objectContaining({
   city: expect.any(Object),
   village: expect.any(Object),
   district: expect.any(Object),
-  avatar: {
-    path: expect.any(String),
-    source: expect.any(String),
-    original_name: expect.toBeOneOf([null, expect.any(String)]),
-  },
+  avatar: expect.any(Object),
   is_active: expect.any(Boolean),
   created_at: expect.toBeOneOf([null, expect.any(String)]),
   updated_at: expect.toBeOneOf([null, expect.any(String)]),

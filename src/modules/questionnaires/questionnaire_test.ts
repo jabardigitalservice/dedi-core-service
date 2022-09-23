@@ -133,7 +133,7 @@ const requestBodyQuestionnaireLevelFour = {
         training: 'Coding, desain',
       },
     },
-    bumdes: {
+    business: {
       social_media: {
         data: ['Facebook', 'Instagram', 'Twitter', 'Youtube'],
         photo: {
@@ -149,7 +149,7 @@ const requestBodyQuestionnaireLevelFour = {
           original_name: null,
           source: null,
         },
-        bumdes: 'Bumdes bekasi',
+        name: 'Bumdes bekasi',
       },
       commodity: {
         data: 'makanan hewan',
@@ -262,7 +262,7 @@ describe('tests questionnaires', () => {
 })
 
 describe('tests questionnaires', () => {
-  it('test success questionnaire', async () =>
+  it('test success questionnaire level 4', async () =>
     request(app)
       .post('/v1/questionnaires')
       .send(requestBodyQuestionnaireLevelFour)

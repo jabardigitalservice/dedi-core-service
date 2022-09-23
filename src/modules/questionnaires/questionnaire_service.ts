@@ -1,5 +1,6 @@
 import httpStatus from 'http-status'
 import { HttpError } from '../../handler/exception'
+import { isLevelFour, Other } from '../../helpers/constant'
 import { metaPagination } from '../../helpers/paginate'
 import lang from '../../lang'
 import { QuestionnaireEntity } from './questionnaire_entity'
@@ -21,6 +22,17 @@ export class QuestionnaireService {
       level: request.level,
       village_id: request.id,
       properties: JSON.stringify(request.properties),
+    }
+
+    if (isLevelFour(request.level)) {
+      const potential = request.properties.potential.data
+      const isOtherPotential = potential.some((item) => item === Other)
+
+      const categories = isOtherPotential
+        ? [request.properties.potential.other_potential]
+        : potential
+
+      return this.questionnaireRepository.storeLevel4(request, categories, data)
     }
 
     return this.questionnaireRepository.store(data)

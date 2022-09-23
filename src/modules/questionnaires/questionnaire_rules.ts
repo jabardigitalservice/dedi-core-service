@@ -89,7 +89,7 @@ export namespace QuestionnaireRules {
     bumdes: Joi.object({
       data: Joi.string().regex(regexAlphanumeric).trim().required(),
       photo: file,
-      bumdes: Joi.string().regex(regexAlphanumeric).trim().allow(null),
+      name: Joi.string().regex(regexAlphanumeric).trim().allow(null),
     }).required(),
     commodity: Joi.object({
       data: Joi.string().regex(regexAlphanumeric).trim().allow(null),
@@ -137,7 +137,7 @@ export namespace QuestionnaireRules {
       applicant: ruleApplicant,
       facility: getRuleLevel(ruleLevel1, [1, 2, 3, 4]),
       literacy: getRuleLevel(ruleLevel2, [2, 3, 4]),
-      bumdes: getRuleLevel(ruleLevel3, [3, 4]),
+      business: getRuleLevel(ruleLevel3, [3, 4]),
       potential: getRuleLevel(ruleLevel4, [4]),
     }).required(),
   })
