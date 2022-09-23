@@ -23,4 +23,5 @@ export const UserStatus = {
   INACTIVE: lang.__('user.status.inactive'),
 }
 
-export const OTHER = 'Lainnya'
+export const Other = lang.__('other')
+export const isLevelFour = (level: number) => level === 4

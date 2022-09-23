@@ -1,6 +1,6 @@
 import { Knex } from 'knex'
 import database from '../../config/database'
-import { OTHER } from '../../helpers/constant'
+import { isLevelFour } from '../../helpers/constant'
 import { pagination } from '../../helpers/paginate'
 import { QuestionnaireEntity } from './questionnaire_entity'
 
@@ -91,16 +91,10 @@ export class QuestionnaireRepository {
 
   public storeLevel4 = async (
     data: QuestionnaireEntity.RequestBodyQuestionnaire,
-    categories: string[]
+    categories: string[],
+    questionnaire: QuestionnaireEntity.Questionnaire
   ) =>
     database.transaction(async (trx) => {
-      const questionnaire = {
-        village_id: data.id,
-        level: data.level,
-        properties: JSON.stringify(data.properties),
-        created_at: new Date(),
-      }
-
       const ids = await this.getCategoryIds(trx, categories)
 
       await this.storeVillageCategories(trx, ids, data.id)
@@ -134,9 +128,7 @@ export class QuestionnaireRepository {
     const sortBy: string = request.sort_by || 'asc'
     const level = Number(request.level)
 
-    const isLevelFour = level === 4
-
-    let query = !isLevelFour
+    let query = isLevelFour(level)
       ? this.Query().where('questionnaires.level', level)
       : this.QueryVillageCategories()
 

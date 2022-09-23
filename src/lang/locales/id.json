@@ -54,5 +54,7 @@
   "user.status.verified": "Terverifikasi",
   "user.status.rejected": "Ditolak",
   "user.status.active": "Aktif",
-  "user.status.inactive": "Nonaktif"
+  "user.status.inactive": "Nonaktif",
+
+  "other": "Lainnya"
 }
