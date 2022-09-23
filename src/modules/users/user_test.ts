@@ -302,9 +302,7 @@ describe('test users', () => {
 
 describe('test users', () => {
   it('update users partner status partner set waiting', async () => {
-    await database('users').where('id', userIdPartner).update({
-      status: UserStatus.WAITING,
-    })
+    await database('users').update({ status: UserStatus.WAITING })
   })
 })
 
