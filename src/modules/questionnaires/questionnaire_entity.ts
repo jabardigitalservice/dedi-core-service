@@ -85,7 +85,7 @@ export namespace QuestionnaireEntity {
     applicant: Applicant
     facility: Facility
     literacy: Literacy
-    bumdes: PropertiesBumdes
+    business: Business
     potential: Potential
   }
 
@@ -96,18 +96,18 @@ export namespace QuestionnaireEntity {
     email: string
   }
 
-  export interface PropertiesBumdes {
+  export interface Business {
     social_media: SocialMedia
-    bumdes: BumdesBumdes
+    bumdes: Bumdes
     commodity: Commodity
     ecommerce: Ecommerce
     logistics: string
   }
 
-  export interface BumdesBumdes {
+  export interface Bumdes {
     data: string
     photo: Photo
-    bumdes: string
+    name: string
   }
 
   export interface Photo {

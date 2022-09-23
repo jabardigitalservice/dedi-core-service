@@ -133,7 +133,7 @@ const requestBodyQuestionnaireLevelFour = {
         training: 'Coding, desain',
       },
     },
-    bumdes: {
+    business: {
       social_media: {
         data: ['Facebook', 'Instagram', 'Twitter', 'Youtube'],
         photo: {
@@ -149,7 +149,7 @@ const requestBodyQuestionnaireLevelFour = {
           original_name: null,
           source: null,
         },
-        bumdes: 'Bumdes bekasi',
+        name: 'Bumdes bekasi',
       },
       commodity: {
         data: 'makanan hewan',
