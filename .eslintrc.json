@@ -49,6 +49,7 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/ban-types": "off",
     "no-useless-escape": "off",
+    "default-case": "off",
     "max-lines-per-function": ["error", { "max": 25 }]
   },
   "overrides": [

@@ -5,7 +5,7 @@ import { convertToBoolean, UserStatus } from '../../helpers/constant'
 import { contextDefault, Payload, sendMail as SendMail } from '../../helpers/mail'
 import { metaPagination } from '../../helpers/paginate'
 import { passwordHash } from '../../helpers/passwordHash'
-import { User } from '../../helpers/rbac'
+import { getRole, User } from '../../helpers/rbac'
 import lang from '../../lang'
 import { UserEntity } from './user_entity'
 import { UserRepository } from './user_repository'
@@ -186,25 +186,56 @@ export class UserService {
       payload.status = UserStatus.REJECTED
     }
 
-    this.sendEmailVerify(item.email, is_verify, request.notes, item.name)
+    this.sendEmailVerify(is_verify, request.notes, item)
 
     return this.userRepository.verify(payload, id)
   }
 
-  private sendEmailVerify = (email: string, is_verify: boolean, notes: string, name: string) => {
+  private templateVerifyByRole = (role: string) => {
+    const template = {
+      accepted: 'verify_accepted_',
+      rejected: 'verify_rejected_',
+    }
+
+    switch (role) {
+      case config.get('role.1'):
+        template.accepted += 'partner'
+        template.rejected += 'partner'
+        break
+      case config.get('role.2'):
+        template.accepted += 'village_apparatus'
+        template.rejected += 'village_apparatus'
+        break
+    }
+
+    return template
+  }
+
+  private role = (user: UserEntity.User) =>
+    getRole({
+      prtnr: user.partner_id,
+      adm: user.is_admin,
+      aprts: user.is_village_apparatus,
+    })
+
+  private sendEmailVerify = (is_verify: boolean, notes: string, user: UserEntity.User) => {
+    const role = this.role(user)
+
+    const template = this.templateVerifyByRole(role)
+
     const payload = <Payload>{
-      to: email,
-      template: 'verify_rejected_partner',
+      to: user.email,
+      template: template.rejected,
       subject: lang.__('subject.verify.rejected'),
       context: {
         notes,
-        name,
+        name: user.name,
         ...contextDefault,
       },
     }
 
     if (is_verify) {
-      payload.template = 'verify_accepted_partner'
+      payload.template = template.accepted
       payload.subject = lang.__('subject.verify.accepted')
     }
 

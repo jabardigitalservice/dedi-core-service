@@ -12,6 +12,7 @@ import { UserEntity } from './user_entity'
 
 const name = faker.name.firstName()
 const timestamp = new Date()
+const userIdVillageApparatus = uuidv4()
 
 describe('seed data', () => {
   it('insert partners', async () => {
@@ -24,6 +25,17 @@ describe('seed data', () => {
       created_at: timestamp,
       updated_at: timestamp,
       verified_at: timestamp,
+    })
+  })
+
+  it('insert users role village apparatus', async () => {
+    await database('users').insert({
+      id: userIdVillageApparatus,
+      name: 'test-partner-users',
+      email: faker.internet.email(),
+      is_village_apparatus: true,
+      status: UserStatus.WAITING,
+      created_at: timestamp,
     })
   })
 })
@@ -310,7 +322,7 @@ describe('test users', () => {
 })
 
 describe('test users', () => {
-  it('update users partner status partner set waiting', async () => {
+  it('update users partner status set waiting', async () => {
     await database('users').where('id', userIdPartner).update({
       status: UserStatus.WAITING,
     })
@@ -321,6 +333,32 @@ describe('test users', () => {
   it('test success verified rejected', async () =>
     request(app)
       .put(`/v1/users/${userIdPartner}/verify`)
+      .send(dataVerifyRejected())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
+})
+
+describe('test users', () => {
+  it('test success verify accepted role village apparatus', async () =>
+    request(app)
+      .put(`/v1/users/${userIdVillageApparatus}/verify`)
+      .send(dataVerifyAccepted())
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(httpStatus.OK))
+})
+
+describe('test users', () => {
+  it('update users role village apparatus status set waiting', async () => {
+    await database('users').where('id', userIdVillageApparatus).update({
+      status: UserStatus.WAITING,
+    })
+  })
+})
+
+describe('test users', () => {
+  it('test success verified rejected case role village apparatus', async () =>
+    request(app)
+      .put(`/v1/users/${userIdVillageApparatus}/verify`)
       .send(dataVerifyRejected())
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(httpStatus.OK))

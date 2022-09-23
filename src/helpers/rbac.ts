@@ -11,7 +11,7 @@ export interface AccessControlStruct {
 
 export interface User {
   identifier?: string
-  prtnr: boolean
+  prtnr: boolean | string
   adm: boolean
   aprts?: boolean
 }

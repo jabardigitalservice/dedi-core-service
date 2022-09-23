@@ -5,3 +5,4 @@ build
 *.sqlite
 coverage
 newrelic_agent.log
+*_test.ts
