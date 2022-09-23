@@ -38,8 +38,8 @@ export class QuestionnaireRepository {
     const ids: number[] = []
 
     for (const category of categories) {
-      const item = await this.getCategory(trx, category)
-      if (item) ids.push(item)
+      const id = await this.getCategory(trx, category)
+      if (id) ids.push(id)
     }
 
     return ids
