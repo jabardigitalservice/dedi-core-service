@@ -72,18 +72,14 @@ export class QuestionnaireRepository {
     return this.storeCategory(trx, category)
   }
 
-  private storeVillageCategories = (
-    trx: Knex.Transaction,
-    categories: number[],
-    villageId: string
-  ) => {
+  private storeVillageCategories = (categories: number[], villageId: string) => {
     const datas = categories.map((item) => ({
       category_id: item,
       village_id: villageId,
       is_verify: false,
     }))
 
-    return this.VillageCategories().insert(datas).transacting(trx)
+    return this.VillageCategories().insert(datas)
   }
 
   public storeLevel4 = async (
@@ -94,16 +90,9 @@ export class QuestionnaireRepository {
     database.transaction(async (trx) => {
       const ids = await this.getCategoryIds(trx, categories)
 
-      await this.storeVillageCategories(trx, ids, data.id)
+      await this.storeVillageCategories(ids, data.id).transacting(trx)
 
-      return this.Questionnaires()
-        .insert({
-          village_id: questionnaire.village_id,
-          level: questionnaire.level,
-          properties: questionnaire.properties,
-          created_at: new Date(),
-        })
-        .transacting(trx)
+      return this.store(questionnaire).transacting(trx)
     })
 
   private Query = () =>
