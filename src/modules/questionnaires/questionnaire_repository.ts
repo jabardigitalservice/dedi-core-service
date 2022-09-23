@@ -58,8 +58,8 @@ export class QuestionnaireRepository {
   }
 
   private getCategory = async (trx: Knex.Transaction, category: string) => {
-    let id: number
     if (!category) return
+
     const item = await this.Categories()
       .select('id')
       .where('name', 'like', `%${category}%`)
@@ -67,12 +67,9 @@ export class QuestionnaireRepository {
       .transacting(trx)
       .first()
 
-    if (item) {
-      id = item.id
-    } else {
-      id = await this.storeCategory(trx, category)
-    }
-    return id
+    if (item) return item.id
+
+    return this.storeCategory(trx, category)
   }
 
   private storeVillageCategories = (
