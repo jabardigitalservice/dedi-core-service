@@ -94,6 +94,8 @@
     "lint:fix": "npx prettier ./src --write && eslint --fix --ext .ts ./src",
     "migrate": "knex migrate:latest --cwd=build/src",
     "rollback": "knex migrate:rollback --cwd=build/src",
+    "migrate:make": "knex migrate:make --cwd=src $npm_config_name",
+    "seed:make": "knex seed:make --cwd=src $npm_config_name",
     "seed": "knex seed:run --cwd=build/src",
     "refresh": "npm run rollback && npm run migrate",
     "migrate:local": "npm run build && npm run migrate",
