@@ -292,6 +292,12 @@ describe('test users', () => {
 })
 
 describe('test users', () => {
+  it('update users partner status set not is waiting', async () => {
+    await database('users').update({ status: UserStatus.VERIFIED })
+  })
+})
+
+describe('test users', () => {
   it('test failed verify when status not is waiting', async () =>
     request(app)
       .put(`/v1/users/${userId}/verify`)
@@ -301,10 +307,8 @@ describe('test users', () => {
 })
 
 describe('test users', () => {
-  it('update users partner status partner set waiting', async () => {
-    await database('users').where('id', userIdPartner).update({
-      status: UserStatus.WAITING,
-    })
+  it('update users partner status set waiting', async () => {
+    await database('users').update({ status: UserStatus.WAITING })
   })
 })
 
